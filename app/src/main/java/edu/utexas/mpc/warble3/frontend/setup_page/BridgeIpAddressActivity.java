@@ -1,7 +1,7 @@
 package edu.utexas.mpc.warble3.frontend.setup_page;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 import java.util.Objects;
 
