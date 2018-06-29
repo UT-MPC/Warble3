@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_setup"
+        android:icon="@drawable/ic_plus_black_24dp"
+        android:title="@string/fragmentLabelSetup_mainPage" />
+
+    <item
+        android:id="@+id/navigation_manual"
+        android:icon="@drawable/ic_manual_black_24dp"
+        android:title="@string/fragmentLabelManual_mainPage" />
+
+    <item
+        android:id="@+id/navigation_control"
+        android:icon="@drawable/ic_control_black_24dp"
+        android:title="@string/fragmentLabelControl_mainPage" />
+
+    <item
+        android:id="@+id/navigation_4"
+        android:icon="@drawable/ic_4_black_24dp"
+        android:title="@string/fragmentLabel4_mainPage" />
+
+    <item
+        android:id="@+id/navigation_settings"
+        android:icon="@drawable/ic_settings_black_24dp"
+        android:title="@string/fragmentLabelSettings_mainPage" />
+
+</menu>

@@ -1,0 +1,59 @@
+<resources>
+    <string name="app_name">Warble</string>
+
+    <!--Welcome Page-->
+    <string name="title_welcomePage">Welcome to</string>
+    <string name="orLabel_welcomePage">OR</string>
+    <string name="sendButton_welcomePage">GO</string>
+    <string name="usernameHint_welcomePage">enter existing username</string>
+    <string name="newUsernameHint_welcomePage">enter new username</string>
+
+    <!--Main Page-->
+    <string name="fragmentLabelSetup_mainPage">Setup</string>
+    <string name="fragmentLabelManual_mainPage">Manual</string>
+    <string name="fragmentLabelControl_mainPage">Control</string>
+    <string name="fragmentLabel4_mainPage">4</string>
+    <string name="fragmentLabelSettings_mainPage">Settings</string>
+
+    <!--Add Bridge Page -->
+    <string name="titleFindBridge_addBridgePage">Find Bridge</string>
+    <string name="titleBridgeType_addBridgePage">Bridge Type</string>
+    <string name="titleIpAddress_addBridgePage">IP Address</string>
+
+    <!--Add Light Page-->
+    <string name="titleFindLight_addLightPage">Find Light</string>
+    <string name="titleLightType_addLightPage">Light Type</string>
+    <string name="titleParentBridge_addLightPage">Parent Bridge</string>
+    <string name="titleSerialNumber_addLightPage">Serial Number</string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <!--<string name=""></string>-->
+    <!--<string name=""></string>-->
+    <!--<string name=""></string>-->
+    <!--<string name=""></string>-->
+    <!--<string name=""></string>-->
+    <!--<string name=""></string>-->
+    <!--<string name=""></string>-->
+    <!--<string name=""></string>-->
+    <!--<string name=""></string>-->
+    <!--<string name=""></string>-->
+    <!--<string name=""></string>-->
+    <!--<string name=""></string>-->
+    <!--<string name=""></string>-->
+    <!--<string name=""></string>-->
+    <!--<string name=""></string>-->
+    <!--<string name=""></string>-->
+    <!--<string name=""></string>-->
+    <!--<string name=""></string>-->
+    <!--<string name=""></string>-->
+    <!--<string name=""></string>-->
+    <!--<string name=""></string>-->
+    <!--<string name=""></string>-->
+    <!--<string name=""></string>-->
+    <!--<string name=""></string>-->
+    <!--<string name=""></string>-->
+    <!--<string name=""></string>-->
+    <!--<string name=""></string>-->
+    <!--<string name=""></string>-->
+
+</resources>
