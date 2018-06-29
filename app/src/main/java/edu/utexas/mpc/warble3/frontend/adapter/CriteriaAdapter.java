@@ -8,18 +8,19 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import edu.utexas.mpc.warble3.R;
 
 public class CriteriaAdapter extends RecyclerView.Adapter<CriteriaAdapter.ViewHolder> {
 
-    private List<String> criteriaNameList;
-    private List<String> selectedValueList;
+    private Map<String, String> criteriaMap;
 
-    public CriteriaAdapter(List<String> criteriaList, List<String> selectedValueList) {
-        this.criteriaNameList = criteriaList;
-        this.selectedValueList = selectedValueList;
+    public CriteriaAdapter(Map<String, String> criteriaMap) {
+        this.criteriaMap = criteriaMap;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -44,12 +45,15 @@ public class CriteriaAdapter extends RecyclerView.Adapter<CriteriaAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull CriteriaAdapter.ViewHolder holder, int position) {
-        holder.criteriaName_textView.setText(criteriaNameList.get(position));
-        holder.selectedValue_textView.setText(selectedValueList.get(position));
+        List<String> keys = new ArrayList<>(criteriaMap.keySet());
+        String key = keys.get(position);
+
+        holder.criteriaName_textView.setText(key);
+        holder.selectedValue_textView.setText(criteriaMap.get(key));
     }
 
     @Override
     public int getItemCount() {
-        return criteriaNameList.size();
+        return criteriaMap.size();
     }
 }
