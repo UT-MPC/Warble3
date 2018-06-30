@@ -65,6 +65,6 @@ public class CriterionAdapter extends RecyclerView.Adapter<CriterionAdapter.View
     }
 
     public interface mClickListener {
-        public void mClick(View view, int position);
+        void mClick(View view, int position);
     }
 }
