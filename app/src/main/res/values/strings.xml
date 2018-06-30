@@ -19,6 +19,7 @@
     <string name="titleFindBridge_addBridgePage">Find Bridge</string>
     <string name="titleBridgeType_addBridgePage">Bridge Type</string>
     <string name="titleIpAddress_addBridgePage">IP Address</string>
+    <string name="ipAddressLabel_addBridgePage">enter IP address</string>
 
     <!--Add Light Page-->
     <string name="titleFindLight_addLightPage">Find Light</string>
