@@ -1,7 +1,5 @@
 package edu.utexas.mpc.warble3.frontend.adapter;
 
-import android.content.Intent;
-
 import java.util.Arrays;
 import java.util.List;
 
