@@ -47,6 +47,17 @@ public class FindLightActivity extends AppCompatActivity implements CriterionAda
     @Override
     public void mClick(View view, int position) {
         Intent intentToExecute = criterionIntents.get(position);
-        startActivity(intentToExecute);
+        startActivityForResult(intentToExecute, position);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            criteria.get(requestCode).setValue(data.getStringExtra("RESULT"));
+            criteriaAdapter.notifyDataSetChanged();
+        }
+        else {
+            // TODO: Handle
+        }
     }
 }

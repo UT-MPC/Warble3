@@ -45,6 +45,17 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.ViewHolder
         public ViewHolder(View itemView) {
             super(itemView);
             nameTextView = itemView.findViewById(R.id.name_textView);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ((mClickListener) view.getContext()).mClick(view, getAdapterPosition());
+                }
+            });
         }
+    }
+
+    public interface mClickListener {
+        void mClick(View view, int position);
     }
 }

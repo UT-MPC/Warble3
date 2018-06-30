@@ -1,9 +1,11 @@
 package edu.utexas.mpc.warble3.frontend.setup_page;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,10 +14,12 @@ import java.util.Objects;
 import edu.utexas.mpc.warble3.R;
 import edu.utexas.mpc.warble3.frontend.adapter.SimpleAdapter;
 
-public class LightTypeActivity extends AppCompatActivity {
-    RecyclerView lightTypeRecycleView;
-    RecyclerView.LayoutManager lightTypeLayoutManager;
-    RecyclerView.Adapter lightTypeAdapter;
+public class LightTypeActivity extends AppCompatActivity implements SimpleAdapter.mClickListener {
+    private RecyclerView lightTypeRecycleView;
+    private RecyclerView.LayoutManager lightTypeLayoutManager;
+    private RecyclerView.Adapter lightTypeAdapter;
+
+    private List<String> lightTypes = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,11 +35,18 @@ public class LightTypeActivity extends AppCompatActivity {
         lightTypeRecycleView.setLayoutManager(lightTypeLayoutManager);
 
         // TODO: Change to list of light types
-        List<String> lightTypes = new ArrayList<>();
         lightTypes.add("Philips Hue Light");
         lightTypes.add("GE Light");
 
         lightTypeAdapter = new SimpleAdapter(getApplicationContext(), lightTypes);
         lightTypeRecycleView.setAdapter(lightTypeAdapter);
+    }
+
+    @Override
+    public void mClick(View view, int position) {
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra("RESULT", lightTypes.get(position));
+        setResult(RESULT_OK, returnIntent);
+        finish();
     }
 }
