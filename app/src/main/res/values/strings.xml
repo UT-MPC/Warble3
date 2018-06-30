@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Warble</string>
 
+    <string name="title_activity_main">MainActivity</string>
+
     <!--Welcome Page-->
     <string name="title_welcomePage">Welcome to</string>
     <string name="orLabel_welcomePage">OR</string>
@@ -26,7 +28,7 @@
     <string name="titleLightType_addLightPage">Light Type</string>
     <string name="titleParentBridge_addLightPage">Parent Bridge</string>
     <string name="titleSerialNumber_addLightPage">Serial Number</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="serialNumberLabel_addBridgePage">enter serial number</string>
 
     <!--<string name=""></string>-->
     <!--<string name=""></string>-->

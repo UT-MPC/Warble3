@@ -6,4 +6,30 @@
     android:layout_height="match_parent"
     tools:context=".frontend.setup_page.SerialNumberActivity">
 
+    <EditText
+        android:id="@+id/serialNumber_editText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/edittext_border"
+        android:ems="10"
+        android:hint="@string/serialNumberLabel_addBridgePage"
+        android:inputType="textPersonName"
+        android:padding="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/serialNumberSend_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/serialNumber_editText" />
+
 </android.support.constraint.ConstraintLayout>
