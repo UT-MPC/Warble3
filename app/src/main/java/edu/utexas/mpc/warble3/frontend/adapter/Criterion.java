@@ -14,7 +14,6 @@ public class Criterion {
     protected String name;
     protected String value;
     protected int selectionType;
-    protected Intent onClickIntent;
 
     public String getName() {
         return name;
@@ -44,18 +43,9 @@ public class Criterion {
         }
     }
 
-    public Intent getOnClickIntent() {
-        return onClickIntent;
-    }
-
-    public void setOnClickIntent(Intent onClickIntent) {
-        this.onClickIntent = onClickIntent;
-    }
-
-    public Criterion(String name, String value, int selectionType, Intent onClickIntent) {
+    public Criterion(String name, String value, int selectionType) {
         this.setName(name);
         this.setValue(value);
         this.setSelectionType(selectionType);
-        this.setOnClickIntent(onClickIntent);
     }
 }

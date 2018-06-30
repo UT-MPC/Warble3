@@ -6,11 +6,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.TextView;
 
 import java.util.List;
 
 import edu.utexas.mpc.warble3.R;
+import edu.utexas.mpc.warble3.frontend.setup_page.FindBridgeActivity;
 
 public class CriterionAdapter extends RecyclerView.Adapter<CriterionAdapter.ViewHolder> {
 
@@ -23,13 +25,14 @@ public class CriterionAdapter extends RecyclerView.Adapter<CriterionAdapter.View
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        Context context;
         TextView criteriaName_textView;
         TextView selectedValue_textView;
         // ImageView rightArrow_imageView; // TODO: Not needed
 
-        public ViewHolder(final View itemView) {
+        public ViewHolder(final Context context, final View itemView) {
             super(itemView);
-
+            this.context = context;
             criteriaName_textView = itemView.findViewById(R.id.criteriaName_textView);
             selectedValue_textView = itemView.findViewById(R.id.selectedValue_textView);
             // rightArrow_imageView = itemView.findViewById(R.id.rightArrow_imageView); // TODO: Not needed
@@ -37,7 +40,7 @@ public class CriterionAdapter extends RecyclerView.Adapter<CriterionAdapter.View
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    context.startActivity(criteria.get(getAdapterPosition()).onClickIntent);
+                    ((mClickListener) view.getContext()).mClick(view, getAdapterPosition());
                 }
             });
         }
@@ -47,7 +50,7 @@ public class CriterionAdapter extends RecyclerView.Adapter<CriterionAdapter.View
     @Override
     public CriterionAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_criteria, parent, false);
-        return new ViewHolder(itemView);
+        return new ViewHolder(context, itemView);
     }
 
     @Override
@@ -59,5 +62,9 @@ public class CriterionAdapter extends RecyclerView.Adapter<CriterionAdapter.View
     @Override
     public int getItemCount() {
         return criteria.size();
+    }
+
+    public interface mClickListener {
+        public void mClick(View view, int position);
     }
 }
