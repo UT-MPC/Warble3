@@ -6,4 +6,9 @@
     android:layout_height="match_parent"
     tools:context=".frontend.setup_page.LightTypeActivity">
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/lightType_recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
 </android.support.constraint.ConstraintLayout>
