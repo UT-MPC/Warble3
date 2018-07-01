@@ -9,6 +9,15 @@ public abstract class Thing {
     private String friendlyName;
     private String accessName;
     private String accessPasscode;
+
+    private String manufacturerSerialNumber;
+    private String manufacturerModelName;
+    private String manufacturerModelNumber;
+    private String manufacturerName;
+
+    private String coarsetype;
+    private String finetype;
+
     private List<String> connections;
     private List<String> discoveries;
 }

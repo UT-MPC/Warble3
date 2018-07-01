@@ -4,14 +4,24 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import edu.utexas.mpc.warble3.R;
+import java.util.ArrayList;
+import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+import edu.utexas.mpc.warble3.R;
+import edu.utexas.mpc.warble3.model.Thing;
+import edu.utexas.mpc.warble3.model.discovery.DiscoveryAsyncTask;
+import edu.utexas.mpc.warble3.model.discovery.DiscoveryAsyncTaskComplete;
+
+public class MainActivity extends AppCompatActivity implements DiscoveryAsyncTaskComplete {
+    private static final String TAG = "MainActivity";
 
     private TextView mTextMessage;
+
+    private List<Thing> things = new ArrayList<>();
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -47,5 +57,13 @@ public class MainActivity extends AppCompatActivity {
         mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        new DiscoveryAsyncTask(this).execute();
+    }
+
+    @Override
+    public void onTaskComplete(List<Thing> things) {
+        this.things = things;
+        Log.d(TAG, things.toString());
     }
 }
