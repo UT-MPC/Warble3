@@ -10,7 +10,7 @@ import edu.utexas.mpc.warble3.model.Thing;
 public class PhilipsHueDiscoveryAsyncTask extends AsyncTask<Void, Void, List<? extends Thing>> {
     @Override
     protected List<? extends Thing> doInBackground(Void... voids) {
-        PhilipsHueDiscovery discovery = new PhilipsHueDiscovery();
+        PhilipsHueUPnPDiscovery discovery = new PhilipsHueUPnPDiscovery();
 
         List<PhilipsHueBridge> philipsHueBridges = discovery.onDiscover();
         List<Thing> philipsHueDescendants = discovery.onDiscoverDescendants();

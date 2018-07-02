@@ -1,5 +1,7 @@
 package edu.utexas.mpc.warble3.model;
 
-public abstract class Bridge extends Thing {
+import edu.utexas.mpc.warble3.model.feature.Accessor;
+
+public abstract class Bridge extends Thing implements Accessor {
     public static final String TAG = "Bridge";
 }

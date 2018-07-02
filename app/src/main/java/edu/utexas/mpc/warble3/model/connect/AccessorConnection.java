@@ -1,10 +1,9 @@
 package edu.utexas.mpc.warble3.model.connect;
 
-import java.util.List;
-
-import edu.utexas.mpc.warble3.model.feature.Accessor;
+import edu.utexas.mpc.warble3.model.Thing;
 
 public class AccessorConnection {
-    // Should this be extended to suppport many accessor?
-    private List<Accessor> accessors;
+    private static final String TAG = "AccessorConnection";
+
+    private Thing accessor;
 }

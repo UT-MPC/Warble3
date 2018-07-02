@@ -7,9 +7,11 @@ import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
 import java.net.SocketException;
+import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public abstract class SSDPDiscovery extends Discovery {
     private static final String TAG = "SSDPDiscovery";
@@ -23,6 +25,8 @@ public abstract class SSDPDiscovery extends Discovery {
             + "ST: ssdp:all\r\n";
 
     protected static int TIMEOUT_MICROSECONDS = 5000;
+
+    protected int discovery_period_microseconds;
 
     protected MulticastSocket getMulticastSocket() {
         MulticastSocket multicastSocket;
@@ -78,13 +82,26 @@ public abstract class SSDPDiscovery extends Discovery {
         List<String> messages = new ArrayList<>();
 
         MulticastSocket multicastSocket = getMulticastSocket();
+        try {
+            multicastSocket.setSoTimeout(TIMEOUT_MICROSECONDS);
+        }
+        catch (SocketException e) {
+            Log.e(TAG, "exception", e);
+        }
+
+        if (discovery_period_microseconds == 0) {
+            discovery_period_microseconds = TIMEOUT_MICROSECONDS;
+        }
 
         long startTime = System.currentTimeMillis();
-        while (System.currentTimeMillis() - startTime < TIMEOUT_MICROSECONDS) {
+        while (System.currentTimeMillis() - startTime < discovery_period_microseconds) {
             byte[] buf = new byte[1024];
             DatagramPacket receivePacket = new DatagramPacket(buf, buf.length);
             try {
                 multicastSocket.receive(receivePacket);
+            }
+            catch (SocketTimeoutException e) {
+                Log.d(TAG, "Multicast socket is interrupted");
             }
             catch (IOException e) {
                 Log.e(TAG, e.getClass().toString(), e);
@@ -92,15 +109,14 @@ public abstract class SSDPDiscovery extends Discovery {
             }
 
             String msg = new String(receivePacket.getData(), 0, receivePacket.getLength());
-            Log.d(TAG, msg);
             messages.add(msg);
         }
 
-        if (messages.size() <= 0) {
-            return null;
+        if (messages.size() > 0) {
+            return messages;
         }
         else {
-            return messages;
+            return null;
         }
     }
 }
