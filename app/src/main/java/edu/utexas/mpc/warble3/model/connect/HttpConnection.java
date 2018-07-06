@@ -9,6 +9,8 @@ public class HttpConnection extends Connection {
     }
 
     private String url;
+    private String ipAddress;
+    private IP_TYPE ipType;
 
     public String getUrl() {
         return url;
@@ -33,7 +35,4 @@ public class HttpConnection extends Connection {
     public void setIpAddress(String ipAddress) {
         this.ipAddress = ipAddress;
     }
-
-    private IP_TYPE ipType;
-    private String ipAddress;
 }

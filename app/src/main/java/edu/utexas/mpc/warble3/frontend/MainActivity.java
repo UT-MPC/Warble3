@@ -15,6 +15,7 @@ import edu.utexas.mpc.warble3.R;
 import edu.utexas.mpc.warble3.model.Thing;
 import edu.utexas.mpc.warble3.model.discovery.DiscoveryAsyncTask;
 import edu.utexas.mpc.warble3.model.discovery.DiscoveryAsyncTaskComplete;
+import edu.utexas.mpc.warble3.util.Logging;
 
 public class MainActivity extends AppCompatActivity implements DiscoveryAsyncTaskComplete {
     private static final String TAG = "MainActivity";
@@ -64,6 +65,6 @@ public class MainActivity extends AppCompatActivity implements DiscoveryAsyncTas
     @Override
     public void onTaskComplete(List<Thing> things) {
         this.things = things;
-        Log.d(TAG, things.toString());
+        if (Logging.DEBUG) Log.d(TAG, things.toString());
     }
 }

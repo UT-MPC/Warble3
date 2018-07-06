@@ -11,7 +11,8 @@ import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
+
+import edu.utexas.mpc.warble3.util.Logging;
 
 public abstract class SSDPDiscovery extends Discovery {
     private static final String TAG = "SSDPDiscovery";
@@ -35,7 +36,7 @@ public abstract class SSDPDiscovery extends Discovery {
             return multicastSocket;
         }
         catch (IOException e) {
-            Log.e(TAG, e.getClass().toString(), e);
+            if (Logging.ERROR) Log.e(TAG, e.getClass().toString(), e);
             return null;
         }
     }
@@ -47,7 +48,7 @@ public abstract class SSDPDiscovery extends Discovery {
             return inetAddress;
         }
         catch (UnknownHostException e) {
-            Log.e(TAG, e.getClass().toString(), e);
+            if (Logging.ERROR) Log.e(TAG, e.getClass().toString(), e);
             return null;
         }
     }
@@ -63,7 +64,7 @@ public abstract class SSDPDiscovery extends Discovery {
                 multicastSocket.setSoTimeout(TIMEOUT_MICROSECONDS);
             }
             catch (SocketException e) {
-                Log.e(TAG, e.getClass().toString(), e);
+                if (Logging.ERROR) Log.e(TAG, e.getClass().toString(), e);
                 return false;
             }
 
@@ -71,7 +72,7 @@ public abstract class SSDPDiscovery extends Discovery {
                 multicastSocket.send(datagramPacket);
             }
             catch (IOException e) {
-                Log.e(TAG, e.getClass().toString(), e);
+                if (Logging.ERROR) Log.e(TAG, e.getClass().toString(), e);
                 return false;
             }
         }
@@ -86,7 +87,7 @@ public abstract class SSDPDiscovery extends Discovery {
             multicastSocket.setSoTimeout(TIMEOUT_MICROSECONDS);
         }
         catch (SocketException e) {
-            Log.e(TAG, "exception", e);
+            if (Logging.ERROR) Log.e(TAG, "exception", e);
         }
 
         if (discovery_period_microseconds == 0) {
@@ -101,10 +102,10 @@ public abstract class SSDPDiscovery extends Discovery {
                 multicastSocket.receive(receivePacket);
             }
             catch (SocketTimeoutException e) {
-                Log.d(TAG, "Multicast socket is interrupted");
+                if (Logging.DEBUG) Log.d(TAG, "Multicast socket is interrupted");
             }
             catch (IOException e) {
-                Log.e(TAG, e.getClass().toString(), e);
+                if (Logging.ERROR) Log.e(TAG, e.getClass().toString(), e);
                 return null;
             }
 

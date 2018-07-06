@@ -14,6 +14,7 @@ public abstract class Thing {
     private String uuid;
 
     private String accessName;
+    private String accessUsername;
     private String accessPasscode;
 
     private String manufacturerSerialNumber;
@@ -58,6 +59,14 @@ public abstract class Thing {
 
     public void setAccessName(String accessName) {
         this.accessName = accessName;
+    }
+
+    public String getAccessUsername() {
+        return accessUsername;
+    }
+
+    public void setAccessUsername(String accessUsername) {
+        this.accessUsername = accessUsername;
     }
 
     public String getAccessPasscode() {

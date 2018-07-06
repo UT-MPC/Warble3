@@ -11,6 +11,7 @@ import edu.utexas.mpc.warble3.model.Thing;
 import edu.utexas.mpc.warble3.model.manufacturer.GE.GEDiscovery;
 import edu.utexas.mpc.warble3.model.manufacturer.PhilipsHue.PhilipsHueUPnPDiscovery;
 import edu.utexas.mpc.warble3.model.manufacturer.Wink.WinkDiscovery;
+import edu.utexas.mpc.warble3.util.Logging;
 
 public class DiscoveryAsyncTask extends AsyncTask<Void, Void, List<Thing>> {
     private static final String TAG = "DiscoveryAsyncTask";
@@ -22,7 +23,7 @@ public class DiscoveryAsyncTask extends AsyncTask<Void, Void, List<Thing>> {
 
     @Override
     protected List<Thing> doInBackground(Void... voids) {
-        Log.d(TAG, "Executing DiscoveryAsyncTask ...");
+        if (Logging.DEBUG) Log.d(TAG, "Executing DiscoveryAsyncTask ...");
         List<Discovery> discoveries = new ArrayList<>();
         discoveries.add(new PhilipsHueUPnPDiscovery());
         discoveries.add(new WinkDiscovery());
