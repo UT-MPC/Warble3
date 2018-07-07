@@ -30,6 +30,12 @@
     <string name="titleSerialNumber_addLightPage">Serial Number</string>
     <string name="serialNumberLabel_addBridgePage">enter serial number</string>
 
+    <!--Philips Hue Bridge Press Button Page-->
+    <string name="title_philipsHueBridgePressPage">Philips Hue Bridge</string>
+    <string name="message_philipsHueBridgePressPage">Follow these steps:\n- Press button at the Philips Hue Bridge\n- Enter username\n- Press submit button</string>
+    <string name="usernameHint_philipsHueBridgePressPage">type username</string>
+    <string name="submitButton_philipsHueBridgePressPage">Submit</string>
+
     <!--<string name=""></string>-->
     <!--<string name=""></string>-->
     <!--<string name=""></string>-->
