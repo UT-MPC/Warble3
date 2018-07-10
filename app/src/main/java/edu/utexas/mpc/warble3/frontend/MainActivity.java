@@ -3,6 +3,7 @@ package edu.utexas.mpc.warble3.frontend;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.utexas.mpc.warble3.R;
+import edu.utexas.mpc.warble3.frontend.main_activity_fragments.SetupFragment;
 import edu.utexas.mpc.warble3.model.Thing;
 import edu.utexas.mpc.warble3.model.discovery.DiscoveryAsyncTask;
 import edu.utexas.mpc.warble3.model.discovery.DiscoveryAsyncTaskComplete;
@@ -29,21 +31,18 @@ public class MainActivity extends AppCompatActivity implements DiscoveryAsyncTas
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
             switch (item.getItemId()) {
                 case R.id.navigation_setup:
-                    mTextMessage.setText(R.string.fragmentLabelSetup_mainPage);
+                    fragmentManager.beginTransaction().replace(R.id.content, new SetupFragment()).commit();
                     return true;
                 case R.id.navigation_manual:
-                    mTextMessage.setText(R.string.fragmentLabelManual_mainPage);
                     return true;
                 case R.id.navigation_control:
-                    mTextMessage.setText(R.string.fragmentLabelControl_mainPage);
                     return true;
                 case R.id.navigation_4:
-                    mTextMessage.setText(R.string.fragmentLabel4_mainPage);
                     return true;
                 case R.id.navigation_settings:
-                    mTextMessage.setText(R.string.fragmentLabelSettings_mainPage);
                     return true;
             }
             return false;
@@ -55,7 +54,6 @@ public class MainActivity extends AppCompatActivity implements DiscoveryAsyncTas
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
