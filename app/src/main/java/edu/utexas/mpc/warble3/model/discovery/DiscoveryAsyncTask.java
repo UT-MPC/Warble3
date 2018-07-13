@@ -1,6 +1,5 @@
 package edu.utexas.mpc.warble3.model.discovery;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -16,9 +15,10 @@ import edu.utexas.mpc.warble3.util.Logging;
 public class DiscoveryAsyncTask extends AsyncTask<Void, Void, List<Thing>> {
     private static final String TAG = "DiscoveryAsyncTask";
     private DiscoveryAsyncTaskComplete mCallback;
+    private List<Thing> things;
 
-    public DiscoveryAsyncTask(Context context) {
-        mCallback = (DiscoveryAsyncTaskComplete) context;
+    public DiscoveryAsyncTask(DiscoveryAsyncTaskComplete context) {
+        mCallback = context;
     }
 
     @Override
@@ -29,7 +29,7 @@ public class DiscoveryAsyncTask extends AsyncTask<Void, Void, List<Thing>> {
         discoveries.add(new WinkDiscovery());
         discoveries.add(new GEDiscovery());
 
-        List<Thing> things = new ArrayList<>();
+        things = new ArrayList<>();
         for(Discovery discovery: discoveries) {
             List<? extends Thing> things1 = discovery.onDiscover();
             List<? extends Thing> things2 = discovery.onDiscoverDescendants();

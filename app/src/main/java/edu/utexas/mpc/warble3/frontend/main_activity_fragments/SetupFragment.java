@@ -10,47 +10,54 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
 import edu.utexas.mpc.warble3.R;
+import edu.utexas.mpc.warble3.model.THING_CONCRETE_TYPE;
 
 public class SetupFragment extends Fragment {
+    private HashMap<THING_CONCRETE_TYPE, List<String>> discoveredThings;
+    private ExpandableListView expandableListView;
+
+    public static SetupFragment getNewInstance(HashMap<THING_CONCRETE_TYPE, List<String>> discoveredThings) {
+        SetupFragment setupFragment = new SetupFragment();
+
+        Bundle args = new Bundle();
+        args.putSerializable("discoveredThings", discoveredThings);
+        setupFragment.setDiscoveredThings(discoveredThings);
+        return setupFragment;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup holder, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_setup, holder, false);
-
-        List<String> headers = new ArrayList<>();
-        headers.add("Bridge");
-        headers.add("Light");
-
-        List<String> bridges = new ArrayList<>();
-        bridges.add("Philips Hue Bridge 1");
-        bridges.add("Wink Hub 1");
-
-        List<String> lights = new ArrayList<>();
-        lights.add("Light 1");
-        lights.add("Light 2");
-
-        HashMap<String, List<String>> childHashMap = new HashMap<>();
-        childHashMap.put("Bridge", bridges);
-        childHashMap.put("Light", lights);
-
-        ThingExpandableListAdapter thingExpandableListAdapter = new ThingExpandableListAdapter(getContext(), headers, childHashMap);
-
-        ExpandableListView expandableListView = (ExpandableListView) view.findViewById(R.id.setup_elv);
-        expandableListView.setAdapter(thingExpandableListAdapter);
-
+        expandableListView = view.findViewById(R.id.setup_elv);
+        updateDiscoveredThings(discoveredThings);
         return view;
+    }
+
+    public HashMap<THING_CONCRETE_TYPE, List<String>> getDiscoveredThings() {
+        return discoveredThings;
+    }
+
+    public void setDiscoveredThings(HashMap<THING_CONCRETE_TYPE, List<String>> discoveredThings) {
+        this.discoveredThings = discoveredThings;
+    }
+
+    public void updateDiscoveredThings(HashMap<THING_CONCRETE_TYPE, List<String>> discoveredThings) {
+        setDiscoveredThings(discoveredThings);
+        ThingExpandableListAdapter thingExpandableListAdapter = new ThingExpandableListAdapter(getContext(), Arrays.asList(THING_CONCRETE_TYPE.values()), discoveredThings);
+        expandableListView.setAdapter(thingExpandableListAdapter);
     }
 
     public class ThingExpandableListAdapter extends BaseExpandableListAdapter {
         private Context context;
-        private List<String> headers;
-        private HashMap<String, List<String>> childHashMap;
+        private List<THING_CONCRETE_TYPE> headers;
+        private HashMap<THING_CONCRETE_TYPE, List<String>> childHashMap;
 
-        public ThingExpandableListAdapter (Context context, List<String> headers, HashMap<String, List<String>> childHashMap) {
+        private ThingExpandableListAdapter (Context context, List<THING_CONCRETE_TYPE> headers, HashMap<THING_CONCRETE_TYPE, List<String>> childHashMap) {
             this.context = context;
             this.headers = headers;
             this.childHashMap = childHashMap;
@@ -63,12 +70,17 @@ public class SetupFragment extends Fragment {
 
         @Override
         public int getChildrenCount(int i) {
-            return this.childHashMap.get(headers.get(i)).size();
+            try {
+                return this.childHashMap.get(headers.get(i)).size();
+            }
+            catch (NullPointerException e) {
+                return 0;
+            }
         }
 
         @Override
         public String getGroup(int groupPosition) {
-            return this.headers.get(groupPosition);
+            return this.headers.get(groupPosition).toString();
         }
 
         @Override

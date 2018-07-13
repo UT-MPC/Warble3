@@ -139,7 +139,6 @@ public class PhilipsHueUPnPDiscovery extends SSDPDiscovery {
 
     @Override
     public List<PhilipsHueBridge> onDiscover() {
-        if (Logging.VERBOSE) Log.v(TAG, "onDiscover()");
         List<PhilipsHueBridge> philipsHueBridges = new ArrayList<>();
         List<String> existingIpAddresses = new ArrayList<>();
 
@@ -165,6 +164,7 @@ public class PhilipsHueUPnPDiscovery extends SSDPDiscovery {
             }
         }
 
+        if (Logging.INFO) Log.i(TAG, String.format("Number of discovered Philips Hue Bridges by UPnP: %d", philipsHueBridges.size()));
         if (philipsHueBridges.size() > 0) {
             if (Logging.INFO) Log.i(TAG, "Discover Philips Hue Bridges by UPnP:");
             for (PhilipsHueBridge philipsHueBridge : philipsHueBridges) {
