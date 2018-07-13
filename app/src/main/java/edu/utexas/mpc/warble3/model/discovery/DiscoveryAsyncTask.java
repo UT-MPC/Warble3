@@ -46,6 +46,6 @@ public class DiscoveryAsyncTask extends AsyncTask<Void, Void, List<Thing>> {
 
     @Override
     protected void onPostExecute(List<Thing> things) {
-        mCallback.onTaskComplete(things);
+        mCallback.onDiscoveryTaskComplete(things);
     }
 }

@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements DiscoveryAsyncTas
     }
 
     @Override
-    public void onTaskComplete(List<Thing> things) {
+    public void onDiscoveryTaskComplete(List<Thing> things) {
         if (Logging.DEBUG) Log.d(TAG, things.toString());
         this.things = things;
 
