@@ -48,8 +48,10 @@ public class SetupFragment extends Fragment {
 
     public void updateDiscoveredThings(HashMap<THING_CONCRETE_TYPE, List<String>> discoveredThings) {
         setDiscoveredThings(discoveredThings);
-        ThingExpandableListAdapter thingExpandableListAdapter = new ThingExpandableListAdapter(getContext(), Arrays.asList(THING_CONCRETE_TYPE.values()), discoveredThings);
-        expandableListView.setAdapter(thingExpandableListAdapter);
+        if (expandableListView != null) {
+            ThingExpandableListAdapter thingExpandableListAdapter = new ThingExpandableListAdapter(getContext(), Arrays.asList(THING_CONCRETE_TYPE.values()), discoveredThings);
+            expandableListView.setAdapter(thingExpandableListAdapter);
+        }
     }
 
     public class ThingExpandableListAdapter extends BaseExpandableListAdapter {
