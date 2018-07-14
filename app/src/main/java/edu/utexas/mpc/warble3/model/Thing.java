@@ -22,9 +22,9 @@ public abstract class Thing {
     private String manufacturerModelNumber;
     private String manufacturerName;
 
-    private THING_MAIN_TYPE mainType;
-    private THING_FUNCTION_TYPE functionType;
-    private THING_CONCRETE_TYPE concreteType;
+    private List<THING_MAIN_TYPE> mainTypes;
+    private List<THING_FUNCTION_TYPE> functionTypes;
+    private List<THING_CONCRETE_TYPE> concreteTypes;
 
     private List<Connection> connections;
     private List<Discovery> discoveries;
@@ -109,28 +109,28 @@ public abstract class Thing {
         this.manufacturerName = manufacturerName;
     }
 
-    public THING_MAIN_TYPE getMainType() {
-        return mainType;
+    public List<THING_MAIN_TYPE> getMainTypes() {
+        return mainTypes;
     }
 
-    public void setMainType(THING_MAIN_TYPE mainType) {
-        this.mainType = mainType;
+    public void setMainTypes(List<THING_MAIN_TYPE> mainTypes) {
+        this.mainTypes = mainTypes;
     }
 
-    public THING_FUNCTION_TYPE getFunctionType() {
-        return functionType;
+    public List<THING_FUNCTION_TYPE> getFunctionTypes() {
+        return functionTypes;
     }
 
-    public void setFunctionType(THING_FUNCTION_TYPE functionType) {
-        this.functionType = functionType;
+    public void setFunctionTypes(List<THING_FUNCTION_TYPE> functionTypes) {
+        this.functionTypes = functionTypes;
     }
 
-    public THING_CONCRETE_TYPE getConcreteType() {
-        return concreteType;
+    public List<THING_CONCRETE_TYPE> getConcreteTypes() {
+        return concreteTypes;
     }
 
-    public void setConcreteType(THING_CONCRETE_TYPE concreteType) {
-        this.concreteType = concreteType;
+    public void setConcreteTypes(List<THING_CONCRETE_TYPE> concreteTypes) {
+        this.concreteTypes = concreteTypes;
     }
 
     public List<Connection> getConnections() {

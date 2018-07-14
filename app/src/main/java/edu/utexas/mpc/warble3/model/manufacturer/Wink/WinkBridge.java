@@ -7,6 +7,10 @@ import edu.utexas.mpc.warble3.model.Thing;
 import edu.utexas.mpc.warble3.model.ThingState;
 
 public class WinkBridge extends Bridge {
+    public WinkBridge() {
+        super();
+    }
+
     @Override
     public List<Thing> getThings() {
         return null;

@@ -6,6 +6,7 @@ public enum THING_CONCRETE_TYPE {
     AIR_CONDITIONER,
     ALARM,
     BLIND,
+    CAMERA,
     DOORBELL,
     LOCK,
     REFRIGERATOR,
