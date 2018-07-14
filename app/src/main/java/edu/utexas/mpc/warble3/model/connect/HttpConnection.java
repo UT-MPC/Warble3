@@ -35,4 +35,11 @@ public class HttpConnection extends Connection {
     public void setIpAddress(String ipAddress) {
         this.ipAddress = ipAddress;
     }
+
+    @Override
+    public String toString() {
+        String string = "";
+        string += String.format("%s %s \'%s\'", TAG, ipType.toString(), ipAddress);
+        return string;
+    }
 }

@@ -148,4 +148,12 @@ public abstract class Thing {
     public void setDiscoveries(List<Discovery> discoveries) {
         this.discoveries = discoveries;
     }
+
+    @Override
+    public String toString() {
+        String string = "";
+        string += String.format("%s (friendlyName) - ", getFriendlyName());
+        string += String.format("UUID: \"%s\"", getUuid());
+        return string;
+    }
 }

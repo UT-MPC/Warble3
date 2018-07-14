@@ -10,6 +10,8 @@ import edu.utexas.mpc.warble3.model.Thing;
 import edu.utexas.mpc.warble3.model.ThingState;
 
 public class PhilipsHueBridge extends Bridge {
+    private static final String TAG = "PhilipsHueBridge";
+
     public PhilipsHueBridge() {
         super();
         setMainType(THING_MAIN_TYPE.ACCESSOR);
@@ -45,5 +47,13 @@ public class PhilipsHueBridge extends Bridge {
     @Override
     public Boolean updateThingsState(List<Thing> things, List<ThingState> thingsState, Boolean postCheck) {
         return null;
+    }
+
+    @Override
+    public String toString() {
+        String string = super.toString();
+        string += String.format(", Connections: %s", getConnections().toString());
+        string += String.format(", TAG: \"%s\"", TAG);
+        return string;
     }
 }

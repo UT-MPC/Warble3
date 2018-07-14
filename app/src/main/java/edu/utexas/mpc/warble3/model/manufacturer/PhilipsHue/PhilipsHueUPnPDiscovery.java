@@ -46,7 +46,6 @@ public class PhilipsHueUPnPDiscovery extends SSDPDiscovery {
         return document;
     }
 
-    // TODO : Implement
     private PhilipsHueBridge bridgeXmlTranslation(String response) {
         Pattern pattern = Pattern.compile("LOCATION: (.+?)(\\r*)(\\n)", Pattern.DOTALL | Pattern.MULTILINE);
 
@@ -104,6 +103,8 @@ public class PhilipsHueUPnPDiscovery extends SSDPDiscovery {
 
                 HttpConnection httpConnection = new HttpConnection();
                 httpConnection.setUrl(URLBaseElement.getText());
+                httpConnection.setIpType(HttpConnection.IP_TYPE.IPv4);
+                httpConnection.setIpAddress(getIpAddressFromURL(URLBaseElement.getText()));
                 connections.add(httpConnection);
 
                 discoveries.add(this);
@@ -168,7 +169,7 @@ public class PhilipsHueUPnPDiscovery extends SSDPDiscovery {
         if (philipsHueBridges.size() > 0) {
             if (Logging.INFO) Log.i(TAG, "Discover Philips Hue Bridges by UPnP:");
             for (PhilipsHueBridge philipsHueBridge : philipsHueBridges) {
-                if (Logging.INFO) Log.i(TAG, String.format("- %s", philipsHueBridge.getFriendlyName()));
+                if (Logging.INFO) Log.i(TAG, String.format("- %s", philipsHueBridge.toString()));
             }
             return philipsHueBridges;
         }
@@ -181,5 +182,17 @@ public class PhilipsHueUPnPDiscovery extends SSDPDiscovery {
     @Override
     public List<Thing> onDiscoverDescendants() {
         return null;
+    }
+
+    private String getIpAddressFromURL(String url) {
+        Pattern pattern = Pattern.compile("(http://|https://)*([0-9.]+)+(:[0-9]*)*(/)*");
+        Matcher matcher = pattern.matcher(url);
+
+        if (matcher.find()) {
+            return matcher.group(2);
+        }
+        else {
+            return url;
+        }
     }
 }
