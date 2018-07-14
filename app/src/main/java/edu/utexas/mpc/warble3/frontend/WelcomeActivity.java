@@ -11,13 +11,14 @@ import android.widget.EditText;
 import edu.utexas.mpc.warble3.R;
 
 public class WelcomeActivity extends AppCompatActivity {
-    public static String SHARED_PREFERENCES_CURRENT_USER_SETTINGS = "edu.utexas.mpc.warble3.CURRENT_USER_SETTINGS";
+    public static String SHARED_PREFS_CURRENT_USER_SETTINGS = "edu.utexas.mpc.warble3.CURRENT_USER_SETTINGS";
+    public static String SHARED_PREFS_USERNAME = "username";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        SharedPreferences sharedPrefs = getSharedPreferences(SHARED_PREFERENCES_CURRENT_USER_SETTINGS, MODE_PRIVATE);
+        SharedPreferences sharedPrefs = getSharedPreferences(SHARED_PREFS_CURRENT_USER_SETTINGS, MODE_PRIVATE);
         if (sharedPrefs.getString("username", null) != null) {
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
@@ -31,8 +32,8 @@ public class WelcomeActivity extends AppCompatActivity {
             View.OnClickListener onClickListener1 = new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    SharedPreferences.Editor editor = getSharedPreferences(SHARED_PREFERENCES_CURRENT_USER_SETTINGS, MODE_PRIVATE).edit();
-                    editor.putString("username", username_editText.getText().toString());
+                    SharedPreferences.Editor editor = getSharedPreferences(SHARED_PREFS_CURRENT_USER_SETTINGS, MODE_PRIVATE).edit();
+                    editor.putString(SHARED_PREFS_USERNAME, username_editText.getText().toString());
                     editor.apply();
 
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
@@ -45,7 +46,7 @@ public class WelcomeActivity extends AppCompatActivity {
             View.OnClickListener onClickListener2 = new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    SharedPreferences.Editor editor = getSharedPreferences(SHARED_PREFERENCES_CURRENT_USER_SETTINGS, MODE_PRIVATE).edit();
+                    SharedPreferences.Editor editor = getSharedPreferences(SHARED_PREFS_CURRENT_USER_SETTINGS, MODE_PRIVATE).edit();
                     editor.putString("username", new_username_editText.getText().toString());
                     editor.apply();
 

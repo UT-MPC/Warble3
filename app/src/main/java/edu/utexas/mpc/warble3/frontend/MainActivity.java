@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import edu.utexas.mpc.warble3.R;
+import edu.utexas.mpc.warble3.frontend.main_activity_fragments.SettingsFragment;
 import edu.utexas.mpc.warble3.frontend.main_activity_fragments.SetupFragment;
 import edu.utexas.mpc.warble3.model.THING_CONCRETE_TYPE;
 import edu.utexas.mpc.warble3.model.Thing;
@@ -29,7 +30,7 @@ public class MainActivity extends AppCompatActivity implements DiscoveryAsyncTas
     private Fragment manualFragment = new Fragment();
     private Fragment controlFragment = new Fragment();
     private Fragment fourFragment = new Fragment();
-    private Fragment settingsFragment = new Fragment();
+    private SettingsFragment settingsFragment = SettingsFragment.getNewInstance();
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
