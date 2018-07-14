@@ -10,6 +10,7 @@ import org.jdom2.input.SAXBuilder;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -120,9 +121,9 @@ public class PhilipsHueUPnPDiscovery extends SSDPDiscovery {
                 new_bridge.setManufacturerModelName(manufacturerModelName);
                 new_bridge.setManufacturerModelNumber(manufacturerModelNumber);
                 new_bridge.setManufacturerName(manufacturerName);
-                new_bridge.setMainType(mainType);
-                new_bridge.setFunctionType(functionType);
-                new_bridge.setConcreteType(concreteType);
+                new_bridge.setMainTypes(Arrays.asList(mainType));
+                new_bridge.setFunctionTypes(Arrays.asList(functionType));
+                new_bridge.setConcreteTypes(Arrays.asList(concreteType));
                 new_bridge.setConnections(connections);
                 new_bridge.setDiscoveries(discoveries);
 

@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import edu.utexas.mpc.warble3.R;
+import edu.utexas.mpc.warble3.frontend.main_activity_fragments.ControlFragment;
 import edu.utexas.mpc.warble3.frontend.main_activity_fragments.SettingsFragment;
 import edu.utexas.mpc.warble3.frontend.main_activity_fragments.SetupFragment;
 import edu.utexas.mpc.warble3.model.THING_CONCRETE_TYPE;
@@ -28,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements DiscoveryAsyncTas
 
     private SetupFragment setupFragment = SetupFragment.getNewInstance(thingsHashMap);
     private Fragment manualFragment = new Fragment();
-    private Fragment controlFragment = new Fragment();
+    private ControlFragment controlFragment = ControlFragment.getNewInstance();
     private Fragment fourFragment = new Fragment();
     private SettingsFragment settingsFragment = SettingsFragment.getNewInstance();
 
@@ -76,10 +77,10 @@ public class MainActivity extends AppCompatActivity implements DiscoveryAsyncTas
         this.things = things;
 
         for (Thing thing: this.things) {
-            List<String> listThings = thingsHashMap.get(thing.getConcreteType());
+            List<String> listThings = thingsHashMap.get(thing.getConcreteTypes().get(0));
             if (listThings == null) listThings = new ArrayList<>();
             listThings.add(thing.getFriendlyName());
-            thingsHashMap.put(thing.getConcreteType(), listThings);
+            thingsHashMap.put(thing.getConcreteTypes().get(0), listThings);
         }
 
         setupFragment.updateDiscoveredThings(thingsHashMap);

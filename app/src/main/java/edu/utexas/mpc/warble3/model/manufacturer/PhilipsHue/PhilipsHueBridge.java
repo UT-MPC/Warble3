@@ -3,9 +3,6 @@ package edu.utexas.mpc.warble3.model.manufacturer.PhilipsHue;
 import java.util.List;
 
 import edu.utexas.mpc.warble3.model.Bridge;
-import edu.utexas.mpc.warble3.model.THING_CONCRETE_TYPE;
-import edu.utexas.mpc.warble3.model.THING_FUNCTION_TYPE;
-import edu.utexas.mpc.warble3.model.THING_MAIN_TYPE;
 import edu.utexas.mpc.warble3.model.Thing;
 import edu.utexas.mpc.warble3.model.ThingState;
 

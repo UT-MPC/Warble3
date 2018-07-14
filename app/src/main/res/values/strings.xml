@@ -36,20 +36,12 @@
     <string name="usernameHint_philipsHueBridgePressPage">type username</string>
     <string name="submitButton_philipsHueBridgePressPage">Submit</string>
 
+    <!--Control Fragment-->
+    <string name="lightSwitch_controlFragment">Light</string>
+
     <!--Settings Fragment-->
     <string name="logout_settingsFragment">Log Out</string>
 
-    <!--<string name=""></string>-->
-    <!--<string name=""></string>-->
-    <!--<string name=""></string>-->
-    <!--<string name=""></string>-->
-    <!--<string name=""></string>-->
-    <!--<string name=""></string>-->
-    <!--<string name=""></string>-->
-    <!--<string name=""></string>-->
-    <!--<string name=""></string>-->
-    <!--<string name=""></string>-->
-    <!--<string name=""></string>-->
     <!--<string name=""></string>-->
     <!--<string name=""></string>-->
     <!--<string name=""></string>-->
