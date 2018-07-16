@@ -39,7 +39,7 @@ public class HttpConnection extends Connection {
     @Override
     public String toString() {
         String string = "";
-        string += String.format("%s %s \'%s\'", TAG, ipType.toString(), ipAddress);
+        string += String.format("%s %s \"%s\"", TAG, ipType.toString(), ipAddress);
         return string;
     }
 }

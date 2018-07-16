@@ -2,8 +2,8 @@ package edu.utexas.mpc.warble3.model.thing.feature;
 
 import java.util.List;
 
-import edu.utexas.mpc.warble3.model.thing.structure.Thing;
-import edu.utexas.mpc.warble3.model.thing.structure.ThingState;
+import edu.utexas.mpc.warble3.model.thing.component.Thing;
+import edu.utexas.mpc.warble3.model.thing.component.ThingState;
 
 public interface Accessor {
     List<Thing> getThings();
