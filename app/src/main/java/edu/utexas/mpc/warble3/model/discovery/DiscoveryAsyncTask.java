@@ -6,10 +6,10 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.utexas.mpc.warble3.model.Thing;
-import edu.utexas.mpc.warble3.model.manufacturer.GE.GEDiscovery;
-import edu.utexas.mpc.warble3.model.manufacturer.PhilipsHue.PhilipsHueUPnPDiscovery;
-import edu.utexas.mpc.warble3.model.manufacturer.Wink.WinkDiscovery;
+import edu.utexas.mpc.warble3.model.thingstructure.Thing;
+import edu.utexas.mpc.warble3.model.thingstructure.manufacturer.GE.GEDiscovery;
+import edu.utexas.mpc.warble3.model.thingstructure.manufacturer.PhilipsHue.PhilipsHueUPnPDiscovery;
+import edu.utexas.mpc.warble3.model.thingstructure.manufacturer.Wink.WinkDiscovery;
 import edu.utexas.mpc.warble3.util.Logging;
 
 public class DiscoveryAsyncTask extends AsyncTask<Void, Void, List<Thing>> {

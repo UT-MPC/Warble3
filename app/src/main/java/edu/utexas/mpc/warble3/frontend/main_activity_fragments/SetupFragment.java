@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import edu.utexas.mpc.warble3.R;
-import edu.utexas.mpc.warble3.model.THING_CONCRETE_TYPE;
+import edu.utexas.mpc.warble3.model.thingstructure.THING_CONCRETE_TYPE;
 
 public class SetupFragment extends Fragment {
     private HashMap<THING_CONCRETE_TYPE, List<String>> discoveredThings;

@@ -16,8 +16,8 @@ import edu.utexas.mpc.warble3.R;
 import edu.utexas.mpc.warble3.frontend.main_activity_fragments.ControlFragment;
 import edu.utexas.mpc.warble3.frontend.main_activity_fragments.SettingsFragment;
 import edu.utexas.mpc.warble3.frontend.main_activity_fragments.SetupFragment;
-import edu.utexas.mpc.warble3.model.THING_CONCRETE_TYPE;
-import edu.utexas.mpc.warble3.model.Thing;
+import edu.utexas.mpc.warble3.model.thingstructure.THING_CONCRETE_TYPE;
+import edu.utexas.mpc.warble3.model.thingstructure.Thing;
 import edu.utexas.mpc.warble3.model.discovery.DiscoveryAsyncTask;
 import edu.utexas.mpc.warble3.model.discovery.DiscoveryAsyncTaskComplete;
 
