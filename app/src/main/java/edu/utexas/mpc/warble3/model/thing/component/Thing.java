@@ -24,6 +24,7 @@ public abstract class Thing {
     private String manufacturerName;
 
     private List<ThingType> thingTypes;
+    private THING_CONCRETE_TYPE thingConcreteType;
 
     private List<Connection> connections;
     private List<Discovery> discoveries;
@@ -117,6 +118,14 @@ public abstract class Thing {
 
     public void setThingTypes(List<ThingType> thingTypes) {
         this.thingTypes = thingTypes;
+    }
+
+    public THING_CONCRETE_TYPE getThingConcreteType() {
+        return thingConcreteType;
+    }
+
+    public void setThingConcreteType(THING_CONCRETE_TYPE thingConcreteType) {
+        this.thingConcreteType = thingConcreteType;
     }
 
     public List<Connection> getConnections() {

@@ -5,7 +5,11 @@ public class ThingType {
 
     private THING_MAIN_TYPE thingMainType;
     private THING_FUNCTION_TYPE thingFunctionType;
-    private THING_CONCRETE_TYPE thingConcreteType;
+
+    public ThingType(THING_MAIN_TYPE thingMainType, THING_FUNCTION_TYPE thingFunctionType) {
+        this.thingMainType = thingMainType;
+        this.thingFunctionType = thingFunctionType;
+    }
 
     public THING_MAIN_TYPE getThingMainType() {
         return thingMainType;
@@ -23,18 +27,10 @@ public class ThingType {
         this.thingFunctionType = thingFunctionType;
     }
 
-    public THING_CONCRETE_TYPE getThingConcreteType() {
-        return thingConcreteType;
-    }
-
-    public void setThingConcreteType(THING_CONCRETE_TYPE thingConcreteType) {
-        this.thingConcreteType = thingConcreteType;
-    }
-
     @Override
     public String toString() {
         String string = "";
-        string += String.format("%s %s %s", thingMainType, thingFunctionType, thingConcreteType);
+        string += String.format("%s %s", thingMainType, thingFunctionType);
         return string;
     }
 }

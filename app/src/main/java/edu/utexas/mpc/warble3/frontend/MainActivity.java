@@ -77,10 +77,10 @@ public class MainActivity extends AppCompatActivity implements DiscoveryAsyncTas
         this.things = things;
 
         for (Thing thing: this.things) {
-            List<String> listThings = thingsHashMap.get(thing.getConcreteTypes().get(0));
+            List<String> listThings = thingsHashMap.get(thing.getThingConcreteType());
             if (listThings == null) listThings = new ArrayList<>();
             listThings.add(thing.getFriendlyName());
-            thingsHashMap.put(thing.getConcreteTypes().get(0), listThings);
+            thingsHashMap.put(thing.getThingConcreteType(), listThings);
         }
 
         setupFragment.updateDiscoveredThings(thingsHashMap);
