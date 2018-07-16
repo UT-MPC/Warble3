@@ -1,6 +1,7 @@
 package edu.utexas.mpc.warble3.model.thing.component;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 import edu.utexas.mpc.warble3.model.thing.feature.Accessor;
 
@@ -9,8 +10,11 @@ public abstract class Bridge extends Thing implements Accessor {
 
     public Bridge() {
         super();
-        setMainTypes(Arrays.asList(THING_MAIN_TYPE.ACCESSOR));
-        setFunctionTypes(Arrays.asList(THING_FUNCTION_TYPE.ACCESSOR));
-        setConcreteTypes(Arrays.asList(THING_CONCRETE_TYPE.BRIDGE));
+
+        List<ThingType> thingTypes = new ArrayList<>();
+        thingTypes.add(new ThingType(THING_MAIN_TYPE.ACCESSOR, THING_FUNCTION_TYPE.ACCESSOR));
+
+        setThingTypes(thingTypes);
+        setThingConcreteType(THING_CONCRETE_TYPE.BRIDGE);
     }
 }

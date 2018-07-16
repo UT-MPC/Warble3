@@ -10,7 +10,6 @@ import org.jdom2.input.SAXBuilder;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -19,6 +18,7 @@ import edu.utexas.mpc.warble3.model.thing.component.THING_CONCRETE_TYPE;
 import edu.utexas.mpc.warble3.model.thing.component.THING_FUNCTION_TYPE;
 import edu.utexas.mpc.warble3.model.thing.component.THING_MAIN_TYPE;
 import edu.utexas.mpc.warble3.model.thing.component.Thing;
+import edu.utexas.mpc.warble3.model.thing.component.ThingType;
 import edu.utexas.mpc.warble3.model.thing.connect.Connection;
 import edu.utexas.mpc.warble3.model.thing.connect.HttpConnection;
 import edu.utexas.mpc.warble3.model.thing.discovery.Discovery;
@@ -98,8 +98,8 @@ public class PhilipsHueUPnPDiscovery extends SSDPDiscovery {
                 manufacturerModelNumber = deviceElement.getChild("modelNumber", rootElement.getNamespace()).getText();
                 manufacturerName = deviceElement.getChild("manufacturer", rootElement.getNamespace()).getText();
 
-                mainType = THING_MAIN_TYPE.ACCESSOR;
-                functionType = THING_FUNCTION_TYPE.ACCESSOR;
+                List<ThingType> thingTypes = new ArrayList<>();
+                thingTypes.add(new ThingType(THING_MAIN_TYPE.ACCESSOR, THING_FUNCTION_TYPE.ACCESSOR));
                 concreteType = THING_CONCRETE_TYPE.BRIDGE;
 
                 HttpConnection httpConnection = new HttpConnection();
@@ -121,9 +121,8 @@ public class PhilipsHueUPnPDiscovery extends SSDPDiscovery {
                 new_bridge.setManufacturerModelName(manufacturerModelName);
                 new_bridge.setManufacturerModelNumber(manufacturerModelNumber);
                 new_bridge.setManufacturerName(manufacturerName);
-                new_bridge.setMainTypes(Arrays.asList(mainType));
-                new_bridge.setFunctionTypes(Arrays.asList(functionType));
-                new_bridge.setConcreteTypes(Arrays.asList(concreteType));
+                new_bridge.setThingTypes(thingTypes);
+                new_bridge.setThingConcreteType(concreteType);
                 new_bridge.setConnections(connections);
                 new_bridge.setDiscoveries(discoveries);
 

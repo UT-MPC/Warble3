@@ -1,14 +1,19 @@
 package edu.utexas.mpc.warble3.model.thing.component;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Thermostat extends Thing {
     public static final String TAG = "Thermostat";
 
     public Thermostat() {
         super();
-        setMainTypes(Arrays.asList(THING_MAIN_TYPE.ACTUATOR, THING_MAIN_TYPE.SENSOR));
-        setFunctionTypes(Arrays.asList(THING_FUNCTION_TYPE.ROOM_CONDITIONING, THING_FUNCTION_TYPE.ROOM_CONDITIONING));
-        setConcreteTypes(Arrays.asList(THING_CONCRETE_TYPE.THERMOSTAT, THING_CONCRETE_TYPE.THERMOSTAT));
+
+        List<ThingType> thingTypes = new ArrayList<>();
+        thingTypes.add(new ThingType(THING_MAIN_TYPE.ACTUATOR, THING_FUNCTION_TYPE.ROOM_CONDITIONING));
+        thingTypes.add(new ThingType(THING_MAIN_TYPE.SENSOR, THING_FUNCTION_TYPE.ROOM_CONDITIONING));
+
+        setThingTypes(thingTypes);
+        setThingConcreteType(THING_CONCRETE_TYPE.THERMOSTAT);
     }
 }

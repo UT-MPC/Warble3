@@ -1,14 +1,18 @@
 package edu.utexas.mpc.warble3.model.thing.component;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Light extends Thing {
     public static final String TAG = "Light";
 
     public Light() {
         super();
-        setMainTypes(Arrays.asList(THING_MAIN_TYPE.ACTUATOR));
-        setFunctionTypes(Arrays.asList(THING_FUNCTION_TYPE.LIGHTING));
-        setConcreteTypes(Arrays.asList(THING_CONCRETE_TYPE.LIGHT));
+
+        List<ThingType> thingTypes = new ArrayList<>();
+        thingTypes.add(new ThingType(THING_MAIN_TYPE.ACTUATOR, THING_FUNCTION_TYPE.LIGHTING));
+
+        setThingTypes(thingTypes);
+        setThingConcreteType(THING_CONCRETE_TYPE.LIGHT);
     }
 }
