@@ -23,9 +23,7 @@ public abstract class Thing {
     private String manufacturerModelNumber;
     private String manufacturerName;
 
-    private List<THING_MAIN_TYPE> mainTypes;
-    private List<THING_FUNCTION_TYPE> functionTypes;
-    private List<THING_CONCRETE_TYPE> concreteTypes;
+    private List<ThingType> thingTypes;
 
     private List<Connection> connections;
     private List<Discovery> discoveries;
@@ -113,28 +111,12 @@ public abstract class Thing {
         this.manufacturerName = manufacturerName;
     }
 
-    public List<THING_MAIN_TYPE> getMainTypes() {
-        return mainTypes;
+    public List<ThingType> getThingTypes() {
+        return thingTypes;
     }
 
-    public void setMainTypes(List<THING_MAIN_TYPE> mainTypes) {
-        this.mainTypes = mainTypes;
-    }
-
-    public List<THING_FUNCTION_TYPE> getFunctionTypes() {
-        return functionTypes;
-    }
-
-    public void setFunctionTypes(List<THING_FUNCTION_TYPE> functionTypes) {
-        this.functionTypes = functionTypes;
-    }
-
-    public List<THING_CONCRETE_TYPE> getConcreteTypes() {
-        return concreteTypes;
-    }
-
-    public void setConcreteTypes(List<THING_CONCRETE_TYPE> concreteTypes) {
-        this.concreteTypes = concreteTypes;
+    public void setThingTypes(List<ThingType> thingTypes) {
+        this.thingTypes = thingTypes;
     }
 
     public List<Connection> getConnections() {
@@ -151,6 +133,22 @@ public abstract class Thing {
 
     public void setDiscoveries(List<Discovery> discoveries) {
         this.discoveries = discoveries;
+    }
+
+    public Boolean getCredentialRequired() {
+        return isCredentialRequired;
+    }
+
+    public void setCredentialRequired(Boolean credentialRequired) {
+        isCredentialRequired = credentialRequired;
+    }
+
+    public List<ThingAccessCredential> getThingAccessCredentials() {
+        return thingAccessCredentials;
+    }
+
+    public void setThingAccessCredentials(List<ThingAccessCredential> thingAccessCredentials) {
+        this.thingAccessCredentials = thingAccessCredentials;
     }
 
     @Override
