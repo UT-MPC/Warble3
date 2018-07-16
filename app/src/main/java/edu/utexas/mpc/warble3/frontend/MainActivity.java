@@ -16,10 +16,10 @@ import edu.utexas.mpc.warble3.R;
 import edu.utexas.mpc.warble3.frontend.main_activity_fragments.ControlFragment;
 import edu.utexas.mpc.warble3.frontend.main_activity_fragments.SettingsFragment;
 import edu.utexas.mpc.warble3.frontend.main_activity_fragments.SetupFragment;
-import edu.utexas.mpc.warble3.model.thingstructure.THING_CONCRETE_TYPE;
-import edu.utexas.mpc.warble3.model.thingstructure.Thing;
-import edu.utexas.mpc.warble3.model.discovery.DiscoveryAsyncTask;
-import edu.utexas.mpc.warble3.model.discovery.DiscoveryAsyncTaskComplete;
+import edu.utexas.mpc.warble3.model.thing.component.THING_CONCRETE_TYPE;
+import edu.utexas.mpc.warble3.model.thing.component.Thing;
+import edu.utexas.mpc.warble3.model.thing.discovery.DiscoveryAsyncTask;
+import edu.utexas.mpc.warble3.model.thing.discovery.DiscoveryAsyncTaskComplete;
 
 public class MainActivity extends AppCompatActivity implements DiscoveryAsyncTaskComplete {
     private static final String TAG = "MainActivity";
