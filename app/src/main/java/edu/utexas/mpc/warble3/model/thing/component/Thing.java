@@ -116,7 +116,7 @@ public abstract class Thing {
         return thingTypes;
     }
 
-    private void setThingTypes(List<ThingType> thingTypes) {
+    protected void setThingTypes(List<ThingType> thingTypes) {
         this.thingTypes = thingTypes;
     }
 
@@ -124,7 +124,7 @@ public abstract class Thing {
         return thingConcreteType;
     }
 
-    private void setThingConcreteType(THING_CONCRETE_TYPE thingConcreteType) {
+    protected void setThingConcreteType(THING_CONCRETE_TYPE thingConcreteType) {
         this.thingConcreteType = thingConcreteType;
     }
 
@@ -140,7 +140,7 @@ public abstract class Thing {
         return discoveries;
     }
 
-    private void setDiscoveries(List<Discovery> discoveries) {
+    protected void setDiscoveries(List<Discovery> discoveries) {
         this.discoveries = discoveries;
     }
 
