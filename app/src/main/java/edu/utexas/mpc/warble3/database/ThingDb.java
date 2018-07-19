@@ -3,11 +3,9 @@ package edu.utexas.mpc.warble3.database;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
-import android.arch.persistence.room.TypeConverter;
 import android.arch.persistence.room.TypeConverters;
-import android.support.annotation.NonNull;
 
-import edu.utexas.mpc.warble3.database.converter.THING_CONCRETE_TYPE_converter;
+import edu.utexas.mpc.warble3.database.type_converter.THING_CONCRETE_TYPE_converter;
 import edu.utexas.mpc.warble3.model.thing.component.THING_CONCRETE_TYPE;
 
 @Entity(tableName = "ThingDb")

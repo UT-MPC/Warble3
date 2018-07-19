@@ -24,4 +24,7 @@ public interface UserDbDao {
 
     @Query("DELETE FROM UserDb")
     void deleteAllUserDbs();
+
+    @Query("SELECT * FROM UserDb WHERE username=:username")
+    UserDb getUserDb(String username);
 }

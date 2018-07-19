@@ -1,4 +1,4 @@
-package edu.utexas.mpc.warble3.database.converter;
+package edu.utexas.mpc.warble3.database.type_converter;
 
 import android.arch.persistence.room.TypeConverter;
 
