@@ -9,6 +9,7 @@
     <string name="sendButton_welcomePage">GO</string>
     <string name="usernameHint_welcomePage">enter your username</string>
     <string name="newUsernameHint_welcomePage">enter new username</string>
+    <string name="duplicateUsername_welcomePage">Username already exists. Try another</string>
 
     <!--Main Page-->
     <string name="fragmentLabelSetup_mainPage">Setup</string>
