@@ -1,5 +1,7 @@
 package edu.utexas.mpc.warble3.model.thing.connect;
 
+import edu.utexas.mpc.warble3.model.thing.component.Thing;
+
 public class HttpConnection extends Connection {
     private static final String TAG = "HttpConnection";
 
@@ -11,6 +13,10 @@ public class HttpConnection extends Connection {
     private String url;
     private String ipAddress;
     private IP_TYPE ipType;
+
+    public HttpConnection(Thing source, Thing destination) {
+        super(source, destination);
+    }
 
     public String getUrl() {
         return url;
