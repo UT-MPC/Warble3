@@ -18,10 +18,8 @@ import edu.utexas.mpc.warble3.model.thing.component.THING_CONCRETE_TYPE;
 import edu.utexas.mpc.warble3.model.thing.component.THING_FUNCTION_TYPE;
 import edu.utexas.mpc.warble3.model.thing.component.THING_MAIN_TYPE;
 import edu.utexas.mpc.warble3.model.thing.component.Thing;
-import edu.utexas.mpc.warble3.model.thing.component.ThingType;
 import edu.utexas.mpc.warble3.model.thing.connect.Connection;
 import edu.utexas.mpc.warble3.model.thing.connect.HttpConnection;
-import edu.utexas.mpc.warble3.model.thing.discovery.Discovery;
 import edu.utexas.mpc.warble3.model.thing.discovery.SSDPDiscovery;
 import edu.utexas.mpc.warble3.util.Logging;
 
@@ -74,7 +72,6 @@ public class PhilipsHueUPnPDiscovery extends SSDPDiscovery {
             THING_CONCRETE_TYPE concreteType;
 
             List<Connection> connections = new ArrayList<>();
-            List<Discovery> discoveries = new ArrayList<>();
 
             PhilipsHueBridge new_bridge;
 
@@ -98,17 +95,11 @@ public class PhilipsHueUPnPDiscovery extends SSDPDiscovery {
                 manufacturerModelNumber = deviceElement.getChild("modelNumber", rootElement.getNamespace()).getText();
                 manufacturerName = deviceElement.getChild("manufacturer", rootElement.getNamespace()).getText();
 
-                List<ThingType> thingTypes = new ArrayList<>();
-                thingTypes.add(new ThingType(THING_MAIN_TYPE.ACCESSOR, THING_FUNCTION_TYPE.ACCESSOR));
-                concreteType = THING_CONCRETE_TYPE.BRIDGE;
-
                 HttpConnection httpConnection = new HttpConnection();
                 httpConnection.setUrl(URLBaseElement.getText());
                 httpConnection.setIpType(HttpConnection.IP_TYPE.IPv4);
                 httpConnection.setIpAddress(getIpAddressFromURL(URLBaseElement.getText()));
                 connections.add(httpConnection);
-
-                discoveries.add(this);
 
                 new_bridge = new PhilipsHueBridge();
                 new_bridge.setName(name);
@@ -121,10 +112,7 @@ public class PhilipsHueUPnPDiscovery extends SSDPDiscovery {
                 new_bridge.setManufacturerModelName(manufacturerModelName);
                 new_bridge.setManufacturerModelNumber(manufacturerModelNumber);
                 new_bridge.setManufacturerName(manufacturerName);
-                new_bridge.setThingTypes(thingTypes);
-                new_bridge.setThingConcreteType(concreteType);
                 new_bridge.setConnections(connections);
-                new_bridge.setDiscoveries(discoveries);
 
                 return new_bridge;
             }
