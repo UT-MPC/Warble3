@@ -67,10 +67,6 @@ public class PhilipsHueUPnPDiscovery extends SSDPDiscovery {
             String manufacturerModelNumber;
             String manufacturerName;
 
-            THING_MAIN_TYPE mainType;
-            THING_FUNCTION_TYPE functionType;
-            THING_CONCRETE_TYPE concreteType;
-
             List<Connection> connections = new ArrayList<>();
 
             PhilipsHueBridge new_bridge;
@@ -82,36 +78,36 @@ public class PhilipsHueUPnPDiscovery extends SSDPDiscovery {
                 Element URLBaseElement = rootElement.getChild("URLBase", rootElement.getNamespace());
                 Element deviceElement = rootElement.getChild("device", rootElement.getNamespace());
 
+                new_bridge = new PhilipsHueBridge();
+
                 name = deviceElement.getChild("friendlyName", rootElement.getNamespace()).getText();
                 friendlyName = deviceElement.getChild("friendlyName", rootElement.getNamespace()).getText();
                 uuid = deviceElement.getChild("UDN", rootElement.getNamespace()).getText().replace("uuid:", "");
+                new_bridge.setName(name);
+                new_bridge.setFriendlyName(friendlyName);
+                new_bridge.setUuid(uuid);
 
                 accessName = null;
                 accessUsername = null;
                 accessPasscode = null;
+                new_bridge.setAccessName(accessName);
+                new_bridge.setAccessUsername(accessUsername);
+                new_bridge.setAccessPasscode(accessPasscode);
 
                 manufacturerSerialNumber = deviceElement.getChild("serialNumber", rootElement.getNamespace()).getText();
                 manufacturerModelName = deviceElement.getChild("modelName", rootElement.getNamespace()).getText();
                 manufacturerModelNumber = deviceElement.getChild("modelNumber", rootElement.getNamespace()).getText();
                 manufacturerName = deviceElement.getChild("manufacturer", rootElement.getNamespace()).getText();
-
-                HttpConnection httpConnection = new HttpConnection();
-                httpConnection.setUrl(URLBaseElement.getText());
-                httpConnection.setIpType(HttpConnection.IP_TYPE.IPv4);
-                httpConnection.setIpAddress(getIpAddressFromURL(URLBaseElement.getText()));
-                connections.add(httpConnection);
-
-                new_bridge = new PhilipsHueBridge();
-                new_bridge.setName(name);
-                new_bridge.setFriendlyName(friendlyName);
-                new_bridge.setUuid(uuid);
-                new_bridge.setAccessName(accessName);
-                new_bridge.setAccessUsername(accessUsername);
-                new_bridge.setAccessPasscode(accessPasscode);
                 new_bridge.setManufacturerSerialNumber(manufacturerSerialNumber);
                 new_bridge.setManufacturerModelName(manufacturerModelName);
                 new_bridge.setManufacturerModelNumber(manufacturerModelNumber);
                 new_bridge.setManufacturerName(manufacturerName);
+
+                HttpConnection httpConnection = new HttpConnection(new_bridge, null);
+                httpConnection.setUrl(URLBaseElement.getText());
+                httpConnection.setIpType(HttpConnection.IP_TYPE.IPv4);
+                httpConnection.setIpAddress(getIpAddressFromURL(URLBaseElement.getText()));
+                connections.add(httpConnection);
                 new_bridge.setConnections(connections);
 
                 return new_bridge;
