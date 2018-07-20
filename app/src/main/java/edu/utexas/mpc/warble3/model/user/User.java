@@ -37,12 +37,4 @@ public class User {
     public void setEmailAddress(String emailAddress) {
         this.emailAddress = emailAddress;
     }
-
-    public static Boolean validateUsername(String username) {
-        Boolean valid = true;
-        if (username.equals("")) {
-            valid = false;
-        }
-        return valid;
-    }
 }

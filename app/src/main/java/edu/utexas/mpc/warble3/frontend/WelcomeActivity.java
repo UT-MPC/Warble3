@@ -15,7 +15,11 @@ import edu.utexas.mpc.warble3.R;
 import edu.utexas.mpc.warble3.database.AppDatabase;
 import edu.utexas.mpc.warble3.database.UserDb;
 import edu.utexas.mpc.warble3.database.converter.UserConverter;
+import edu.utexas.mpc.warble3.model.user.DuplicateUsernameException;
+import edu.utexas.mpc.warble3.model.user.InvalidPasswordException;
+import edu.utexas.mpc.warble3.model.user.InvalidUsernameException;
 import edu.utexas.mpc.warble3.model.user.User;
+import edu.utexas.mpc.warble3.model.user.UserManager;
 import edu.utexas.mpc.warble3.util.Logging;
 import edu.utexas.mpc.warble3.util.SharedPreferenceHandler;
 
@@ -27,6 +31,8 @@ public class WelcomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        final UserManager userManager = UserManager.getInstance();
 
         SharedPreferences sharedPrefs = SharedPreferenceHandler.getSharedPrefsCurrentUserSettings(this);
         if (sharedPrefs.getString(SHARED_PREFS_USERNAME, null) != null) {
@@ -43,30 +49,48 @@ public class WelcomeActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     String enteredUsername = username_editText.getText().toString();
-                    if (Logging.INFO) Log.i(TAG, String.format("Entered username is %s", enteredUsername));
+                    String enteredPassword = "password";
+                    if (Logging.INFO) Log.i(TAG, String.format("Entered username = %s, password = %s", enteredUsername, enteredPassword));
 
-                    if (!User.validateUsername(enteredUsername)) {
-                        Toast.makeText(WelcomeActivity.this, getResources().getString(R.string.invalidUsername_welcomePage), Toast.LENGTH_SHORT).show();
+                    User user = UserManager.getInstance().authenticateUser(enteredUsername, enteredPassword);
+
+                    if (user == null) {
+                        if (Logging.INFO) Log.i(TAG, String.format("Authentication unsuccessful", enteredUsername));
+                        Toast.makeText(WelcomeActivity.this, getResources().getString(R.string.authenticationUnsuccessful_welcomePage), Toast.LENGTH_SHORT).show();
                     }
                     else {
-                        AppDatabase db = AppDatabase.getDatabase(WelcomeActivity.this);
-                        User currentUser = UserConverter.toUser(db.userDbDao().getUserDb(enteredUsername));
-                        if (currentUser == null) {
-                            if (Logging.INFO) Log.i(TAG, String.format("Username %s is NOT found in database", enteredUsername));
+                        if (Logging.INFO) Log.i(TAG, String.format("Username %s is found in database", enteredUsername));
 
-                            Toast.makeText(WelcomeActivity.this, getResources().getString(R.string.usernameNotFound_welcomePage), Toast.LENGTH_SHORT).show();
-                        }
-                        else {
-                            if (Logging.INFO) Log.i(TAG, String.format("Username %s is found in database", enteredUsername));
+                        SharedPreferences.Editor editor = SharedPreferenceHandler.getSharedPrefsEditorCurrentUserSettings(WelcomeActivity.this);
+                        editor.putString(SHARED_PREFS_USERNAME, enteredUsername);
+                        editor.apply();
 
-                            SharedPreferences.Editor editor = SharedPreferenceHandler.getSharedPrefsEditorCurrentUserSettings(WelcomeActivity.this);
-                            editor.putString(SHARED_PREFS_USERNAME, enteredUsername);
-                            editor.apply();
-
-                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                            startActivity(intent);
-                        }
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(intent);
                     }
+
+//                    if (!User.validateUsername(enteredUsername)) {
+//                        Toast.makeText(WelcomeActivity.this, getResources().getString(R.string.invalidUsername_welcomePage), Toast.LENGTH_SHORT).show();
+//                    }
+//                    else {
+//                        AppDatabase db = AppDatabase.getDatabase(WelcomeActivity.this);
+//                        User currentUser = UserConverter.toUser(db.userDbDao().getUserDb(enteredUsername));
+//                        if (currentUser == null) {
+//                            if (Logging.INFO) Log.i(TAG, String.format("Username %s is NOT found in database", enteredUsername));
+//
+//                            Toast.makeText(WelcomeActivity.this, getResources().getString(R.string.usernameNotFound_welcomePage), Toast.LENGTH_SHORT).show();
+//                        }
+//                        else {
+//                            if (Logging.INFO) Log.i(TAG, String.format("Username %s is found in database", enteredUsername));
+//
+//                            SharedPreferences.Editor editor = SharedPreferenceHandler.getSharedPrefsEditorCurrentUserSettings(WelcomeActivity.this);
+//                            editor.putString(SHARED_PREFS_USERNAME, enteredUsername);
+//                            editor.apply();
+//
+//                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+//                            startActivity(intent);
+//                        }
+//                    }
                 }
             };
             Button gobutton1 = findViewById(R.id.usernameSend_welcomePage_button);
@@ -77,31 +101,54 @@ public class WelcomeActivity extends AppCompatActivity {
 
                 public void onClick(View view) {
                     String enteredNewUsername = new_username_editText.getText().toString();
-                    if (Logging.INFO) Log.i(TAG, String.format("Entered new username is %s", enteredNewUsername));
+                    String enteredNewPassword = "password";
+                    if (Logging.INFO) Log.i(TAG, String.format("Entered new username = %s, new password = %s", enteredNewUsername, enteredNewPassword));
 
-                    if (!User.validateUsername(enteredNewUsername)) {
+                    try {
+                        userManager.createUser(enteredNewUsername, enteredNewPassword);
+                        if (Logging.INFO) Log.i(TAG, String.format("Username %s is successfully created", enteredNewUsername));
+                        Toast.makeText(WelcomeActivity.this, getResources().getString(R.string.newUsernameInserted_welcomePage), Toast.LENGTH_SHORT).show();
+                    }
+                    catch (DuplicateUsernameException e) {
+                        if (Logging.INFO) Log.i(TAG, String.format("Username %s is already in database", enteredNewUsername));
+                        Toast.makeText(WelcomeActivity.this, getResources().getString(R.string.duplicateUsername_welcomePage), Toast.LENGTH_SHORT).show();
+                    }
+                    catch (InvalidUsernameException e) {
+                        if (Logging.INFO) Log.i(TAG, String.format("Username %s is invalid", enteredNewUsername));
                         Toast.makeText(WelcomeActivity.this, getResources().getString(R.string.invalidUsername_welcomePage), Toast.LENGTH_SHORT).show();
                     }
-                    else {
-                        AppDatabase db = AppDatabase.getDatabase(WelcomeActivity.this);
-
-                        try {
-                            db.userDbDao().insert(new UserDb(enteredNewUsername, "password"));
-
-                            if (Logging.INFO) Log.i(TAG, String.format("Username %s is successfully inserted to database", enteredNewUsername));
-
-                            Toast.makeText(WelcomeActivity.this, getResources().getString(R.string.newUsernameInserted_welcomePage), Toast.LENGTH_SHORT).show();
-
-                            SharedPreferences.Editor editor = SharedPreferenceHandler.getSharedPrefsEditorCurrentUserSettings(WelcomeActivity.this);
-                            editor.putString(SHARED_PREFS_USERNAME, enteredNewUsername);
-                            editor.apply();
-                        }
-                        catch (SQLiteConstraintException e) {
-                            if (Logging.INFO) Log.i(TAG, String.format("Username %s is already in database", enteredNewUsername));
-
-                            Toast.makeText(WelcomeActivity.this, getResources().getString(R.string.duplicateUsername_welcomePage), Toast.LENGTH_SHORT).show();
-                        }
+                    catch (InvalidPasswordException e) {
+                        if (Logging.INFO) Log.i(TAG, String.format("Password %s is invalid", enteredNewPassword));
+                        Toast.makeText(WelcomeActivity.this, getResources().getString(R.string.invalidPassword_welcomePage), Toast.LENGTH_SHORT).show();
                     }
+
+                    SharedPreferences.Editor editor = SharedPreferenceHandler.getSharedPrefsEditorCurrentUserSettings(WelcomeActivity.this);
+                    editor.putString(SHARED_PREFS_USERNAME, enteredNewUsername);
+                    editor.apply();
+
+//                    if (!User.validateUsername(enteredNewUsername)) {
+//                        Toast.makeText(WelcomeActivity.this, getResources().getString(R.string.invalidUsername_welcomePage), Toast.LENGTH_SHORT).show();
+//                    }
+//                    else {
+//                        AppDatabase db = AppDatabase.getDatabase(WelcomeActivity.this);
+//
+//                        try {
+//                            db.userDbDao().insert(new UserDb(enteredNewUsername, "password"));
+//
+//                            if (Logging.INFO) Log.i(TAG, String.format("Username %s is successfully inserted to database", enteredNewUsername));
+//
+//                            Toast.makeText(WelcomeActivity.this, getResources().getString(R.string.newUsernameInserted_welcomePage), Toast.LENGTH_SHORT).show();
+//
+//                            SharedPreferences.Editor editor = SharedPreferenceHandler.getSharedPrefsEditorCurrentUserSettings(WelcomeActivity.this);
+//                            editor.putString(SHARED_PREFS_USERNAME, enteredNewUsername);
+//                            editor.apply();
+//                        }
+//                        catch (SQLiteConstraintException e) {
+//                            if (Logging.INFO) Log.i(TAG, String.format("Username %s is already in database", enteredNewUsername));
+//
+//                            Toast.makeText(WelcomeActivity.this, getResources().getString(R.string.duplicateUsername_welcomePage), Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
                 }
             };
             Button gobutton2 = findViewById(R.id.newUsernameSend_welcomePage_button);

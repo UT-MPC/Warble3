@@ -20,10 +20,10 @@ public class UserDb {
     private String password;
     private String emailAddress;
 
+    @Ignore
     public UserDb() {}
 
     public UserDb(@NonNull String username, String password) {
-
         this.username = username;
         this.password = password;
     }

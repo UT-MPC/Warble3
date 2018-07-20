@@ -9,10 +9,11 @@
     <string name="sendButton_welcomePage">GO</string>
     <string name="usernameHint_welcomePage">enter your username</string>
     <string name="newUsernameHint_welcomePage">enter new username</string>
-    <string name="usernameNotFound_welcomePage">Entered username is NOT found</string>
+    <string name="authenticationUnsuccessful_welcomePage">Authentication is unsuccessful</string>
     <string name="duplicateUsername_welcomePage">Username already exists. Try another</string>
     <string name="newUsernameInserted_welcomePage">New username is successfully accepted</string>
     <string name="invalidUsername_welcomePage">Please enter a valid username</string>
+    <string name="invalidPassword_welcomePage">Please enter a valid password</string>
 
     <!--Main Page-->
     <string name="fragmentLabelSetup_mainPage">Setup</string>
