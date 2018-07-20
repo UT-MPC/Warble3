@@ -7,8 +7,6 @@ import android.support.annotation.NonNull;
 
 import java.util.Locale;
 
-import edu.utexas.mpc.warble3.model.user.User;
-
 @Entity(tableName = "UserDb")
 public class UserDb {
     @Ignore

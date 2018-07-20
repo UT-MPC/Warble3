@@ -14,9 +14,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import edu.utexas.mpc.warble3.model.thing.component.THING_CONCRETE_TYPE;
-import edu.utexas.mpc.warble3.model.thing.component.THING_FUNCTION_TYPE;
-import edu.utexas.mpc.warble3.model.thing.component.THING_MAIN_TYPE;
 import edu.utexas.mpc.warble3.model.thing.component.Thing;
 import edu.utexas.mpc.warble3.model.thing.connect.Connection;
 import edu.utexas.mpc.warble3.model.thing.connect.HttpConnection;

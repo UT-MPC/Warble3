@@ -2,7 +2,6 @@ package edu.utexas.mpc.warble3.frontend;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteConstraintException;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -12,9 +11,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import edu.utexas.mpc.warble3.R;
-import edu.utexas.mpc.warble3.database.AppDatabase;
-import edu.utexas.mpc.warble3.database.UserDb;
-import edu.utexas.mpc.warble3.database.converter.UserConverter;
 import edu.utexas.mpc.warble3.model.user.DuplicateUsernameException;
 import edu.utexas.mpc.warble3.model.user.InvalidPasswordException;
 import edu.utexas.mpc.warble3.model.user.InvalidUsernameException;
@@ -68,29 +64,6 @@ public class WelcomeActivity extends AppCompatActivity {
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                         startActivity(intent);
                     }
-
-//                    if (!User.validateUsername(enteredUsername)) {
-//                        Toast.makeText(WelcomeActivity.this, getResources().getString(R.string.invalidUsername_welcomePage), Toast.LENGTH_SHORT).show();
-//                    }
-//                    else {
-//                        AppDatabase db = AppDatabase.getDatabase(WelcomeActivity.this);
-//                        User currentUser = UserConverter.toUser(db.userDbDao().getUserDb(enteredUsername));
-//                        if (currentUser == null) {
-//                            if (Logging.INFO) Log.i(TAG, String.format("Username %s is NOT found in database", enteredUsername));
-//
-//                            Toast.makeText(WelcomeActivity.this, getResources().getString(R.string.usernameNotFound_welcomePage), Toast.LENGTH_SHORT).show();
-//                        }
-//                        else {
-//                            if (Logging.INFO) Log.i(TAG, String.format("Username %s is found in database", enteredUsername));
-//
-//                            SharedPreferences.Editor editor = SharedPreferenceHandler.getSharedPrefsEditorCurrentUserSettings(WelcomeActivity.this);
-//                            editor.putString(SHARED_PREFS_USERNAME, enteredUsername);
-//                            editor.apply();
-//
-//                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-//                            startActivity(intent);
-//                        }
-//                    }
                 }
             };
             Button gobutton1 = findViewById(R.id.usernameSend_welcomePage_button);
@@ -125,30 +98,6 @@ public class WelcomeActivity extends AppCompatActivity {
                     SharedPreferences.Editor editor = SharedPreferenceHandler.getSharedPrefsEditorCurrentUserSettings(WelcomeActivity.this);
                     editor.putString(SHARED_PREFS_USERNAME, enteredNewUsername);
                     editor.apply();
-
-//                    if (!User.validateUsername(enteredNewUsername)) {
-//                        Toast.makeText(WelcomeActivity.this, getResources().getString(R.string.invalidUsername_welcomePage), Toast.LENGTH_SHORT).show();
-//                    }
-//                    else {
-//                        AppDatabase db = AppDatabase.getDatabase(WelcomeActivity.this);
-//
-//                        try {
-//                            db.userDbDao().insert(new UserDb(enteredNewUsername, "password"));
-//
-//                            if (Logging.INFO) Log.i(TAG, String.format("Username %s is successfully inserted to database", enteredNewUsername));
-//
-//                            Toast.makeText(WelcomeActivity.this, getResources().getString(R.string.newUsernameInserted_welcomePage), Toast.LENGTH_SHORT).show();
-//
-//                            SharedPreferences.Editor editor = SharedPreferenceHandler.getSharedPrefsEditorCurrentUserSettings(WelcomeActivity.this);
-//                            editor.putString(SHARED_PREFS_USERNAME, enteredNewUsername);
-//                            editor.apply();
-//                        }
-//                        catch (SQLiteConstraintException e) {
-//                            if (Logging.INFO) Log.i(TAG, String.format("Username %s is already in database", enteredNewUsername));
-//
-//                            Toast.makeText(WelcomeActivity.this, getResources().getString(R.string.duplicateUsername_welcomePage), Toast.LENGTH_SHORT).show();
-//                        }
-//                    }
                 }
             };
             Button gobutton2 = findViewById(R.id.newUsernameSend_welcomePage_button);

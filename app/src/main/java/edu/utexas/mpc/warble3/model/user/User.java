@@ -1,7 +1,5 @@
 package edu.utexas.mpc.warble3.model.user;
 
-import java.sql.ResultSet;
-
 public class User {
     public static final String TAG = "User";
 
