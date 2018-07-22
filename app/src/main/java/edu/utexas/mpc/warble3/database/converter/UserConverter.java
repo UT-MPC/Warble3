@@ -1,5 +1,8 @@
 package edu.utexas.mpc.warble3.database.converter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import edu.utexas.mpc.warble3.database.UserDb;
 import edu.utexas.mpc.warble3.model.user.User;
 
@@ -15,6 +18,14 @@ public class UserConverter {
         }
     }
 
+    public static List<User> toUsers(List<UserDb> userDbs) {
+        List<User> users = new ArrayList<>();
+        for (UserDb userDb : userDbs) {
+            users.add(toUser(userDb));
+        }
+        return users;
+    }
+
     public static UserDb toUserDb(User user) {
         if (user == null) {
             return null;
@@ -24,5 +35,13 @@ public class UserConverter {
             userDb.setEmailAddress(user.getEmailAddress());
             return userDb;
         }
+    }
+
+    public static List<UserDb> toUserDbs(List<User> users) {
+        List<UserDb> userDbs = new ArrayList<>();
+        for (User user : users) {
+            userDbs.add(toUserDb(user));
+        }
+        return userDbs;
     }
 }

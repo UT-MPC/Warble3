@@ -160,6 +160,8 @@ public abstract class Thing {
         this.thingAccessCredentials = thingAccessCredentials;
     }
 
+    public abstract Boolean authenticate();
+
     @Override
     public String toString() {
         String string = "";

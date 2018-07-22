@@ -20,6 +20,6 @@ public class WarbleApplication extends Application {
         Context appContext = getApplicationContext();
 
         AppDatabase.initializeDatabase(appContext);
-        Resource.getInstance();
+        Resource.initializeInstance();
     }
 }
