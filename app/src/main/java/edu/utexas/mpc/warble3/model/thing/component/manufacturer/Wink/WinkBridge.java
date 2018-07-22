@@ -40,4 +40,9 @@ public class WinkBridge extends Bridge {
     public Boolean updateThingsState(List<Thing> things, List<ThingState> thingsState, Boolean postCheck) {
         return null;
     }
+
+    @Override
+    public Boolean authenticate() {
+        return false;
+    }
 }

@@ -51,6 +51,11 @@ public class PhilipsHueBridge extends Bridge {
     }
 
     @Override
+    public Boolean authenticate() {
+        return false;
+    }
+
+    @Override
     public String toString() {
         String string = super.toString();
         string += String.format(", Connections: %s", getConnections().toString());

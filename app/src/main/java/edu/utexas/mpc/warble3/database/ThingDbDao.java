@@ -8,6 +8,8 @@ import android.arch.persistence.room.Update;
 
 import java.util.List;
 
+import edu.utexas.mpc.warble3.model.thing.component.Thing;
+
 @Dao
 public interface ThingDbDao {
     @Insert
@@ -22,12 +24,12 @@ public interface ThingDbDao {
     @Query("SELECT * FROM ThingDb")
     List<ThingDb> getAllThingDbs();
 
-    @Query("DELETE FROM UserDb")
+    @Query("DELETE FROM ThingDb")
     void deleteAllThingDbs();
 
     @Query("SELECT * FROM ThingDb WHERE dbid=:dbid")
-    UserDb getThingDb(long dbid);
+    ThingDb getThingDb(long dbid);
 
     @Query("SELECT * FROM ThingDb WHERE uuid=:uuid")
-    UserDb getThingDb(String uuid);
+    ThingDb getThingDb(String uuid);
 }

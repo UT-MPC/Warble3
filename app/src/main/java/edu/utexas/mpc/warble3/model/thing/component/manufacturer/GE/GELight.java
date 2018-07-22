@@ -6,4 +6,9 @@ public class GELight extends Light {
     public GELight() {
         super();
     }
+
+    @Override
+    public Boolean authenticate() {
+        return false;
+    }
 }
