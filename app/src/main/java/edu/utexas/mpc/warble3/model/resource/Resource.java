@@ -46,7 +46,7 @@ public class Resource {
 
     // User
     public User getUser(String username) {
-        // TODO: implement
+        userManager.getUser(username);
         return null;
     }
 
