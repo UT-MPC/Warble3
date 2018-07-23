@@ -8,8 +8,6 @@ import android.arch.persistence.room.Update;
 
 import java.util.List;
 
-import edu.utexas.mpc.warble3.model.thing.component.Thing;
-
 @Dao
 public interface ThingDbDao {
     @Insert
