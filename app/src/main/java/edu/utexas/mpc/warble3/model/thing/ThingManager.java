@@ -56,12 +56,14 @@ public class ThingManager {
 
     private void saveThing(Thing thing) {
         if (Logging.VERBOSE) Log.v(TAG, String.format("Saving %s", thing.getFriendlyName()));
-        AppDatabase.getDatabase().addThing(thing);
+        AppDatabase.getDatabase().saveThing(thing);
     }
 
     private void saveThings(List<Thing> things) {
-        for (Thing thing : things) {
-            saveThing(thing);
+        if (things != null) {
+            for (Thing thing : things) {
+                saveThing(thing);
+            }
         }
     }
 }

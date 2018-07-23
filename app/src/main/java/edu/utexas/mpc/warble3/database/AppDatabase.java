@@ -49,8 +49,7 @@ public abstract class AppDatabase extends RoomDatabase implements AppDatabaseInt
         getDatabase().userDbDao().insert(UserConverter.toUserDb(newUser));
     }
 
-    @Override
-    public List<User> getUsers() {
+    private List<User> getUsers() {
         List<UserDb> userDbs = getDatabase().userDbDao().getAllUserDbs();
 
         if (userDbs.size() == 0) {
@@ -89,9 +88,33 @@ public abstract class AppDatabase extends RoomDatabase implements AppDatabaseInt
         }
     }
 
-    public void addThing(Thing thing) {
+    private Thing getThingByUuid(String uuid) {
+        return ThingConverter.toThing(getDatabase().thingDbDao().getThingDbByUuid(uuid));
+    }
+
+    private void addThing(Thing thing) {
         getDatabase().thingDbDao().insert(ThingConverter.toThingDb(thing));
     }
+
+    @Override
+    public void saveThing(Thing thing) {
+        if (getThingByUuid(thing.getUuid()) != null) {
+            getDatabase().thingDbDao().update(ThingConverter.toThingDb(thing));
+        }
+        else {
+            getDatabase().thingDbDao().insert(ThingConverter.toThingDb(thing));
+        }
+    }
+
+    @Override
+    public void saveThings(List<Thing> things) {
+        if (things != null) {
+            for (Thing thing : things) {
+                saveThing(thing);
+            }
+        }
+    }
+
 
     // Correlation
 }

@@ -30,5 +30,5 @@ public interface ThingDbDao {
     ThingDb getThingDb(long dbid);
 
     @Query("SELECT * FROM ThingDb WHERE uuid=:uuid")
-    ThingDb getThingDb(String uuid);
+    ThingDb getThingDbByUuid(String uuid);
 }

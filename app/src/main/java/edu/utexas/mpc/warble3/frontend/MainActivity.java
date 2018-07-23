@@ -19,6 +19,7 @@ import edu.utexas.mpc.warble3.frontend.async_tasks.DiscoveryAsyncTaskComplete;
 import edu.utexas.mpc.warble3.frontend.main_activity_fragments.ControlFragment;
 import edu.utexas.mpc.warble3.frontend.main_activity_fragments.SettingsFragment;
 import edu.utexas.mpc.warble3.frontend.main_activity_fragments.SetupFragment;
+import edu.utexas.mpc.warble3.model.resource.Resource;
 import edu.utexas.mpc.warble3.model.thing.component.THING_CONCRETE_TYPE;
 import edu.utexas.mpc.warble3.model.thing.component.Thing;
 import edu.utexas.mpc.warble3.util.Logging;
@@ -71,6 +72,8 @@ public class MainActivity extends AppCompatActivity implements DiscoveryAsyncTas
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.setSelectedItemId(R.id.navigation_control);
 
+        setupFragment.updateDiscoveredThings(setupFragment.toThingHashMap(Resource.getInstance().getThings()));
+
         new DiscoveryAsyncTask(this).execute();
     }
 
@@ -81,14 +84,7 @@ public class MainActivity extends AppCompatActivity implements DiscoveryAsyncTas
         }
         else {
             this.things = things;
-
-            for (Thing thing: this.things) {
-                List<String> listThings = thingsHashMap.get(thing.getThingConcreteType());
-                if (listThings == null) listThings = new ArrayList<>();
-                listThings.add(thing.getFriendlyName());
-                thingsHashMap.put(thing.getThingConcreteType(), listThings);
-            }
-
+            thingsHashMap = setupFragment.toThingHashMap(this.things);
             setupFragment.updateDiscoveredThings(thingsHashMap);
         }
     }
