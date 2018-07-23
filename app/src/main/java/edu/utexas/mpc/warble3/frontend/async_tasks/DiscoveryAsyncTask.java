@@ -25,8 +25,7 @@ public class DiscoveryAsyncTask extends AsyncTask<Void, Void, List<Thing>> {
         if (Logging.DEBUG) Log.d(TAG, "Executing DiscoveryAsyncTask ...");
 
         resource.discoverThings();
-        List<Thing> things = resource.getThings();
-        if (things != null) this.things.addAll(things);
+        if (things != null) this.things.addAll(resource.getThings());
         return this.things;
     }
 

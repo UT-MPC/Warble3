@@ -1,10 +1,17 @@
 package edu.utexas.mpc.warble3.model.thing;
 
+import android.util.Log;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.utexas.mpc.warble3.database.AppDatabase;
-import edu.utexas.mpc.warble3.database.ThingDb;
 import edu.utexas.mpc.warble3.model.thing.component.Thing;
+import edu.utexas.mpc.warble3.model.thing.component.manufacturer.GE.GEDiscovery;
+import edu.utexas.mpc.warble3.model.thing.component.manufacturer.PhilipsHue.PhilipsHueUPnPDiscovery;
+import edu.utexas.mpc.warble3.model.thing.component.manufacturer.Wink.WinkDiscovery;
+import edu.utexas.mpc.warble3.model.thing.discovery.Discovery;
+import edu.utexas.mpc.warble3.util.Logging;
 
 public class ThingManager {
     private static final String TAG = "ThingManager";
@@ -21,7 +28,40 @@ public class ThingManager {
     }
 
     public List<Thing> getThings() {
-        List<ThingDb> thingDbs = AppDatabase.getDatabase().thingDbDao().getAllThingDbs();
-        return null;
+        return AppDatabase.getDatabase().getThings();
+    }
+
+    public void discover() {
+        List<Discovery> discoveries = new ArrayList<>();
+
+        // TODO: Discovery list has to be managed somewhere else
+        discoveries.add(new PhilipsHueUPnPDiscovery());
+        discoveries.add(new WinkDiscovery());
+        discoveries.add(new GEDiscovery());
+
+        List<Thing> things = new ArrayList<>();
+        for(Discovery discovery: discoveries) {
+            List<? extends Thing> things1 = discovery.onDiscover();
+            List<? extends Thing> things2 = discovery.onDiscoverDescendants();
+            if (things1 != null) {
+                things.addAll(things1);
+            }
+            if (things2 != null) {
+                things.addAll(things2);
+            }
+        }
+
+        saveThings(things);
+    }
+
+    private void saveThing(Thing thing) {
+        if (Logging.VERBOSE) Log.v(TAG, String.format("Saving %s", thing.getFriendlyName()));
+        AppDatabase.getDatabase().addThing(thing);
+    }
+
+    private void saveThings(List<Thing> things) {
+        for (Thing thing : things) {
+            saveThing(thing);
+        }
     }
 }

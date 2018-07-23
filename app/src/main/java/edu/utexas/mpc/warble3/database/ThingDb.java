@@ -21,6 +21,8 @@ public class ThingDb {
 
     private String uuid;
 
+    private String thingClass;
+
     private String accessName;
     private String accessUsername;
     private String accessPasscode;
@@ -65,6 +67,14 @@ public class ThingDb {
 
     public void setUuid(String uuid) {
         this.uuid = uuid;
+    }
+
+    public String getThingClass() {
+        return thingClass;
+    }
+
+    public void setThingClass(String thingClass) {
+        this.thingClass = thingClass;
     }
 
     public String getAccessName() {

@@ -1,15 +1,10 @@
 package edu.utexas.mpc.warble3.model.resource;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import edu.utexas.mpc.warble3.model.thing.ThingManager;
 import edu.utexas.mpc.warble3.model.thing.component.Thing;
 import edu.utexas.mpc.warble3.model.thing.component.ThingState;
-import edu.utexas.mpc.warble3.model.thing.component.manufacturer.GE.GEDiscovery;
-import edu.utexas.mpc.warble3.model.thing.component.manufacturer.PhilipsHue.PhilipsHueUPnPDiscovery;
-import edu.utexas.mpc.warble3.model.thing.component.manufacturer.Wink.WinkDiscovery;
-import edu.utexas.mpc.warble3.model.thing.discovery.Discovery;
 import edu.utexas.mpc.warble3.model.user.DuplicateUsernameException;
 import edu.utexas.mpc.warble3.model.user.InvalidPasswordException;
 import edu.utexas.mpc.warble3.model.user.InvalidUsernameException;
@@ -60,29 +55,11 @@ public class Resource {
 
     // Thing
     public void discoverThings() {
-        List<Discovery> discoveries = new ArrayList<>();
-
-        // TODO: Discovery list has to be managed somewhere else
-        discoveries.add(new PhilipsHueUPnPDiscovery());
-        discoveries.add(new WinkDiscovery());
-        discoveries.add(new GEDiscovery());
-
-        List<Thing> things = new ArrayList<>();
-        for(Discovery discovery: discoveries) {
-            List<? extends Thing> things1 = discovery.onDiscover();
-            List<? extends Thing> things2 = discovery.onDiscoverDescendants();
-            if (things1 != null) {
-                things.addAll(things1);
-            }
-            if (things2 != null) {
-                things.addAll(things2);
-            }
-        }
+        thingManager.discover();
     }
 
     public List<Thing> getThings() {
-        thingManager.getThings();
-        return null;
+        return thingManager.getThings();
     }
 
     public void authenticateThings() {

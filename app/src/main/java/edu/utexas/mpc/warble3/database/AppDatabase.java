@@ -5,14 +5,15 @@ import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import edu.utexas.mpc.warble3.database.converter.ThingConverter;
 import edu.utexas.mpc.warble3.database.converter.UserConverter;
+import edu.utexas.mpc.warble3.model.thing.component.Thing;
 import edu.utexas.mpc.warble3.model.user.User;
 import edu.utexas.mpc.warble3.setup.AppDatabaseInterface;
 
-@Database(entities = {UserDb.class, ThingDb.class, ThingAccessCredentialDb.class}, version = 2, exportSchema = false)
+@Database(entities = {UserDb.class, ThingDb.class, ThingAccessCredentialDb.class}, version = 3, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase implements AppDatabaseInterface {
     private static AppDatabase INSTANCE;
 
@@ -49,20 +50,26 @@ public abstract class AppDatabase extends RoomDatabase implements AppDatabaseInt
     }
 
     @Override
-    public List<User> getAllUsers() {
+    public List<User> getUsers() {
         List<UserDb> userDbs = getDatabase().userDbDao().getAllUserDbs();
 
-        List<User> users = new ArrayList<>();
-        for (UserDb userDb : userDbs) {
-            users.add(UserConverter.toUser(userDb));
+        if (userDbs.size() == 0) {
+            return null;
         }
-        return users;
+        else {
+            return UserConverter.toUsers(userDbs);
+        }
     }
 
     @Override
     public User getUserByUsername(String username) {
         UserDb userDb = getDatabase().userDbDao().getUserDb(username);
-        return UserConverter.toUser(userDb);
+        if (userDb == null) {
+            return null;
+        }
+        else {
+            return UserConverter.toUser(userDb);
+        }
     }
 
     @Override
@@ -71,7 +78,20 @@ public abstract class AppDatabase extends RoomDatabase implements AppDatabaseInt
     }
 
     // Thing
+    public List<Thing> getThings() {
+        List<ThingDb> thingDbs = getDatabase().thingDbDao().getAllThingDbs();
 
+        if (thingDbs.size() == 0) {
+            return null;
+        }
+        else {
+            return ThingConverter.toThings(thingDbs);
+        }
+    }
+
+    public void addThing(Thing thing) {
+        getDatabase().thingDbDao().insert(ThingConverter.toThingDb(thing));
+    }
 
     // Correlation
 }
