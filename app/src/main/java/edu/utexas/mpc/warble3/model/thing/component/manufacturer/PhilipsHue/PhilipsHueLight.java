@@ -8,4 +8,9 @@ public class PhilipsHueLight extends Light {
     public PhilipsHueLight() {
         super();
     }
+
+    @Override
+    public Boolean authenticate() {
+        return false;
+    }
 }

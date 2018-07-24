@@ -43,8 +43,12 @@ public class UserManager {
         }
     }
 
+    public User getUser(String username) {
+        return AppDatabase.getDatabase().getUserByUsername(username);
+    }
+
     public User authenticateUser(String username, String password) {
-        User user = AppDatabase.getDatabase().getUserByUsername(username);
+        User user = getUser(username);
         if (user == null) {
             return null;
         }

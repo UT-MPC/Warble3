@@ -1,0 +1,91 @@
+package edu.utexas.mpc.warble3.database.converter;
+
+import android.util.Log;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
+import edu.utexas.mpc.warble3.database.AppDatabase;
+import edu.utexas.mpc.warble3.database.ConnectionDb;
+import edu.utexas.mpc.warble3.database.interfaces.ConnectionStoreable;
+import edu.utexas.mpc.warble3.model.thing.connect.Connection;
+import edu.utexas.mpc.warble3.util.Logging;
+
+// TODO: implement
+public class ConnectionConverter {
+    public static final String TAG = "ConnectionConverter";
+
+    public static Connection toConnection(ConnectionDb connectionDb) {
+        if (connectionDb == null) {
+            return null;
+        }
+        else {
+            try {
+                Class<?> connectionClass = Class.forName(connectionDb.getConnectionClass());
+                Constructor<?> connectionClassConstructor = connectionClass.getConstructor();
+                Object object = connectionClassConstructor.newInstance();
+
+                Connection connection = (Connection) object;
+
+                connection.setSource(AppDatabase.getDatabase().getThingByDbid(connectionDb.getSourceId()));
+                connection.setDestination(AppDatabase.getDatabase().getThingByDbid(connectionDb.getDestinationId()));
+
+                try {
+                    ConnectionStoreable c = (ConnectionStoreable) connection;
+                    c.fromConnectionInfo(connectionDb.getConnectionInfo());
+
+                    connection = (Connection) c;
+                }
+                catch (ClassCastException e) {
+                    if (Logging.WARN) Log.w(TAG, String.format("Connection %s is unable to cast to ConnectionStoreable", connection.toString()));
+                }
+
+                return connection;
+            }
+            catch (ClassNotFoundException e) {
+                if (Logging.ERROR) Log.e(TAG, String.format("Connection Class %s is NOT found", connectionDb.getConnectionClass()));
+                return null;
+            }
+            catch (NoSuchMethodException e) {
+                if (Logging.ERROR) Log.e(TAG, String.format("Connection Class Constructor %s is NOT found", connectionDb.getConnectionClass()));
+                return null;
+            }
+            catch (IllegalAccessException e) {
+                if (Logging.ERROR) Log.e(TAG, String.format("Connection Class %s has illegal access", connectionDb.getConnectionClass()));
+                return null;
+            }
+            catch (InstantiationException e) {
+                if (Logging.ERROR) Log.e(TAG, String.format("Connection Class %s has instantiation error", connectionDb.getConnectionClass()));
+                return null;
+            }
+            catch (InvocationTargetException e) {
+                if (Logging.ERROR) Log.e(TAG, String.format("Connection Class %s has invocation target error", connectionDb.getConnectionClass()));
+                return null;
+            }
+        }
+
+    }
+
+    public static ConnectionDb toConnectionDb(Connection connection) {
+        ConnectionDb connectionDb = new ConnectionDb();
+
+        connectionDb.setSourceId(AppDatabase.getDatabase().thingDbDao().getThingDbByUuid(connection.getSource().getUuid()).getDbid());
+        if (connection.getDestination() == null) {
+            connectionDb.setDestinationId(0);
+        }
+        else {
+            connectionDb.setDestinationId(AppDatabase.getDatabase().thingDbDao().getThingDbByUuid(connection.getDestination().getUuid()).getDbid());
+        }
+        connectionDb.setConnectionClass(connection.getClass().getName());
+
+        try {
+            ConnectionStoreable c = (ConnectionStoreable) connection;
+            connectionDb.setConnectionInfo(c.toConnectionInfo());
+        }
+        catch (ClassCastException e) {
+            if (Logging.WARN) Log.w(TAG, String.format("Connection %s is unable to cast to ConnectionStoreable", connection.toString()));
+        }
+
+        return connectionDb;
+    }
+}

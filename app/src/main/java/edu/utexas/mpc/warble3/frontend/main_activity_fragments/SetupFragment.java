@@ -10,12 +10,14 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
 import edu.utexas.mpc.warble3.R;
 import edu.utexas.mpc.warble3.model.thing.component.THING_CONCRETE_TYPE;
+import edu.utexas.mpc.warble3.model.thing.component.Thing;
 
 public class SetupFragment extends Fragment {
     private HashMap<THING_CONCRETE_TYPE, List<String>> discoveredThings;
@@ -44,6 +46,24 @@ public class SetupFragment extends Fragment {
 
     public void setDiscoveredThings(HashMap<THING_CONCRETE_TYPE, List<String>> discoveredThings) {
         this.discoveredThings = discoveredThings;
+    }
+
+    public HashMap<THING_CONCRETE_TYPE, List<String>> toThingHashMap(List<Thing> things) {
+        if (things == null) {
+            return null;
+        }
+        else {
+            HashMap<THING_CONCRETE_TYPE, List<String>> thingsHashMap = new HashMap<>();
+
+            for (Thing thing : things) {
+                List<String> listThings = thingsHashMap.get(thing.getThingConcreteType());
+                if (listThings == null) listThings = new ArrayList<>();
+                listThings.add(thing.getFriendlyName());
+                thingsHashMap.put(thing.getThingConcreteType(), listThings);
+            }
+
+            return thingsHashMap;
+        }
     }
 
     public void updateDiscoveredThings(HashMap<THING_CONCRETE_TYPE, List<String>> discoveredThings) {

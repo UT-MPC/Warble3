@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import edu.utexas.mpc.warble3.database.AppDatabase;
+import edu.utexas.mpc.warble3.model.resource.Resource;
 
 public class WarbleApplication extends Application {
     public static final String TAG = "WarbleApplication";
@@ -19,5 +20,6 @@ public class WarbleApplication extends Application {
         Context appContext = getApplicationContext();
 
         AppDatabase.initializeDatabase(appContext);
+        Resource.initializeInstance();
     }
 }
