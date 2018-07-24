@@ -7,4 +7,43 @@ import android.arch.persistence.room.PrimaryKey;
 public class ConnectionDb {
     @PrimaryKey (autoGenerate = true)
     private long dbid;
+
+    private long sourceId;
+    private long destinationId;
+
+    private String connectionClass;
+
+    private String connectionInfo;
+
+    public long getSourceId() {
+        return sourceId;
+    }
+
+    public void setSourceId(long sourceId) {
+        this.sourceId = sourceId;
+    }
+
+    public long getDestinationId() {
+        return destinationId;
+    }
+
+    public void setDestinationId(long destinationId) {
+        this.destinationId = destinationId;
+    }
+
+    public String getConnectionClass() {
+        return connectionClass;
+    }
+
+    public void setConnectionClass(String connectionClass) {
+        this.connectionClass = connectionClass;
+    }
+
+    public String getConnectionInfo() {
+        return connectionInfo;
+    }
+
+    public void setConnectionInfo(String connectionInfo) {
+        this.connectionInfo = connectionInfo;
+    }
 }
