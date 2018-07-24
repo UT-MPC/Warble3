@@ -12,7 +12,7 @@ import java.util.List;
 @Dao
 public interface ThingDbDao {
     @Insert (onConflict = OnConflictStrategy.REPLACE)
-    void insert(ThingDb... thingDbs);
+    long[] insert(ThingDb... thingDbs);
 
     @Update
     void update(ThingDb... thingDbs);
