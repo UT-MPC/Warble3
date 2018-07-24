@@ -14,6 +14,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import edu.utexas.mpc.warble3.R;
+import edu.utexas.mpc.warble3.database.AppDatabase;
+import edu.utexas.mpc.warble3.database.ThingDb;
 import edu.utexas.mpc.warble3.frontend.async_tasks.DiscoveryAsyncTask;
 import edu.utexas.mpc.warble3.frontend.async_tasks.DiscoveryAsyncTaskComplete;
 import edu.utexas.mpc.warble3.frontend.main_activity_fragments.ControlFragment;
@@ -71,6 +73,18 @@ public class MainActivity extends AppCompatActivity implements DiscoveryAsyncTas
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.setSelectedItemId(R.id.navigation_control);
+
+        List<ThingDb> thingDbs = AppDatabase.getDatabase().thingDbDao().getAllThingDbs();
+        if (thingDbs == null) {
+            if(Logging.VERBOSE) Log.v(TAG, String.format("Number of things in database before discover : 0"));
+        }
+        else {
+            if(Logging.VERBOSE) Log.v(TAG, String.format("Number of things in database before discover : %d", thingDbs.size()));
+            for (ThingDb thingDb : thingDbs) {
+                Log.v(TAG, String.format("%s %s", thingDb.getDbid(), thingDb.getFriendlyName()));
+            }
+        }
+
 
         setupFragment.updateDiscoveredThings(setupFragment.toThingHashMap(Resource.getInstance().getThings()));
 

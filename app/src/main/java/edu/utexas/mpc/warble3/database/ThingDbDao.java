@@ -12,13 +12,13 @@ import java.util.List;
 @Dao
 public interface ThingDbDao {
     @Insert (onConflict = OnConflictStrategy.REPLACE)
-    long[] insert(ThingDb... thingDbs);
+    long insert(ThingDb thingDb);
 
     @Update
-    void update(ThingDb... thingDbs);
+    void update(ThingDb thingDb);
 
     @Delete
-    void delete(ThingDb... thingDbs);
+    void delete(ThingDb thingDb);
 
     @Query("SELECT * FROM ThingDb")
     List<ThingDb> getAllThingDbs();
