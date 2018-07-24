@@ -77,14 +77,17 @@ public class ConnectionDb {
 
         ConnectionDb c = (ConnectionDb) object;
 
-        if ((this.sourceId == c.sourceId) &&
+        return (this.sourceId == c.sourceId) &&
                 (this.destinationId == c.destinationId) &&
                 (this.connectionClass.equals(c.connectionClass)) &&
-                (this.connectionInfo.equals(c.connectionInfo))) {
-            return true;
-        }
-        else {
-            return false;
-        }
+                (this.connectionInfo.equals(c.connectionInfo));
+    }
+
+    @Override
+    public String toString() {
+        String string = "";
+        String[] c = connectionClass.split("\\.");
+        string += String.format("%s:%s %s->%s", dbid, c[c.length-1], sourceId, destinationId);
+        return string;
     }
 }

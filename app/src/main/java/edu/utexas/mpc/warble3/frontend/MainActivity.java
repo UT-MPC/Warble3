@@ -15,6 +15,7 @@ import java.util.List;
 
 import edu.utexas.mpc.warble3.R;
 import edu.utexas.mpc.warble3.database.AppDatabase;
+import edu.utexas.mpc.warble3.database.ConnectionDb;
 import edu.utexas.mpc.warble3.database.ThingDb;
 import edu.utexas.mpc.warble3.frontend.async_tasks.DiscoveryAsyncTask;
 import edu.utexas.mpc.warble3.frontend.async_tasks.DiscoveryAsyncTaskComplete;
@@ -76,12 +77,23 @@ public class MainActivity extends AppCompatActivity implements DiscoveryAsyncTas
 
         List<ThingDb> thingDbs = AppDatabase.getDatabase().thingDbDao().getAllThingDbs();
         if (thingDbs == null) {
-            if(Logging.VERBOSE) Log.v(TAG, String.format("Number of things in database before discover : 0"));
+            if(Logging.VERBOSE) Log.v(TAG, "Number of thingDb before discover : 0");
         }
         else {
-            if(Logging.VERBOSE) Log.v(TAG, String.format("Number of things in database before discover : %d", thingDbs.size()));
+            if(Logging.VERBOSE) Log.v(TAG, String.format("Number of thingDb before discover : %d", thingDbs.size()));
             for (ThingDb thingDb : thingDbs) {
-                Log.v(TAG, String.format("%s %s", thingDb.getDbid(), thingDb.getFriendlyName()));
+                if(Logging.VERBOSE) Log.v(TAG, thingDb.toString());
+            }
+        }
+
+        List<ConnectionDb> connectionDbs = AppDatabase.getDatabase().connectionDbDao().getAllConnectionDbs();
+        if (connectionDbs == null) {
+            if(Logging.VERBOSE) Log.v(TAG, "Number of connectionDb before discover : 0");
+        }
+        else {
+            if(Logging.VERBOSE) Log.v(TAG, String.format("Number of connectionDb before discover : %d", connectionDbs.size()));
+            for (ConnectionDb connectionDb : connectionDbs) {
+                if(Logging.VERBOSE) Log.v(TAG, connectionDb.toString());
             }
         }
 

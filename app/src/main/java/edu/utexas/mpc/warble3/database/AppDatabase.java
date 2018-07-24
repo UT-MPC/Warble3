@@ -4,7 +4,6 @@ import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
-import android.util.Log;
 
 import java.util.List;
 
@@ -15,7 +14,6 @@ import edu.utexas.mpc.warble3.model.thing.component.Thing;
 import edu.utexas.mpc.warble3.model.thing.connect.Connection;
 import edu.utexas.mpc.warble3.model.user.User;
 import edu.utexas.mpc.warble3.setup.AppDatabaseInterface;
-import edu.utexas.mpc.warble3.util.Logging;
 
 @Database(entities = {UserDb.class, ThingDb.class, ConnectionDb.class, ThingAccessCredentialDb.class},
         version = 5,

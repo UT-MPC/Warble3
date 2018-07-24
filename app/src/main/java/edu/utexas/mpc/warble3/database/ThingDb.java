@@ -148,4 +148,11 @@ public class ThingDb {
     public void setCredentialRequired(Boolean credentialRequired) {
         isCredentialRequired = credentialRequired;
     }
+
+    @Override
+    public String toString() {
+        String string = "";
+        string += String.format("%s:%s", dbid, friendlyName);
+        return string;
+    }
 }
