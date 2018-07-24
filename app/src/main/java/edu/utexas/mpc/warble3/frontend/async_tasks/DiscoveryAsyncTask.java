@@ -13,7 +13,6 @@ import edu.utexas.mpc.warble3.util.Logging;
 public class DiscoveryAsyncTask extends AsyncTask<Void, Void, List<Thing>> {
     private static final String TAG = "DiscoveryAsyncTask";
     private DiscoveryAsyncTaskComplete mCallback;
-    private List<Thing> things = new ArrayList<>();
     private Resource resource = Resource.getInstance();
 
     public DiscoveryAsyncTask(DiscoveryAsyncTaskComplete context) {
@@ -25,8 +24,8 @@ public class DiscoveryAsyncTask extends AsyncTask<Void, Void, List<Thing>> {
         if (Logging.DEBUG) Log.d(TAG, "Executing DiscoveryAsyncTask ...");
 
         resource.discoverThings();
-        if (things != null) this.things.addAll(resource.getThings());
-        return this.things;
+
+        return new ArrayList<>(resource.getThings());
     }
 
     @Override
