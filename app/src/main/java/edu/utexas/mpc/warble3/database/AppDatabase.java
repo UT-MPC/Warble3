@@ -5,6 +5,7 @@ import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.utexas.mpc.warble3.database.converter.ConnectionConverter;
@@ -108,33 +109,37 @@ public abstract class AppDatabase extends RoomDatabase implements AppDatabaseInt
     }
 
     @Override
-    public void saveThing(Thing thing) {
-        long sourceThingDbId;
-
-        if (getThingByUuid(thing.getUuid()) != null) {
+    public long saveThing(Thing thing) {
+        long thingDbid = thing.getDbid();
+        String thingUuid = thing.getUuid();
+        if ((thingDbid != 0) && (getThingByDbid(thingDbid) != null)) {
             getDatabase().thingDbDao().update(ThingConverter.toThingDb(thing));
-            sourceThingDbId = AppDatabase.getDatabase().thingDbDao().getThingDbByUuid(thing.getUuid()).getDbid();
+        }
+        else if ((thingUuid != null) && (!thingUuid.equals("")) && (getThingByUuid(thingUuid) != null)) {
+            getDatabase().thingDbDao().update(ThingConverter.toThingDb(thing));
         }
         else {
-            sourceThingDbId = getDatabase().thingDbDao().insert(ThingConverter.toThingDb(thing));
+            thingDbid = getDatabase().thingDbDao().insert(ThingConverter.toThingDb(thing));
+            thing.onPostStore(thingDbid);
         }
 
-        for (Connection connection : thing.getConnections()) {
-            if (connection.getDestination() == null) {
-                saveConnection(connection, sourceThingDbId, 0);
-            }
-            else {
-                saveConnection(connection, sourceThingDbId, thingDbDao().getThingDbByUuid(connection.getDestination().getUuid()).getDbid());
-            }
-        }
+        return thingDbid;
     }
 
     @Override
-    public void saveThings(List<Thing> things) {
+    public List<Long> saveThings(List<Thing> things) {
+        List<Long> thingDbids = new ArrayList<>();
         if (things != null) {
             for (Thing thing : things) {
-                saveThing(thing);
+                thingDbids.add(saveThing(thing));
             }
+        }
+
+        if (thingDbids.size() == 0) {
+            return null;
+        }
+        else {
+            return thingDbids;
         }
     }
 
@@ -144,36 +149,41 @@ public abstract class AppDatabase extends RoomDatabase implements AppDatabaseInt
         return null;
     }
 
-    @Override
-    public void saveConnection(Connection connection, long sourceThingDbId, long destThingDbId) {
-        ConnectionDb connectionDb = ConnectionConverter.toConnectionDb(connection);
-        List<ConnectionDb> dbConnectionDbs = getDatabase().connectionDbDao().getConnectionDbBySourceDestinationId(connectionDb.getSourceId(), connectionDb.getDestinationId());
-        ConnectionDb foundConnectionDb = null;
-
-        boolean found = false;
-        for (ConnectionDb dbConnectionDb : dbConnectionDbs) {
-            if (connectionDb.equals(dbConnectionDb)) {
-                found = true;
-                foundConnectionDb = dbConnectionDb;
-                break;
-            }
-        }
-
-        if (found) {
-            connectionDb.setDbid(foundConnectionDb.getDbid());
-            getDatabase().connectionDbDao().update(connectionDb);
-        }
-        else {
-            getDatabase().connectionDbDao().insert(connectionDb);
-        }
+    public Connection getConnectionByDbid(long dbid) {
+        return ConnectionConverter.toConnection(getDatabase().connectionDbDao().getConnectionDbByDbid(dbid));
     }
 
     @Override
-    public void saveConnections(List<Connection> connections, long sourceThingDbId, long destThingDbId) {
+    public long saveConnection(Connection connection) {
+        long connectionDbid = connection.getDbid();
+        if ((connectionDbid != 0) && (getConnectionByDbid(connectionDbid) != null)) {
+            getDatabase().connectionDbDao().update(ConnectionConverter.toConnectionDb(connection));
+        }
+        else {
+            connectionDbid = getDatabase().connectionDbDao().insert(ConnectionConverter.toConnectionDb(connection));
+            connection.onPostStore(connectionDbid);
+        }
+
+        return connectionDbid;
+    }
+
+    @Override
+    public List<Long> saveConnections(List<Connection> connections) {
         if (connections != null) {
+            List<Long> connectionDbids = new ArrayList<>();
             for (Connection connection : connections) {
-                saveConnection(connection, sourceThingDbId, destThingDbId);
+                connectionDbids.add(saveConnection(connection));
             }
+
+            if (connectionDbids.size() == 0) {
+                return null;
+            }
+            else {
+                return connectionDbids;
+            }
+        }
+        else {
+            return null;
         }
     }
 }

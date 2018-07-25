@@ -12,10 +12,10 @@ public interface AppDatabaseInterface {
     void deleteAllUsers();
 
     List<Thing> getThings();
-    void saveThing(Thing thing);
-    void saveThings(List<Thing> things);
+    long saveThing(Thing thing);
+    List<Long> saveThings(List<Thing> things);
 
     List<Connection> getConnections();
-    void saveConnection(Connection connection, long sourceThingDbId, long destThingDbId);
-    void saveConnections(List<Connection> connections, long sourceThingDbIds, long destThingDbId);
+    long saveConnection(Connection connection);
+    List<Long> saveConnections(List<Connection> connections);
 }

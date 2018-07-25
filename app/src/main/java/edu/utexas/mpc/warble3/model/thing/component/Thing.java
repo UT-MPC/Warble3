@@ -2,11 +2,12 @@ package edu.utexas.mpc.warble3.model.thing.component;
 
 import java.util.List;
 
+import edu.utexas.mpc.warble3.database.interfaces.Storeable;
 import edu.utexas.mpc.warble3.model.thing.connect.Connection;
 import edu.utexas.mpc.warble3.model.thing.credential.ThingAccessCredential;
 import edu.utexas.mpc.warble3.model.thing.discovery.Discovery;
 
-public abstract class Thing {
+public abstract class Thing implements Storeable {
     private static final String TAG = "Thing";
 
     private String name;
@@ -31,6 +32,8 @@ public abstract class Thing {
 
     private Boolean isCredentialRequired;
     private List<ThingAccessCredential> thingAccessCredentials;
+
+    private long dbid;
 
     public String getName() {
         return name;
@@ -160,7 +163,20 @@ public abstract class Thing {
         this.thingAccessCredentials = thingAccessCredentials;
     }
 
+    public long getDbid() {
+        return dbid;
+    }
+
+    private void setDbid(long dbid) {
+        this.dbid = dbid;
+    }
+
     public abstract Boolean authenticate();
+
+    @Override
+    public void onPostStore(long dbid) {
+        setDbid(dbid);
+    }
 
     @Override
     public String toString() {

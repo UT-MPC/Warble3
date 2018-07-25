@@ -1,14 +1,18 @@
 package edu.utexas.mpc.warble3.model.thing.connect;
 
+import edu.utexas.mpc.warble3.database.interfaces.ConnectionStoreable;
+import edu.utexas.mpc.warble3.database.interfaces.Storeable;
 import edu.utexas.mpc.warble3.model.thing.component.Thing;
 
-public abstract class Connection {
+public abstract class Connection implements Storeable, ConnectionStoreable {
     private static final String TAG = "Connection";
 
     private Thing source;
     private Thing destination;
 
     private DIRECTIONAL_TYPE directionalType;
+
+    private long dbid;
 
     public Connection(Thing source, Thing destination) {
         this.source = source;
@@ -37,5 +41,18 @@ public abstract class Connection {
 
     public void setDirectionalType(DIRECTIONAL_TYPE directionalType) {
         this.directionalType = directionalType;
+    }
+
+    public long getDbid() {
+        return dbid;
+    }
+
+    private void setDbid(long dbid) {
+        this.dbid = dbid;
+    }
+
+    @Override
+    public void onPostStore(long dbid) {
+        setDbid(dbid);
     }
 }
