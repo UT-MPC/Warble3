@@ -10,6 +10,7 @@ public class AccessorConnection extends Connection implements ConnectionStoreabl
 
     public AccessorConnection(Thing source, Thing destination) {
         super(source, destination);
+        setDirectionalType(DIRECTIONAL_TYPE.UNIDIRECTIONAL);
     }
 
     @Override

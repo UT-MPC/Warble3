@@ -20,6 +20,7 @@ public class HttpConnection extends Connection implements ConnectionStoreable {
 
     public HttpConnection(Thing source, Thing destination) {
         super(source, destination);
+        setDirectionalType(DIRECTIONAL_TYPE.UNIDIRECTIONAL);
     }
 
     public String getUrl() {

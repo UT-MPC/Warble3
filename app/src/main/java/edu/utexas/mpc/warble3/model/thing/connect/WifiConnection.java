@@ -8,6 +8,7 @@ public class WifiConnection extends Connection implements ConnectionStoreable {
 
     public WifiConnection(Thing source, Thing destination) {
         super(source, destination);
+        setDirectionalType(DIRECTIONAL_TYPE.UNIDIRECTIONAL);
     }
 
     @Override
