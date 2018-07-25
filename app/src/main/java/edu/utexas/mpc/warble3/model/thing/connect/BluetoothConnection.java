@@ -8,6 +8,7 @@ public class BluetoothConnection extends Connection implements ConnectionStoreab
 
     public BluetoothConnection(Thing source, Thing destination) {
         super(source, destination);
+        setDirectionalType(DIRECTIONAL_TYPE.UNIDIRECTIONAL);
     }
 
     @Override
