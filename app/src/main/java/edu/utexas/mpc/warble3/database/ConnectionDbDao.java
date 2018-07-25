@@ -23,6 +23,9 @@ public interface ConnectionDbDao {
     @Query("SELECT * FROM ConnectionDb")
     List<ConnectionDb> getAllConnectionDbs();
 
+    @Query("SELECT * FROM CONNECTIONDB WHERE dbid=:dbid")
+    ConnectionDb getConnectionDbByDbid(long dbid);
+
     @Query("SELECT * FROM ConnectionDb WHERE sourceId=:sourceId")
     List<ConnectionDb> getConnectionDbBySourceId(long sourceId);
 
