@@ -23,6 +23,9 @@ public interface ConnectionDbDao {
     @Query("SELECT * FROM ConnectionDb")
     List<ConnectionDb> getAllConnectionDbs();
 
+    @Query("DELETE FROM ConnectionDb")
+    void deleteAllConnectionDbs();
+
     @Query("SELECT * FROM CONNECTIONDB WHERE dbid=:dbid")
     ConnectionDb getConnectionDbByDbid(long dbid);
 
