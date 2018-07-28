@@ -35,7 +35,7 @@ public class ThingDb {
     @TypeConverters(THING_CONCRETE_TYPE_converter.class)
     private THING_CONCRETE_TYPE thingConcreteType;
 
-    private Boolean isCredentialRequired;
+    private boolean isCredentialRequired;
 
     public long getDbid() {
         return dbid;
@@ -141,11 +141,11 @@ public class ThingDb {
         this.thingConcreteType = thingConcreteType;
     }
 
-    public Boolean getCredentialRequired() {
+    public boolean getCredentialRequired() {
         return isCredentialRequired;
     }
 
-    public void setCredentialRequired(Boolean credentialRequired) {
+    public void setCredentialRequired(boolean credentialRequired) {
         isCredentialRequired = credentialRequired;
     }
 

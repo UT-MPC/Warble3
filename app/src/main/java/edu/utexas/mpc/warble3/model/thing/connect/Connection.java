@@ -1,10 +1,12 @@
 package edu.utexas.mpc.warble3.model.thing.connect;
 
+import java.io.Serializable;
+
 import edu.utexas.mpc.warble3.database.interfaces.ConnectionStoreable;
 import edu.utexas.mpc.warble3.database.interfaces.Storeable;
 import edu.utexas.mpc.warble3.model.thing.component.Thing;
 
-public abstract class Connection implements Storeable, ConnectionStoreable {
+public abstract class Connection implements Serializable, Storeable, ConnectionStoreable {
     private static final String TAG = "Connection";
 
     private Thing source;
