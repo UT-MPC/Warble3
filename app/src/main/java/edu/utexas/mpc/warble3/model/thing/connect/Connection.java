@@ -57,4 +57,9 @@ public abstract class Connection implements Serializable, Storeable, ConnectionS
     public void onPostStore(long dbid) {
         setDbid(dbid);
     }
+
+    @Override
+    public void onPostLoad(long dbid) {
+        setDbid(dbid);
+    }
 }

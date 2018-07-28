@@ -44,6 +44,8 @@ public class ThingConverter {
 
                 thing.setCredentialRequired(thingDb.getCredentialRequired());
 
+                thing.onPostLoad(thingDb.getDbid());
+
                 return (Thing) object;
             }
             catch (ClassNotFoundException e) {

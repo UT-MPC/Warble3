@@ -40,4 +40,9 @@ public abstract class ThingAccessCredential implements Storeable {
     public void onPostStore(long dbid) {
         setDbid(dbid);
     }
+
+    @Override
+    public void onPostLoad(long dbid) {
+        setDbid(dbid);
+    }
 }

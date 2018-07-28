@@ -168,7 +168,7 @@ public abstract class Thing implements Serializable, Storeable {
         return dbid;
     }
 
-    private void setDbid(long dbid) {
+    public void setDbid(long dbid) {
         this.dbid = dbid;
     }
 
@@ -176,6 +176,11 @@ public abstract class Thing implements Serializable, Storeable {
 
     @Override
     public void onPostStore(long dbid) {
+        setDbid(dbid);
+    }
+
+    @Override
+    public void onPostLoad(long dbid) {
         setDbid(dbid);
     }
 
