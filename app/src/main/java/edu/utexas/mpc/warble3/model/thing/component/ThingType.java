@@ -1,6 +1,8 @@
 package edu.utexas.mpc.warble3.model.thing.component;
 
-public class ThingType {
+import java.io.Serializable;
+
+public class ThingType implements Serializable {
     public static final String TAG = "ThingType";
 
     private THING_MAIN_TYPE thingMainType;

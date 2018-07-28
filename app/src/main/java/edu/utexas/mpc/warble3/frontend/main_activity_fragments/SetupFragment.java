@@ -1,6 +1,7 @@
 package edu.utexas.mpc.warble3.frontend.main_activity_fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -16,14 +17,17 @@ import java.util.HashMap;
 import java.util.List;
 
 import edu.utexas.mpc.warble3.R;
+import edu.utexas.mpc.warble3.frontend.setup_page.ThingDetailActivity;
 import edu.utexas.mpc.warble3.model.thing.component.THING_CONCRETE_TYPE;
 import edu.utexas.mpc.warble3.model.thing.component.Thing;
 
 public class SetupFragment extends Fragment {
-    private HashMap<THING_CONCRETE_TYPE, List<String>> discoveredThings;
+    private static final String TAG = "SetupFragment";
+
+    private HashMap<THING_CONCRETE_TYPE, List<Thing>> discoveredThings;
     private ExpandableListView expandableListView;
 
-    public static SetupFragment getNewInstance(HashMap<THING_CONCRETE_TYPE, List<String>> discoveredThings) {
+    public static SetupFragment getNewInstance(HashMap<THING_CONCRETE_TYPE, List<Thing>> discoveredThings) {
         SetupFragment setupFragment = new SetupFragment();
 
         Bundle args = new Bundle();
@@ -40,25 +44,25 @@ public class SetupFragment extends Fragment {
         return view;
     }
 
-    public HashMap<THING_CONCRETE_TYPE, List<String>> getDiscoveredThings() {
+    public HashMap<THING_CONCRETE_TYPE, List<Thing>> getDiscoveredThings() {
         return discoveredThings;
     }
 
-    public void setDiscoveredThings(HashMap<THING_CONCRETE_TYPE, List<String>> discoveredThings) {
+    public void setDiscoveredThings(HashMap<THING_CONCRETE_TYPE, List<Thing>> discoveredThings) {
         this.discoveredThings = discoveredThings;
     }
 
-    public HashMap<THING_CONCRETE_TYPE, List<String>> toThingHashMap(List<Thing> things) {
+    public HashMap<THING_CONCRETE_TYPE, List<Thing>> toThingHashMap(List<Thing> things) {
         if (things == null) {
             return null;
         }
         else {
-            HashMap<THING_CONCRETE_TYPE, List<String>> thingsHashMap = new HashMap<>();
+            HashMap<THING_CONCRETE_TYPE, List<Thing>> thingsHashMap = new HashMap<>();
 
             for (Thing thing : things) {
-                List<String> listThings = thingsHashMap.get(thing.getThingConcreteType());
+                List<Thing> listThings = thingsHashMap.get(thing.getThingConcreteType());
                 if (listThings == null) listThings = new ArrayList<>();
-                listThings.add(thing.getFriendlyName());
+                listThings.add(thing);
                 thingsHashMap.put(thing.getThingConcreteType(), listThings);
             }
 
@@ -66,20 +70,34 @@ public class SetupFragment extends Fragment {
         }
     }
 
-    public void updateDiscoveredThings(HashMap<THING_CONCRETE_TYPE, List<String>> discoveredThings) {
+    public void updateDiscoveredThings(final HashMap<THING_CONCRETE_TYPE, List<Thing>> discoveredThings) {
         setDiscoveredThings(discoveredThings);
         if (expandableListView != null) {
             ThingExpandableListAdapter thingExpandableListAdapter = new ThingExpandableListAdapter(getContext(), Arrays.asList(THING_CONCRETE_TYPE.values()), discoveredThings);
             expandableListView.setAdapter(thingExpandableListAdapter);
+            expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+                @Override
+                public boolean onChildClick(ExpandableListView expandableListView, View view, int groupPosition, int childPosition, long id) {
+                    THING_CONCRETE_TYPE selectedThingConcreteType = Arrays.asList(THING_CONCRETE_TYPE.values()).get(groupPosition);
+                    Thing selectedThing = discoveredThings.get(selectedThingConcreteType).get(childPosition);
+
+                    Intent thingDetailIntent = new Intent(getActivity(), ThingDetailActivity.class);
+                    Bundle thingBundle = new Bundle();
+                    thingBundle.putSerializable(ThingDetailActivity.THING_BUNDLE_INTENT_EXTRA, selectedThing);
+                    thingDetailIntent.putExtra(ThingDetailActivity.THING_BUNDLE_INTENT_EXTRA, thingBundle);
+                    startActivity(thingDetailIntent);
+                    return true;
+                }
+            });
         }
     }
 
     public class ThingExpandableListAdapter extends BaseExpandableListAdapter {
         private Context context;
         private List<THING_CONCRETE_TYPE> headers;
-        private HashMap<THING_CONCRETE_TYPE, List<String>> childHashMap;
+        private HashMap<THING_CONCRETE_TYPE, List<Thing>> childHashMap;
 
-        private ThingExpandableListAdapter (Context context, List<THING_CONCRETE_TYPE> headers, HashMap<THING_CONCRETE_TYPE, List<String>> childHashMap) {
+        private ThingExpandableListAdapter (Context context, List<THING_CONCRETE_TYPE> headers, HashMap<THING_CONCRETE_TYPE, List<Thing>> childHashMap) {
             this.context = context;
             this.headers = headers;
             this.childHashMap = childHashMap;
@@ -107,7 +125,7 @@ public class SetupFragment extends Fragment {
 
         @Override
         public String getChild(int groupPosition, int childPosition) {
-            return this.childHashMap.get(this.headers.get(groupPosition)).get(childPosition);
+            return this.childHashMap.get(this.headers.get(groupPosition)).get(childPosition).getFriendlyName();
         }
 
         @Override

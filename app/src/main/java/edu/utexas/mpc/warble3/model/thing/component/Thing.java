@@ -1,5 +1,6 @@
 package edu.utexas.mpc.warble3.model.thing.component;
 
+import java.io.Serializable;
 import java.util.List;
 
 import edu.utexas.mpc.warble3.database.interfaces.Storeable;
@@ -7,7 +8,7 @@ import edu.utexas.mpc.warble3.model.thing.connect.Connection;
 import edu.utexas.mpc.warble3.model.thing.credential.ThingAccessCredential;
 import edu.utexas.mpc.warble3.model.thing.discovery.Discovery;
 
-public abstract class Thing implements Storeable {
+public abstract class Thing implements Serializable, Storeable {
     private static final String TAG = "Thing";
 
     private String name;
@@ -30,7 +31,7 @@ public abstract class Thing implements Storeable {
     private List<Connection> connections;
     private List<Discovery> discoveries;
 
-    private Boolean isCredentialRequired;
+    private boolean isCredentialRequired;
     private List<ThingAccessCredential> thingAccessCredentials;
 
     private long dbid;
@@ -147,11 +148,11 @@ public abstract class Thing implements Storeable {
         this.discoveries = discoveries;
     }
 
-    public Boolean getCredentialRequired() {
+    public boolean getCredentialRequired() {
         return isCredentialRequired;
     }
 
-    public void setCredentialRequired(Boolean credentialRequired) {
+    public void setCredentialRequired(boolean credentialRequired) {
         isCredentialRequired = credentialRequired;
     }
 
@@ -167,7 +168,7 @@ public abstract class Thing implements Storeable {
         return dbid;
     }
 
-    private void setDbid(long dbid) {
+    public void setDbid(long dbid) {
         this.dbid = dbid;
     }
 
@@ -175,6 +176,11 @@ public abstract class Thing implements Storeable {
 
     @Override
     public void onPostStore(long dbid) {
+        setDbid(dbid);
+    }
+
+    @Override
+    public void onPostLoad(long dbid) {
         setDbid(dbid);
     }
 

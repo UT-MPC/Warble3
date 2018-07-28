@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements DiscoveryAsyncTas
     private static final String TAG = "MainActivity";
 
     private List<Thing> things = new ArrayList<>();
-    private HashMap<THING_CONCRETE_TYPE, List<String>> thingsHashMap = new HashMap<>();
+    private HashMap<THING_CONCRETE_TYPE, List<Thing>> thingsHashMap = new HashMap<>();
 
     private SetupFragment setupFragment = SetupFragment.getNewInstance(thingsHashMap);
     private Fragment manualFragment = new Fragment();
@@ -96,7 +96,6 @@ public class MainActivity extends AppCompatActivity implements DiscoveryAsyncTas
                 if(Logging.VERBOSE) Log.v(TAG, connectionDb.toString());
             }
         }
-
 
         setupFragment.updateDiscoveredThings(setupFragment.toThingHashMap(Resource.getInstance().getThings()));
 

@@ -47,21 +47,23 @@
     <!--Settings Fragment-->
     <string name="logout_settingsFragment">Log Out</string>
 
-    <!--<string name=""></string>-->
-    <!--<string name=""></string>-->
-    <!--<string name=""></string>-->
-    <!--<string name=""></string>-->
-    <!--<string name=""></string>-->
-    <!--<string name=""></string>-->
-    <!--<string name=""></string>-->
-    <!--<string name=""></string>-->
-    <!--<string name=""></string>-->
-    <!--<string name=""></string>-->
-    <!--<string name=""></string>-->
-    <!--<string name=""></string>-->
-    <!--<string name=""></string>-->
-    <!--<string name=""></string>-->
-    <!--<string name=""></string>-->
-    <!--<string name=""></string>-->
+    <!--Thing Activity-->
+    <string name="name_thingActivity">Name : </string>
+    <string name="friendlyName_thingActivity">Friendly Name : </string>
+    <string name="uuid_thingActivity">UUID : </string>
+    <string name="thingTypes_thingActivity">Thing Types : </string>
+    <string name="concreteTypes_thingActivity">Concrete Types : </string>
+    <string name="accessName_thingActivity">Access Name : </string>
+    <string name="accessUsername_thingActivity">Access Username : </string>
+    <string name="accessPasscode_thingActivity">Access Passcode : </string>
+    <string name="manufacturerSerialNumber_thingActivity">Manufacturer Serial Number : </string>
+    <string name="manufacturerModelName_thingActivity">Manufacturer Model Name : </string>
+    <string name="manufacturerModelNumber_thingActivity">Manufacturer Model Number : </string>
+    <string name="manufacturerName_thingActivity">Manufacturer Name : </string>
+    <string name="connections_thingActivity">Connections : </string>
+    <string name="discoveries_thingActivity">Discoveries : </string>
+    <string name="isCredentialRequired_thingActivity">Credential Required : </string>
+    <string name="credentials_thingActivity">Credentials : </string>
+    <string name="dbid_thingActivity">DBID : </string>
 
 </resources>
