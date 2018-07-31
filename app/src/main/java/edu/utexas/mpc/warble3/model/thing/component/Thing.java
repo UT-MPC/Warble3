@@ -33,6 +33,7 @@ public abstract class Thing implements Serializable, Storeable {
 
     private boolean isCredentialRequired;
     private List<ThingAccessCredential> thingAccessCredentials;
+    private List<Class> thingAccessCredentialClasses;
 
     private long dbid;
 
@@ -162,6 +163,14 @@ public abstract class Thing implements Serializable, Storeable {
 
     public void setThingAccessCredentials(List<ThingAccessCredential> thingAccessCredentials) {
         this.thingAccessCredentials = thingAccessCredentials;
+    }
+
+    public List<Class> getThingAccessCredentialClasses() {
+        return thingAccessCredentialClasses;
+    }
+
+    public void setThingAccessCredentialClasses(List<Class> thingAccessCredentialClasses) {
+        this.thingAccessCredentialClasses = thingAccessCredentialClasses;
     }
 
     public long getDbid() {

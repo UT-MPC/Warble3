@@ -41,7 +41,8 @@
         <activity android:name=".frontend.setup_page.ParentBridgeActivity" android:parentActivityName=".frontend.setup_page.FindLightActivity" />
         <activity android:name=".frontend.setup_page.SerialNumberActivity" android:parentActivityName=".frontend.setup_page.FindLightActivity" />
 
-        <activity android:name=".frontend.setup_page.ThingDetailActivity" android:parentActivityName=".frontend.MainActivity" />
+        <activity android:name=".frontend.thing.ThingDetailActivity" android:parentActivityName=".frontend.MainActivity" />
+        <activity android:name=".frontend.thing.AddThingAccessCredentialActivity" android:parentActivityName=".frontend.thing.ThingDetailActivity"/>
 
     </application>
 

@@ -20,7 +20,7 @@
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/nameLabel_thingActivity_textView"
@@ -310,12 +310,26 @@
                     android:layout_height="wrap_content"
                     android:text="@string/credentials_thingActivity" />
 
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/thingCredential_recyclerView"
+                    android:layout_width="358dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/credentialsLabel_thingActivity_textView" />
+
                 <TextView
-                    android:id="@+id/credentials_thingActivity_textView"
+                    android:id="@+id/addCredential_thingActivity_textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    app:layout_constraintStart_toEndOf="@+id/credentialsLabel_thingActivity_textView" />
+                    android:layout_marginEnd="8dp"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:text="@string/addCredential_thingActivity"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
             </android.support.constraint.ConstraintLayout>
 
@@ -335,7 +349,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    app:layout_constraintStart_toEndOf="@+id/dbidLabel_thingActivity_textView"/>
+                    app:layout_constraintStart_toEndOf="@+id/dbidLabel_thingActivity_textView" />
 
             </android.support.constraint.ConstraintLayout>
         </LinearLayout>
