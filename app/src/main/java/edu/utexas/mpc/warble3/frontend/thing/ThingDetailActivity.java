@@ -2,13 +2,11 @@ package edu.utexas.mpc.warble3.frontend.thing;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -20,7 +18,7 @@ import edu.utexas.mpc.warble3.frontend.adapter.SimpleAdapter;
 import edu.utexas.mpc.warble3.model.thing.component.Thing;
 import edu.utexas.mpc.warble3.model.thing.credential.ThingAccessCredential;
 
-public class ThingDetailActivity extends AppCompatActivity implements SimpleAdapter.mClickListener {
+public class ThingDetailActivity extends AppCompatActivity {
     private static final String TAG = "ThingDetailActivity";
 
     public static final String THING_BUNDLE_INTENT_EXTRA = "edu.utexas.mpc.warble3.setup_page.ThingDetailActivity.THING";
@@ -79,14 +77,26 @@ public class ThingDetailActivity extends AppCompatActivity implements SimpleAdap
                     AlertDialog.Builder builder = new AlertDialog.Builder(ThingDetailActivity.this);
                     View mView = getLayoutInflater().inflate(R.layout.activity_select_add_thing_access_credential, null);
 
-                    List<String> thingAccessCredentialClassesString = new ArrayList<>();
+                    final List<String> thingAccessCredentialClassesString = new ArrayList<>();
                     for (Class thingAccessCredentialClass : ThingDetailActivity.this.thing.getThingAccessCredentialClasses()) {
                         thingAccessCredentialClassesString.add(thingAccessCredentialClass.getSimpleName());
                     }
                     
                     RecyclerView recyclerView = mView.findViewById(R.id.selectThingAccessCredentialClass_selectAddThingAccessCredential_recyclerView);
                     RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(ThingDetailActivity.this);
-                    RecyclerView.Adapter adapter = new SimpleAdapter(ThingDetailActivity.this, thingAccessCredentialClassesString);
+                    SimpleAdapter adapter = new SimpleAdapter(ThingDetailActivity.this, thingAccessCredentialClassesString);
+                    adapter.setOnItemClickListener(new SimpleAdapter.OnItemClickListener() {
+                        @Override
+                        public void onClick(View view, int position) {
+                            String selectedClass = thingAccessCredentialClassesString.get(position);
+                            Intent intent = new Intent(ThingDetailActivity.this, AddThingAccessCredentialActivity.class);
+                            intent.putExtra(AddThingAccessCredentialActivity.THING_ACCESS_CREDENTIAL_CLASS_INTENT_EXTRA, selectedClass);
+                            Bundle thingBundle = new Bundle();
+                            thingBundle.putSerializable(AddThingAccessCredentialActivity.THING_INTENT_EXTRA, ThingDetailActivity.this.thing);
+                            intent.putExtra(AddThingAccessCredentialActivity.THING_INTENT_EXTRA, thingBundle);
+                            startActivityForResult(intent, 0);
+                        }
+                    });
                     recyclerView.setLayoutManager(layoutManager);
                     recyclerView.setAdapter(adapter);
 
@@ -96,15 +106,6 @@ public class ThingDetailActivity extends AppCompatActivity implements SimpleAdap
                 }
             });
         }
-    }
-
-    @Override
-    public void mClick(View view, int position) {
-        Class thingAccessCredentialClass = thing.getThingAccessCredentialClasses().get(position);
-
-        Intent intent = new Intent(this, AddThingAccessCredentialActivity.class);
-        intent.putExtra(AddThingAccessCredentialActivity.THING_ACCESS_CREDENTIAL_CLASS_INTENT_EXTRA, thingAccessCredentialClass.getSimpleName());
-        startActivityForResult(intent, 0);
     }
 
     public Thing getThing() {

@@ -16,6 +16,7 @@ import java.util.List;
 import edu.utexas.mpc.warble3.R;
 import edu.utexas.mpc.warble3.database.AppDatabase;
 import edu.utexas.mpc.warble3.database.ConnectionDb;
+import edu.utexas.mpc.warble3.database.ThingAccessCredentialDb;
 import edu.utexas.mpc.warble3.database.ThingDb;
 import edu.utexas.mpc.warble3.frontend.async_tasks.DiscoveryAsyncTask;
 import edu.utexas.mpc.warble3.frontend.async_tasks.DiscoveryAsyncTaskComplete;
@@ -94,6 +95,17 @@ public class MainActivity extends AppCompatActivity implements DiscoveryAsyncTas
             if(Logging.VERBOSE) Log.v(TAG, String.format("Number of connectionDb before discover : %d", connectionDbs.size()));
             for (ConnectionDb connectionDb : connectionDbs) {
                 if(Logging.VERBOSE) Log.v(TAG, connectionDb.toString());
+            }
+        }
+
+        List<ThingAccessCredentialDb> thingAccessCredentialDbs = AppDatabase.getDatabase().thingAccessCredentialDbDao().getAllThingAccessCredentialDbs();
+        if (thingAccessCredentialDbs == null) {
+            if(Logging.VERBOSE) Log.v(TAG, "Number of thingAccessCredentialDbs before discover : 0");
+        }
+        else {
+            if(Logging.VERBOSE) Log.v(TAG, String.format("Number of thingAccessCredentialDbs before discover : %d", thingAccessCredentialDbs.size()));
+            for (ThingAccessCredentialDb thingAccessCredentialDb : thingAccessCredentialDbs) {
+                if(Logging.VERBOSE) Log.v(TAG, thingAccessCredentialDb.toString());
             }
         }
 

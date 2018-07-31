@@ -1,6 +1,7 @@
 package edu.utexas.mpc.warble3.model.thing.component;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.utexas.mpc.warble3.database.interfaces.Storeable;
@@ -163,6 +164,13 @@ public abstract class Thing implements Serializable, Storeable {
 
     public void setThingAccessCredentials(List<ThingAccessCredential> thingAccessCredentials) {
         this.thingAccessCredentials = thingAccessCredentials;
+    }
+
+    public void addThingAccessCredentials(ThingAccessCredential newThingAccessCredential) {
+        if (this.thingAccessCredentials == null) {
+            this.thingAccessCredentials = new ArrayList<>();
+        }
+        this.thingAccessCredentials.add(newThingAccessCredential);
     }
 
     public List<Class> getThingAccessCredentialClasses() {

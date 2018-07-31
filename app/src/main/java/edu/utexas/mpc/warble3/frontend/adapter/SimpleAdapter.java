@@ -17,6 +17,8 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.ViewHolder
     private final Context context;
     private final List<String> dataset;
 
+    private SimpleAdapter.OnItemClickListener onItemClickListener;
+
     public SimpleAdapter(Context context, List<String> dataset) {
         this.context = context;
         this.dataset = dataset;
@@ -42,20 +44,24 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView nameTextView;
 
-        public ViewHolder(View itemView) {
+        public ViewHolder(final View itemView) {
             super(itemView);
             nameTextView = itemView.findViewById(R.id.name_textView);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    ((mClickListener) view.getContext()).mClick(view, getAdapterPosition());
+                    onItemClickListener.onClick(view, getAdapterPosition());
                 }
             });
         }
     }
 
-    public interface mClickListener {
-        void mClick(View view, int position);
+    public interface OnItemClickListener {
+        void onClick(View view, int position);
+    }
+
+    public void setOnItemClickListener(SimpleAdapter.OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
     }
 }
