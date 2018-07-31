@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -26,15 +25,13 @@ import edu.utexas.mpc.warble3.frontend.main_activity_fragments.SetupFragment;
 import edu.utexas.mpc.warble3.model.resource.Resource;
 import edu.utexas.mpc.warble3.model.thing.component.THING_CONCRETE_TYPE;
 import edu.utexas.mpc.warble3.model.thing.component.Thing;
+import edu.utexas.mpc.warble3.model.thing.util.ThingUtil;
 import edu.utexas.mpc.warble3.util.Logging;
 
 public class MainActivity extends AppCompatActivity implements DiscoveryAsyncTaskComplete {
     private static final String TAG = "MainActivity";
 
-    private List<Thing> things = new ArrayList<>();
-    private HashMap<THING_CONCRETE_TYPE, List<Thing>> thingsHashMap = new HashMap<>();
-
-    private SetupFragment setupFragment = SetupFragment.getNewInstance(thingsHashMap);
+    private SetupFragment setupFragment = SetupFragment.getNewInstance();
     private Fragment manualFragment = new Fragment();
     private ControlFragment controlFragment = ControlFragment.getNewInstance();
     private Fragment fourFragment = new Fragment();
@@ -109,7 +106,7 @@ public class MainActivity extends AppCompatActivity implements DiscoveryAsyncTas
             }
         }
 
-        setupFragment.updateDiscoveredThings(setupFragment.toThingHashMap(Resource.getInstance().getThings()));
+        setupFragment.updateDiscoveredThings(ThingUtil.toThingHashMapByConcreteType(Resource.getInstance().getThings()));
 
         new DiscoveryAsyncTask(this).execute();
     }
@@ -120,8 +117,7 @@ public class MainActivity extends AppCompatActivity implements DiscoveryAsyncTas
             if (Logging.VERBOSE) Log.v(TAG, "Discovered things is null");
         }
         else {
-            this.things = things;
-            thingsHashMap = setupFragment.toThingHashMap(this.things);
+            HashMap<THING_CONCRETE_TYPE, List<Thing>> thingsHashMap = ThingUtil.toThingHashMapByConcreteType(things);
             setupFragment.updateDiscoveredThings(thingsHashMap);
         }
     }

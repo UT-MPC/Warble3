@@ -11,15 +11,16 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
 import edu.utexas.mpc.warble3.R;
 import edu.utexas.mpc.warble3.frontend.thing.ThingDetailActivity;
+import edu.utexas.mpc.warble3.model.resource.Resource;
 import edu.utexas.mpc.warble3.model.thing.component.THING_CONCRETE_TYPE;
 import edu.utexas.mpc.warble3.model.thing.component.Thing;
+import edu.utexas.mpc.warble3.model.thing.util.ThingUtil;
 
 public class SetupFragment extends Fragment {
     private static final String TAG = "SetupFragment";
@@ -27,12 +28,9 @@ public class SetupFragment extends Fragment {
     private HashMap<THING_CONCRETE_TYPE, List<Thing>> discoveredThings;
     private ExpandableListView expandableListView;
 
-    public static SetupFragment getNewInstance(HashMap<THING_CONCRETE_TYPE, List<Thing>> discoveredThings) {
+    public static SetupFragment getNewInstance() {
         SetupFragment setupFragment = new SetupFragment();
-
-        Bundle args = new Bundle();
-        args.putSerializable("discoveredThings", discoveredThings);
-        setupFragment.setDiscoveredThings(discoveredThings);
+        setupFragment.updateDiscoveredThings(ThingUtil.toThingHashMapByConcreteType(Resource.getInstance().getThings()));
         return setupFragment;
     }
 
@@ -44,30 +42,12 @@ public class SetupFragment extends Fragment {
         return view;
     }
 
-    public HashMap<THING_CONCRETE_TYPE, List<Thing>> getDiscoveredThings() {
+    private HashMap<THING_CONCRETE_TYPE, List<Thing>> getDiscoveredThings() {
         return discoveredThings;
     }
 
-    public void setDiscoveredThings(HashMap<THING_CONCRETE_TYPE, List<Thing>> discoveredThings) {
+    private void setDiscoveredThings(HashMap<THING_CONCRETE_TYPE, List<Thing>> discoveredThings) {
         this.discoveredThings = discoveredThings;
-    }
-
-    public HashMap<THING_CONCRETE_TYPE, List<Thing>> toThingHashMap(List<Thing> things) {
-        if (things == null) {
-            return null;
-        }
-        else {
-            HashMap<THING_CONCRETE_TYPE, List<Thing>> thingsHashMap = new HashMap<>();
-
-            for (Thing thing : things) {
-                List<Thing> listThings = thingsHashMap.get(thing.getThingConcreteType());
-                if (listThings == null) listThings = new ArrayList<>();
-                listThings.add(thing);
-                thingsHashMap.put(thing.getThingConcreteType(), listThings);
-            }
-
-            return thingsHashMap;
-        }
     }
 
     public void updateDiscoveredThings(final HashMap<THING_CONCRETE_TYPE, List<Thing>> discoveredThings) {
