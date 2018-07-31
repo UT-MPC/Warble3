@@ -207,7 +207,43 @@ public abstract class AppDatabase extends RoomDatabase implements AppDatabaseInt
         return ThingAccessCredentialConverter.toThingAccessCredentials(AppDatabase.getDatabase().thingAccessCredentialDbDao().getAllThingAccessCredentialDbs());
     }
 
+    public ThingAccessCredential getThingAccessCredentialByDbid(long dbid) {
+        return ThingAccessCredentialConverter.toThingAccessCredential(AppDatabase.getDatabase().thingAccessCredentialDbDao().getThingAccessCredentialDbByDbid(dbid));
+    }
+
     public void deleteAllThingAccessCredentials() {
         AppDatabase.getDatabase().thingAccessCredentialDbDao().deleteAllThingAccessCredentialDbs();
+    }
+
+    public long saveThingAccessCredential(ThingAccessCredential thingAccessCredential) {
+        long thingAccessCredentialDbid = thingAccessCredential.getDbid();
+
+        if ((thingAccessCredentialDbid != 0) && (getThingAccessCredentialByDbid(thingAccessCredentialDbid) != null)) {
+            getDatabase().thingAccessCredentialDbDao().update(ThingAccessCredentialConverter.toThingAccessCredentialDb(thingAccessCredential));
+        }
+        else {
+            thingAccessCredentialDbid = getDatabase().thingAccessCredentialDbDao().insert(ThingAccessCredentialConverter.toThingAccessCredentialDb(thingAccessCredential));
+            thingAccessCredential.onPostStore(thingAccessCredentialDbid);
+        }
+        return thingAccessCredentialDbid;
+    }
+
+    public List<Long> saveThingAccessCredentials(List<ThingAccessCredential> thingAccessCredentials) {
+        if (thingAccessCredentials != null) {
+            List<Long> thingAccessCredentialDbids = new ArrayList<>();
+            for (ThingAccessCredential thingAccessCredential : thingAccessCredentials) {
+                thingAccessCredentialDbids.add(saveThingAccessCredential(thingAccessCredential));
+            }
+
+            if (thingAccessCredentialDbids.size() == 0) {
+                return null;
+            }
+            else {
+                return thingAccessCredentialDbids;
+            }
+        }
+        else {
+            return null;
+        }
     }
 }

@@ -26,5 +26,6 @@ public interface ThingAccessCredentialDbDao {
     void deleteAllThingAccessCredentialDbs();
 
     @Query("SELECT * FROM ThingAccessCredentialDb WHERE dbid=:dbid")
-    ThingAccessCredentialDb getThingAccessCredentialDb(long dbid);
+    ThingAccessCredentialDb getThingAccessCredentialDbByDbid(long dbid);
+
 }

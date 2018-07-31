@@ -67,6 +67,8 @@ public class ThingManager {
             }
             AppDatabase.getDatabase().saveConnection(connection);
         }
+
+        AppDatabase.getDatabase().saveThingAccessCredentials(thing.getThingAccessCredentials());
     }
 
     public void saveThings(List<Thing> things) {
