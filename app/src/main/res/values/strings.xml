@@ -64,6 +64,12 @@
     <string name="discoveries_thingActivity">Discoveries : </string>
     <string name="isCredentialRequired_thingActivity">Credential Required : </string>
     <string name="credentials_thingActivity">Credentials : </string>
+    <string name="addCredential_thingActivity">+</string>
     <string name="dbid_thingActivity">DBID : </string>
+
+    <!--Add ThingAccessCredential UsernamePasswordCredential-->
+    <string name="username_addUsernamePasswordCredentialActivity">Username</string>
+    <string name="password_addUsernamePasswordCredentialActivity">Password</string>
+    <string name="submit_addUsernamePasswordCredentialActivity">Submit</string>
 
 </resources>

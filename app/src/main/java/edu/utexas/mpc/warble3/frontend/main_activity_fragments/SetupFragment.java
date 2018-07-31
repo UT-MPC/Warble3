@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import edu.utexas.mpc.warble3.R;
-import edu.utexas.mpc.warble3.frontend.setup_page.ThingDetailActivity;
+import edu.utexas.mpc.warble3.frontend.thing.ThingDetailActivity;
 import edu.utexas.mpc.warble3.model.thing.component.THING_CONCRETE_TYPE;
 import edu.utexas.mpc.warble3.model.thing.component.Thing;
 

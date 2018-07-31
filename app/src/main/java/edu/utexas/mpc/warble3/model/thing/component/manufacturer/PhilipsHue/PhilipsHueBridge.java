@@ -6,6 +6,7 @@ import java.util.List;
 import edu.utexas.mpc.warble3.model.thing.component.Bridge;
 import edu.utexas.mpc.warble3.model.thing.component.Thing;
 import edu.utexas.mpc.warble3.model.thing.component.ThingState;
+import edu.utexas.mpc.warble3.model.thing.credential.UsernamePasswordCredential;
 import edu.utexas.mpc.warble3.model.thing.discovery.Discovery;
 
 public class PhilipsHueBridge extends Bridge {
@@ -18,6 +19,11 @@ public class PhilipsHueBridge extends Bridge {
         List<Discovery> discoveries = new ArrayList<>();
         discoveries.add(new PhilipsHueUPnPDiscovery());
         setDiscoveries(discoveries);
+
+        // Set ThingAccessCredentialClasses
+        List<Class> thingAccessCredentialClasses = new ArrayList<>();
+        thingAccessCredentialClasses.add(UsernamePasswordCredential.class);
+        setThingAccessCredentialClasses(thingAccessCredentialClasses);
     }
 
     @Override

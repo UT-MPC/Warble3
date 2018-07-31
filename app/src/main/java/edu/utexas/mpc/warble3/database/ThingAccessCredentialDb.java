@@ -15,7 +15,7 @@ public class ThingAccessCredentialDb {
     private String credentialClass;
     private String credentialInfo;
 
-    private long userId;
+    private String username;
     private long thingId;
 
     public long getDbid() {
@@ -42,12 +42,12 @@ public class ThingAccessCredentialDb {
         this.credentialInfo = credentialInfo;
     }
 
-    public long getUserId() {
-        return userId;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserId(long userId) {
-        this.userId = userId;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public long getThingId() {

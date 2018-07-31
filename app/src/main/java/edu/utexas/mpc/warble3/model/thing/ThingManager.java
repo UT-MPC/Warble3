@@ -55,7 +55,7 @@ public class ThingManager {
         saveThings(things);
     }
 
-    private void saveThing(Thing thing) {
+    public void saveThing(Thing thing) {
         if (Logging.VERBOSE) Log.v(TAG, String.format("Saving %s", thing.getFriendlyName()));
 
         AppDatabase.getDatabase().saveThing(thing);
@@ -67,9 +67,11 @@ public class ThingManager {
             }
             AppDatabase.getDatabase().saveConnection(connection);
         }
+
+        AppDatabase.getDatabase().saveThingAccessCredentials(thing.getThingAccessCredentials());
     }
 
-    private void saveThings(List<Thing> things) {
+    public void saveThings(List<Thing> things) {
         if (things != null) {
             for (Thing thing : things) {
                 saveThing(thing);

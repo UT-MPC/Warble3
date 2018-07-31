@@ -14,10 +14,10 @@ import java.util.Objects;
 import edu.utexas.mpc.warble3.R;
 import edu.utexas.mpc.warble3.frontend.adapter.SimpleAdapter;
 
-public class ParentBridgeActivity extends AppCompatActivity implements SimpleAdapter.mClickListener {
+public class ParentBridgeActivity extends AppCompatActivity {
     private RecyclerView parentBridgeRecycleView;
     private RecyclerView.LayoutManager parentBridgeLayoutManager;
-    private RecyclerView.Adapter parentBridgeAdapter;
+    private SimpleAdapter parentBridgeAdapter;
 
     private List<String> parentBridges = new ArrayList<>();
 
@@ -38,14 +38,15 @@ public class ParentBridgeActivity extends AppCompatActivity implements SimpleAda
         parentBridgeLayoutManager = new LinearLayoutManager(this);
         parentBridgeRecycleView.setLayoutManager(parentBridgeLayoutManager);
         parentBridgeAdapter = new SimpleAdapter(this, parentBridges);
+        parentBridgeAdapter.setOnItemClickListener(new SimpleAdapter.OnItemClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("RESULT", parentBridges.get(position));
+                setResult(RESULT_OK, returnIntent);
+                finish();
+            }
+        });
         parentBridgeRecycleView.setAdapter(parentBridgeAdapter);
-    }
-
-    @Override
-    public void mClick(View view, int position) {
-        Intent returnIntent = new Intent();
-        returnIntent.putExtra("RESULT", parentBridges.get(position));
-        setResult(RESULT_OK, returnIntent);
-        finish();
     }
 }

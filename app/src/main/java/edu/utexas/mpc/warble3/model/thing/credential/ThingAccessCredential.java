@@ -1,10 +1,11 @@
 package edu.utexas.mpc.warble3.model.thing.credential;
 
 import edu.utexas.mpc.warble3.database.interfaces.Storeable;
+import edu.utexas.mpc.warble3.database.interfaces.TextStoreable;
 import edu.utexas.mpc.warble3.model.thing.component.Thing;
 import edu.utexas.mpc.warble3.model.user.User;
 
-public abstract class ThingAccessCredential implements Storeable {
+public abstract class ThingAccessCredential implements Storeable, TextStoreable {
     public static final String TAG = "ThingAccessCredential";
 
     private User user;
@@ -44,5 +45,12 @@ public abstract class ThingAccessCredential implements Storeable {
     @Override
     public void onPostLoad(long dbid) {
         setDbid(dbid);
+    }
+
+    @Override
+    public String toString() {
+        String string = "";
+        string += String.format("%s", TAG);
+        return string;
     }
 }

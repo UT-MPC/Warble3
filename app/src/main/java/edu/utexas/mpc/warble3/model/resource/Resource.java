@@ -71,7 +71,7 @@ public class Resource {
     }
 
     public void updateThing(Thing thing) {
-        // TODO: implement
+        thingManager.saveThing(thing);
     }
 
     public void setThingState(Thing thing, ThingState thingState) {

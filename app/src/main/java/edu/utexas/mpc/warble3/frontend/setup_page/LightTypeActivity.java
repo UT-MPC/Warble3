@@ -14,10 +14,10 @@ import java.util.Objects;
 import edu.utexas.mpc.warble3.R;
 import edu.utexas.mpc.warble3.frontend.adapter.SimpleAdapter;
 
-public class LightTypeActivity extends AppCompatActivity implements SimpleAdapter.mClickListener {
+public class LightTypeActivity extends AppCompatActivity {
     private RecyclerView lightTypeRecycleView;
     private RecyclerView.LayoutManager lightTypeLayoutManager;
-    private RecyclerView.Adapter lightTypeAdapter;
+    private SimpleAdapter lightTypeAdapter;
 
     private List<String> lightTypes = new ArrayList<>();
 
@@ -39,14 +39,15 @@ public class LightTypeActivity extends AppCompatActivity implements SimpleAdapte
         lightTypes.add("GE Light");
 
         lightTypeAdapter = new SimpleAdapter(getApplicationContext(), lightTypes);
+        lightTypeAdapter.setOnItemClickListener(new SimpleAdapter.OnItemClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("RESULT", lightTypes.get(position));
+                setResult(RESULT_OK, returnIntent);
+                finish();
+            }
+        });
         lightTypeRecycleView.setAdapter(lightTypeAdapter);
-    }
-
-    @Override
-    public void mClick(View view, int position) {
-        Intent returnIntent = new Intent();
-        returnIntent.putExtra("RESULT", lightTypes.get(position));
-        setResult(RESULT_OK, returnIntent);
-        finish();
     }
 }
