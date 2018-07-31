@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,17 +18,22 @@ import java.util.HashMap;
 import java.util.List;
 
 import edu.utexas.mpc.warble3.R;
+import edu.utexas.mpc.warble3.frontend.async_tasks.DiscoveryAsyncTask;
+import edu.utexas.mpc.warble3.frontend.async_tasks.DiscoveryAsyncTaskComplete;
 import edu.utexas.mpc.warble3.frontend.thing.ThingDetailActivity;
 import edu.utexas.mpc.warble3.model.resource.Resource;
 import edu.utexas.mpc.warble3.model.thing.component.THING_CONCRETE_TYPE;
 import edu.utexas.mpc.warble3.model.thing.component.Thing;
 import edu.utexas.mpc.warble3.model.thing.util.ThingUtil;
+import edu.utexas.mpc.warble3.util.Logging;
 
 public class SetupFragment extends Fragment {
     private static final String TAG = "SetupFragment";
 
     private HashMap<THING_CONCRETE_TYPE, List<Thing>> discoveredThings;
     private ExpandableListView expandableListView;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private SwipeRefreshLayout.OnRefreshListener onRefreshListener;
 
     public static SetupFragment getNewInstance() {
         SetupFragment setupFragment = new SetupFragment();
@@ -37,8 +44,30 @@ public class SetupFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup holder, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_setup, holder, false);
+
         expandableListView = view.findViewById(R.id.setup_elv);
         updateDiscoveredThings(discoveredThings);
+
+        onRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new DiscoveryAsyncTask(new DiscoveryAsyncTaskComplete() {
+                    @Override
+                    public void onDiscoveryTaskComplete(List<Thing> things) {
+                        if (things == null) {
+                            if (Logging.VERBOSE) Log.v(TAG, "Discovered things is null");
+                        }
+                        else {
+                            HashMap<THING_CONCRETE_TYPE, List<Thing>> thingsHashMap = ThingUtil.toThingHashMapByConcreteType(things);
+                            updateDiscoveredThings(thingsHashMap);
+                        }
+                    }
+                }).execute();
+            }
+        };
+        swipeRefreshLayout = view.findViewById(R.id.setupFragment_swipeRefreshLayout);
+        swipeRefreshLayout.setOnRefreshListener(onRefreshListener);
+
         return view;
     }
 

@@ -3,7 +3,6 @@ package edu.utexas.mpc.warble3.frontend.async_tasks;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import edu.utexas.mpc.warble3.model.resource.Resource;
@@ -24,7 +23,7 @@ public class DiscoveryAsyncTask extends AsyncTask<Void, Void, List<Thing>> {
         if (Logging.DEBUG) Log.d(TAG, "Executing DiscoveryAsyncTask ...");
 
         resource.discoverThings();
-        return new ArrayList<>(resource.getThings());
+        return resource.getThings();
     }
 
     @Override
