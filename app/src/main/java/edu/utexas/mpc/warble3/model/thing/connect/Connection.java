@@ -16,6 +16,9 @@ public abstract class Connection implements Serializable, Storeable, ConnectionS
 
     private long dbid;
 
+    public Connection() {
+    }
+
     public Connection(Thing source, Thing destination) {
         this.source = source;
         this.destination = destination;
