@@ -61,6 +61,7 @@ public class SetupFragment extends Fragment {
                             HashMap<THING_CONCRETE_TYPE, List<Thing>> thingsHashMap = ThingUtil.toThingHashMapByConcreteType(things);
                             updateDiscoveredThings(thingsHashMap);
                         }
+                        swipeRefreshLayout.setRefreshing(false);
                     }
                 }).execute();
             }
