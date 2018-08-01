@@ -4,6 +4,8 @@ import android.util.Log;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
 
 import edu.utexas.mpc.warble3.database.AppDatabase;
 import edu.utexas.mpc.warble3.database.ConnectionDb;
@@ -66,6 +68,19 @@ public class ConnectionConverter {
 
     }
 
+    public static List<Connection> toConnections(List<ConnectionDb> connectionDbs) {
+        if (connectionDbs == null) {
+            return null;
+        }
+        else {
+            List<Connection> connections = new ArrayList<>();
+            for (ConnectionDb connectionDb : connectionDbs) {
+                connections.add(ConnectionConverter.toConnection(connectionDb));
+            }
+            return connections;
+        }
+    }
+
     public static ConnectionDb toConnectionDb(Connection connection) {
         ConnectionDb connectionDb = new ConnectionDb();
 
@@ -87,5 +102,18 @@ public class ConnectionConverter {
         }
 
         return connectionDb;
+    }
+
+    public static List<ConnectionDb> toConnectionDbs(List<Connection> connections) {
+        if (connections == null) {
+            return null;
+        }
+        else {
+            List<ConnectionDb> connectionDbs = new ArrayList<>();
+            for (Connection connection : connections) {
+                connectionDbs.add(ConnectionConverter.toConnectionDb(connection));
+            }
+            return connectionDbs;
+        }
     }
 }

@@ -159,6 +159,14 @@ public abstract class AppDatabase extends RoomDatabase implements AppDatabaseInt
         return ConnectionConverter.toConnection(getDatabase().connectionDbDao().getConnectionDbByDbid(dbid));
     }
 
+    public List<Connection> getConnectionBySourceId(long thingDbid) {
+        return ConnectionConverter.toConnections(getDatabase().connectionDbDao().getConnectionDbBySourceId(thingDbid));
+    }
+
+    private List<Connection> getConnectionByDestinationId(long thingDbid) {
+        return ConnectionConverter.toConnections(getDatabase().connectionDbDao().getConnectionDbByDestinationId(thingDbid));
+    }
+
     @Override
     public long saveConnection(Connection connection) {
         long connectionDbid = connection.getDbid();
