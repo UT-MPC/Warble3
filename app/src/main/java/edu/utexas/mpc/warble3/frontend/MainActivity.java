@@ -14,10 +14,6 @@ import java.util.List;
 
 import edu.utexas.mpc.warble3.R;
 import edu.utexas.mpc.warble3.database.AppDatabase;
-import edu.utexas.mpc.warble3.database.ConnectionDb;
-import edu.utexas.mpc.warble3.database.ThingAccessCredentialDb;
-import edu.utexas.mpc.warble3.database.ThingDb;
-import edu.utexas.mpc.warble3.database.UserDb;
 import edu.utexas.mpc.warble3.frontend.async_tasks.DiscoveryAsyncTask;
 import edu.utexas.mpc.warble3.frontend.async_tasks.DiscoveryAsyncTaskComplete;
 import edu.utexas.mpc.warble3.frontend.main_activity_fragments.ControlFragment;
@@ -74,50 +70,7 @@ public class MainActivity extends AppCompatActivity implements DiscoveryAsyncTas
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.setSelectedItemId(R.id.navigation_control);
 
-        List<UserDb> userDbs = AppDatabase.getDatabase().userDbDao().getAllUserDbs();
-        if (userDbs == null) {
-            if(Logging.VERBOSE) Log.v(TAG, "Number of userDb before discover : 0");
-        }
-        else {
-            if(Logging.VERBOSE) Log.v(TAG, String.format("Number of userDb before discover : %d", userDbs.size()));
-            for (UserDb userDb : userDbs) {
-                if(Logging.VERBOSE) Log.v(TAG, userDb.toString());
-            }
-        }
-
-
-        List<ThingDb> thingDbs = AppDatabase.getDatabase().thingDbDao().getAllThingDbs();
-        if (thingDbs == null) {
-            if(Logging.VERBOSE) Log.v(TAG, "Number of thingDb before discover : 0");
-        }
-        else {
-            if(Logging.VERBOSE) Log.v(TAG, String.format("Number of thingDb before discover : %d", thingDbs.size()));
-            for (ThingDb thingDb : thingDbs) {
-                if(Logging.VERBOSE) Log.v(TAG, thingDb.toString());
-            }
-        }
-
-        List<ConnectionDb> connectionDbs = AppDatabase.getDatabase().connectionDbDao().getAllConnectionDbs();
-        if (connectionDbs == null) {
-            if(Logging.VERBOSE) Log.v(TAG, "Number of connectionDb before discover : 0");
-        }
-        else {
-            if(Logging.VERBOSE) Log.v(TAG, String.format("Number of connectionDb before discover : %d", connectionDbs.size()));
-            for (ConnectionDb connectionDb : connectionDbs) {
-                if(Logging.VERBOSE) Log.v(TAG, connectionDb.toString());
-            }
-        }
-
-        List<ThingAccessCredentialDb> thingAccessCredentialDbs = AppDatabase.getDatabase().thingAccessCredentialDbDao().getAllThingAccessCredentialDbs();
-        if (thingAccessCredentialDbs == null) {
-            if(Logging.VERBOSE) Log.v(TAG, "Number of thingAccessCredentialDbs before discover : 0");
-        }
-        else {
-            if(Logging.VERBOSE) Log.v(TAG, String.format("Number of thingAccessCredentialDbs before discover : %d", thingAccessCredentialDbs.size()));
-            for (ThingAccessCredentialDb thingAccessCredentialDb : thingAccessCredentialDbs) {
-                if(Logging.VERBOSE) Log.v(TAG, thingAccessCredentialDb.toString());
-            }
-        }
+        if (Logging.VERBOSE) Log.v(TAG, AppDatabase.getDatabase().toStringDb());
 
         setupFragment.updateDiscoveredThings(ThingUtil.toThingHashMapByConcreteType(Resource.getInstance().getThings()));
 
