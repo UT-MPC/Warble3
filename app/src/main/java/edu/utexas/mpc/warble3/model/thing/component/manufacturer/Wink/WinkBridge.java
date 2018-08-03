@@ -6,7 +6,7 @@ import edu.utexas.mpc.warble3.model.thing.component.Bridge;
 import edu.utexas.mpc.warble3.model.thing.component.Thing;
 import edu.utexas.mpc.warble3.model.thing.component.ThingState;
 
-public class WinkBridge extends Bridge {
+public final class WinkBridge extends Bridge {
     public WinkBridge() {
         super();
     }

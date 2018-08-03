@@ -9,7 +9,7 @@ import edu.utexas.mpc.warble3.model.thing.component.ThingState;
 import edu.utexas.mpc.warble3.model.thing.credential.UsernamePasswordCredential;
 import edu.utexas.mpc.warble3.model.thing.discovery.Discovery;
 
-public class PhilipsHueBridge extends Bridge {
+public final class PhilipsHueBridge extends Bridge {
     private static final String TAG = "PhilipsHueBridge";
 
     public PhilipsHueBridge() {

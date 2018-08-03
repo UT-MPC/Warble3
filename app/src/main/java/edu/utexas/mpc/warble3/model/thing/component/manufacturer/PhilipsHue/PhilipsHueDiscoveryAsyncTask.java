@@ -7,7 +7,7 @@ import java.util.List;
 
 import edu.utexas.mpc.warble3.model.thing.component.Thing;
 
-public class PhilipsHueDiscoveryAsyncTask extends AsyncTask<Void, Void, List<? extends Thing>> {
+public final class PhilipsHueDiscoveryAsyncTask extends AsyncTask<Void, Void, List<? extends Thing>> {
     @Override
     protected List<? extends Thing> doInBackground(Void... voids) {
         PhilipsHueUPnPDiscovery discovery = new PhilipsHueUPnPDiscovery();

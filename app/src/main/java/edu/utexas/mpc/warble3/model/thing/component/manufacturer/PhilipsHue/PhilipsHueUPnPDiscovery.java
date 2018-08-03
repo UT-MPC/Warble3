@@ -20,7 +20,7 @@ import edu.utexas.mpc.warble3.model.thing.connect.HttpConnection;
 import edu.utexas.mpc.warble3.model.thing.discovery.SSDPDiscovery;
 import edu.utexas.mpc.warble3.util.Logging;
 
-public class PhilipsHueUPnPDiscovery extends SSDPDiscovery {
+public final class PhilipsHueUPnPDiscovery extends SSDPDiscovery {
     private static final String TAG = "PhilipsHueUPnPDiscovery";
 
     private static final String RESPONSE_SIGNATURE = "IpBridge";

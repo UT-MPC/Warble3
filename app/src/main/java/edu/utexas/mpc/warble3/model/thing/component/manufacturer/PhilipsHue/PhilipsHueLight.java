@@ -2,7 +2,7 @@ package edu.utexas.mpc.warble3.model.thing.component.manufacturer.PhilipsHue;
 
 import edu.utexas.mpc.warble3.model.thing.component.Light;
 
-public class PhilipsHueLight extends Light {
+public final class PhilipsHueLight extends Light {
     private static final String TAG = "PhilipsHueLight";
 
     public PhilipsHueLight() {
