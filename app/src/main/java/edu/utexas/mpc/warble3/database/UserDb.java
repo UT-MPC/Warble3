@@ -54,7 +54,7 @@ public class UserDb {
     @Override
     public String toString() {
         String string = "";
-        string += String.format(Locale.ENGLISH, "%s", getUsername());
+        string += String.format(Locale.getDefault(), "%s", getUsername());
         return string;
     }
 }
