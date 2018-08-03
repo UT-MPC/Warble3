@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements DiscoveryAsyncTas
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.setSelectedItemId(R.id.navigation_control);
 
-        if (Logging.VERBOSE) Log.v(TAG, AppDatabase.getDatabase().toStringDb());
+        if (Logging.INFO) Log.i(TAG, AppDatabase.getDatabase().toStringDb());
 
         setupFragment.updateDiscoveredThings(ThingUtil.toThingHashMapByConcreteType(Resource.getInstance().getThings()));
 
@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements DiscoveryAsyncTas
     @Override
     public void onDiscoveryTaskComplete(List<Thing> things) {
         if (things == null) {
-            if (Logging.VERBOSE) Log.v(TAG, "Discovered things is null");
+            if (Logging.INFO) Log.i(TAG, "Discovered things is null");
         }
         else {
             HashMap<THING_CONCRETE_TYPE, List<Thing>> thingsHashMap = ThingUtil.toThingHashMapByConcreteType(things);

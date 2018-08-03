@@ -55,7 +55,7 @@ public class SetupFragment extends Fragment {
                     @Override
                     public void onDiscoveryTaskComplete(List<Thing> things) {
                         if (things == null) {
-                            if (Logging.VERBOSE) Log.v(TAG, "Discovered things is null");
+                            if (Logging.INFO) Log.i(TAG, "Discovered things is null");
                         }
                         else {
                             HashMap<THING_CONCRETE_TYPE, List<Thing>> thingsHashMap = ThingUtil.toThingHashMapByConcreteType(things);
