@@ -6,6 +6,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -17,13 +18,12 @@ import edu.utexas.mpc.warble3.R;
 import edu.utexas.mpc.warble3.frontend.adapter.SimpleAdapter;
 import edu.utexas.mpc.warble3.model.thing.component.Thing;
 import edu.utexas.mpc.warble3.model.thing.credential.ThingAccessCredential;
+import edu.utexas.mpc.warble3.util.Logging;
 
 public class ThingDetailActivity extends AppCompatActivity {
     private static final String TAG = "ThingDetailActivity";
 
     public static final String THING_BUNDLE_INTENT_EXTRA = "edu.utexas.mpc.warble3.setup_page.ThingDetailActivity.THING";
-
-    private Thing thing;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,30 +37,30 @@ public class ThingDetailActivity extends AppCompatActivity {
             finish();
         }
         else {
-            this.thing = thing;
+            if (Logging.VERBOSE) Log.v(TAG, String.format("Thing : %s", thing.toString()));
 
-            Objects.requireNonNull(getSupportActionBar()).setTitle(this.thing.getFriendlyName());
+            Objects.requireNonNull(getSupportActionBar()).setTitle(thing.getFriendlyName());
 
-            ((TextView) findViewById(R.id.name_thingActivity_textView)).setText(this.thing.getName());
-            ((TextView) findViewById(R.id.friendlyName_thingActivity_textView)).setText(this.thing.getFriendlyName());
-            ((TextView) findViewById(R.id.uuid_thingActivity_textView)).setText(this.thing.getUuid());
-            ((TextView) findViewById(R.id.thingTypes_thingActivity_textView)).setText(this.thing.getThingTypes().toString());
-            ((TextView) findViewById(R.id.concreteTypes_thingActivity_textView)).setText(this.thing.getThingConcreteType().toString());
-            ((TextView) findViewById(R.id.accessName_thingActivity_textView)).setText(this.thing.getAccessName());
-            ((TextView) findViewById(R.id.accessUsername_thingActivity_textView)).setText(this.thing.getAccessUsername());
-            ((TextView) findViewById(R.id.accessPasscode_thingActivity_textView)).setText(this.thing.getAccessPasscode());
-            ((TextView) findViewById(R.id.manufacturerSerialNumber_thingActivity_textView)).setText(this.thing.getManufacturerSerialNumber());
-            ((TextView) findViewById(R.id.manufacturerModelName_thingActivity_textView)).setText(this.thing.getManufacturerModelName());
-            ((TextView) findViewById(R.id.manufacturerModelNumber_thingActivity_textView)).setText(this.thing.getManufacturerModelNumber());
-            ((TextView) findViewById(R.id.manufacturerName_thingActivity_textView)).setText(this.thing.getManufacturerName());
-            // ((TextView) findViewById(R.id.connections_thingActivity_textView)).setText(this.thing);
-            // ((TextView) findViewById(R.id.discoveries_thingActivity_textView)).setText(this.thing);
-            ((TextView) findViewById(R.id.isCredentialRequired_thingActivity_textView)).setText(String.valueOf(this.thing.getCredentialRequired()));
-            ((TextView) findViewById(R.id.dbid_thingActivity_textView)).setText(String.valueOf(this.thing.getDbid()));
+            ((TextView) findViewById(R.id.name_thingActivity_textView)).setText(thing.getName());
+            ((TextView) findViewById(R.id.friendlyName_thingActivity_textView)).setText(thing.getFriendlyName());
+            ((TextView) findViewById(R.id.uuid_thingActivity_textView)).setText(thing.getUuid());
+            ((TextView) findViewById(R.id.thingTypes_thingActivity_textView)).setText(thing.getThingTypes().toString());
+            ((TextView) findViewById(R.id.concreteTypes_thingActivity_textView)).setText(thing.getThingConcreteType().toString());
+            ((TextView) findViewById(R.id.accessName_thingActivity_textView)).setText(thing.getAccessName());
+            ((TextView) findViewById(R.id.accessUsername_thingActivity_textView)).setText(thing.getAccessUsername());
+            ((TextView) findViewById(R.id.accessPasscode_thingActivity_textView)).setText(thing.getAccessPasscode());
+            ((TextView) findViewById(R.id.manufacturerSerialNumber_thingActivity_textView)).setText(thing.getManufacturerSerialNumber());
+            ((TextView) findViewById(R.id.manufacturerModelName_thingActivity_textView)).setText(thing.getManufacturerModelName());
+            ((TextView) findViewById(R.id.manufacturerModelNumber_thingActivity_textView)).setText(thing.getManufacturerModelNumber());
+            ((TextView) findViewById(R.id.manufacturerName_thingActivity_textView)).setText(thing.getManufacturerName());
+            // ((TextView) findViewById(R.id.connections_thingActivity_textView)).setText(thing);
+            // ((TextView) findViewById(R.id.discoveries_thingActivity_textView)).setText(thing);
+            ((TextView) findViewById(R.id.isCredentialRequired_thingActivity_textView)).setText(String.valueOf(thing.getCredentialRequired()));
+            ((TextView) findViewById(R.id.dbid_thingActivity_textView)).setText(String.valueOf(thing.getDbid()));
 
-            if (this.thing.getThingAccessCredentials() != null) {
+            if (thing.getThingAccessCredentials() != null) {
                 List<String> thingAccessCredentialsString = new ArrayList<>();
-                for (ThingAccessCredential thingAccessCredential : this.thing.getThingAccessCredentials()) {
+                for (ThingAccessCredential thingAccessCredential : thing.getThingAccessCredentials()) {
                     thingAccessCredentialsString.add(thingAccessCredential.toString());
                 }
 
@@ -78,7 +78,7 @@ public class ThingDetailActivity extends AppCompatActivity {
                     View mView = getLayoutInflater().inflate(R.layout.activity_select_add_thing_access_credential, null);
 
                     final List<String> thingAccessCredentialClassesString = new ArrayList<>();
-                    for (Class thingAccessCredentialClass : ThingDetailActivity.this.thing.getThingAccessCredentialClasses()) {
+                    for (Class thingAccessCredentialClass : thing.getThingAccessCredentialClasses()) {
                         thingAccessCredentialClassesString.add(thingAccessCredentialClass.getSimpleName());
                     }
                     
@@ -89,10 +89,12 @@ public class ThingDetailActivity extends AppCompatActivity {
                         @Override
                         public void onClick(View view, int position) {
                             String selectedClass = thingAccessCredentialClassesString.get(position);
+
+                            Bundle thingBundle = new Bundle();
+                            thingBundle.putSerializable(AddThingAccessCredentialActivity.THING_INTENT_EXTRA, thing);
+
                             Intent intent = new Intent(ThingDetailActivity.this, AddThingAccessCredentialActivity.class);
                             intent.putExtra(AddThingAccessCredentialActivity.THING_ACCESS_CREDENTIAL_CLASS_INTENT_EXTRA, selectedClass);
-                            Bundle thingBundle = new Bundle();
-                            thingBundle.putSerializable(AddThingAccessCredentialActivity.THING_INTENT_EXTRA, ThingDetailActivity.this.thing);
                             intent.putExtra(AddThingAccessCredentialActivity.THING_INTENT_EXTRA, thingBundle);
                             startActivityForResult(intent, 0);
                         }
@@ -106,13 +108,5 @@ public class ThingDetailActivity extends AppCompatActivity {
                 }
             });
         }
-    }
-
-    public Thing getThing() {
-        return thing;
-    }
-
-    public void setThing(Thing thing) {
-        this.thing = thing;
     }
 }

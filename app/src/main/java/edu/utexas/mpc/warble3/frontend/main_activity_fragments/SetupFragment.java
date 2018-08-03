@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,63 +13,71 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
 import edu.utexas.mpc.warble3.R;
+import edu.utexas.mpc.warble3.frontend.async_tasks.DiscoveryAsyncTask;
+import edu.utexas.mpc.warble3.frontend.async_tasks.DiscoveryAsyncTaskComplete;
 import edu.utexas.mpc.warble3.frontend.thing.ThingDetailActivity;
+import edu.utexas.mpc.warble3.model.resource.Resource;
 import edu.utexas.mpc.warble3.model.thing.component.THING_CONCRETE_TYPE;
 import edu.utexas.mpc.warble3.model.thing.component.Thing;
+import edu.utexas.mpc.warble3.model.thing.util.ThingUtil;
+import edu.utexas.mpc.warble3.util.Logging;
 
 public class SetupFragment extends Fragment {
     private static final String TAG = "SetupFragment";
 
     private HashMap<THING_CONCRETE_TYPE, List<Thing>> discoveredThings;
     private ExpandableListView expandableListView;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private SwipeRefreshLayout.OnRefreshListener onRefreshListener;
 
-    public static SetupFragment getNewInstance(HashMap<THING_CONCRETE_TYPE, List<Thing>> discoveredThings) {
+    public static SetupFragment getNewInstance() {
         SetupFragment setupFragment = new SetupFragment();
-
-        Bundle args = new Bundle();
-        args.putSerializable("discoveredThings", discoveredThings);
-        setupFragment.setDiscoveredThings(discoveredThings);
+        setupFragment.updateDiscoveredThings(ThingUtil.toThingHashMapByConcreteType(Resource.getInstance().getThings()));
         return setupFragment;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup holder, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_setup, holder, false);
+
         expandableListView = view.findViewById(R.id.setup_elv);
         updateDiscoveredThings(discoveredThings);
+
+        onRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new DiscoveryAsyncTask(new DiscoveryAsyncTaskComplete() {
+                    @Override
+                    public void onDiscoveryTaskComplete(List<Thing> things) {
+                        if (things == null) {
+                            if (Logging.VERBOSE) Log.v(TAG, "Discovered things is null");
+                        }
+                        else {
+                            HashMap<THING_CONCRETE_TYPE, List<Thing>> thingsHashMap = ThingUtil.toThingHashMapByConcreteType(things);
+                            updateDiscoveredThings(thingsHashMap);
+                        }
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                }).execute();
+            }
+        };
+        swipeRefreshLayout = view.findViewById(R.id.setupFragment_swipeRefreshLayout);
+        swipeRefreshLayout.setOnRefreshListener(onRefreshListener);
+
         return view;
     }
 
-    public HashMap<THING_CONCRETE_TYPE, List<Thing>> getDiscoveredThings() {
+    private HashMap<THING_CONCRETE_TYPE, List<Thing>> getDiscoveredThings() {
         return discoveredThings;
     }
 
-    public void setDiscoveredThings(HashMap<THING_CONCRETE_TYPE, List<Thing>> discoveredThings) {
+    private void setDiscoveredThings(HashMap<THING_CONCRETE_TYPE, List<Thing>> discoveredThings) {
         this.discoveredThings = discoveredThings;
-    }
-
-    public HashMap<THING_CONCRETE_TYPE, List<Thing>> toThingHashMap(List<Thing> things) {
-        if (things == null) {
-            return null;
-        }
-        else {
-            HashMap<THING_CONCRETE_TYPE, List<Thing>> thingsHashMap = new HashMap<>();
-
-            for (Thing thing : things) {
-                List<Thing> listThings = thingsHashMap.get(thing.getThingConcreteType());
-                if (listThings == null) listThings = new ArrayList<>();
-                listThings.add(thing);
-                thingsHashMap.put(thing.getThingConcreteType(), listThings);
-            }
-
-            return thingsHashMap;
-        }
     }
 
     public void updateDiscoveredThings(final HashMap<THING_CONCRETE_TYPE, List<Thing>> discoveredThings) {

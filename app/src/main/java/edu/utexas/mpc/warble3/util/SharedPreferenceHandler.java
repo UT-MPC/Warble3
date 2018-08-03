@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 
 public class SharedPreferenceHandler {
     public static String SHARED_PREFS_CURRENT_USER_SETTINGS = "edu.utexas.mpc.warble3.CURRENT_USER_SETTINGS";
+    public static String SHARED_PREFS_USERNAME = "username";
 
     public static SharedPreferences getSharedPrefsCurrentUserSettings(Context context) {
         return context.getSharedPreferences(SHARED_PREFS_CURRENT_USER_SETTINGS, Context.MODE_PRIVATE);

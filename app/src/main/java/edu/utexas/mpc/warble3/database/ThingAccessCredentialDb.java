@@ -57,4 +57,11 @@ public class ThingAccessCredentialDb {
     public void setThingId(long thingId) {
         this.thingId = thingId;
     }
+
+    @Override
+    public String toString() {
+        String string = "";
+        string += String.format("%s:%s - %s", dbid, TAG, credentialInfo);
+        return string;
+    }
 }

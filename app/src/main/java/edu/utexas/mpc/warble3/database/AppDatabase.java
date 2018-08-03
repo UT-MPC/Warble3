@@ -7,6 +7,7 @@ import android.content.Context;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import edu.utexas.mpc.warble3.database.converter.ConnectionConverter;
 import edu.utexas.mpc.warble3.database.converter.ThingAccessCredentialConverter;
@@ -19,7 +20,7 @@ import edu.utexas.mpc.warble3.model.user.User;
 import edu.utexas.mpc.warble3.setup.AppDatabaseInterface;
 
 @Database(entities = {UserDb.class, ThingDb.class, ConnectionDb.class, ThingAccessCredentialDb.class},
-        version = 6,
+        version = 7,
         exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase implements AppDatabaseInterface {
     private static final String TAG = "AppDatabase";
@@ -85,6 +86,7 @@ public abstract class AppDatabase extends RoomDatabase implements AppDatabaseInt
     public void deleteAllUsers() {
         getDatabase().userDbDao().deleteAllUserDbs();
     }
+
 
     // Thing
     public List<Thing> getThings() {
@@ -157,6 +159,14 @@ public abstract class AppDatabase extends RoomDatabase implements AppDatabaseInt
 
     public Connection getConnectionByDbid(long dbid) {
         return ConnectionConverter.toConnection(getDatabase().connectionDbDao().getConnectionDbByDbid(dbid));
+    }
+
+    public List<Connection> getConnectionBySourceId(long thingDbid) {
+        return ConnectionConverter.toConnections(getDatabase().connectionDbDao().getConnectionDbBySourceId(thingDbid));
+    }
+
+    private List<Connection> getConnectionByDestinationId(long thingDbid) {
+        return ConnectionConverter.toConnections(getDatabase().connectionDbDao().getConnectionDbByDestinationId(thingDbid));
     }
 
     @Override
@@ -245,5 +255,88 @@ public abstract class AppDatabase extends RoomDatabase implements AppDatabaseInt
         else {
             return null;
         }
+    }
+
+    // Logging
+    public String toStringDb() {
+        return toStringUserDbs()
+                + "\n" +
+                toStringThingDbs()
+                + "\n" +
+                toStringConnectionDbs()
+                + "\n" +
+                toStringThingAccessCredentialDbs();
+    }
+
+    public String toStringUserDbs() {
+        StringBuilder stringBuilder = new StringBuilder();
+        List<UserDb> userDbs = getDatabase().userDbDao().getAllUserDbs();
+        if (userDbs == null) {
+            stringBuilder.append("Number of userDb : 0");
+        }
+        else {
+            stringBuilder.append(String.format(Locale.getDefault(), "Number of userDb : %d", userDbs.size()));
+            for (UserDb userDb : userDbs) {
+                stringBuilder.append("\n");
+                stringBuilder.append("- ");
+                stringBuilder.append(userDb.toString());
+            }
+        }
+
+        return stringBuilder.toString();
+    }
+
+    public String toStringThingDbs() {
+        StringBuilder stringBuilder = new StringBuilder();
+        List<ThingDb> thingDbs = getDatabase().thingDbDao().getAllThingDbs();
+        if (thingDbs == null) {
+            stringBuilder.append("Number of thingDb : 0");
+        }
+        else {
+            stringBuilder.append(String.format(Locale.getDefault(), "Number of thingDb : %d", thingDbs.size()));
+            for (ThingDb thingDb : thingDbs) {
+                stringBuilder.append("\n");
+                stringBuilder.append("- ");
+                stringBuilder.append(thingDb.toString());
+            }
+        }
+
+        return stringBuilder.toString();
+    }
+
+    public String toStringConnectionDbs() {
+        StringBuilder stringBuilder = new StringBuilder();
+        List<ConnectionDb> connectionDbs = getDatabase().connectionDbDao().getAllConnectionDbs();
+        if (connectionDbs == null) {
+            stringBuilder.append("Number of connectionDb : 0");
+        }
+        else {
+            stringBuilder.append(String.format(Locale.getDefault(), "Number of connectionDb : %d", connectionDbs.size()));
+            for (ConnectionDb connectionDb : connectionDbs) {
+                stringBuilder.append("\n");
+                stringBuilder.append("- ");
+                stringBuilder.append(connectionDb.toString());
+            }
+        }
+
+        return stringBuilder.toString();
+    }
+
+    public String toStringThingAccessCredentialDbs() {
+        StringBuilder stringBuilder = new StringBuilder();
+        List<ThingAccessCredentialDb> thingAccessCredentialDbs = getDatabase().thingAccessCredentialDbDao().getAllThingAccessCredentialDbs();
+        if (thingAccessCredentialDbs == null) {
+            stringBuilder.append("Number of thingAccessCredentialDb : 0");
+        }
+        else {
+            stringBuilder.append(String.format(Locale.getDefault(), "Number of thingAccessCredentialDbs : %d", thingAccessCredentialDbs.size()));
+            for (ThingAccessCredentialDb thingAccessCredentialDb : thingAccessCredentialDbs) {
+                stringBuilder.append("\n");
+                stringBuilder.append("- ");
+                stringBuilder.append(thingAccessCredentialDb.toString());
+            }
+        }
+
+        return stringBuilder.toString();
     }
 }

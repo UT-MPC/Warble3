@@ -18,6 +18,11 @@ public class HttpConnection extends Connection implements ConnectionStoreable {
     private String ipAddress;
     private IP_TYPE ipType;
 
+    public HttpConnection() {
+        super();
+        setDirectionalType(DIRECTIONAL_TYPE.UNIDIRECTIONAL);
+    }
+
     public HttpConnection(Thing source, Thing destination) {
         super(source, destination);
         setDirectionalType(DIRECTIONAL_TYPE.UNIDIRECTIONAL);
