@@ -259,13 +259,15 @@ public abstract class AppDatabase extends RoomDatabase implements AppDatabaseInt
 
     // Logging
     public String toStringDb() {
-        return toStringUserDbs()
+        return "===== Database =====\n" +
+                toStringUserDbs()
                 + "\n" +
                 toStringThingDbs()
                 + "\n" +
                 toStringConnectionDbs()
                 + "\n" +
-                toStringThingAccessCredentialDbs();
+                toStringThingAccessCredentialDbs()
+                + "\n====================";
     }
 
     public String toStringUserDbs() {
