@@ -31,12 +31,16 @@ public class ThingManager {
     public List<Thing> getThings() {
         List<Thing> things = AppDatabase.getDatabase().getThings();
 
-        for (Thing thing : things) {
-            List<Connection> connections = AppDatabase.getDatabase().getConnectionBySourceId(thing.getDbid());
-            thing.setConnections(connections);
+        if (things == null) {
+            return null;
         }
-
-        return things;
+        else {
+            for (Thing thing : things) {
+                List<Connection> connections = AppDatabase.getDatabase().getConnectionBySourceId(thing.getDbid());
+                thing.setConnections(connections);
+            }
+            return things;
+        }
     }
 
     public void discover() {
