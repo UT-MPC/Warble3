@@ -234,6 +234,10 @@ public abstract class AppDatabase extends RoomDatabase implements AppDatabaseInt
         return ThingAccessCredentialConverter.toThingAccessCredential(AppDatabase.getDatabase().thingAccessCredentialDbDao().getThingAccessCredentialDbByDbid(dbid));
     }
 
+    public List<ThingAccessCredential> getThingAccessCredentialsByThingId(long thingId) {
+        return ThingAccessCredentialConverter.toThingAccessCredentials(AppDatabase.getDatabase().thingAccessCredentialDbDao().getThingAccessCredentialDbsByThingId(thingId));
+    }
+
     @Override
     public void deleteAllThingAccessCredentials() {
         AppDatabase.getDatabase().thingAccessCredentialDbDao().deleteAllThingAccessCredentialDbs();

@@ -11,6 +11,7 @@ import edu.utexas.mpc.warble3.model.thing.component.manufacturer.GE.GEDiscovery;
 import edu.utexas.mpc.warble3.model.thing.component.manufacturer.PhilipsHue.PhilipsHueUPnPDiscovery;
 import edu.utexas.mpc.warble3.model.thing.component.manufacturer.Wink.WinkDiscovery;
 import edu.utexas.mpc.warble3.model.thing.connect.Connection;
+import edu.utexas.mpc.warble3.model.thing.credential.ThingAccessCredential;
 import edu.utexas.mpc.warble3.model.thing.discovery.Discovery;
 import edu.utexas.mpc.warble3.util.Logging;
 
@@ -38,7 +39,11 @@ public class ThingManager {
             for (Thing thing : things) {
                 List<Connection> connections = AppDatabase.getDatabase().getConnectionBySourceId(thing.getDbid());
                 thing.setConnections(connections);
+
+                List<ThingAccessCredential> thingAccessCredentials = AppDatabase.getDatabase().getThingAccessCredentialsByThingId(thing.getDbid());
+                thing.setThingAccessCredentials(thingAccessCredentials);
             }
+
             return things;
         }
     }
