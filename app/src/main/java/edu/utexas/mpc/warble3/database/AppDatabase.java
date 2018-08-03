@@ -4,6 +4,7 @@ import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,7 @@ import edu.utexas.mpc.warble3.model.thing.connect.Connection;
 import edu.utexas.mpc.warble3.model.thing.credential.ThingAccessCredential;
 import edu.utexas.mpc.warble3.model.user.User;
 import edu.utexas.mpc.warble3.setup.AppDatabaseInterface;
+import edu.utexas.mpc.warble3.util.Logging;
 
 @Database(entities = {UserDb.class, ThingDb.class, ConnectionDb.class, ThingAccessCredentialDb.class},
         version = 7,
@@ -172,13 +174,20 @@ public abstract class AppDatabase extends RoomDatabase implements AppDatabaseInt
     @Override
     public long saveConnection(Connection connection) {
         long connectionDbid = connection.getDbid();
-        if ((connectionDbid != 0) && (getConnectionByDbid(connectionDbid) != null)) {
-            getDatabase().connectionDbDao().update(ConnectionConverter.toConnectionDb(connection));
+
+        ConnectionDb connectionDb = ConnectionConverter.toConnectionDb(connection);
+        List<ConnectionDb> existingConnectionDbs = connectionDbDao().getAllConnectionDbs();
+
+        if (((connectionDbid != 0) && (getConnectionByDbid(connectionDbid) != null)) || (existingConnectionDbs.contains(connectionDb))) {
+            if (Logging.INFO) Log.i(TAG, "Update connectionDb");
+            getDatabase().connectionDbDao().update(connectionDb);
         }
         else {
-            connectionDbid = getDatabase().connectionDbDao().insert(ConnectionConverter.toConnectionDb(connection));
-            connection.onPostStore(connectionDbid);
+            if (Logging.INFO) Log.i(TAG, "Insert connectionDb");
+            connectionDbid = getDatabase().connectionDbDao().insert(connectionDb);
         }
+
+        connection.onPostStore(connectionDbid);
 
         return connectionDbid;
     }
@@ -233,8 +242,10 @@ public abstract class AppDatabase extends RoomDatabase implements AppDatabaseInt
         }
         else {
             thingAccessCredentialDbid = getDatabase().thingAccessCredentialDbDao().insert(ThingAccessCredentialConverter.toThingAccessCredentialDb(thingAccessCredential));
-            thingAccessCredential.onPostStore(thingAccessCredentialDbid);
         }
+
+        thingAccessCredential.onPostStore(thingAccessCredentialDbid);
+
         return thingAccessCredentialDbid;
     }
 
