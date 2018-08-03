@@ -61,7 +61,8 @@ public class ThingAccessCredentialDb {
     @Override
     public String toString() {
         String string = "";
-        string += String.format("%s:%s - %s", dbid, TAG, credentialInfo);
+        String[] c = credentialClass.split("\\.");
+        string += String.format("%s:%s %s->%s - %s", dbid, c[c.length-1], username, thingId,credentialInfo);
         return string;
     }
 }
