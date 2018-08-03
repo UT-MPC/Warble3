@@ -17,7 +17,9 @@ import java.util.Objects;
 import edu.utexas.mpc.warble3.R;
 import edu.utexas.mpc.warble3.frontend.adapter.SimpleAdapter;
 import edu.utexas.mpc.warble3.model.thing.component.Thing;
+import edu.utexas.mpc.warble3.model.thing.connect.Connection;
 import edu.utexas.mpc.warble3.model.thing.credential.ThingAccessCredential;
+import edu.utexas.mpc.warble3.model.thing.discovery.Discovery;
 import edu.utexas.mpc.warble3.util.Logging;
 
 public class ThingDetailActivity extends AppCompatActivity {
@@ -53,10 +55,34 @@ public class ThingDetailActivity extends AppCompatActivity {
             ((TextView) findViewById(R.id.manufacturerModelName_thingActivity_textView)).setText(thing.getManufacturerModelName());
             ((TextView) findViewById(R.id.manufacturerModelNumber_thingActivity_textView)).setText(thing.getManufacturerModelNumber());
             ((TextView) findViewById(R.id.manufacturerName_thingActivity_textView)).setText(thing.getManufacturerName());
-            // ((TextView) findViewById(R.id.connections_thingActivity_textView)).setText(thing);
-            // ((TextView) findViewById(R.id.discoveries_thingActivity_textView)).setText(thing);
             ((TextView) findViewById(R.id.isCredentialRequired_thingActivity_textView)).setText(String.valueOf(thing.getCredentialRequired()));
             ((TextView) findViewById(R.id.dbid_thingActivity_textView)).setText(String.valueOf(thing.getDbid()));
+
+            if (thing.getConnections() != null) {
+                List<String> connectionsString = new ArrayList<>();
+                for (Connection connection : thing.getConnections()) {
+                    connectionsString.add(connection.toString());
+                }
+
+                RecyclerView connectionsRecyclerView = findViewById(R.id.connections_thingActivity_recyclerView);
+                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+                RecyclerView.Adapter adapter = new SimpleAdapter(this, connectionsString);
+                connectionsRecyclerView.setLayoutManager(layoutManager);
+                connectionsRecyclerView.setAdapter(adapter);
+            }
+
+            if (thing.getDiscoveries() != null) {
+                List<String> discoveriesString = new ArrayList<>();
+                for (Discovery discovery : thing.getDiscoveries()) {
+                    discoveriesString.add(discovery.toString());
+                }
+
+                RecyclerView discoveriesRecyclerView = findViewById(R.id.discoveries_thingActivity_recyclerView);
+                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+                RecyclerView.Adapter adapter = new SimpleAdapter(this, discoveriesString);
+                discoveriesRecyclerView.setLayoutManager(layoutManager);
+                discoveriesRecyclerView.setAdapter(adapter);
+            }
 
             if (thing.getThingAccessCredentials() != null) {
                 List<String> thingAccessCredentialsString = new ArrayList<>();
