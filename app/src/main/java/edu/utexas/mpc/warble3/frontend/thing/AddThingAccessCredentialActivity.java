@@ -57,6 +57,12 @@ public class AddThingAccessCredentialActivity extends AppCompatActivity {
                                 thing.addThingAccessCredentials(newCred);
                                 Resource.getInstance().updateThing(thing);
                             }
+                            finish();
+                        }
+                        else {
+                            Toast.makeText(AddThingAccessCredentialActivity.this, "The thing is null. Potential Bug", Toast.LENGTH_SHORT).show();
+                            if (Logging.WARN) Log.w(TAG, "The thing is null. Potential Bug");
+                            finish();
                         }
                     }
                 });

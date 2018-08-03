@@ -7,7 +7,11 @@ public class ThingAccessCredentialFactory {
         }
         else {
             ThingAccessCredential thingAccessCredential = null;
-            switch (thingAccessCredentialClassName) {
+
+            String[] thingAccessCredentialClassNameList = thingAccessCredentialClassName.split("\\.");
+            String thingAccessCredentialClassSimpleName = thingAccessCredentialClassNameList[thingAccessCredentialClassNameList.length-1];
+
+            switch (thingAccessCredentialClassSimpleName) {
                 case UsernamePasswordCredential.TAG:
                     thingAccessCredential = new UsernamePasswordCredential();
                     break;

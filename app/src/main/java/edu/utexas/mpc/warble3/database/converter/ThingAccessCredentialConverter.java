@@ -9,7 +9,7 @@ import edu.utexas.mpc.warble3.model.thing.credential.ThingAccessCredential;
 import edu.utexas.mpc.warble3.model.thing.credential.ThingAccessCredentialFactory;
 
 public class ThingAccessCredentialConverter {
-    public static final String TAG = "ThingAccessCredentialConverter";
+    public static final String TAG = "ThingAccessCredConv";
 
     public static ThingAccessCredential toThingAccessCredential(ThingAccessCredentialDb thingAccessCredentialDb) {
         if (thingAccessCredentialDb == null) {
@@ -49,7 +49,7 @@ public class ThingAccessCredentialConverter {
             thingAccessCredentialDb.setThingId(AppDatabase.getDatabase().thingDbDao().getDbidByUuid(thingAccessCredential.getThing().getUuid()));
         }
         else {
-            thingAccessCredentialDb.setThingId(thingAccessCredential.getDbid());
+            thingAccessCredentialDb.setThingId(thingAccessCredential.getThing().getDbid());
         }
 
         return thingAccessCredentialDb;

@@ -176,4 +176,11 @@ public class PhilipsHueUPnPDiscovery extends SSDPDiscovery {
             return url;
         }
     }
+
+    @Override
+    public String toString() {
+        String string = "";
+        string += String.format("%s", TAG);
+        return string;
+    }
 }

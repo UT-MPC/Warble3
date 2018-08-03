@@ -28,4 +28,6 @@ public interface ThingAccessCredentialDbDao {
     @Query("SELECT * FROM ThingAccessCredentialDb WHERE dbid=:dbid")
     ThingAccessCredentialDb getThingAccessCredentialDbByDbid(long dbid);
 
+    @Query("SELECT * FROM ThingAccessCredentialDb WHERE thingId=:thingId")
+    List<ThingAccessCredentialDb> getThingAccessCredentialDbsByThingId(long thingId);
 }
