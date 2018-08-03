@@ -91,6 +91,7 @@ public abstract class AppDatabase extends RoomDatabase implements AppDatabaseInt
 
 
     // Thing
+    @Override
     public List<Thing> getThings() {
         List<ThingDb> thingDbs = getDatabase().thingDbDao().getAllThingDbs();
 
@@ -149,6 +150,7 @@ public abstract class AppDatabase extends RoomDatabase implements AppDatabaseInt
         }
     }
 
+    @Override
     public void deleteAllThings() {
         getDatabase().thingDbDao().deleteAllThingDbs();
     }
@@ -212,16 +214,18 @@ public abstract class AppDatabase extends RoomDatabase implements AppDatabaseInt
         }
     }
 
+    @Override
     public void deleteAllConnections() {
         getDatabase().connectionDbDao().deleteAllConnectionDbs();
     }
 
     // ThingAccessCredential
-    public void addThingAccessCredential(ThingAccessCredential thingAccessCredential) {
+    private void addThingAccessCredential(ThingAccessCredential thingAccessCredential) {
         AppDatabase.getDatabase().thingAccessCredentialDbDao()
                 .insert(ThingAccessCredentialConverter.toThingAccessCredentialDb(thingAccessCredential));
     }
 
+    @Override
     public List<ThingAccessCredential> getThingAccessCredentials() {
         return ThingAccessCredentialConverter.toThingAccessCredentials(AppDatabase.getDatabase().thingAccessCredentialDbDao().getAllThingAccessCredentialDbs());
     }
@@ -230,10 +234,12 @@ public abstract class AppDatabase extends RoomDatabase implements AppDatabaseInt
         return ThingAccessCredentialConverter.toThingAccessCredential(AppDatabase.getDatabase().thingAccessCredentialDbDao().getThingAccessCredentialDbByDbid(dbid));
     }
 
+    @Override
     public void deleteAllThingAccessCredentials() {
         AppDatabase.getDatabase().thingAccessCredentialDbDao().deleteAllThingAccessCredentialDbs();
     }
 
+    @Override
     public long saveThingAccessCredential(ThingAccessCredential thingAccessCredential) {
         long thingAccessCredentialDbid = thingAccessCredential.getDbid();
 
@@ -249,6 +255,7 @@ public abstract class AppDatabase extends RoomDatabase implements AppDatabaseInt
         return thingAccessCredentialDbid;
     }
 
+    @Override
     public List<Long> saveThingAccessCredentials(List<ThingAccessCredential> thingAccessCredentials) {
         if (thingAccessCredentials != null) {
             List<Long> thingAccessCredentialDbids = new ArrayList<>();
@@ -269,7 +276,8 @@ public abstract class AppDatabase extends RoomDatabase implements AppDatabaseInt
     }
 
     // Logging
-    public String toStringDb() {
+    @Override
+    public String toString() {
         return "===== Database =====\n" +
                 toStringUserDbs()
                 + "\n" +
@@ -281,7 +289,7 @@ public abstract class AppDatabase extends RoomDatabase implements AppDatabaseInt
                 + "\n====================";
     }
 
-    public String toStringUserDbs() {
+    private String toStringUserDbs() {
         StringBuilder stringBuilder = new StringBuilder();
         List<UserDb> userDbs = getDatabase().userDbDao().getAllUserDbs();
         if (userDbs == null) {
@@ -299,7 +307,7 @@ public abstract class AppDatabase extends RoomDatabase implements AppDatabaseInt
         return stringBuilder.toString();
     }
 
-    public String toStringThingDbs() {
+    private String toStringThingDbs() {
         StringBuilder stringBuilder = new StringBuilder();
         List<ThingDb> thingDbs = getDatabase().thingDbDao().getAllThingDbs();
         if (thingDbs == null) {
@@ -317,7 +325,7 @@ public abstract class AppDatabase extends RoomDatabase implements AppDatabaseInt
         return stringBuilder.toString();
     }
 
-    public String toStringConnectionDbs() {
+    private String toStringConnectionDbs() {
         StringBuilder stringBuilder = new StringBuilder();
         List<ConnectionDb> connectionDbs = getDatabase().connectionDbDao().getAllConnectionDbs();
         if (connectionDbs == null) {
@@ -335,7 +343,7 @@ public abstract class AppDatabase extends RoomDatabase implements AppDatabaseInt
         return stringBuilder.toString();
     }
 
-    public String toStringThingAccessCredentialDbs() {
+    private String toStringThingAccessCredentialDbs() {
         StringBuilder stringBuilder = new StringBuilder();
         List<ThingAccessCredentialDb> thingAccessCredentialDbs = getDatabase().thingAccessCredentialDbDao().getAllThingAccessCredentialDbs();
         if (thingAccessCredentialDbs == null) {

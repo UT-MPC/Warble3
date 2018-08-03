@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements DiscoveryAsyncTas
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.setSelectedItemId(R.id.navigation_control);
 
-        if (Logging.INFO) Log.i(TAG, AppDatabase.getDatabase().toStringDb());
+        if (Logging.INFO) Log.i(TAG, AppDatabase.getDatabase().toString());
 
         setupFragment.updateDiscoveredThings(ThingUtil.toThingHashMapByConcreteType(Resource.getInstance().getThings()));
 
