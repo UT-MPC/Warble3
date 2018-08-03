@@ -1,11 +1,13 @@
 package edu.utexas.mpc.warble3.model.thing.credential;
 
+import java.io.Serializable;
+
 import edu.utexas.mpc.warble3.database.interfaces.Storeable;
 import edu.utexas.mpc.warble3.database.interfaces.TextStoreable;
 import edu.utexas.mpc.warble3.model.thing.component.Thing;
 import edu.utexas.mpc.warble3.model.user.User;
 
-public abstract class ThingAccessCredential implements Storeable, TextStoreable {
+public abstract class ThingAccessCredential implements Serializable, Storeable, TextStoreable {
     public static final String TAG = "ThingAccessCredential";
 
     private User user;
