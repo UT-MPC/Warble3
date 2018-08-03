@@ -17,6 +17,7 @@ import edu.utexas.mpc.warble3.database.AppDatabase;
 import edu.utexas.mpc.warble3.database.ConnectionDb;
 import edu.utexas.mpc.warble3.database.ThingAccessCredentialDb;
 import edu.utexas.mpc.warble3.database.ThingDb;
+import edu.utexas.mpc.warble3.database.UserDb;
 import edu.utexas.mpc.warble3.frontend.async_tasks.DiscoveryAsyncTask;
 import edu.utexas.mpc.warble3.frontend.async_tasks.DiscoveryAsyncTaskComplete;
 import edu.utexas.mpc.warble3.frontend.main_activity_fragments.ControlFragment;
@@ -72,6 +73,18 @@ public class MainActivity extends AppCompatActivity implements DiscoveryAsyncTas
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.setSelectedItemId(R.id.navigation_control);
+
+        List<UserDb> userDbs = AppDatabase.getDatabase().userDbDao().getAllUserDbs();
+        if (userDbs == null) {
+            if(Logging.VERBOSE) Log.v(TAG, "Number of userDb before discover : 0");
+        }
+        else {
+            if(Logging.VERBOSE) Log.v(TAG, String.format("Number of userDb before discover : %d", userDbs.size()));
+            for (UserDb userDb : userDbs) {
+                if(Logging.VERBOSE) Log.v(TAG, userDb.toString());
+            }
+        }
+
 
         List<ThingDb> thingDbs = AppDatabase.getDatabase().thingDbDao().getAllThingDbs();
         if (thingDbs == null) {
