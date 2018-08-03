@@ -41,8 +41,7 @@ public class Resource {
 
     // User
     public User getUser(String username) {
-        userManager.getUser(username);
-        return null;
+        return userManager.getUser(username);
     }
 
     public User authenticateUser(String username, String password) {
