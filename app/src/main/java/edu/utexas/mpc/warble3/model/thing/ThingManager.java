@@ -59,12 +59,8 @@ public class ThingManager {
         List<Thing> things = new ArrayList<>();
         for(Discovery discovery: discoveries) {
             List<? extends Thing> things1 = discovery.onDiscover();
-            List<? extends Thing> things2 = discovery.onDiscoverDescendants();
             if (things1 != null) {
                 things.addAll(things1);
-            }
-            if (things2 != null) {
-                things.addAll(things2);
             }
         }
 
