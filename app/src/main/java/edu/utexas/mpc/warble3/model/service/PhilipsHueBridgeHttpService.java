@@ -22,6 +22,7 @@ public final class PhilipsHueBridgeHttpService extends HttpService implements Ph
     private PhilipsHueBridgeRestApi api;
 
     public PhilipsHueBridgeHttpService(String baseUrl) {
+        super();
         api = getRetrofitInstance(baseUrl).create(PhilipsHueBridgeRestApi.class);
     }
 
