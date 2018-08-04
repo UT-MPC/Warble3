@@ -9,7 +9,6 @@ public abstract class Discovery implements Serializable {
     private static String TAG = "Discovery";
 
     public abstract List<? extends Thing> onDiscover();
-    public abstract List<? extends Thing> onDiscoverDescendants();
 
     @Override
     public String toString() {
