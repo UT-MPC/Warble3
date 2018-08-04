@@ -29,7 +29,7 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 SharedPreferences.Editor editor = SharedPreferenceHandler.getSharedPrefsEditorCurrentUserSettings(getActivity());
-                editor.putString(WelcomeActivity.SHARED_PREFS_USERNAME, null);
+                editor.putString(SharedPreferenceHandler.SHARED_PREFS_USERNAME, null);
                 editor.apply();
 
                 Intent intent = new Intent(getActivity(), WelcomeActivity.class);
