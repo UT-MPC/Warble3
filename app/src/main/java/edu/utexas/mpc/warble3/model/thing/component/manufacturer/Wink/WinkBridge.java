@@ -22,27 +22,27 @@ public final class WinkBridge extends Bridge {
     }
 
     @Override
-    public Boolean updateThingState(Thing thing, ThingState thingState) {
-        return null;
+    public boolean updateThingState(Thing thing, ThingState thingState) {
+        return false;
     }
 
     @Override
-    public Boolean updateThingState(Thing thing, ThingState thingState, Boolean postCheck) {
-        return null;
+    public boolean updateThingState(Thing thing, ThingState thingState, boolean postCheck) {
+        return false;
     }
 
     @Override
-    public Boolean updateThingsState(List<Thing> things, List<ThingState> thingsState) {
-        return null;
+    public boolean updateThingsState(List<Thing> things, List<ThingState> thingsState) {
+        return false;
     }
 
     @Override
-    public Boolean updateThingsState(List<Thing> things, List<ThingState> thingsState, Boolean postCheck) {
-        return null;
+    public boolean updateThingsState(List<Thing> things, List<ThingState> thingsState, boolean postCheck) {
+        return false;
     }
 
     @Override
-    public Boolean authenticate() {
+    public boolean authenticate() {
         return false;
     }
 }

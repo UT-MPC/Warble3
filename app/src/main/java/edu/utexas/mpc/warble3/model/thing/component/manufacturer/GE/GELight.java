@@ -8,7 +8,7 @@ public final class GELight extends Light {
     }
 
     @Override
-    public Boolean authenticate() {
+    public boolean authenticate() {
         return false;
     }
 }

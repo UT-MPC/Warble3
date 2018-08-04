@@ -10,9 +10,4 @@ public final class GEDiscovery extends Discovery {
     public List<? extends Thing> onDiscover() {
         return null;
     }
-
-    @Override
-    public List<? extends Thing> onDiscoverDescendants() {
-        return null;
-    }
 }
