@@ -8,6 +8,9 @@ import edu.utexas.mpc.warble3.model.thing.credential.ThingAccessCredential;
 import edu.utexas.mpc.warble3.model.user.User;
 
 public interface AppDatabaseInterface {
+    void onInitialize();
+    void onTerminate();
+
     void addUser(User newUser);
     User getUserByUsername(String username);
     void deleteAllUsers();
