@@ -9,6 +9,8 @@ import android.arch.persistence.room.Update;
 
 import java.util.List;
 
+import edu.utexas.mpc.warble3.model.thing.component.THING_CONNECTION_STATE;
+
 @Dao
 public interface ThingDbDao {
     @Insert (onConflict = OnConflictStrategy.REPLACE)
@@ -34,4 +36,7 @@ public interface ThingDbDao {
 
     @Query("SELECT dbid FROM ThingDb WHERE uuid=:uuid")
     long getDbidByUuid(String uuid);
+
+    @Query("UPDATE ThingDb SET connectionState=:connectionState")
+    void updateAllConnectionStates(THING_CONNECTION_STATE connectionState);
 }
