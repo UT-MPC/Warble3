@@ -22,7 +22,7 @@ import edu.utexas.mpc.warble3.setup.AppDatabaseInterface;
 import edu.utexas.mpc.warble3.util.Logging;
 
 @Database(entities = {UserDb.class, ThingDb.class, ConnectionDb.class, ThingAccessCredentialDb.class},
-        version = 7,
+        version = 8,
         exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase implements AppDatabaseInterface {
     private static final String TAG = "AppDatabase";

@@ -35,6 +35,7 @@ public class ThingDb {
     @TypeConverters(THING_CONCRETE_TYPE_converter.class)
     private THING_CONCRETE_TYPE thingConcreteType;
 
+    private boolean isAuthenticated;
     private boolean isCredentialRequired;
 
     public long getDbid() {
@@ -147,6 +148,14 @@ public class ThingDb {
 
     public void setCredentialRequired(boolean credentialRequired) {
         isCredentialRequired = credentialRequired;
+    }
+
+    public boolean isAuthenticated() {
+        return isAuthenticated;
+    }
+
+    public void setAuthenticated(boolean authenticated) {
+        isAuthenticated = authenticated;
     }
 
     @Override
