@@ -31,17 +31,22 @@ public final class PhilipsHueBridgeHttpService extends HttpService implements Ph
     }
 
     @Override
-    public List<PhilipsHueLight> getLights() {
+    public String getUserInfo(String user) {
         return null;
     }
 
     @Override
-    public PhilipsHueLightState getLightState(PhilipsHueLight philipsHueLight) {
+    public List<PhilipsHueLight> getLights(String user) {
         return null;
     }
 
     @Override
-    public void putLight(PhilipsHueLight philipsHueLight, PhilipsHueLightState philipsHueLightState) {
+    public PhilipsHueLightState getLightState(String user, PhilipsHueLight philipsHueLight) {
+        return null;
+    }
+
+    @Override
+    public void putLight(String user, PhilipsHueLight philipsHueLight, PhilipsHueLightState philipsHueLightState) {
 
     }
 

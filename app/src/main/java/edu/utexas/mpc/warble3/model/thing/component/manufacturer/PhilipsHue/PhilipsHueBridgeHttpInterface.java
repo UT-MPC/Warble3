@@ -4,9 +4,10 @@ import java.util.List;
 
 public interface PhilipsHueBridgeHttpInterface {
     String createUser(String username);
+    String getUserInfo(String user);
 
-    List<PhilipsHueLight> getLights();
+    List<PhilipsHueLight> getLights(String user);
 
-    PhilipsHueLightState getLightState(PhilipsHueLight philipsHueLight);
-    void putLight(PhilipsHueLight philipsHueLight, PhilipsHueLightState philipsHueLightState);
+    PhilipsHueLightState getLightState(String user, PhilipsHueLight philipsHueLight);
+    void putLight(String user, PhilipsHueLight philipsHueLight, PhilipsHueLightState philipsHueLightState);
 }
