@@ -6,7 +6,9 @@ import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
 
 import edu.utexas.mpc.warble3.database.type_converter.THING_CONCRETE_TYPE_converter;
+import edu.utexas.mpc.warble3.database.type_converter.THING_CONNECTION_STATE_converter;
 import edu.utexas.mpc.warble3.model.thing.component.THING_CONCRETE_TYPE;
+import edu.utexas.mpc.warble3.model.thing.component.THING_CONNECTION_STATE;
 
 @Entity(tableName = "ThingDb")
 public class ThingDb {
@@ -35,8 +37,10 @@ public class ThingDb {
     @TypeConverters(THING_CONCRETE_TYPE_converter.class)
     private THING_CONCRETE_TYPE thingConcreteType;
 
-    private boolean isAuthenticated;
     private boolean isCredentialRequired;
+
+    @TypeConverters(THING_CONNECTION_STATE_converter.class)
+    private THING_CONNECTION_STATE connectionState;
 
     public long getDbid() {
         return dbid;
@@ -150,12 +154,12 @@ public class ThingDb {
         isCredentialRequired = credentialRequired;
     }
 
-    public boolean isAuthenticated() {
-        return isAuthenticated;
+    public THING_CONNECTION_STATE getConnectionState() {
+        return connectionState;
     }
 
-    public void setAuthenticated(boolean authenticated) {
-        isAuthenticated = authenticated;
+    public void setConnectionState(THING_CONNECTION_STATE connectionState) {
+        this.connectionState = connectionState;
     }
 
     @Override

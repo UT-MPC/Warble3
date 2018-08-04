@@ -32,10 +32,11 @@ public abstract class Thing implements Serializable, Storeable {
     private List<Connection> connections;
     private List<Discovery> discoveries;
 
-    private boolean isAuthenticated;
     private boolean isCredentialRequired;
     private List<ThingAccessCredential> thingAccessCredentials;
     private List<Class> thingAccessCredentialClasses;
+
+    private THING_CONNECTION_STATE connectionState;
 
     private long dbid;
 
@@ -151,14 +152,6 @@ public abstract class Thing implements Serializable, Storeable {
         this.discoveries = discoveries;
     }
 
-    public boolean isAuthenticated() {
-        return isAuthenticated;
-    }
-
-    public void setAuthenticated(boolean authenticated) {
-        isAuthenticated = authenticated;
-    }
-
     public boolean getCredentialRequired() {
         return isCredentialRequired;
     }
@@ -188,6 +181,14 @@ public abstract class Thing implements Serializable, Storeable {
 
     public void setThingAccessCredentialClasses(List<Class> thingAccessCredentialClasses) {
         this.thingAccessCredentialClasses = thingAccessCredentialClasses;
+    }
+
+    public THING_CONNECTION_STATE getConnectionState() {
+        return connectionState;
+    }
+
+    public void setConnectionState(THING_CONNECTION_STATE connectionState) {
+        this.connectionState = connectionState;
     }
 
     public long getDbid() {

@@ -42,8 +42,9 @@ public class ThingConverter {
 
                 thing.setThingConcreteType(thingDb.getThingConcreteType());
 
-                thing.setAuthenticated(thingDb.isAuthenticated());
                 thing.setCredentialRequired(thingDb.getCredentialRequired());
+
+                thing.setConnectionState(thingDb.getConnectionState());
 
                 thing.onPostLoad(thingDb.getDbid());
 
@@ -110,8 +111,9 @@ public class ThingConverter {
 
             thingDb.setThingConcreteType(thing.getThingConcreteType());
 
-            thingDb.setAuthenticated(thing.isAuthenticated());
             thingDb.setCredentialRequired(thing.getCredentialRequired());
+
+            thingDb.setConnectionState(thing.getConnectionState());
 
             return thingDb;
         }
