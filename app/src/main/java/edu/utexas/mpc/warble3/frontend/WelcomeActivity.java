@@ -22,8 +22,6 @@ import edu.utexas.mpc.warble3.util.SharedPreferenceHandler;
 public class WelcomeActivity extends AppCompatActivity {
     public static final String TAG = "WelcomeActivity";
 
-    public static String SHARED_PREFS_USERNAME = "username";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,7 +29,7 @@ public class WelcomeActivity extends AppCompatActivity {
         final UserManager userManager = UserManager.getInstance();
 
         SharedPreferences sharedPrefs = SharedPreferenceHandler.getSharedPrefsCurrentUserSettings(this);
-        if (sharedPrefs.getString(SHARED_PREFS_USERNAME, null) != null) {
+        if (sharedPrefs.getString(SharedPreferenceHandler.SHARED_PREFS_USERNAME, null) != null) {
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
         }
@@ -58,7 +56,7 @@ public class WelcomeActivity extends AppCompatActivity {
                         if (Logging.INFO) Log.i(TAG, String.format("Username %s is found in database", enteredUsername));
 
                         SharedPreferences.Editor editor = SharedPreferenceHandler.getSharedPrefsEditorCurrentUserSettings(WelcomeActivity.this);
-                        editor.putString(SHARED_PREFS_USERNAME, enteredUsername);
+                        editor.putString(SharedPreferenceHandler.SHARED_PREFS_USERNAME, enteredUsername);
                         editor.apply();
 
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
@@ -96,7 +94,7 @@ public class WelcomeActivity extends AppCompatActivity {
                     }
 
                     SharedPreferences.Editor editor = SharedPreferenceHandler.getSharedPrefsEditorCurrentUserSettings(WelcomeActivity.this);
-                    editor.putString(SHARED_PREFS_USERNAME, enteredNewUsername);
+                    editor.putString(SharedPreferenceHandler.SHARED_PREFS_USERNAME, enteredNewUsername);
                     editor.apply();
                 }
             };
