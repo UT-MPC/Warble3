@@ -14,6 +14,7 @@ import edu.utexas.mpc.warble3.database.converter.ConnectionConverter;
 import edu.utexas.mpc.warble3.database.converter.ThingAccessCredentialConverter;
 import edu.utexas.mpc.warble3.database.converter.ThingConverter;
 import edu.utexas.mpc.warble3.database.converter.UserConverter;
+import edu.utexas.mpc.warble3.model.thing.component.THING_CONNECTION_STATE;
 import edu.utexas.mpc.warble3.model.thing.component.Thing;
 import edu.utexas.mpc.warble3.model.thing.connect.Connection;
 import edu.utexas.mpc.warble3.model.thing.credential.ThingAccessCredential;
@@ -277,6 +278,16 @@ public abstract class AppDatabase extends RoomDatabase implements AppDatabaseInt
         else {
             return null;
         }
+    }
+
+    @Override
+    public void onInitialize() {
+
+    }
+
+    @Override
+    public void onTerminate() {
+        getDatabase().thingDbDao().updateAllConnectionStates(THING_CONNECTION_STATE.INITIAL);
     }
 
     // Logging
