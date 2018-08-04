@@ -9,9 +9,9 @@ public interface Accessor {
     List<Thing> getThings();
     List<ThingState> getThingsState();
 
-    Boolean updateThingState(Thing thing, ThingState thingState);
-    Boolean updateThingState(Thing thing, ThingState thingState, Boolean postCheck);
+    boolean updateThingState(Thing thing, ThingState thingState);
+    boolean updateThingState(Thing thing, ThingState thingState, boolean postCheck);
 
-    Boolean updateThingsState(List<Thing> things, List<ThingState> thingsState);
-    Boolean updateThingsState(List<Thing> things, List<ThingState> thingsState, Boolean postCheck);
+    boolean updateThingsState(List<Thing> things, List<ThingState> thingsState);
+    boolean updateThingsState(List<Thing> things, List<ThingState> thingsState, boolean postCheck);
 }

@@ -198,7 +198,7 @@ public abstract class Thing implements Serializable, Storeable {
         this.dbid = dbid;
     }
 
-    public abstract Boolean authenticate();
+    public abstract boolean authenticate();
 
     @Override
     public void onPostStore(long dbid) {
