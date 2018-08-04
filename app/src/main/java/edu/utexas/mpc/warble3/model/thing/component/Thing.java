@@ -36,7 +36,7 @@ public abstract class Thing implements Serializable, Storeable {
     private List<ThingAccessCredential> thingAccessCredentials;
     private List<Class> thingAccessCredentialClasses;
 
-    private THING_CONNECTION_STATE connectionState;
+    private THING_CONNECTION_STATE connectionState = THING_CONNECTION_STATE.INITIAL;
 
     private long dbid;
 
