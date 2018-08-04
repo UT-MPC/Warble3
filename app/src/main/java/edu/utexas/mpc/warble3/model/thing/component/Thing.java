@@ -37,6 +37,8 @@ public abstract class Thing implements Serializable, Storeable {
     private List<Class> thingAccessCredentialClasses;
 
     private THING_CONNECTION_STATE connectionState = THING_CONNECTION_STATE.INITIAL;
+    private THING_AUTHENTICATION_STATE authenticationState = THING_AUTHENTICATION_STATE.UNAUTHENTICATED;
+    private THING_BINDING_STATE bindingState = THING_BINDING_STATE.UNBOUND;
 
     private long dbid;
 
@@ -189,6 +191,22 @@ public abstract class Thing implements Serializable, Storeable {
 
     public void setConnectionState(THING_CONNECTION_STATE connectionState) {
         this.connectionState = connectionState;
+    }
+
+    public THING_AUTHENTICATION_STATE getAuthenticationState() {
+        return authenticationState;
+    }
+
+    public void setAuthenticationState(THING_AUTHENTICATION_STATE authenticationState) {
+        this.authenticationState = authenticationState;
+    }
+
+    public THING_BINDING_STATE getBindingState() {
+        return bindingState;
+    }
+
+    public void setBindingState(THING_BINDING_STATE bindingState) {
+        this.bindingState = bindingState;
     }
 
     public long getDbid() {
