@@ -1,16 +1,21 @@
 package edu.utexas.mpc.warble3.model.service;
 
+import android.util.Log;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
 import edu.utexas.mpc.warble3.model.thing.component.manufacturer.PhilipsHue.PhilipsHueBridgeHttpInterface;
 import edu.utexas.mpc.warble3.model.thing.component.manufacturer.PhilipsHue.PhilipsHueLight;
 import edu.utexas.mpc.warble3.model.thing.component.manufacturer.PhilipsHue.PhilipsHueLightState;
+import edu.utexas.mpc.warble3.util.Logging;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
@@ -19,6 +24,8 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public final class PhilipsHueBridgeHttpService extends HttpService implements PhilipsHueBridgeHttpInterface {
+    private static String TAG = "PhilipsHueBridgeHttpService";
+
     private PhilipsHueBridgeRestApi api;
 
     public PhilipsHueBridgeHttpService(String baseUrl) {
@@ -28,12 +35,53 @@ public final class PhilipsHueBridgeHttpService extends HttpService implements Ph
 
     @Override
     public String createUser(String username) {
-        return null;
+        CreateUserRequest createUserRequest = new CreateUserRequest();
+        createUserRequest.setDevicetype(String.format("%s", username));
+
+        String returnVal = null;
+        Response<List<CreateUserResponse>> response;
+        try {
+            response = api.createUser(createUserRequest).execute();
+        }
+        catch (IOException e) {
+            if (Logging.WARN) Log.w(TAG, e.toString());
+            return null;
+        }
+
+        List<CreateUserResponse> responseBody = response.body();
+
+        if (responseBody != null) {
+            for (CreateUserResponse createUserResponse : responseBody) {
+                try {
+                    CreateUserResponse.Success success = createUserResponse.getSuccess();
+                    returnVal = success.getUsername();
+                    if (Logging.INFO)
+                        Log.i(TAG, String.format("Create User succeed. Token: %s", success.getUsername()));
+                } catch (NullPointerException e) {
+                    CreateUserResponse.Error error = createUserResponse.getError();
+                    if (Logging.WARN)
+                        Log.w(TAG, String.format("Create User failed. Reason: %s", error.getDescription()));
+                }
+            }
+            return returnVal;
+        }
+        else {
+            return null;
+        }
     }
 
     @Override
     public String getUserInfo(String user) {
-        return null;
+        Response response;
+        try {
+            response = api.getInfo(user).execute();
+        }
+        catch (IOException e) {
+            if (Logging.WARN) Log.w(TAG, e.toString());
+            return null;
+        }
+
+        return (String) response.body();
     }
 
     @Override
