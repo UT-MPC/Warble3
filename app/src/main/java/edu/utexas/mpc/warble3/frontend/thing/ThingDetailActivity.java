@@ -103,6 +103,9 @@ public class ThingDetailActivity extends AppCompatActivity {
                     AlertDialog.Builder builder = new AlertDialog.Builder(ThingDetailActivity.this);
                     View mView = getLayoutInflater().inflate(R.layout.activity_select_add_thing_access_credential, null);
 
+                    builder.setView(mView);
+                    final AlertDialog dialog = builder.create();
+
                     final List<String> thingAccessCredentialClassesString = new ArrayList<>();
                     for (Class thingAccessCredentialClass : thing.getThingAccessCredentialClasses()) {
                         thingAccessCredentialClassesString.add(thingAccessCredentialClass.getSimpleName());
@@ -123,13 +126,13 @@ public class ThingDetailActivity extends AppCompatActivity {
                             intent.putExtra(AddThingAccessCredentialActivity.THING_ACCESS_CREDENTIAL_CLASS_INTENT_EXTRA, selectedClass);
                             intent.putExtra(AddThingAccessCredentialActivity.THING_INTENT_EXTRA, thingBundle);
                             startActivityForResult(intent, 0);
+
+                            dialog.dismiss();
                         }
                     });
                     recyclerView.setLayoutManager(layoutManager);
                     recyclerView.setAdapter(adapter);
 
-                    builder.setView(mView);
-                    AlertDialog dialog = builder.create();
                     dialog.show();
                 }
             });
