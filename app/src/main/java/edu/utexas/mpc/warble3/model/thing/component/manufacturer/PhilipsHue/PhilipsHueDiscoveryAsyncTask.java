@@ -13,11 +13,12 @@ public final class PhilipsHueDiscoveryAsyncTask extends AsyncTask<Void, Void, Li
         PhilipsHueUPnPDiscovery discovery = new PhilipsHueUPnPDiscovery();
 
         List<PhilipsHueBridge> philipsHueBridges = discovery.onDiscover();
-        List<Thing> philipsHueDescendants = discovery.onDiscoverDescendants();
 
         List<Thing> philipsHueThings = new ArrayList<>();
-        philipsHueThings.addAll(philipsHueBridges);
-        philipsHueThings.addAll(philipsHueDescendants);
+
+        if (philipsHueBridges != null) {
+            philipsHueThings.addAll(philipsHueBridges);
+        }
 
         return philipsHueThings;
     }
