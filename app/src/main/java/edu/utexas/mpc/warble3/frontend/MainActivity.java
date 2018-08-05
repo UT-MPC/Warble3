@@ -24,6 +24,7 @@ import edu.utexas.mpc.warble3.model.thing.component.THING_CONCRETE_TYPE;
 import edu.utexas.mpc.warble3.model.thing.component.Thing;
 import edu.utexas.mpc.warble3.model.thing.util.ThingUtil;
 import edu.utexas.mpc.warble3.util.Logging;
+import edu.utexas.mpc.warble3.util.SharedPreferenceHandler;
 
 public class MainActivity extends AppCompatActivity implements DiscoveryAsyncTaskComplete {
     private static final String TAG = "MainActivity";
@@ -71,6 +72,7 @@ public class MainActivity extends AppCompatActivity implements DiscoveryAsyncTas
         navigation.setSelectedItemId(R.id.navigation_control);
 
         if (Logging.INFO) Log.i(TAG, AppDatabase.getDatabase().toString());
+        if (Logging.INFO) Log.i(TAG, SharedPreferenceHandler.getSharedPrefsString(this));
 
         setupFragment.updateDiscoveredThings(ThingUtil.toThingHashMapByConcreteType(Resource.getInstance().getThings()));
 
