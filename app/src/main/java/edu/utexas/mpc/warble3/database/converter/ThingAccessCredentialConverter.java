@@ -5,8 +5,10 @@ import java.util.List;
 
 import edu.utexas.mpc.warble3.database.AppDatabase;
 import edu.utexas.mpc.warble3.database.ThingAccessCredentialDb;
+import edu.utexas.mpc.warble3.model.thing.component.Thing;
 import edu.utexas.mpc.warble3.model.thing.credential.ThingAccessCredential;
 import edu.utexas.mpc.warble3.model.thing.credential.ThingAccessCredentialFactory;
+import edu.utexas.mpc.warble3.model.user.User;
 
 public class ThingAccessCredentialConverter {
     public static final String TAG = "ThingAccessCredConv";
@@ -39,20 +41,35 @@ public class ThingAccessCredentialConverter {
     }
 
     public static ThingAccessCredentialDb toThingAccessCredentialDb(ThingAccessCredential thingAccessCredential) {
-        ThingAccessCredentialDb thingAccessCredentialDb = new ThingAccessCredentialDb();
-
-        thingAccessCredentialDb.setCredentialClass(thingAccessCredential.getClass().getName());
-        thingAccessCredentialDb.setCredentialInfo(thingAccessCredential.toStoreableText());
-        thingAccessCredentialDb.setUsername(thingAccessCredential.getUser().getUsername());
-
-        if (thingAccessCredential.getThing().getDbid() == 0) {
-            thingAccessCredentialDb.setThingId(AppDatabase.getDatabase().thingDbDao().getDbidByUuid(thingAccessCredential.getThing().getUuid()));
+        if (thingAccessCredential == null) {
+            return null;
         }
         else {
-            thingAccessCredentialDb.setThingId(thingAccessCredential.getThing().getDbid());
-        }
+            User user = thingAccessCredential.getUser();
+            Thing thing = thingAccessCredential.getThing();
 
-        return thingAccessCredentialDb;
+            ThingAccessCredentialDb thingAccessCredentialDb = new ThingAccessCredentialDb();
+            thingAccessCredentialDb.setCredentialClass(thingAccessCredential.getClass().getName());
+            thingAccessCredentialDb.setCredentialInfo(thingAccessCredential.toStoreableText());
+            if (user == null) {
+                thingAccessCredentialDb.setUsername(null);
+            }
+            else {
+                thingAccessCredentialDb.setUsername(user.getUsername());
+            }
+
+            if (thing == null) {
+                thingAccessCredentialDb.setThingId(0);
+            }
+            else if (thing.getDbid() == 0) {
+                thingAccessCredentialDb.setThingId(AppDatabase.getDatabase().thingDbDao().getDbidByUuid(thing.getUuid()));
+            }
+            else {
+                thingAccessCredentialDb.setThingId(thing.getDbid());
+            }
+
+            return thingAccessCredentialDb;
+        }
     }
 
     public static List<ThingAccessCredentialDb> toThingAccessCredentialDbs(List<ThingAccessCredential> thingAccessCredentials) {
