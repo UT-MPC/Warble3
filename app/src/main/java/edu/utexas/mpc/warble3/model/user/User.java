@@ -35,4 +35,11 @@ public class User {
     public void setEmailAddress(String emailAddress) {
         this.emailAddress = emailAddress;
     }
+
+    @Override
+    public String toString() {
+        String string = "";
+        string += String.format("%s %s - %s", TAG, username, emailAddress);
+        return string;
+    }
 }
