@@ -5,16 +5,21 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import edu.utexas.mpc.warble3.R;
+import edu.utexas.mpc.warble3.database.AppDatabase;
 import edu.utexas.mpc.warble3.frontend.WelcomeActivity;
+import edu.utexas.mpc.warble3.util.Logging;
 import edu.utexas.mpc.warble3.util.SharedPreferenceHandler;
 
 public class SettingsFragment extends Fragment {
+    private static String TAG = "SettingsFragment";
+
     public static SettingsFragment getNewInstance() {
         return new SettingsFragment();
     }
@@ -36,6 +41,14 @@ public class SettingsFragment extends Fragment {
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
+            }
+        });
+
+        TextView dbPrint_settingsFragment_textView = view.findViewById(R.id.dbPrint_settingsFragment_textView);
+        dbPrint_settingsFragment_textView.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                if (Logging.INFO) Log.i(TAG, AppDatabase.getDatabase().toString());
             }
         });
         return view;
