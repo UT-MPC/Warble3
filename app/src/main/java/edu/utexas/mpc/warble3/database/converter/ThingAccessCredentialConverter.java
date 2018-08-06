@@ -25,6 +25,12 @@ public class ThingAccessCredentialConverter {
             if ((username != null) && (!username.equals(""))) {
                 thingAccessCredential.setUser(AppDatabase.getDatabase().getUserByUsername(username));
             }
+
+            long thingDbid = thingAccessCredentialDb.getThingId();
+            if (thingDbid != 0) {
+                thingAccessCredential.setThing(AppDatabase.getDatabase().getThingByDbid(thingDbid));
+            }
+
             thingAccessCredential.fromStoreableText(thingAccessCredentialDb.getCredentialInfo());
             thingAccessCredential.setDbid(thingAccessCredentialDb.getDbid());
 
