@@ -1,6 +1,8 @@
 package edu.utexas.mpc.warble3.model.user;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
     public static final String TAG = "User";
 
     private String username;
