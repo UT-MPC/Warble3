@@ -20,6 +20,11 @@ public class ThingAccessCredentialConverter {
         else {
             ThingAccessCredentialFactory factory = new ThingAccessCredentialFactory();
             ThingAccessCredential thingAccessCredential = factory.createThingAccessCredential(thingAccessCredentialDb.getCredentialClass());
+
+            String username = thingAccessCredentialDb.getUsername();
+            if ((username != null) && (!username.equals(""))) {
+                thingAccessCredential.setUser(AppDatabase.getDatabase().getUserByUsername(username));
+            }
             thingAccessCredential.fromStoreableText(thingAccessCredentialDb.getCredentialInfo());
             thingAccessCredential.setDbid(thingAccessCredentialDb.getDbid());
 
