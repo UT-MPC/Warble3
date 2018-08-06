@@ -13,7 +13,6 @@ import edu.utexas.mpc.warble3.database.interfaces.ConnectionStoreable;
 import edu.utexas.mpc.warble3.model.thing.connect.Connection;
 import edu.utexas.mpc.warble3.util.Logging;
 
-// TODO: implement
 public class ConnectionConverter {
     public static final String TAG = "ConnectionConverter";
 
@@ -27,10 +26,16 @@ public class ConnectionConverter {
                 Constructor<?> connectionClassConstructor = connectionClass.getConstructor();
                 Object object = connectionClassConstructor.newInstance();
 
-                Connection connection = (Connection) object;
+                long connectionDbSourceId = connectionDb.getSourceId();
+                if (connectionDbSourceId == 0) {
+                    if (Logging.WARN) Log.w(TAG, String.format("connectionDb %s has sourceId = 0", connectionDb.getDbid()));
+                }
 
-                connection.setSource(AppDatabase.getDatabase().getThingByDbid(connectionDb.getSourceId()));
-                connection.setDestination(AppDatabase.getDatabase().getThingByDbid(connectionDb.getDestinationId()));
+                long connectionDbDestinationId = connectionDb.getDestinationId();
+
+                Connection connection = (Connection) object;
+                connection.setSource(AppDatabase.getDatabase().getThingByDbid(connectionDbSourceId));
+                connection.setDestination(AppDatabase.getDatabase().getThingByDbid(connectionDbDestinationId));
 
                 try {
                     ConnectionStoreable c = (ConnectionStoreable) connection;
@@ -39,8 +44,10 @@ public class ConnectionConverter {
                     connection = (Connection) c;
                 }
                 catch (ClassCastException e) {
-                    if (Logging.WARN) Log.w(TAG, String.format("Connection %s is unable to cast to ConnectionStoreable", connection.toString()));
+                    if (Logging.WARN) Log.w(TAG, String.format("Connection %s is unable to cast to ConnectionStoreable, or vice versa", connection.toString()));
                 }
+
+                connection.setDbid(connectionDb.getDbid());
 
                 return connection;
             }
@@ -100,6 +107,8 @@ public class ConnectionConverter {
         catch (ClassCastException e) {
             if (Logging.WARN) Log.w(TAG, String.format("Connection %s is unable to cast to ConnectionStoreable", connection.toString()));
         }
+
+        connectionDb.setDbid(connection.getDbid());
 
         return connectionDb;
     }

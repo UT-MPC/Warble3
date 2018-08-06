@@ -4,6 +4,7 @@ import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,7 @@ import edu.utexas.mpc.warble3.model.thing.connect.Connection;
 import edu.utexas.mpc.warble3.model.thing.credential.ThingAccessCredential;
 import edu.utexas.mpc.warble3.model.user.User;
 import edu.utexas.mpc.warble3.setup.AppDatabaseInterface;
+import edu.utexas.mpc.warble3.util.Logging;
 
 @Database(entities = {UserDb.class, ThingDb.class, ConnectionDb.class, ThingAccessCredentialDb.class},
         version = 8,
@@ -118,11 +120,27 @@ public abstract class AppDatabase extends RoomDatabase implements AppDatabaseInt
     }
 
     public Thing getThingByDbid(long dbid) {
-        return ThingConverter.toThing(getDatabase().thingDbDao().getThingDb(dbid));
+        ThingDb thingDb = getDatabase().thingDbDao().getThingDb(dbid);
+        if (thingDb == null) {
+            return null;
+        }
+        else {
+            Thing thing = ThingConverter.toThing(thingDb);
+            thing.onPostLoad(thingDb.getDbid());
+            return thing;
+        }
     }
 
     public Thing getThingByUuid(String uuid) {
-        return ThingConverter.toThing(getDatabase().thingDbDao().getThingDbByUuid(uuid));
+        ThingDb thingDb = getDatabase().thingDbDao().getThingDbByUuid(uuid);
+        if (thingDb == null) {
+            return null;
+        }
+        else {
+            Thing thing = ThingConverter.toThing(thingDb);
+            thing.onPostLoad(thingDb.getDbid());
+            return thing;
+        }
     }
 
     private Thing getThingFromDb(Thing thing) {
@@ -132,9 +150,9 @@ public abstract class AppDatabase extends RoomDatabase implements AppDatabaseInt
             Thing returnThing = null;
 
             long thingDbid = thing.getDbid();
-            if ((returnThing == null) && (thingDbid != 0))
+            if ((returnThing == null) && (thingDbid != 0)) {
                 returnThing = getThingByDbid(thingDbid);
-
+            }
             String thingUuid = thing.getUuid();
             if ((returnThing == null) && (thingUuid != null) && (!thingUuid.equals(""))) {
                 returnThing = getThingByUuid(thingUuid);
@@ -155,14 +173,17 @@ public abstract class AppDatabase extends RoomDatabase implements AppDatabaseInt
         if (thing != null) {
             Thing storedThing = getThingFromDb(thing);
 
-            if (storedThing == null)
+            if (storedThing == null) {
                 thingDbid = getDatabase().thingDbDao().insert(ThingConverter.toThingDb(thing));
+            }
             else {
                 ThingDb updatedThingDb = ThingConverter.toThingDb(thing);
                 thingDbid = storedThing.getDbid();
                 updatedThingDb.setDbid(thingDbid);
                 getDatabase().thingDbDao().update(updatedThingDb);
             }
+
+            thing.onPostStore(thingDbid);
         }
 
         return thingDbid;
@@ -197,15 +218,57 @@ public abstract class AppDatabase extends RoomDatabase implements AppDatabaseInt
     }
 
     public Connection getConnectionByDbid(long dbid) {
-        return ConnectionConverter.toConnection(getDatabase().connectionDbDao().getConnectionDbByDbid(dbid));
+        ConnectionDb connectionDb = getDatabase().connectionDbDao().getConnectionDbByDbid(dbid);
+        if (connectionDb == null) {
+            return null;
+        }
+        else {
+            Connection connection = ConnectionConverter.toConnection(connectionDb);
+            connection.onPostLoad(connectionDb.getDbid());
+            return connection;
+        }
     }
 
-    public List<Connection> getConnectionBySourceId(long thingDbid) {
-        return ConnectionConverter.toConnections(getDatabase().connectionDbDao().getConnectionDbBySourceId(thingDbid));
+    public List<Connection> getConnectionsBySourceId(long thingDbid) {
+        List<ConnectionDb> connectionDbs = getDatabase().connectionDbDao().getConnectionDbBySourceId(thingDbid);
+        List<Connection> connections = ConnectionConverter.toConnections(connectionDbs);
+
+        if (connections != null) {
+            for (int i=0; i < connections.size(); i++) {
+                Connection connection = connections.get(i);
+                ConnectionDb connectionDb = connectionDbs.get(i);
+
+                if ((connection != null) && (connectionDb != null)) {
+                    connection.onPostLoad(connectionDb.getDbid());
+                }
+                else {
+                    if (Logging.WARN) Log.w(TAG, "Either connection OR connectionDb is NULL");
+                }
+            }
+        }
+
+        return connections;
     }
 
-    private List<Connection> getConnectionByDestinationId(long thingDbid) {
-        return ConnectionConverter.toConnections(getDatabase().connectionDbDao().getConnectionDbByDestinationId(thingDbid));
+    private List<Connection> getConnectionsByDestinationId(long thingDbid) {
+        List<ConnectionDb> connectionDbs = getDatabase().connectionDbDao().getConnectionDbByDestinationId(thingDbid);
+        List<Connection> connections = ConnectionConverter.toConnections(connectionDbs);
+
+        if (connections != null) {
+            for (int i=0; i < connections.size(); i++) {
+                Connection connection = connections.get(i);
+                ConnectionDb connectionDb = connectionDbs.get(i);
+
+                if ((connection != null) && (connectionDb != null)) {
+                    connection.onPostLoad(connectionDb.getDbid());
+                }
+                else {
+                    if (Logging.WARN) Log.w(TAG, "Either connection OR connectionDb is NULL");
+                }
+            }
+        }
+
+        return connections;
     }
 
     private Connection getConnectionFromDb(Connection connection) {
@@ -215,8 +278,10 @@ public abstract class AppDatabase extends RoomDatabase implements AppDatabaseInt
             Connection returnConnection = null;
 
             long connectionDbid = connection.getDbid();
-            if ((returnConnection == null) && (connectionDbid != 0))
+            if ((returnConnection == null) && (connectionDbid != 0)) {
                 returnConnection = getConnectionByDbid(connectionDbid);
+                returnConnection.onPostLoad(connectionDbid);
+            }
 
             return returnConnection;
         }
@@ -227,16 +292,23 @@ public abstract class AppDatabase extends RoomDatabase implements AppDatabaseInt
         long connectionDbid = 0;
 
         if (connection != null) {
+            Log.d(TAG, String.format("Connection dbid=%s", connection.getDbid()));
+
             Connection storedConnection = getConnectionFromDb(connection);
 
-            if (storedConnection == null)
+            if (storedConnection == null) {
+                Log.d(TAG, "Insert Connection");
                 connectionDbid = getDatabase().connectionDbDao().insert(ConnectionConverter.toConnectionDb(connection));
+            }
             else {
+                Log.d(TAG, "Update Connection");
                 ConnectionDb updatedConnectionDb = ConnectionConverter.toConnectionDb(connection);
                 connectionDbid = storedConnection.getDbid();
                 updatedConnectionDb.setDbid(connectionDbid);
                 getDatabase().connectionDbDao().update(updatedConnectionDb);
             }
+
+            connection.onPostStore(connectionDbid);
         }
 
         return connectionDbid;
@@ -275,15 +347,58 @@ public abstract class AppDatabase extends RoomDatabase implements AppDatabaseInt
 
     @Override
     public List<ThingAccessCredential> getThingAccessCredentials() {
-        return ThingAccessCredentialConverter.toThingAccessCredentials(AppDatabase.getDatabase().thingAccessCredentialDbDao().getAllThingAccessCredentialDbs());
+        List<ThingAccessCredentialDb> thingAccessCredentialDbs = AppDatabase.getDatabase().thingAccessCredentialDbDao().getAllThingAccessCredentialDbs();
+        List<ThingAccessCredential> thingAccessCredentials = ThingAccessCredentialConverter.toThingAccessCredentials(thingAccessCredentialDbs);
+
+        if (thingAccessCredentials != null) {
+            for (int i=0; i < thingAccessCredentials.size(); i++) {
+                ThingAccessCredential thingAccessCredential = thingAccessCredentials.get(i);
+                ThingAccessCredentialDb thingAccessCredentialDb = thingAccessCredentialDbs.get(i);
+
+                if ((thingAccessCredential != null) && (thingAccessCredentialDb != null)) {
+                    thingAccessCredential.onPostLoad(thingAccessCredentialDb.getDbid());
+                }
+                else {
+                    if (Logging.WARN) Log.w(TAG, "Either thingAccessCredential OR thingAccessCredentialDb is NULL");
+                }
+            }
+        }
+
+        return thingAccessCredentials;
     }
 
     public ThingAccessCredential getThingAccessCredentialByDbid(long dbid) {
-        return ThingAccessCredentialConverter.toThingAccessCredential(AppDatabase.getDatabase().thingAccessCredentialDbDao().getThingAccessCredentialDbByDbid(dbid));
+        ThingAccessCredentialDb thingAccessCredentialDb = AppDatabase.getDatabase().thingAccessCredentialDbDao().getThingAccessCredentialDbByDbid(dbid);
+
+        if (thingAccessCredentialDb == null) {
+            return null;
+        }
+        else {
+            ThingAccessCredential thingAccessCredential = ThingAccessCredentialConverter.toThingAccessCredential(thingAccessCredentialDb);
+            thingAccessCredential.onPostLoad(thingAccessCredentialDb.getDbid());
+            return thingAccessCredential;
+        }
     }
 
     public List<ThingAccessCredential> getThingAccessCredentialsByThingId(long thingId) {
-        return ThingAccessCredentialConverter.toThingAccessCredentials(AppDatabase.getDatabase().thingAccessCredentialDbDao().getThingAccessCredentialDbsByThingId(thingId));
+        List<ThingAccessCredentialDb> thingAccessCredentialDbs = AppDatabase.getDatabase().thingAccessCredentialDbDao().getThingAccessCredentialDbsByThingId(thingId);
+        List<ThingAccessCredential> thingAccessCredentials = ThingAccessCredentialConverter.toThingAccessCredentials(thingAccessCredentialDbs);
+
+        if (thingAccessCredentials != null) {
+            for (int i=0; i < thingAccessCredentials.size(); i++) {
+                ThingAccessCredential thingAccessCredential = thingAccessCredentials.get(i);
+                ThingAccessCredentialDb thingAccessCredentialDb = thingAccessCredentialDbs.get(i);
+
+                if ((thingAccessCredential != null) && (thingAccessCredentialDb != null)) {
+                    thingAccessCredential.onPostLoad(thingAccessCredentialDb.getDbid());
+                }
+                else {
+                    if (Logging.WARN) Log.w(TAG, "Either thingAccessCredential OR thingAccessCredentialDb is NULL");
+                }
+            }
+        }
+
+        return thingAccessCredentials;
     }
 
     private ThingAccessCredential getThingAccessCredentialFromDb(ThingAccessCredential thingAccessCredential) {
@@ -295,6 +410,7 @@ public abstract class AppDatabase extends RoomDatabase implements AppDatabaseInt
             long thingAccessCredentialDbid = thingAccessCredential.getDbid();
             if ((returnThingAccessCredential == null) && (thingAccessCredentialDbid != 0)) {
                 returnThingAccessCredential = getThingAccessCredentialByDbid(thingAccessCredentialDbid);
+                returnThingAccessCredential.onPostLoad(thingAccessCredentialDbid);
             }
 
             return returnThingAccessCredential;
@@ -321,6 +437,8 @@ public abstract class AppDatabase extends RoomDatabase implements AppDatabaseInt
                 updatedThingAccessCredentialDb.setDbid(thingAccessCredentialDbid);
                 getDatabase().thingAccessCredentialDbDao().update(updatedThingAccessCredentialDb);
             }
+
+            thingAccessCredential.onPostStore(thingAccessCredentialDbid);
         }
 
         return thingAccessCredentialDbid;

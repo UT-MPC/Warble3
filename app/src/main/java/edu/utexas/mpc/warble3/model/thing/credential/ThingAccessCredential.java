@@ -35,7 +35,7 @@ public abstract class ThingAccessCredential implements Serializable, Storeable, 
         return dbid;
     }
 
-    private void setDbid(long dbid) {
+    public void setDbid(long dbid) {
         this.dbid = dbid;
     }
 

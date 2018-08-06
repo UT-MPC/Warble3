@@ -21,6 +21,7 @@ public class ThingAccessCredentialConverter {
             ThingAccessCredentialFactory factory = new ThingAccessCredentialFactory();
             ThingAccessCredential thingAccessCredential = factory.createThingAccessCredential(thingAccessCredentialDb.getCredentialClass());
             thingAccessCredential.fromStoreableText(thingAccessCredentialDb.getCredentialInfo());
+            thingAccessCredential.setDbid(thingAccessCredentialDb.getDbid());
 
             return thingAccessCredential;
         }
@@ -67,6 +68,7 @@ public class ThingAccessCredentialConverter {
             else {
                 thingAccessCredentialDb.setThingId(thing.getDbid());
             }
+            thingAccessCredentialDb.setDbid(thingAccessCredential.getDbid());
 
             return thingAccessCredentialDb;
         }

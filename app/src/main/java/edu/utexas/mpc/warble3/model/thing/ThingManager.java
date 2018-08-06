@@ -37,7 +37,7 @@ public class ThingManager {
         }
         else {
             for (Thing thing : things) {
-                List<Connection> connections = AppDatabase.getDatabase().getConnectionBySourceId(thing.getDbid());
+                List<Connection> connections = AppDatabase.getDatabase().getConnectionsBySourceId(thing.getDbid());
                 thing.setConnections(connections);
 
                 List<ThingAccessCredential> thingAccessCredentials = AppDatabase.getDatabase().getThingAccessCredentialsByThingId(thing.getDbid());
