@@ -37,6 +37,21 @@ public class User {
     }
 
     @Override
+    public boolean equals(Object object) {
+        if (object == this) {
+            return true;
+        }
+
+        if (!(object instanceof User)) {
+            return false;
+        }
+
+        User u = (User) object;
+
+        return (this.username.equals(u.username));
+    }
+
+    @Override
     public String toString() {
         String string = "";
         string += String.format("%s %s - %s", TAG, username, emailAddress);

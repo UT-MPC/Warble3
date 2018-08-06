@@ -50,6 +50,22 @@ public abstract class ThingAccessCredential implements Serializable, Storeable, 
     }
 
     @Override
+    public boolean equals(Object object) {
+        if (object == this) {
+            return true;
+        }
+
+        if (!(object instanceof ThingAccessCredential)) {
+            return false;
+        }
+
+        ThingAccessCredential t = (ThingAccessCredential) object;
+
+        return (this.user.equals(t.user)) &&
+                (this.thing.equals(t.thing));
+    }
+
+    @Override
     public String toString() {
         String string = "";
         string += String.format("%s", TAG);

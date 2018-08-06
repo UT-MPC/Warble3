@@ -55,12 +55,10 @@ public final class PhilipsHueBridgeHttpService extends HttpService implements Ph
                 try {
                     CreateUserResponse.Success success = createUserResponse.getSuccess();
                     returnVal = success.getUsername();
-                    if (Logging.INFO)
-                        Log.i(TAG, String.format("Create User succeed. Token: %s", success.getUsername()));
+                    if (Logging.INFO) Log.i(TAG, String.format("Create User succeed. Token: %s", success.getUsername()));
                 } catch (NullPointerException e) {
                     CreateUserResponse.Error error = createUserResponse.getError();
-                    if (Logging.WARN)
-                        Log.w(TAG, String.format("Create User failed. Reason: %s", error.getDescription()));
+                    if (Logging.WARN) Log.w(TAG, String.format("Create User failed. Reason: %s", error.getDescription()));
                 }
             }
             return returnVal;

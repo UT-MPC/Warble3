@@ -20,4 +20,19 @@ public class WifiConnection extends Connection implements ConnectionStoreable {
     public void fromConnectionInfo(String connectionInfo) {
 
     }
+
+    @Override
+    public boolean equals(Object object) {
+        if (object == this) {
+            return true;
+        }
+
+        if (!(object instanceof WifiConnection)) {
+            return false;
+        }
+
+        WifiConnection c = (WifiConnection) object;
+
+        return (this.getSource().equals(c.getSource()));
+    }
 }

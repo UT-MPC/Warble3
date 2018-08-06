@@ -236,4 +236,24 @@ public abstract class Thing implements Serializable, Storeable {
         string += String.format("UUID: \"%s\"", getUuid());
         return string;
     }
+
+    @Override
+    public boolean equals(Object object) {
+        if (object == this) {
+            return true;
+        }
+
+        if (!(object instanceof Thing)) {
+            return false;
+        }
+
+        Thing t = (Thing) object;
+
+        return (this.uuid.equals(t.uuid)) &&
+                (this.name.equals(t.name)) &&
+                (this.manufacturerSerialNumber.equals(t.manufacturerSerialNumber)) &&
+                (this.manufacturerModelName.equals(t.manufacturerModelName)) &&
+                (this.manufacturerModelNumber.equals(t.manufacturerModelNumber)) &&
+                (this.manufacturerName.equals(t.manufacturerName));
+    }
 }

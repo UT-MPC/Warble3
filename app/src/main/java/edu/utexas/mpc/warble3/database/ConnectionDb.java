@@ -79,7 +79,8 @@ public class ConnectionDb {
 
         return (this.sourceId == c.sourceId) &&
                 (this.destinationId == c.destinationId) &&
-                (this.connectionClass.equals(c.connectionClass));
+                (this.connectionClass.equals(c.connectionClass)) &&
+                (this.connectionInfo.equals(c.connectionInfo));
     }
 
     @Override

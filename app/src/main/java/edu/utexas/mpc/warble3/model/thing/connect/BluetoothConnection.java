@@ -20,4 +20,19 @@ public class BluetoothConnection extends Connection implements ConnectionStoreab
     public void fromConnectionInfo(String connectionInfo) {
 
     }
+
+    @Override
+    public boolean equals(Object object) {
+        if (object == this) {
+            return true;
+        }
+
+        if (!(object instanceof BluetoothConnection)) {
+            return false;
+        }
+
+        BluetoothConnection c = (BluetoothConnection) object;
+
+        return (this.getSource().equals(c.getSource()));
+    }
 }

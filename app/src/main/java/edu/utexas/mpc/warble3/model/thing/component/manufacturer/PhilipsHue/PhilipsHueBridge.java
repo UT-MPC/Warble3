@@ -107,7 +107,6 @@ public final class PhilipsHueBridge extends Bridge {
                 }
 
                 String userInfo = service.getUserInfo(token);
-                Log.d(TAG, userInfo);
                 if (userInfo != null) {
                     return true;
                 }

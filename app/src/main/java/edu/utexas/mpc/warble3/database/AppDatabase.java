@@ -283,6 +283,19 @@ public abstract class AppDatabase extends RoomDatabase implements AppDatabaseInt
                 returnConnection.onPostLoad(connectionDbid);
             }
 
+            if (returnConnection == null) {
+                Thing source = connection.getSource();
+                if (source != null) {
+                    List<Connection> connectionsBySourceId = getConnectionsBySourceId(source.getDbid());
+                    for (Connection connectionBySourceId : connectionsBySourceId) {
+                        if (connection.equals(connectionBySourceId)) {
+                            returnConnection = connectionBySourceId;
+                            break;
+                        }
+                    }
+                }
+            }
+
             return returnConnection;
         }
     }
@@ -292,16 +305,12 @@ public abstract class AppDatabase extends RoomDatabase implements AppDatabaseInt
         long connectionDbid = 0;
 
         if (connection != null) {
-            Log.d(TAG, String.format("Connection dbid=%s", connection.getDbid()));
-
             Connection storedConnection = getConnectionFromDb(connection);
 
             if (storedConnection == null) {
-                Log.d(TAG, "Insert Connection");
                 connectionDbid = getDatabase().connectionDbDao().insert(ConnectionConverter.toConnectionDb(connection));
             }
             else {
-                Log.d(TAG, "Update Connection");
                 ConnectionDb updatedConnectionDb = ConnectionConverter.toConnectionDb(connection);
                 connectionDbid = storedConnection.getDbid();
                 updatedConnectionDb.setDbid(connectionDbid);
