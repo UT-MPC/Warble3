@@ -36,6 +36,10 @@ public abstract class Thing implements Serializable, Storeable {
     private List<ThingAccessCredential> thingAccessCredentials;
     private List<Class> thingAccessCredentialClasses;
 
+    private THING_CONNECTION_STATE connectionState = THING_CONNECTION_STATE.INITIAL;
+    private THING_AUTHENTICATION_STATE authenticationState = THING_AUTHENTICATION_STATE.UNAUTHENTICATED;
+    private THING_BINDING_STATE bindingState = THING_BINDING_STATE.UNBOUND;
+
     private long dbid;
 
     public String getName() {
@@ -181,6 +185,30 @@ public abstract class Thing implements Serializable, Storeable {
         this.thingAccessCredentialClasses = thingAccessCredentialClasses;
     }
 
+    public THING_CONNECTION_STATE getConnectionState() {
+        return connectionState;
+    }
+
+    public void setConnectionState(THING_CONNECTION_STATE connectionState) {
+        this.connectionState = connectionState;
+    }
+
+    public THING_AUTHENTICATION_STATE getAuthenticationState() {
+        return authenticationState;
+    }
+
+    public void setAuthenticationState(THING_AUTHENTICATION_STATE authenticationState) {
+        this.authenticationState = authenticationState;
+    }
+
+    public THING_BINDING_STATE getBindingState() {
+        return bindingState;
+    }
+
+    public void setBindingState(THING_BINDING_STATE bindingState) {
+        this.bindingState = bindingState;
+    }
+
     public long getDbid() {
         return dbid;
     }
@@ -189,7 +217,7 @@ public abstract class Thing implements Serializable, Storeable {
         this.dbid = dbid;
     }
 
-    public abstract Boolean authenticate();
+    public abstract boolean authenticate();
 
     @Override
     public void onPostStore(long dbid) {
@@ -207,5 +235,25 @@ public abstract class Thing implements Serializable, Storeable {
         string += String.format("%s (friendlyName) - ", getFriendlyName());
         string += String.format("UUID: \"%s\"", getUuid());
         return string;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (object == this) {
+            return true;
+        }
+
+        if (!(object instanceof Thing)) {
+            return false;
+        }
+
+        Thing t = (Thing) object;
+
+        return (this.uuid.equals(t.uuid)) &&
+                (this.name.equals(t.name)) &&
+                (this.manufacturerSerialNumber.equals(t.manufacturerSerialNumber)) &&
+                (this.manufacturerModelName.equals(t.manufacturerModelName)) &&
+                (this.manufacturerModelNumber.equals(t.manufacturerModelNumber)) &&
+                (this.manufacturerName.equals(t.manufacturerName));
     }
 }

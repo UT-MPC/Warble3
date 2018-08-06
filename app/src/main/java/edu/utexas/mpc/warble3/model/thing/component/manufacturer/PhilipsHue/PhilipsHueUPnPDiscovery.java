@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import edu.utexas.mpc.warble3.model.thing.component.Thing;
 import edu.utexas.mpc.warble3.model.thing.connect.Connection;
 import edu.utexas.mpc.warble3.model.thing.connect.HttpConnection;
 import edu.utexas.mpc.warble3.model.thing.discovery.SSDPDiscovery;
@@ -158,11 +157,6 @@ public final class PhilipsHueUPnPDiscovery extends SSDPDiscovery {
             if (Logging.INFO) Log.i(TAG, "No Philips Hue Bridges by UPnP discovered");
             return null;
         }
-    }
-
-    @Override
-    public List<Thing> onDiscoverDescendants() {
-        return null;
     }
 
     private String getIpAddressFromURL(String url) {

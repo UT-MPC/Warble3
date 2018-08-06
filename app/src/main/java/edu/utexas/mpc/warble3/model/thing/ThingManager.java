@@ -37,7 +37,7 @@ public class ThingManager {
         }
         else {
             for (Thing thing : things) {
-                List<Connection> connections = AppDatabase.getDatabase().getConnectionBySourceId(thing.getDbid());
+                List<Connection> connections = AppDatabase.getDatabase().getConnectionsBySourceId(thing.getDbid());
                 thing.setConnections(connections);
 
                 List<ThingAccessCredential> thingAccessCredentials = AppDatabase.getDatabase().getThingAccessCredentialsByThingId(thing.getDbid());
@@ -59,12 +59,8 @@ public class ThingManager {
         List<Thing> things = new ArrayList<>();
         for(Discovery discovery: discoveries) {
             List<? extends Thing> things1 = discovery.onDiscover();
-            List<? extends Thing> things2 = discovery.onDiscoverDescendants();
             if (things1 != null) {
                 things.addAll(things1);
-            }
-            if (things2 != null) {
-                things.addAll(things2);
             }
         }
 

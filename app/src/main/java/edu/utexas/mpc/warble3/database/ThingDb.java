@@ -5,8 +5,14 @@ import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
 
+import edu.utexas.mpc.warble3.database.type_converter.THING_AUTHENTICATION_STATE_converter;
+import edu.utexas.mpc.warble3.database.type_converter.THING_BINDING_STATE_converter;
 import edu.utexas.mpc.warble3.database.type_converter.THING_CONCRETE_TYPE_converter;
+import edu.utexas.mpc.warble3.database.type_converter.THING_CONNECTION_STATE_converter;
+import edu.utexas.mpc.warble3.model.thing.component.THING_AUTHENTICATION_STATE;
+import edu.utexas.mpc.warble3.model.thing.component.THING_BINDING_STATE;
 import edu.utexas.mpc.warble3.model.thing.component.THING_CONCRETE_TYPE;
+import edu.utexas.mpc.warble3.model.thing.component.THING_CONNECTION_STATE;
 
 @Entity(tableName = "ThingDb")
 public class ThingDb {
@@ -36,6 +42,15 @@ public class ThingDb {
     private THING_CONCRETE_TYPE thingConcreteType;
 
     private boolean isCredentialRequired;
+
+    @TypeConverters(THING_CONNECTION_STATE_converter.class)
+    private THING_CONNECTION_STATE connectionState;
+
+    @TypeConverters(THING_AUTHENTICATION_STATE_converter.class)
+    private THING_AUTHENTICATION_STATE authenticationState;
+
+    @TypeConverters(THING_BINDING_STATE_converter.class)
+    private THING_BINDING_STATE bindingState;
 
     public long getDbid() {
         return dbid;
@@ -147,6 +162,30 @@ public class ThingDb {
 
     public void setCredentialRequired(boolean credentialRequired) {
         isCredentialRequired = credentialRequired;
+    }
+
+    public THING_CONNECTION_STATE getConnectionState() {
+        return connectionState;
+    }
+
+    public void setConnectionState(THING_CONNECTION_STATE connectionState) {
+        this.connectionState = connectionState;
+    }
+
+    public THING_AUTHENTICATION_STATE getAuthenticationState() {
+        return authenticationState;
+    }
+
+    public void setAuthenticationState(THING_AUTHENTICATION_STATE authenticationState) {
+        this.authenticationState = authenticationState;
+    }
+
+    public THING_BINDING_STATE getBindingState() {
+        return bindingState;
+    }
+
+    public void setBindingState(THING_BINDING_STATE bindingState) {
+        this.bindingState = bindingState;
     }
 
     @Override

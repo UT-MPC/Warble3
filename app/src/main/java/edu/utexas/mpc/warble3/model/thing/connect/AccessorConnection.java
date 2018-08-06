@@ -22,4 +22,20 @@ public class AccessorConnection extends Connection implements ConnectionStoreabl
     public void fromConnectionInfo(String connectionInfo) {
 
     }
+
+    @Override
+    public boolean equals(Object object) {
+        if (object == this) {
+            return true;
+        }
+
+        if (!(object instanceof AccessorConnection)) {
+            return false;
+        }
+
+        AccessorConnection c = (AccessorConnection) object;
+
+        return (this.getSource().equals(c.getSource())) &&
+                (this.accessor.equals(c.accessor));
+    }
 }

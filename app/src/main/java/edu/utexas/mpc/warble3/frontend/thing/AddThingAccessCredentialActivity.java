@@ -56,6 +56,8 @@ public class AddThingAccessCredentialActivity extends AppCompatActivity {
 
                                 thing.addThingAccessCredentials(newCred);
                                 Resource.getInstance().updateThing(thing);
+
+                                thing.authenticate();
                             }
                             finish();
                         }

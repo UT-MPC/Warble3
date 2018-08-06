@@ -59,7 +59,7 @@ public class HttpConnection extends Connection implements ConnectionStoreable {
 
     @Override
     public void fromConnectionInfo(String connectionInfo) {
-        Pattern pattern = Pattern.compile("(IPv4|IPv6)(\\s+)((https://|http://)?([0-9.]+)/*)");
+        Pattern pattern = Pattern.compile("(IPv4|IPv6)(\\s+)((https://|http://)?([0-9.]+)(:([0-9]+))*/*)");
         Matcher matcher = pattern.matcher(connectionInfo);
 
         if (matcher.find()) {
@@ -75,4 +75,22 @@ public class HttpConnection extends Connection implements ConnectionStoreable {
         string += String.format("%s %s \"%s\"", TAG, ipType.toString(), ipAddress);
         return string;
     }
+    @Override
+    public boolean equals(Object object) {
+        if (object == this) {
+            return true;
+        }
+
+        if (!(object instanceof HttpConnection)) {
+            return false;
+        }
+
+        HttpConnection c = (HttpConnection) object;
+
+        return (this.getSource().equals(c.getSource())) &&
+                (this.ipAddress.equals(c.ipAddress)) &&
+                (this.url.equals(c.url)) &&
+                (this.ipType.equals(c.ipType));
+    }
+
 }

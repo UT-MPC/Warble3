@@ -45,7 +45,10 @@
     <string name="lightSwitch_controlFragment">Light</string>
 
     <!--Settings Fragment-->
+    <string name="userSection_settingsFragment">User</string>
     <string name="logout_settingsFragment">Log Out</string>
+    <string name="debugSection_settingsFragment">Debug</string>
+    <string name="dbPrint_settingsFragment">Print Database</string>
 
     <!--Thing Activity-->
     <string name="name_thingActivity">Name : </string>

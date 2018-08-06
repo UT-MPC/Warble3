@@ -44,7 +44,11 @@ public class ThingConverter {
 
                 thing.setCredentialRequired(thingDb.getCredentialRequired());
 
-                thing.onPostLoad(thingDb.getDbid());
+                thing.setConnectionState(thingDb.getConnectionState());
+                thing.setAuthenticationState(thingDb.getAuthenticationState());
+                thing.setBindingState(thingDb.getBindingState());
+
+                thing.setDbid(thingDb.getDbid());
 
                 return (Thing) object;
             }
@@ -96,7 +100,13 @@ public class ThingConverter {
 
             thingDb.setUuid(thing.getUuid());
 
-            thingDb.setThingClass(thing.getClass().getName());
+            Class thingClass = thing.getClass();
+            if (thingClass != null) {
+                thingDb.setThingClass(thingClass.getName());
+            }
+            else {
+                if (Logging.WARN) Log.w(TAG, String.format("thingClass in Thing %s is NULL", thing.getFriendlyName()));
+            }
 
             thingDb.setAccessName(thing.getAccessName());
             thingDb.setAccessUsername(thing.getAccessUsername());
@@ -110,6 +120,12 @@ public class ThingConverter {
             thingDb.setThingConcreteType(thing.getThingConcreteType());
 
             thingDb.setCredentialRequired(thing.getCredentialRequired());
+
+            thingDb.setConnectionState(thing.getConnectionState());
+            thingDb.setAuthenticationState(thing.getAuthenticationState());
+            thingDb.setBindingState(thing.getBindingState());
+
+            thingDb.setDbid(thing.getDbid());
 
             return thingDb;
         }

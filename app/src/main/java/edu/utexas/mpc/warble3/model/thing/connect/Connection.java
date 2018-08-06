@@ -52,7 +52,7 @@ public abstract class Connection implements Serializable, Storeable, ConnectionS
         return dbid;
     }
 
-    private void setDbid(long dbid) {
+    public void setDbid(long dbid) {
         this.dbid = dbid;
     }
 
@@ -65,4 +65,7 @@ public abstract class Connection implements Serializable, Storeable, ConnectionS
     public void onPostLoad(long dbid) {
         setDbid(dbid);
     }
+
+    @Override
+    public abstract boolean equals(Object object);
 }

@@ -66,6 +66,22 @@ public class UsernamePasswordCredential extends ThingAccessCredential {
     }
 
     @Override
+    public boolean equals(Object object) {
+        boolean returnVal = super.equals(object);
+
+        if (!(object instanceof UsernamePasswordCredential)) {
+            return false;
+        }
+
+        UsernamePasswordCredential t = (UsernamePasswordCredential) object;
+
+        return returnVal &&
+                (this.username.equals(t.username)) &&
+                (this.password.equals(t.password)) &&
+                (this.token.equals(t.token));
+    }
+
+    @Override
     public String toString() {
         String string = "";
         string += String.format("%s - username \"%s\", password \"%s\"", TAG, username, password);

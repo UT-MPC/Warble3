@@ -10,7 +10,7 @@ public final class PhilipsHueLight extends Light {
     }
 
     @Override
-    public Boolean authenticate() {
+    public boolean authenticate() {
         return false;
     }
 }

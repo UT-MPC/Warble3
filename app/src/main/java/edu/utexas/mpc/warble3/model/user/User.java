@@ -1,6 +1,8 @@
 package edu.utexas.mpc.warble3.model.user;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
     public static final String TAG = "User";
 
     private String username;
@@ -34,5 +36,27 @@ public class User {
 
     public void setEmailAddress(String emailAddress) {
         this.emailAddress = emailAddress;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (object == this) {
+            return true;
+        }
+
+        if (!(object instanceof User)) {
+            return false;
+        }
+
+        User u = (User) object;
+
+        return (this.username.equals(u.username));
+    }
+
+    @Override
+    public String toString() {
+        String string = "";
+        string += String.format("%s %s - %s", TAG, username, emailAddress);
+        return string;
     }
 }

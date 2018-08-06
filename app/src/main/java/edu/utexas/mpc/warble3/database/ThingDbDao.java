@@ -5,9 +5,13 @@ import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
+import android.arch.persistence.room.TypeConverters;
 import android.arch.persistence.room.Update;
 
 import java.util.List;
+
+import edu.utexas.mpc.warble3.database.type_converter.THING_CONNECTION_STATE_converter;
+import edu.utexas.mpc.warble3.model.thing.component.THING_CONNECTION_STATE;
 
 @Dao
 public interface ThingDbDao {
@@ -34,4 +38,8 @@ public interface ThingDbDao {
 
     @Query("SELECT dbid FROM ThingDb WHERE uuid=:uuid")
     long getDbidByUuid(String uuid);
+
+    @Query("UPDATE ThingDb SET connectionState=:connectionState")
+    @TypeConverters(THING_CONNECTION_STATE_converter.class)
+    void updateAllConnectionStates(THING_CONNECTION_STATE connectionState);
 }

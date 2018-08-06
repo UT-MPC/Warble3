@@ -35,7 +35,7 @@ public abstract class ThingAccessCredential implements Serializable, Storeable, 
         return dbid;
     }
 
-    private void setDbid(long dbid) {
+    public void setDbid(long dbid) {
         this.dbid = dbid;
     }
 
@@ -47,6 +47,22 @@ public abstract class ThingAccessCredential implements Serializable, Storeable, 
     @Override
     public void onPostLoad(long dbid) {
         setDbid(dbid);
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        if (object == this) {
+            return true;
+        }
+
+        if (!(object instanceof ThingAccessCredential)) {
+            return false;
+        }
+
+        ThingAccessCredential t = (ThingAccessCredential) object;
+
+        return (this.user.equals(t.user)) &&
+                (this.thing.equals(t.thing));
     }
 
     @Override

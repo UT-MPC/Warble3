@@ -62,7 +62,7 @@ public class ThingAccessCredentialDb {
     public String toString() {
         String string = "";
         String[] c = credentialClass.split("\\.");
-        string += String.format("%s:%s %s->%s - %s", dbid, c[c.length-1], username, thingId,credentialInfo);
+        string += String.format("%s:%s %s->%s - %s", dbid, c[c.length-1], username, thingId, credentialInfo);
         return string;
     }
 }

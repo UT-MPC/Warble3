@@ -14,4 +14,13 @@ public class SharedPreferenceHandler {
     public static SharedPreferences.Editor getSharedPrefsEditorCurrentUserSettings(Context context) {
         return getSharedPrefsCurrentUserSettings(context).edit();
     }
+
+    public static String getSharedPrefsString(Context context) {
+        String string = "===== Shared Prefs =====";
+        string += "\n";
+        string += String.format("%s: %s", SharedPreferenceHandler.SHARED_PREFS_USERNAME, SharedPreferenceHandler.getSharedPrefsCurrentUserSettings(context).getString(SharedPreferenceHandler.SHARED_PREFS_USERNAME, null));
+        string += "\n";
+        string += "========================";
+        return string;
+    }
 }
