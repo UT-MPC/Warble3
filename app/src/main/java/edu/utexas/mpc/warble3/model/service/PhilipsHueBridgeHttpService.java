@@ -104,7 +104,7 @@ public final class PhilipsHueBridgeHttpService extends HttpService implements Ph
             return null;
         }
 
-        return (String) response.body();
+        return response.body().toString();
     }
 
     @Override
@@ -122,7 +122,7 @@ public final class PhilipsHueBridgeHttpService extends HttpService implements Ph
 
     }
 
-    protected interface PhilipsHueBridgeRestApi extends HttpService.RestApi {
+    protected interface PhilipsHueBridgeRestApi {
         @POST("/api")
         @Headers({
                 "Content-Type: application/json"
