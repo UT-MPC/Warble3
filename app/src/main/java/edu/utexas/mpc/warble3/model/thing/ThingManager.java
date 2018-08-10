@@ -93,19 +93,27 @@ public class ThingManager {
     }
 
     public void saveThing(Thing thing) {
-        if (Logging.VERBOSE) Log.v(TAG, String.format("Saving %s", thing.getFriendlyName()));
+        if (thing != null) {
+            if (Logging.VERBOSE) Log.v(TAG, String.format("Saving %s ...", thing.getFriendlyName()));
 
-        AppDatabase.getDatabase().saveThing(thing);
+            AppDatabase.getDatabase().saveThing(thing);
 
-        for (Connection connection : thing.getConnections()) {
-            Thing destinationThing = connection.getDestination();
-            if (destinationThing != null) {
-                saveThing(destinationThing);
+            List<Connection> connections = thing.getConnections();
+            if (connections != null) {
+                for (Connection connection : connections) {
+                    Thing destinationThing = connection.getDestination();
+                    if (destinationThing != null) {
+                        saveThing(destinationThing);
+                    }
+                    AppDatabase.getDatabase().saveConnection(connection);
+                }
             }
-            AppDatabase.getDatabase().saveConnection(connection);
-        }
 
-        AppDatabase.getDatabase().saveThingAccessCredentials(thing.getThingAccessCredentials());
+            List<ThingAccessCredential> thingAccessCredentials = thing.getThingAccessCredentials();
+            if (thingAccessCredentials != null) {
+                AppDatabase.getDatabase().saveThingAccessCredentials(thingAccessCredentials);
+            }
+        }
     }
 
     public void saveThings(List<Thing> things) {
@@ -114,5 +122,44 @@ public class ThingManager {
                 saveThing(thing);
             }
         }
+    }
+
+    public Thing loadThing(Thing thing) {
+        if (thing == null) {
+            return null;
+        }
+        else {
+            Thing loadedThing = AppDatabase.getDatabase().loadThing(thing);
+
+            if (loadedThing == null) {
+                return null;
+            }
+            else {
+                loadedThing.setConnections(AppDatabase.getDatabase().getConnectionsBySourceId(loadedThing.getDbid()));
+                loadedThing.setThingAccessCredentials(AppDatabase.getDatabase().getThingAccessCredentialsByThingId(loadedThing.getDbid()));
+            }
+            return loadedThing;
+        }
+    }
+
+    public boolean authenticateThing(Thing thing) {
+        if (Logging.VERBOSE) Log.v(TAG, String.format("Authenticating %s ...", thing.getFriendlyName()));
+
+        boolean result = thing.authenticate();
+        saveThing(thing);
+
+        return result;
+    }
+
+    public List<Boolean> authenticateThings(List<Thing> things) {
+        List<Boolean> results = new ArrayList<>();
+
+        if (things != null) {
+            for (Thing thing : things) {
+                results.add(authenticateThing(thing));
+            }
+        }
+
+        return results;
     }
 }
