@@ -112,6 +112,10 @@ public abstract class AppDatabase extends RoomDatabase implements AppDatabaseInt
         }
     }
 
+    public User loadUser(User user) {
+        return getUserFromDb(user);
+    }
+
     private User getUserFromDb(User user) {
         if (user == null)
             return null;
@@ -168,6 +172,10 @@ public abstract class AppDatabase extends RoomDatabase implements AppDatabaseInt
             thing.onPostLoad(thingDb.getDbid());
             return thing;
         }
+    }
+
+    public Thing loadThing(Thing thing) {
+        return getThingFromDb(thing);
     }
 
     private Thing getThingFromDb(Thing thing) {
@@ -296,6 +304,10 @@ public abstract class AppDatabase extends RoomDatabase implements AppDatabaseInt
         }
 
         return connections;
+    }
+
+    public Connection loadConnection(Connection connection) {
+        return getConnectionFromDb(connection);
     }
 
     private Connection getConnectionFromDb(Connection connection) {
@@ -435,6 +447,10 @@ public abstract class AppDatabase extends RoomDatabase implements AppDatabaseInt
         }
 
         return thingAccessCredentials;
+    }
+
+    public ThingAccessCredential loadThingAccessCredential(ThingAccessCredential thingAccessCredential) {
+        return getThingAccessCredentialFromDb(thingAccessCredential);
     }
 
     private ThingAccessCredential getThingAccessCredentialFromDb(ThingAccessCredential thingAccessCredential) {
