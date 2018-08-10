@@ -27,7 +27,7 @@ package edu.utexas.mpc.warble3.model.thing.component.manufacturer.PhilipsHue;
 
 import android.util.Log;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import edu.utexas.mpc.warble3.model.service.PhilipsHueBridgeHttpService;
@@ -47,16 +47,14 @@ public final class PhilipsHueBridge extends Bridge {
 
     public PhilipsHueBridge() {
         super();
+        // Set isCredentialRequired as true
+        setCredentialRequired(true);
 
         // Set Discoveries
-        List<Discovery> discoveries = new ArrayList<>();
-        discoveries.add(new PhilipsHueUPnPDiscovery());
-        setDiscoveries(discoveries);
+        setDiscoveries(Collections.<Discovery>singletonList(new PhilipsHueUPnPDiscovery()));
 
         // Set ThingAccessCredentialClasses
-        List<Class> thingAccessCredentialClasses = new ArrayList<>();
-        thingAccessCredentialClasses.add(UsernamePasswordCredential.class);
-        setThingAccessCredentialClasses(thingAccessCredentialClasses);
+        setThingAccessCredentialClasses(Collections.<Class>singletonList(UsernamePasswordCredential.class));
     }
 
     @Override
@@ -144,7 +142,13 @@ public final class PhilipsHueBridge extends Bridge {
     @Override
     public String toString() {
         String string = super.toString();
-        string += String.format(", Connections: %s", getConnections().toString());
+        List<Connection> connections = getConnections();
+        if (connections == null) {
+            string += ", Connections: []";
+        }
+        else {
+            string += String.format(", Connections: %s", connections.toString());
+        }
         string += String.format(", TAG: \"%s\"", TAG);
         return string;
     }
