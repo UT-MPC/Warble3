@@ -100,5 +100,7 @@
     <string name="username_addUsernamePasswordCredentialActivity">Username</string>
     <string name="password_addUsernamePasswordCredentialActivity">Password</string>
     <string name="submit_addUsernamePasswordCredentialActivity">Submit</string>
+    <string name="pressThingButton_addUsernamePasswordCredentialActivity">Press button on the thing</string>
+    <string name="donePressThingButton_addUsernamePasswordCredentialActivity">I have pressed it</string>
 
 </resources>

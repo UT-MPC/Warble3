@@ -26,33 +26,26 @@
 package edu.utexas.mpc.warble3.frontend.async_tasks;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
-import java.util.List;
-
-import edu.utexas.mpc.warble3.model.resource.Resource;
 import edu.utexas.mpc.warble3.model.thing.component.Thing;
-import edu.utexas.mpc.warble3.util.Logging;
 
-public class DiscoveryAsyncTask extends AsyncTask<Void, Void, List<Thing>> {
-    private static final String TAG = "DiscoveryAsyncTask";
-    private DiscoveryAsyncTaskComplete mCallback;
-    private Resource resource = Resource.getInstance();
+public class AuthenticateAsyncTask extends AsyncTask<Thing, Void, Void> {
+    private AuthenticateAsyncTaskComplete mCallback;
 
-    public DiscoveryAsyncTask(DiscoveryAsyncTaskComplete context) {
+    public AuthenticateAsyncTask(AuthenticateAsyncTaskComplete context) {
         mCallback = context;
     }
 
     @Override
-    protected List<Thing> doInBackground(Void... voids) {
-        if (Logging.DEBUG) Log.d(TAG, "Executing DiscoveryAsyncTask ...");
-
-        resource.discoverThings(true);
-        return resource.getThings();
+    protected Void doInBackground(Thing... things) {
+        for (Thing thing : things) {
+            thing.authenticate();
+        }
+        return null;
     }
 
     @Override
-    protected void onPostExecute(List<Thing> things) {
-        mCallback.onDiscoveryTaskComplete(things);
+    protected void onPostExecute(Void aVoid) {
+        mCallback.onAuthenticateTaskComplete();
     }
 }
