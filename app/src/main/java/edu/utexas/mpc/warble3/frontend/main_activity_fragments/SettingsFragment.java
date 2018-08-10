@@ -54,7 +54,7 @@ public class SettingsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_settings, null);
 
-        TextView logout_settingsFragment_textView = view.findViewById(R.id.logout_settingsFragment_textView);
+        final TextView logout_settingsFragment_textView = view.findViewById(R.id.logout_settingsFragment_textView);
         logout_settingsFragment_textView.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -74,6 +74,20 @@ public class SettingsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (Logging.INFO) Log.i(TAG, AppDatabase.getDatabase().toString());
+            }
+        });
+
+        TextView dbReset_settingsFragment_textView = view.findViewById(R.id.dbReset_settingsFragment_textView);
+        dbReset_settingsFragment_textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AppDatabase.getDatabase().deleteAllUsers();
+                AppDatabase.getDatabase().deleteAllThings();
+                AppDatabase.getDatabase().deleteAllConnections();
+                AppDatabase.getDatabase().deleteAllThingAccessCredentials();
+
+                logout_settingsFragment_textView.performClick();
+                logout_settingsFragment_textView.invalidate();
             }
         });
         return view;

@@ -92,6 +92,17 @@
                 app:layout_constraintDimensionRatio=""
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/dbReset_settingsFragment_textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                android:text="@string/dbReset_settingsFragment"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio=""
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
         </LinearLayout>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
