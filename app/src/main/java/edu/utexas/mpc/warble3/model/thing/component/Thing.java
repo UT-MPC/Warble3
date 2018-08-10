@@ -57,7 +57,7 @@ public abstract class Thing implements Serializable, Storeable {
     private List<Connection> connections;
     private List<Discovery> discoveries;
 
-    private boolean isCredentialRequired;
+    private boolean isCredentialRequired = true;
     private List<ThingAccessCredential> thingAccessCredentials;
     private List<Class> thingAccessCredentialClasses;
 
@@ -206,7 +206,7 @@ public abstract class Thing implements Serializable, Storeable {
         return thingAccessCredentialClasses;
     }
 
-    public void setThingAccessCredentialClasses(List<Class> thingAccessCredentialClasses) {
+    protected void setThingAccessCredentialClasses(List<Class> thingAccessCredentialClasses) {
         this.thingAccessCredentialClasses = thingAccessCredentialClasses;
     }
 
