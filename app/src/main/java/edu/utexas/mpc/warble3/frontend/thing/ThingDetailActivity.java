@@ -41,6 +41,7 @@ import java.util.Objects;
 
 import edu.utexas.mpc.warble3.R;
 import edu.utexas.mpc.warble3.frontend.adapter.SimpleAdapter;
+import edu.utexas.mpc.warble3.model.resource.Resource;
 import edu.utexas.mpc.warble3.model.thing.component.Thing;
 import edu.utexas.mpc.warble3.model.thing.connect.Connection;
 import edu.utexas.mpc.warble3.model.thing.credential.ThingAccessCredential;
@@ -52,13 +53,22 @@ public class ThingDetailActivity extends AppCompatActivity {
 
     public static final String THING_BUNDLE_INTENT_EXTRA = "edu.utexas.mpc.warble3.setup_page.ThingDetailActivity.THING";
 
+    protected Thing thing;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_thing_detail);
 
         Bundle thingBundle = getIntent().getBundleExtra(THING_BUNDLE_INTENT_EXTRA);
-        final Thing thing = (Thing) thingBundle.getSerializable(THING_BUNDLE_INTENT_EXTRA);
+        thing = (Thing) thingBundle.getSerializable(THING_BUNDLE_INTENT_EXTRA);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        thing = Resource.getInstance().loadThing(thing);
 
         if (thing == null) {
             finish();
@@ -135,7 +145,7 @@ public class ThingDetailActivity extends AppCompatActivity {
                     for (Class thingAccessCredentialClass : thing.getThingAccessCredentialClasses()) {
                         thingAccessCredentialClassesString.add(thingAccessCredentialClass.getSimpleName());
                     }
-                    
+
                     RecyclerView recyclerView = mView.findViewById(R.id.selectThingAccessCredentialClass_selectAddThingAccessCredential_recyclerView);
                     RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(ThingDetailActivity.this);
                     SimpleAdapter adapter = new SimpleAdapter(ThingDetailActivity.this, thingAccessCredentialClassesString);
