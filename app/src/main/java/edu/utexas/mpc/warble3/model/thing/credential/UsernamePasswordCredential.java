@@ -86,6 +86,9 @@ public class UsernamePasswordCredential extends ThingAccessCredential {
             }
             if (!matcher.group(6).equals("")) {
                 token = matcher.group(6);
+                if (token.equals("null")) {
+                    token = null;
+                }
             }
         }
     }

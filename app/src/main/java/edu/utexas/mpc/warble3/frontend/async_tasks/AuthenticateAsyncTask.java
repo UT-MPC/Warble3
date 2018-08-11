@@ -29,7 +29,7 @@ import android.os.AsyncTask;
 
 import edu.utexas.mpc.warble3.model.thing.component.Thing;
 
-public class AuthenticateAsyncTask extends AsyncTask<Thing, Void, Void> {
+public class AuthenticateAsyncTask extends AsyncTask<Thing, Void, Thing> {
     private AuthenticateAsyncTaskComplete mCallback;
 
     public AuthenticateAsyncTask(AuthenticateAsyncTaskComplete context) {
@@ -37,15 +37,14 @@ public class AuthenticateAsyncTask extends AsyncTask<Thing, Void, Void> {
     }
 
     @Override
-    protected Void doInBackground(Thing... things) {
-        for (Thing thing : things) {
-            thing.authenticate();
-        }
-        return null;
+    protected Thing doInBackground(Thing... things) {
+        Thing thing = things[0];
+        thing.authenticate();
+        return thing;
     }
 
     @Override
-    protected void onPostExecute(Void aVoid) {
-        mCallback.onAuthenticateTaskComplete();
+    protected void onPostExecute(Thing thing) {
+        mCallback.onAuthenticateTaskComplete(thing);
     }
 }

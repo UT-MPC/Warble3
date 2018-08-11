@@ -116,26 +116,31 @@ public final class PhilipsHueBridge extends Bridge {
 
                 UsernamePasswordCredential usernamePasswordCredential = (UsernamePasswordCredential) thingAccessCredential;
 
-                String token;
-                if (usernamePasswordCredential.getToken() == null) {
+                String token = usernamePasswordCredential.getToken();
+                if (token == null) {
                     token = service.createUser(usernamePasswordCredential.getUsername());
 
                     if (token == null) {
                         if (Logging.WARN) Log.w(TAG, "Create User failed");
                         continue;
                     }
+                    else {
+                        usernamePasswordCredential.setToken(token);
+                    }
                 }
                 else {
                     token = usernamePasswordCredential.getToken();
                 }
 
-                String userInfo = service.getUserInfo(token);
-                if (userInfo != null) {
+                String userInfo = service.getConfig(token);
+                if ((userInfo != null) && (!userInfo.equals(""))) {
+                    setAuthenticationState(THING_AUTHENTICATION_STATE.AUTHENTICATED);
                     return true;
                 }
             }
         }
 
+        setAuthenticationState(THING_AUTHENTICATION_STATE.UNAUTHENTICATED);
         return false;
     }
 

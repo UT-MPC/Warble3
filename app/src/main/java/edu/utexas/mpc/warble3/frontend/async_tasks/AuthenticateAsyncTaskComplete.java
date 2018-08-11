@@ -25,6 +25,8 @@
 
 package edu.utexas.mpc.warble3.frontend.async_tasks;
 
+import edu.utexas.mpc.warble3.model.thing.component.Thing;
+
 public interface AuthenticateAsyncTaskComplete {
-    void onAuthenticateTaskComplete();
+    void onAuthenticateTaskComplete(Thing thing);
 }

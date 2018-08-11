@@ -29,7 +29,7 @@ import java.util.List;
 
 public interface PhilipsHueBridgeHttpInterface {
     String createUser(String username);
-    String getUserInfo(String user);
+    String getConfig(String user);
 
     List<PhilipsHueLight> getLights(String user);
 

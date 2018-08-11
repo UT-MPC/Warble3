@@ -33,6 +33,7 @@ import com.google.gson.annotations.SerializedName;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import edu.utexas.mpc.warble3.model.thing.component.manufacturer.PhilipsHue.PhilipsHueBridgeHttpInterface;
 import edu.utexas.mpc.warble3.model.thing.component.manufacturer.PhilipsHue.PhilipsHueLight;
@@ -94,17 +95,31 @@ public final class PhilipsHueBridgeHttpService extends HttpService implements Ph
     }
 
     @Override
-    public String getUserInfo(String user) {
-        Response response;
+    public String getConfig(String user) {
+        Response<ConfigurationResponse> response;
         try {
-            response = api.getInfo(user).execute();
+            response = api.getConfig(user).execute();
         }
         catch (IOException e) {
             if (Logging.WARN) Log.w(TAG, e.toString());
             return null;
         }
 
-        return response.body().toString();
+        ConfigurationResponse responseBody = response.body();
+
+        if (responseBody != null) {
+            Map<String, ConfigurationResponse.User> whitelist = responseBody.getWhitelist();
+
+            String name = whitelist.get(user).getName();
+
+            if (name != null){
+                return name;
+            }
+            else {
+                return null;
+            }
+        }
+        return null;
     }
 
     @Override
@@ -129,8 +144,8 @@ public final class PhilipsHueBridgeHttpService extends HttpService implements Ph
         })
         Call<List<CreateUserResponse>> createUser(@Body CreateUserRequest createUserRequest);
 
-        @GET("/api/{user}")
-        Call<ResponseBody> getInfo(@Path("user") String userId);
+        @GET("/api/{user}/config")
+        Call<ConfigurationResponse> getConfig(@Path("user") String userId);
 
         @GET("/api/{user}/lights")
         Call<ResponseBody> getLights(@Path("user") String userId);
@@ -218,6 +233,292 @@ public final class PhilipsHueBridgeHttpService extends HttpService implements Ph
             public String getDescription() {
                 return description;
             }
+        }
+    }
+
+    private class ConfigurationResponse {
+        @SerializedName("name")
+        @Expose
+        private String name;
+
+        public String getName() {
+            return name;
+        }
+
+        @SerializedName("zigbeechannel")
+        @Expose
+        private int zigbeechannel;
+
+        public int getZigbeechannel() {
+            return zigbeechannel;
+        }
+
+        @SerializedName("bridgeid")
+        @Expose
+        private String bridgeid;
+
+        public String getBridgeid() {
+            return bridgeid;
+        }
+
+        @SerializedName("mac")
+        @Expose
+        private String mac;
+
+        public String getMac() {
+            return mac;
+        }
+
+        @SerializedName("dhcp")
+        @Expose
+        private boolean dhcp;
+
+        public boolean isDhcp() {
+            return dhcp;
+        }
+
+        @SerializedName("ipaddress")
+        @Expose
+        private String ipaddress;
+
+        public String getIpaddress() {
+            return ipaddress;
+        }
+
+        @SerializedName("netmask")
+        @Expose
+        private String netmask;
+
+        @SerializedName("gateway")
+        @Expose
+        private String gateway;
+
+        @SerializedName("proxyaddress")
+        @Expose
+        private String proxyaddress;
+
+        @SerializedName("proxyport")
+        @Expose
+        private int proxyport;
+
+        @SerializedName("UTC")
+        @Expose
+        private String UTC;
+
+        @SerializedName("localtime")
+        @Expose
+        private String localtime;
+
+        @SerializedName("timezone")
+        @Expose
+        private String timezone;
+
+        @SerializedName("modelid")
+        @Expose
+        private String modelid;
+
+        @SerializedName("datastoreversion")
+        @Expose
+        private String datastoreversion;
+
+        @SerializedName("swversion")
+        @Expose
+        private String swversion;
+
+        @SerializedName("apiversion")
+        @Expose
+        private String apiversion;
+
+        @SerializedName("swupdate")
+        @Expose
+        private Swupdate swupdate;
+
+        private class Swupdate {
+            @SerializedName("updatestate")
+            @Expose
+            private int updatestate;
+
+            @SerializedName("checkforupdate")
+            @Expose
+            private boolean checkforupdate;
+
+            @SerializedName("devicetypes")
+            @Expose
+            private Object devicetypes;
+
+            @SerializedName("url")
+            @Expose
+            private String url;
+
+            @SerializedName("text")
+            @Expose
+            private String text;
+
+            @SerializedName("notify")
+            @Expose
+            private boolean notify;
+        }
+
+        @SerializedName("swupdate2")
+        @Expose
+        private Swupdate2 swupdate2;
+
+        private class Swupdate2 {
+            @SerializedName("checkforupdate")
+            @Expose
+            private boolean checkforupdate;
+
+            @SerializedName("lastchange")
+            @Expose
+            private String lastchange;
+
+            @SerializedName("bridge")
+            @Expose
+            private Bridge bridge;
+
+            private class Bridge {
+                @SerializedName("updatetime")
+                @Expose
+                private String updatetime;
+
+                @SerializedName("on")
+                @Expose
+                private boolean on;
+            }
+
+            @SerializedName("state")
+            @Expose
+            private String state;
+
+            @SerializedName("autoinstall")
+            @Expose
+            private Autoinstall autoinstall;
+
+            private class Autoinstall {
+                @SerializedName("updatetime")
+                @Expose
+                private String updatetime;
+
+                @SerializedName("on")
+                @Expose
+                private boolean on;
+            }
+        }
+
+        @SerializedName("linkbutton")
+        @Expose
+        private boolean linkbutton;
+
+        @SerializedName("portalservices")
+        @Expose
+        private boolean portalservices;
+
+        @SerializedName("portalconnection")
+        @Expose
+        private String portalconnection;
+
+        @SerializedName("portalstate")
+        @Expose
+        private PortalState portalstate;
+
+        private class PortalState {
+            @SerializedName("signedon")
+            @Expose
+            private boolean signedon;
+
+            @SerializedName("incoming")
+            @Expose
+            private boolean incoming;
+
+            @SerializedName("outgoing")
+            @Expose
+            private boolean outgoing;
+
+            @SerializedName("communication")
+            @Expose
+            private String communication;
+        }
+
+        @SerializedName("internetservices")
+        @Expose
+        private InternetServices internetservices;
+
+        private class InternetServices {
+            @SerializedName("internet")
+            @Expose
+            private String internet;
+
+            @SerializedName("remoteaccess")
+            @Expose
+            private String remoteaccess;
+
+            @SerializedName("time")
+            @Expose
+            private String time;
+
+            @SerializedName("swupdate")
+            @Expose
+            private String swupdate;
+        }
+
+        @SerializedName("factorynew")
+        @Expose
+        private boolean factorynew;
+
+        @SerializedName("replacesbridgeid")
+        @Expose
+        private String replacesbridgeid;
+
+        @SerializedName("backup")
+        @Expose
+        private Backup backup;
+
+        private class Backup {
+            @SerializedName("status")
+            @Expose
+            private String status;
+
+            @SerializedName("errorcode")
+            @Expose
+            private int errorcode;
+        }
+
+        @SerializedName("starterkitid")
+        @Expose
+        private String starterkitid;
+
+        @SerializedName("whitelist")
+        @Expose
+        private Map<String, User> whitelist;
+
+        public Map<String, User> getWhitelist() {
+            return whitelist;
+        }
+
+        private class User {
+            @SerializedName("last use date")
+            @Expose
+            private String lastUseDate;
+
+            public String getLastUseDate() {
+                return lastUseDate;
+            }
+
+            @SerializedName("create date")
+            @Expose
+            private String createDate;
+
+            public String getCreateDate() {
+                return createDate;
+            }
+
+            public String getName() {
+                return name;
+            }
+
+            @SerializedName("name")
+            @Expose
+            private String name;
         }
     }
 }

@@ -25,10 +25,8 @@
 
 package edu.utexas.mpc.warble3.frontend.thing;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -42,7 +40,6 @@ import edu.utexas.mpc.warble3.R;
 import edu.utexas.mpc.warble3.frontend.async_tasks.AuthenticateAsyncTask;
 import edu.utexas.mpc.warble3.frontend.async_tasks.AuthenticateAsyncTaskComplete;
 import edu.utexas.mpc.warble3.model.resource.Resource;
-import edu.utexas.mpc.warble3.model.thing.component.THING_AUTHENTICATION_STATE;
 import edu.utexas.mpc.warble3.model.thing.component.Thing;
 import edu.utexas.mpc.warble3.model.thing.credential.UsernamePasswordCredential;
 import edu.utexas.mpc.warble3.util.Logging;
@@ -56,6 +53,9 @@ public class AddThingAccessCredentialActivity extends AppCompatActivity implemen
 
     private static final int MAXIMUM_AUTHENTICATION_TRY = 3;
 
+    private ProgressBar progressBar;
+    private Thing thing;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +63,7 @@ public class AddThingAccessCredentialActivity extends AppCompatActivity implemen
         Intent intent = getIntent();
         String thingAccessCredentialClass = intent.getStringExtra(THING_ACCESS_CREDENTIAL_CLASS_INTENT_EXTRA);
         Bundle thingBundle = intent.getBundleExtra(THING_INTENT_EXTRA);
-        final Thing thing = (Thing) thingBundle.getSerializable(THING_INTENT_EXTRA);
+        thing = (Thing) thingBundle.getSerializable(THING_INTENT_EXTRA);
 
         switch (thingAccessCredentialClass) {
             case "UsernamePasswordCredential":
@@ -71,7 +71,7 @@ public class AddThingAccessCredentialActivity extends AppCompatActivity implemen
 
                 final EditText username = findViewById(R.id.username_addUsernamePasswordCredential_editText);
                 final EditText password = findViewById(R.id.password_addUsernamePasswordCredential_editText);
-                final ProgressBar progressBar = findViewById(R.id.asyncTaskProgressBar_addUsernamePasswordCredential_progressBar);
+                progressBar = findViewById(R.id.asyncTaskProgressBar_addUsernamePasswordCredential_progressBar);
 
                 Button submitButton = findViewById(R.id.submit_addUsernamePasswordCredential_button);
                 submitButton.setOnClickListener(new View.OnClickListener() {
@@ -90,38 +90,12 @@ public class AddThingAccessCredentialActivity extends AppCompatActivity implemen
                                 newCred.setThing(thing);
 
                                 thing.addThingAccessCredentials(newCred);
-                                Resource.getInstance().updateThing(thing);
 
-                                int authenticate_try = 0;
+                                progressBar.setVisibility(View.VISIBLE);
+                                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
-                                do {
-                                    Log.v(TAG, "AuthenticateAsyncTask");
-                                    progressBar.setVisibility(View.VISIBLE);
-                                    getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                                    new AuthenticateAsyncTask(AddThingAccessCredentialActivity.this).execute(thing);
-
-                                    if (thing.getAuthenticationState() == THING_AUTHENTICATION_STATE.AUTHENTICATED) {
-                                        break;
-                                    }
-                                    else {
-                                        AlertDialog.Builder builder = new AlertDialog.Builder(AddThingAccessCredentialActivity.this);
-                                        builder.setMessage(R.string.pressThingButton_addUsernamePasswordCredentialActivity)
-                                                .setPositiveButton(R.string.donePressThingButton_addUsernamePasswordCredentialActivity, new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                                                    }
-                                                });
-                                        builder.create();
-                                    }
-
-                                    authenticate_try++;
-                                } while (authenticate_try < MAXIMUM_AUTHENTICATION_TRY);
-
-                                progressBar.setVisibility(View.GONE);
-                                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                                new AuthenticateAsyncTask(AddThingAccessCredentialActivity.this).execute(thing);
                             }
-                            finish();
                         }
                         else {
                             Toast.makeText(AddThingAccessCredentialActivity.this, "The thing is null. Potential Bug", Toast.LENGTH_SHORT).show();
@@ -138,7 +112,13 @@ public class AddThingAccessCredentialActivity extends AppCompatActivity implemen
     }
 
     @Override
-    public void onAuthenticateTaskComplete() {
+    public void onAuthenticateTaskComplete(Thing thing) {
+        this.thing = thing;
+        Resource.getInstance().updateThing(thing);
 
+        progressBar.setVisibility(View.GONE);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+        finish();
     }
 }
