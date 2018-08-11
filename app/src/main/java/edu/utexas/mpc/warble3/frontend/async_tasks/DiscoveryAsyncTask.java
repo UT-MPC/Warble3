@@ -36,10 +36,10 @@ import edu.utexas.mpc.warble3.util.Logging;
 
 public class DiscoveryAsyncTask extends AsyncTask<Void, Void, List<Thing>> {
     private static final String TAG = "DiscoveryAsyncTask";
-    private DiscoveryAsyncTaskComplete mCallback;
+    private DiscoveryAsyncTaskInterface mCallback;
     private Resource resource = Resource.getInstance();
 
-    public DiscoveryAsyncTask(DiscoveryAsyncTaskComplete context) {
+    public DiscoveryAsyncTask(DiscoveryAsyncTaskInterface context) {
         mCallback = context;
     }
 
@@ -54,5 +54,10 @@ public class DiscoveryAsyncTask extends AsyncTask<Void, Void, List<Thing>> {
     @Override
     protected void onPostExecute(List<Thing> things) {
         mCallback.onDiscoveryTaskComplete(things);
+    }
+
+    public interface DiscoveryAsyncTaskInterface {
+        void onDiscoveryTaskStart();
+        void onDiscoveryTaskComplete(List<Thing> things);
     }
 }
