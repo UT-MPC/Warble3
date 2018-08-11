@@ -38,20 +38,17 @@ import android.widget.Toast;
 
 import edu.utexas.mpc.warble3.R;
 import edu.utexas.mpc.warble3.frontend.async_tasks.AuthenticateAsyncTask;
-import edu.utexas.mpc.warble3.frontend.async_tasks.AuthenticateAsyncTaskComplete;
 import edu.utexas.mpc.warble3.model.resource.Resource;
 import edu.utexas.mpc.warble3.model.thing.component.Thing;
 import edu.utexas.mpc.warble3.model.thing.credential.UsernamePasswordCredential;
 import edu.utexas.mpc.warble3.util.Logging;
 import edu.utexas.mpc.warble3.util.SharedPreferenceHandler;
 
-public class AddThingAccessCredentialActivity extends AppCompatActivity implements AuthenticateAsyncTaskComplete {
+public class AddThingAccessCredentialActivity extends AppCompatActivity implements AuthenticateAsyncTask.AuthenticateAsyncTaskInterface {
     private static final String TAG = "AddThingAccessCred";
 
     public static final String THING_ACCESS_CREDENTIAL_CLASS_INTENT_EXTRA = "edu.texas.mpc.warble3.frontend.thing.AddThingAccessCredentialActivity.THING_ACCESS_CREDENTIAL_CLASS_INTENT_EXTRA";
     public static final String THING_INTENT_EXTRA = "edu.texas.mpc.warble3.frontend.thing.AddThingAccessCredentialActivity.THING_INTENT_EXTRA";
-
-    private static final int MAXIMUM_AUTHENTICATION_TRY = 3;
 
     private ProgressBar progressBar;
     private Thing thing;
@@ -88,11 +85,7 @@ public class AddThingAccessCredentialActivity extends AppCompatActivity implemen
                             else {
                                 newCred.setUser(Resource.getInstance().getUser(currentUsername));
                                 newCred.setThing(thing);
-
                                 thing.addThingAccessCredentials(newCred);
-
-                                progressBar.setVisibility(View.VISIBLE);
-                                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
 
                                 new AuthenticateAsyncTask(AddThingAccessCredentialActivity.this).execute(thing);
                             }
@@ -109,6 +102,12 @@ public class AddThingAccessCredentialActivity extends AppCompatActivity implemen
             default:
                 break;
         }
+    }
+
+    @Override
+    public void onAuthenticateTaskStart() {
+        progressBar.setVisibility(View.VISIBLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
 
     @Override
