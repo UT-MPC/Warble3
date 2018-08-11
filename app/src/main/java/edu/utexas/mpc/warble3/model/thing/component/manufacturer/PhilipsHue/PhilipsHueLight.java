@@ -26,6 +26,7 @@
 package edu.utexas.mpc.warble3.model.thing.component.manufacturer.PhilipsHue;
 
 import edu.utexas.mpc.warble3.model.thing.component.Light;
+import edu.utexas.mpc.warble3.model.thing.credential.ThingAccessCredential;
 
 public final class PhilipsHueLight extends Light {
     private static final String TAG = "PhilipsHueLight";
@@ -36,6 +37,11 @@ public final class PhilipsHueLight extends Light {
 
     @Override
     public boolean authenticate() {
+        return false;
+    }
+
+    @Override
+    public boolean authenticate(ThingAccessCredential thingAccessCredential) {
         return false;
     }
 }

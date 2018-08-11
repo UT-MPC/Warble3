@@ -26,6 +26,7 @@
 package edu.utexas.mpc.warble3.model.thing.component.manufacturer.GE;
 
 import edu.utexas.mpc.warble3.model.thing.component.Light;
+import edu.utexas.mpc.warble3.model.thing.credential.ThingAccessCredential;
 
 public final class GELight extends Light {
     public GELight() {
@@ -34,6 +35,11 @@ public final class GELight extends Light {
 
     @Override
     public boolean authenticate() {
+        return false;
+    }
+
+    @Override
+    public boolean authenticate(ThingAccessCredential thingAccessCredential) {
         return false;
     }
 }

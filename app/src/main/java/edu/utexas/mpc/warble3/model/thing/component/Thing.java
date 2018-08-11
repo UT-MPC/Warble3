@@ -244,6 +244,8 @@ public abstract class Thing implements Serializable, Storeable {
 
     public abstract boolean authenticate();
 
+    public abstract boolean authenticate(ThingAccessCredential thingAccessCredential);
+
     @Override
     public void onPostStore(long dbid) {
         setDbid(dbid);
