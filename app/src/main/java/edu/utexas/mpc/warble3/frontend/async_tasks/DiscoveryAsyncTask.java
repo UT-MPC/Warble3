@@ -47,7 +47,7 @@ public class DiscoveryAsyncTask extends AsyncTask<Void, Void, List<Thing>> {
     protected List<Thing> doInBackground(Void... voids) {
         if (Logging.DEBUG) Log.d(TAG, "Executing DiscoveryAsyncTask ...");
 
-        resource.discoverThings();
+        resource.discoverThings(true);
         return resource.getThings();
     }
 

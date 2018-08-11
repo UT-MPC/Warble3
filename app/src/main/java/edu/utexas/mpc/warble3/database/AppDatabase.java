@@ -39,6 +39,8 @@ import edu.utexas.mpc.warble3.database.converter.ConnectionConverter;
 import edu.utexas.mpc.warble3.database.converter.ThingAccessCredentialConverter;
 import edu.utexas.mpc.warble3.database.converter.ThingConverter;
 import edu.utexas.mpc.warble3.database.converter.UserConverter;
+import edu.utexas.mpc.warble3.model.thing.component.THING_AUTHENTICATION_STATE;
+import edu.utexas.mpc.warble3.model.thing.component.THING_BINDING_STATE;
 import edu.utexas.mpc.warble3.model.thing.component.THING_CONNECTION_STATE;
 import edu.utexas.mpc.warble3.model.thing.component.Thing;
 import edu.utexas.mpc.warble3.model.thing.connect.Connection;
@@ -110,6 +112,10 @@ public abstract class AppDatabase extends RoomDatabase implements AppDatabaseInt
         }
     }
 
+    public User loadUser(User user) {
+        return getUserFromDb(user);
+    }
+
     private User getUserFromDb(User user) {
         if (user == null)
             return null;
@@ -166,6 +172,10 @@ public abstract class AppDatabase extends RoomDatabase implements AppDatabaseInt
             thing.onPostLoad(thingDb.getDbid());
             return thing;
         }
+    }
+
+    public Thing loadThing(Thing thing) {
+        return getThingFromDb(thing);
     }
 
     private Thing getThingFromDb(Thing thing) {
@@ -294,6 +304,10 @@ public abstract class AppDatabase extends RoomDatabase implements AppDatabaseInt
         }
 
         return connections;
+    }
+
+    public Connection loadConnection(Connection connection) {
+        return getConnectionFromDb(connection);
     }
 
     private Connection getConnectionFromDb(Connection connection) {
@@ -435,6 +449,10 @@ public abstract class AppDatabase extends RoomDatabase implements AppDatabaseInt
         return thingAccessCredentials;
     }
 
+    public ThingAccessCredential loadThingAccessCredential(ThingAccessCredential thingAccessCredential) {
+        return getThingAccessCredentialFromDb(thingAccessCredential);
+    }
+
     private ThingAccessCredential getThingAccessCredentialFromDb(ThingAccessCredential thingAccessCredential) {
         if (thingAccessCredential == null)
             return null;
@@ -500,12 +518,16 @@ public abstract class AppDatabase extends RoomDatabase implements AppDatabaseInt
 
     @Override
     public void onInitialize() {
-
+        getDatabase().thingDbDao().updateAllConnectionStates(THING_CONNECTION_STATE.INITIAL);
+        getDatabase().thingDbDao().updateAllAuthenticationStates(THING_AUTHENTICATION_STATE.UNAUTHENTICATED);
+        getDatabase().thingDbDao().updateAllBindingStates(THING_BINDING_STATE.UNBOUND);
     }
 
     @Override
     public void onTerminate() {
         getDatabase().thingDbDao().updateAllConnectionStates(THING_CONNECTION_STATE.INITIAL);
+        getDatabase().thingDbDao().updateAllAuthenticationStates(THING_AUTHENTICATION_STATE.UNAUTHENTICATED);
+        getDatabase().thingDbDao().updateAllBindingStates(THING_BINDING_STATE.UNBOUND);
     }
 
     // Logging

@@ -23,16 +23,28 @@
  *
  */
 
-package edu.utexas.mpc.warble3.model.thing.component.manufacturer.PhilipsHue;
+package edu.utexas.mpc.warble3.frontend.async_tasks;
 
-import java.util.List;
+import android.os.AsyncTask;
 
-public interface PhilipsHueBridgeHttpInterface {
-    String createUser(String username);
-    String getConfig(String user);
+import edu.utexas.mpc.warble3.model.thing.component.Thing;
 
-    List<PhilipsHueLight> getLights(String user);
+public class AuthenticateAsyncTask extends AsyncTask<Thing, Void, Thing> {
+    private AuthenticateAsyncTaskComplete mCallback;
 
-    PhilipsHueLightState getLightState(String user, PhilipsHueLight philipsHueLight);
-    void putLight(String user, PhilipsHueLight philipsHueLight, PhilipsHueLightState philipsHueLightState);
+    public AuthenticateAsyncTask(AuthenticateAsyncTaskComplete context) {
+        mCallback = context;
+    }
+
+    @Override
+    protected Thing doInBackground(Thing... things) {
+        Thing thing = things[0];
+        thing.authenticate();
+        return thing;
+    }
+
+    @Override
+    protected void onPostExecute(Thing thing) {
+        mCallback.onAuthenticateTaskComplete(thing);
+    }
 }

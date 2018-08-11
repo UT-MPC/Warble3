@@ -42,6 +42,4 @@ public abstract class HttpService extends Service {
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
     }
-
-    interface RestApi {}
 }

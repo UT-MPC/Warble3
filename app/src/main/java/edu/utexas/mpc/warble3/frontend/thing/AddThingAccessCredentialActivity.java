@@ -30,22 +30,31 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import edu.utexas.mpc.warble3.R;
+import edu.utexas.mpc.warble3.frontend.async_tasks.AuthenticateAsyncTask;
+import edu.utexas.mpc.warble3.frontend.async_tasks.AuthenticateAsyncTaskComplete;
 import edu.utexas.mpc.warble3.model.resource.Resource;
 import edu.utexas.mpc.warble3.model.thing.component.Thing;
 import edu.utexas.mpc.warble3.model.thing.credential.UsernamePasswordCredential;
 import edu.utexas.mpc.warble3.util.Logging;
 import edu.utexas.mpc.warble3.util.SharedPreferenceHandler;
 
-public class AddThingAccessCredentialActivity extends AppCompatActivity {
+public class AddThingAccessCredentialActivity extends AppCompatActivity implements AuthenticateAsyncTaskComplete {
     private static final String TAG = "AddThingAccessCred";
 
     public static final String THING_ACCESS_CREDENTIAL_CLASS_INTENT_EXTRA = "edu.texas.mpc.warble3.frontend.thing.AddThingAccessCredentialActivity.THING_ACCESS_CREDENTIAL_CLASS_INTENT_EXTRA";
     public static final String THING_INTENT_EXTRA = "edu.texas.mpc.warble3.frontend.thing.AddThingAccessCredentialActivity.THING_INTENT_EXTRA";
+
+    private static final int MAXIMUM_AUTHENTICATION_TRY = 3;
+
+    private ProgressBar progressBar;
+    private Thing thing;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +63,7 @@ public class AddThingAccessCredentialActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String thingAccessCredentialClass = intent.getStringExtra(THING_ACCESS_CREDENTIAL_CLASS_INTENT_EXTRA);
         Bundle thingBundle = intent.getBundleExtra(THING_INTENT_EXTRA);
-        final Thing thing = (Thing) thingBundle.getSerializable(THING_INTENT_EXTRA);
+        thing = (Thing) thingBundle.getSerializable(THING_INTENT_EXTRA);
 
         switch (thingAccessCredentialClass) {
             case "UsernamePasswordCredential":
@@ -62,6 +71,7 @@ public class AddThingAccessCredentialActivity extends AppCompatActivity {
 
                 final EditText username = findViewById(R.id.username_addUsernamePasswordCredential_editText);
                 final EditText password = findViewById(R.id.password_addUsernamePasswordCredential_editText);
+                progressBar = findViewById(R.id.asyncTaskProgressBar_addUsernamePasswordCredential_progressBar);
 
                 Button submitButton = findViewById(R.id.submit_addUsernamePasswordCredential_button);
                 submitButton.setOnClickListener(new View.OnClickListener() {
@@ -80,11 +90,12 @@ public class AddThingAccessCredentialActivity extends AppCompatActivity {
                                 newCred.setThing(thing);
 
                                 thing.addThingAccessCredentials(newCred);
-                                Resource.getInstance().updateThing(thing);
 
-                                thing.authenticate();
+                                progressBar.setVisibility(View.VISIBLE);
+                                getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+                                new AuthenticateAsyncTask(AddThingAccessCredentialActivity.this).execute(thing);
                             }
-                            finish();
                         }
                         else {
                             Toast.makeText(AddThingAccessCredentialActivity.this, "The thing is null. Potential Bug", Toast.LENGTH_SHORT).show();
@@ -98,5 +109,16 @@ public class AddThingAccessCredentialActivity extends AppCompatActivity {
             default:
                 break;
         }
+    }
+
+    @Override
+    public void onAuthenticateTaskComplete(Thing thing) {
+        this.thing = thing;
+        Resource.getInstance().updateThing(thing);
+
+        progressBar.setVisibility(View.GONE);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+        finish();
     }
 }

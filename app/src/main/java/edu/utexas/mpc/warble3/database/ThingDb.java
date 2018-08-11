@@ -216,7 +216,10 @@ public class ThingDb {
     @Override
     public String toString() {
         String string = "";
-        string += String.format("%s:%s", dbid, friendlyName);
+        string += String.format("%s:%s %s-%s-%s", dbid, friendlyName,
+                getConnectionState().toString().substring(0, 3),
+                getAuthenticationState().toString().substring(0, 3),
+                getBindingState().toString().substring(0, 3));
         return string;
     }
 }

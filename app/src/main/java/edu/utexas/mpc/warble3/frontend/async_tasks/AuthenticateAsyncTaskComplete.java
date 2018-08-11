@@ -23,16 +23,10 @@
  *
  */
 
-package edu.utexas.mpc.warble3.model.thing.component.manufacturer.PhilipsHue;
+package edu.utexas.mpc.warble3.frontend.async_tasks;
 
-import java.util.List;
+import edu.utexas.mpc.warble3.model.thing.component.Thing;
 
-public interface PhilipsHueBridgeHttpInterface {
-    String createUser(String username);
-    String getConfig(String user);
-
-    List<PhilipsHueLight> getLights(String user);
-
-    PhilipsHueLightState getLightState(String user, PhilipsHueLight philipsHueLight);
-    void putLight(String user, PhilipsHueLight philipsHueLight, PhilipsHueLightState philipsHueLightState);
+public interface AuthenticateAsyncTaskComplete {
+    void onAuthenticateTaskComplete(Thing thing);
 }

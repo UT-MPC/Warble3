@@ -82,12 +82,19 @@ public class Resource {
         thingManager.discover();
     }
 
+    public void discoverThings(boolean authenticateThings) {
+        discoverThings();
+        if (authenticateThings) {
+            authenticateThings();
+        }
+    }
+
     public List<Thing> getThings() {
         return thingManager.getThings();
     }
 
     public void authenticateThings() {
-        // TODO: implement
+        thingManager.authenticateThings(getThings());
     }
 
     public void addThing(Thing newThing) {
@@ -100,6 +107,10 @@ public class Resource {
 
     public void setThingState(Thing thing, ThingState thingState) {
         // TODO: implement
+    }
+
+    public Thing loadThing(Thing thing) {
+        return thingManager.loadThing(thing);
     }
 
     @Deprecated

@@ -35,7 +35,11 @@ import android.arch.persistence.room.Update;
 
 import java.util.List;
 
+import edu.utexas.mpc.warble3.database.type_converter.THING_AUTHENTICATION_STATE_converter;
+import edu.utexas.mpc.warble3.database.type_converter.THING_BINDING_STATE_converter;
 import edu.utexas.mpc.warble3.database.type_converter.THING_CONNECTION_STATE_converter;
+import edu.utexas.mpc.warble3.model.thing.component.THING_AUTHENTICATION_STATE;
+import edu.utexas.mpc.warble3.model.thing.component.THING_BINDING_STATE;
 import edu.utexas.mpc.warble3.model.thing.component.THING_CONNECTION_STATE;
 
 @Dao
@@ -67,4 +71,12 @@ public interface ThingDbDao {
     @Query("UPDATE ThingDb SET connectionState=:connectionState")
     @TypeConverters(THING_CONNECTION_STATE_converter.class)
     void updateAllConnectionStates(THING_CONNECTION_STATE connectionState);
+
+    @Query("UPDATE ThingDb SET authenticationState=:authenticationState")
+    @TypeConverters(THING_AUTHENTICATION_STATE_converter.class)
+    void updateAllAuthenticationStates(THING_AUTHENTICATION_STATE authenticationState);
+
+    @Query("UPDATE ThingDb SET bindingState=:bindingState")
+    @TypeConverters(THING_BINDING_STATE_converter.class)
+    void updateAllBindingStates(THING_BINDING_STATE bindingState);
 }
