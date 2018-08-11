@@ -87,6 +87,7 @@ public final class PhilipsHueBridge extends Bridge {
         return false;
     }
 
+    // TODO : should this use authenticate(ThingAccessCredential thingAccessCredential)
     @Override
     public boolean authenticate() {
         // check credentialRequired, if false, return true
@@ -146,7 +147,67 @@ public final class PhilipsHueBridge extends Bridge {
 
     @Override
     public boolean authenticate(ThingAccessCredential thingAccessCredential) {
+        if (!getCredentialRequired()) {
+            setAuthenticationState(THING_AUTHENTICATION_STATE.AUTHENTICATED);
+            return true;
+        }
+
+        if (!isThingAccessCredentialValid(thingAccessCredential)) {
+            return false;
+        }
+
+        for (Connection connection : getConnections()) {
+            if (!(connection instanceof HttpConnection)) {
+                continue;
+            }
+            PhilipsHueBridgeHttpService service = new PhilipsHueBridgeHttpService(((HttpConnection) connection).getUrl());
+
+            if (thingAccessCredential instanceof UsernamePasswordCredential) {
+                UsernamePasswordCredential usernamePasswordCredential = (UsernamePasswordCredential) thingAccessCredential;
+
+                String token = usernamePasswordCredential.getToken();
+                if (token == null) {
+                    token = service.createUser(usernamePasswordCredential.getUsername());
+
+                    if (token == null) {
+                        if (Logging.WARN) Log.w(TAG, "Create User failed");
+                        continue;
+                    }
+                    else {
+                        usernamePasswordCredential.setToken(token);
+                    }
+                }
+                else {
+                    token = usernamePasswordCredential.getToken();
+                }
+
+                String username = service.getConfig(token);
+                if ((username != null) && (username.equals(usernamePasswordCredential.getUsername()))) {
+                    setAuthenticationState(THING_AUTHENTICATION_STATE.AUTHENTICATED);
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+        }
+
         return false;
+    }
+
+    public boolean isThingAccessCredentialValid(ThingAccessCredential thingAccessCredential) {
+        if (((getThingAccessCredentialClasses() == null) || (getThingAccessCredentialClasses().size() == 0))) {
+            return thingAccessCredential == null;
+        }
+        else {
+            boolean result = false;
+            for (Class m : getThingAccessCredentialClasses()) {
+                if (thingAccessCredential.getClass().equals(m)) {
+                    result = true;
+                }
+            }
+            return result;
+        }
     }
 
     @Override
