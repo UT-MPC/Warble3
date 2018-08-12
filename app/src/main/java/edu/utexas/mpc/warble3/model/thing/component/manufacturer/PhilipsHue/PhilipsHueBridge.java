@@ -87,7 +87,6 @@ public final class PhilipsHueBridge extends Bridge {
         return false;
     }
 
-    // TODO : should this use authenticate(ThingAccessCredential thingAccessCredential)
     @Override
     public boolean authenticate() {
         // check credentialRequired, if false, return true
@@ -105,39 +104,9 @@ public final class PhilipsHueBridge extends Bridge {
             return false;
         }
 
-        for (Connection connection : getConnections()) {
-            if (!(connection instanceof HttpConnection)) {
-                continue;
-            }
-            PhilipsHueBridgeHttpService service = new PhilipsHueBridgeHttpService(((HttpConnection) connection).getUrl());
-
-            for (ThingAccessCredential thingAccessCredential : getThingAccessCredentials()) {
-                if (!(thingAccessCredential instanceof UsernamePasswordCredential))
-                    continue;
-
-                UsernamePasswordCredential usernamePasswordCredential = (UsernamePasswordCredential) thingAccessCredential;
-
-                String token = usernamePasswordCredential.getToken();
-                if (token == null) {
-                    token = service.createUser(usernamePasswordCredential.getUsername());
-
-                    if (token == null) {
-                        if (Logging.WARN) Log.w(TAG, "Create User failed");
-                        continue;
-                    }
-                    else {
-                        usernamePasswordCredential.setToken(token);
-                    }
-                }
-                else {
-                    token = usernamePasswordCredential.getToken();
-                }
-
-                String userInfo = service.getConfig(token);
-                if ((userInfo != null) && (!userInfo.equals(""))) {
-                    setAuthenticationState(THING_AUTHENTICATION_STATE.AUTHENTICATED);
-                    return true;
-                }
+        for (ThingAccessCredential thingAccessCredential : getThingAccessCredentials()) {
+            if (thingAccessCredential instanceof UsernamePasswordCredential) {
+                authenticate(thingAccessCredential);
             }
         }
 
@@ -196,8 +165,12 @@ public final class PhilipsHueBridge extends Bridge {
     }
 
     public boolean isThingAccessCredentialValid(ThingAccessCredential thingAccessCredential) {
-        if (((getThingAccessCredentialClasses() == null) || (getThingAccessCredentialClasses().size() == 0))) {
+        if (getCredentialRequired()) {
             return thingAccessCredential == null;
+        }
+
+        if (((getThingAccessCredentialClasses() == null) || (getThingAccessCredentialClasses().size() == 0))) {
+            return false;
         }
         else {
             boolean result = false;
