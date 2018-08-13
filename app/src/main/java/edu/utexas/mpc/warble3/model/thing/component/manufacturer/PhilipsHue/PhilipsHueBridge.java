@@ -105,13 +105,10 @@ public final class PhilipsHueBridge extends Bridge {
         }
 
         for (ThingAccessCredential thingAccessCredential : getThingAccessCredentials()) {
-            if (thingAccessCredential instanceof UsernamePasswordCredential) {
-                authenticate(thingAccessCredential);
-            }
+            authenticate(thingAccessCredential);
         }
 
-        setAuthenticationState(THING_AUTHENTICATION_STATE.UNAUTHENTICATED);
-        return false;
+        return getAuthenticationState() == THING_AUTHENTICATION_STATE.AUTHENTICATED;
     }
 
     @Override
@@ -126,37 +123,36 @@ public final class PhilipsHueBridge extends Bridge {
         }
 
         for (Connection connection : getConnections()) {
-            if (!(connection instanceof HttpConnection)) {
-                continue;
-            }
-            PhilipsHueBridgeHttpService service = new PhilipsHueBridgeHttpService(((HttpConnection) connection).getUrl());
+            if (connection instanceof HttpConnection) {
+                PhilipsHueBridgeHttpService service = new PhilipsHueBridgeHttpService(((HttpConnection) connection).getUrl());
 
-            if (thingAccessCredential instanceof UsernamePasswordCredential) {
-                UsernamePasswordCredential usernamePasswordCredential = (UsernamePasswordCredential) thingAccessCredential;
+                if (thingAccessCredential instanceof UsernamePasswordCredential) {
+                    UsernamePasswordCredential usernamePasswordCredential = (UsernamePasswordCredential) thingAccessCredential;
 
-                String token = usernamePasswordCredential.getToken();
-                if (token == null) {
-                    token = service.createUser(usernamePasswordCredential.getUsername());
-
+                    String token = usernamePasswordCredential.getToken();
                     if (token == null) {
-                        if (Logging.WARN) Log.w(TAG, "Create User failed");
-                        continue;
+                        token = service.createUser(usernamePasswordCredential.getUsername());
+
+                        if (token == null) {
+                            if (Logging.WARN) Log.w(TAG, "Create User failed");
+                            continue;
+                        }
+                        else {
+                            usernamePasswordCredential.setToken(token);
+                        }
                     }
                     else {
-                        usernamePasswordCredential.setToken(token);
+                        token = usernamePasswordCredential.getToken();
                     }
-                }
-                else {
-                    token = usernamePasswordCredential.getToken();
-                }
 
-                String username = service.getConfig(token);
-                if ((username != null) && (username.equals(usernamePasswordCredential.getUsername()))) {
-                    setAuthenticationState(THING_AUTHENTICATION_STATE.AUTHENTICATED);
-                    return true;
-                }
-                else {
-                    return false;
+                    String username = service.getConfig(token);
+                    if ((username != null) && (username.equals(usernamePasswordCredential.getUsername()))) {
+                        setAuthenticationState(THING_AUTHENTICATION_STATE.AUTHENTICATED);
+                        return true;
+                    }
+                    else {
+                        return false;
+                    }
                 }
             }
         }
@@ -165,7 +161,7 @@ public final class PhilipsHueBridge extends Bridge {
     }
 
     public boolean isThingAccessCredentialValid(ThingAccessCredential thingAccessCredential) {
-        if (getCredentialRequired()) {
+        if (!getCredentialRequired()) {
             return thingAccessCredential == null;
         }
 
