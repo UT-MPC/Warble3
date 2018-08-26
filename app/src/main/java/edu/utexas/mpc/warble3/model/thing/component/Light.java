@@ -31,13 +31,15 @@ import java.util.List;
 public abstract class Light extends Thing {
     public static final String TAG = "Light";
 
-    public Light() {
-        super();
-
+    @Override
+    public void setThingTypes() {
         List<ThingType> thingTypes = new ArrayList<>();
         thingTypes.add(new ThingType(THING_MAIN_TYPE.ACTUATOR, THING_FUNCTION_TYPE.LIGHTING));
-
         setThingTypes(thingTypes);
+    }
+
+    @Override
+    public void setThingConcreteTypes() {
         setThingConcreteType(THING_CONCRETE_TYPE.LIGHT);
     }
 }

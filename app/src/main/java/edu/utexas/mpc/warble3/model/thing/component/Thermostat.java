@@ -31,14 +31,16 @@ import java.util.List;
 public abstract class Thermostat extends Thing {
     public static final String TAG = "Thermostat";
 
-    public Thermostat() {
-        super();
-
+    @Override
+    public void setThingTypes() {
         List<ThingType> thingTypes = new ArrayList<>();
         thingTypes.add(new ThingType(THING_MAIN_TYPE.ACTUATOR, THING_FUNCTION_TYPE.ROOM_CONDITIONING));
         thingTypes.add(new ThingType(THING_MAIN_TYPE.SENSOR, THING_FUNCTION_TYPE.ROOM_CONDITIONING));
-
         setThingTypes(thingTypes);
+    }
+
+    @Override
+    public void setThingConcreteTypes() {
         setThingConcreteType(THING_CONCRETE_TYPE.THERMOSTAT);
     }
 }

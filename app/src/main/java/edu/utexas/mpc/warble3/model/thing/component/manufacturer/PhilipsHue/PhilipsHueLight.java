@@ -33,13 +33,8 @@ public final class PhilipsHueLight extends Light {
 
     public PhilipsHueLight() {
         super();
-
-        setCredentialRequired(false);
-
         // set discovery
-        // TODO: seems like not possible.
-
-        setThingAccessCredentialClasses(null);
+        // TODO: seems like not possible, because AccessorDiscovery needs bridge.
     }
 
     @Override
@@ -50,5 +45,15 @@ public final class PhilipsHueLight extends Light {
     @Override
     public boolean authenticate(ThingAccessCredential thingAccessCredential) {
         return true;
+    }
+
+    @Override
+    public void setCredentialRequired() {
+        setCredentialRequired(false);
+    }
+
+    @Override
+    public void setThingAccessCredentialClasses() {
+        setThingAccessCredentialClasses(null);
     }
 }

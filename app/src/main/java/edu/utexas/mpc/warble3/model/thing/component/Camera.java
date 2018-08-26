@@ -31,13 +31,15 @@ import java.util.List;
 public abstract class Camera extends Thing {
     public static final String TAG = "Camera";
 
-    public Camera() {
-        super();
-
+    @Override
+    public void setThingTypes() {
         List<ThingType> thingTypes = new ArrayList<>();
         thingTypes.add(new ThingType(THING_MAIN_TYPE.ACTUATOR, THING_FUNCTION_TYPE.VISION));
-
         setThingTypes(thingTypes);
+    }
+
+    @Override
+    public void setThingConcreteTypes() {
         setThingConcreteType(THING_CONCRETE_TYPE.CAMERA);
     }
 }

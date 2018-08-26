@@ -33,13 +33,15 @@ import edu.utexas.mpc.warble3.model.thing.feature.Accessor;
 public abstract class Bridge extends Thing implements Accessor {
     public static final String TAG = "Bridge";
 
-    public Bridge() {
-        super();
-
+    @Override
+    public void setThingTypes() {
         List<ThingType> thingTypes = new ArrayList<>();
         thingTypes.add(new ThingType(THING_MAIN_TYPE.ACCESSOR, THING_FUNCTION_TYPE.ACCESSOR));
-
         setThingTypes(thingTypes);
+    }
+
+    @Override
+    public void setThingConcreteTypes() {
         setThingConcreteType(THING_CONCRETE_TYPE.BRIDGE);
     }
 }

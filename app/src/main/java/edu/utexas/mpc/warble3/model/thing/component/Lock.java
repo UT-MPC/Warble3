@@ -31,14 +31,15 @@ import java.util.List;
 public abstract class Lock extends Thing {
     public static final String TAG = "Lock";
 
-    public Lock() {
-        super();
-
+    @Override
+    public void setThingTypes() {
         List<ThingType> thingTypes = new ArrayList<>();
         thingTypes.add(new ThingType(THING_MAIN_TYPE.ACTUATOR, THING_FUNCTION_TYPE.SECURITY));
-
         setThingTypes(thingTypes);
-        setThingConcreteType(THING_CONCRETE_TYPE.LOCK);
     }
 
+    @Override
+    public void setThingConcreteTypes() {
+        setThingConcreteType(THING_CONCRETE_TYPE.LOCK);
+    }
 }

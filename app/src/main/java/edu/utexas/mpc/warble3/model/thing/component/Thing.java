@@ -67,6 +67,13 @@ public abstract class Thing implements Serializable, Storeable {
 
     private long dbid;
 
+    public Thing() {
+        setCredentialRequired();                        // Template Design Pattern
+        setThingAccessCredentialClasses();              // Template Design Pattern
+        setThingTypes();                                // Template Design Pattern
+        setThingConcreteTypes();                        // Template Design Pattern
+    }
+
     public String getName() {
         return name;
     }
@@ -245,6 +252,14 @@ public abstract class Thing implements Serializable, Storeable {
     public abstract boolean authenticate();
 
     public abstract boolean authenticate(ThingAccessCredential thingAccessCredential);
+
+    public abstract void setCredentialRequired();
+
+    public abstract void setThingAccessCredentialClasses();
+
+    public abstract void setThingTypes();
+
+    public abstract void setThingConcreteTypes();
 
     @Override
     public void onPostStore(long dbid) {

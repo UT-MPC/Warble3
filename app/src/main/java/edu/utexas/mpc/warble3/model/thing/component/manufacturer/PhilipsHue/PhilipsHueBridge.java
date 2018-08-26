@@ -48,14 +48,8 @@ public final class PhilipsHueBridge extends Bridge {
 
     public PhilipsHueBridge() {
         super();
-        // Set isCredentialRequired as true
-        setCredentialRequired(true);
 
-        // Set Discoveries
         setDiscoveries(Collections.<Discovery>singletonList(new PhilipsHueUPnPDiscovery()));
-
-        // Set ThingAccessCredentialClasses
-        setThingAccessCredentialClasses(Collections.<Class>singletonList(UsernamePasswordCredential.class));
     }
 
     @Override
@@ -177,6 +171,16 @@ public final class PhilipsHueBridge extends Bridge {
         }
 
         return false;
+    }
+
+    @Override
+    public void setCredentialRequired() {
+        setCredentialRequired(true);
+    }
+
+    @Override
+    public void setThingAccessCredentialClasses() {
+        setThingAccessCredentialClasses(Collections.<Class>singletonList(UsernamePasswordCredential.class));
     }
 
     public boolean isThingAccessCredentialValid(ThingAccessCredential thingAccessCredential) {

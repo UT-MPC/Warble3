@@ -31,13 +31,15 @@ import java.util.List;
 public abstract class WaterHeater extends Thing {
     public static final String TAG = "WaterHeater";
 
-    public WaterHeater() {
-        super();
-
+    @Override
+    public void setThingTypes() {
         List<ThingType> thingTypes = new ArrayList<>();
         thingTypes.add(new ThingType(THING_MAIN_TYPE.ACTUATOR, THING_FUNCTION_TYPE.HOUSE_UTILITY));
-
         setThingTypes(thingTypes);
+    }
+
+    @Override
+    public void setThingConcreteTypes() {
         setThingConcreteType(THING_CONCRETE_TYPE.WATER_HEATER);
     }
 }
