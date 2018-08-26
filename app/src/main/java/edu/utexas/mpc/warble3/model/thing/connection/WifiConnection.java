@@ -23,17 +23,15 @@
  *
  */
 
-package edu.utexas.mpc.warble3.model.thing.connect;
+package edu.utexas.mpc.warble3.model.thing.connection;
 
 import edu.utexas.mpc.warble3.database.interfaces.ConnectionStoreable;
 import edu.utexas.mpc.warble3.model.thing.component.Thing;
 
-public class AccessorConnection extends Connection implements ConnectionStoreable{
-    private static final String TAG = "AccessorConnection";
+public class WifiConnection extends Connection implements ConnectionStoreable {
+    private static final String TAG = "WifiConnection";
 
-    private Thing accessor;
-
-    public AccessorConnection(Thing source, Thing destination) {
+    public WifiConnection(Thing source, Thing destination) {
         super(source, destination);
         setDirectionalType(DIRECTIONAL_TYPE.UNIDIRECTIONAL);
     }
@@ -54,13 +52,12 @@ public class AccessorConnection extends Connection implements ConnectionStoreabl
             return true;
         }
 
-        if (!(object instanceof AccessorConnection)) {
+        if (!(object instanceof WifiConnection)) {
             return false;
         }
 
-        AccessorConnection c = (AccessorConnection) object;
+        WifiConnection c = (WifiConnection) object;
 
-        return (this.getSource().equals(c.getSource())) &&
-                (this.accessor.equals(c.accessor));
+        return (this.getSource().equals(c.getSource()));
     }
 }

@@ -23,7 +23,7 @@
  *
  */
 
-package edu.utexas.mpc.warble3.model.thing.connect;
+package edu.utexas.mpc.warble3.model.thing.connection;
 
 import java.io.Serializable;
 

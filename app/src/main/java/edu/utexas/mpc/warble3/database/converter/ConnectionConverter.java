@@ -35,7 +35,7 @@ import java.util.List;
 import edu.utexas.mpc.warble3.database.AppDatabase;
 import edu.utexas.mpc.warble3.database.ConnectionDb;
 import edu.utexas.mpc.warble3.database.interfaces.ConnectionStoreable;
-import edu.utexas.mpc.warble3.model.thing.connect.Connection;
+import edu.utexas.mpc.warble3.model.thing.connection.Connection;
 import edu.utexas.mpc.warble3.util.Logging;
 
 public class ConnectionConverter {

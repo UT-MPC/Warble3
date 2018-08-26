@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.utexas.mpc.warble3.database.interfaces.Storeable;
-import edu.utexas.mpc.warble3.model.thing.connect.Connection;
+import edu.utexas.mpc.warble3.model.thing.connection.Connection;
 import edu.utexas.mpc.warble3.model.thing.credential.ThingAccessCredential;
 import edu.utexas.mpc.warble3.model.thing.discovery.Discovery;
 

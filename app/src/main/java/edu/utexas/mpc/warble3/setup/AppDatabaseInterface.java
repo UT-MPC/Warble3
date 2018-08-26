@@ -28,7 +28,7 @@ package edu.utexas.mpc.warble3.setup;
 import java.util.List;
 
 import edu.utexas.mpc.warble3.model.thing.component.Thing;
-import edu.utexas.mpc.warble3.model.thing.connect.Connection;
+import edu.utexas.mpc.warble3.model.thing.connection.Connection;
 import edu.utexas.mpc.warble3.model.thing.credential.ThingAccessCredential;
 import edu.utexas.mpc.warble3.model.user.User;
 

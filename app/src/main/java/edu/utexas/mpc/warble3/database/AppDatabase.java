@@ -43,7 +43,7 @@ import edu.utexas.mpc.warble3.model.thing.component.THING_AUTHENTICATION_STATE;
 import edu.utexas.mpc.warble3.model.thing.component.THING_BINDING_STATE;
 import edu.utexas.mpc.warble3.model.thing.component.THING_CONNECTION_STATE;
 import edu.utexas.mpc.warble3.model.thing.component.Thing;
-import edu.utexas.mpc.warble3.model.thing.connect.Connection;
+import edu.utexas.mpc.warble3.model.thing.connection.Connection;
 import edu.utexas.mpc.warble3.model.thing.credential.ThingAccessCredential;
 import edu.utexas.mpc.warble3.model.user.User;
 import edu.utexas.mpc.warble3.setup.AppDatabaseInterface;

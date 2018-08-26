@@ -39,8 +39,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import edu.utexas.mpc.warble3.model.thing.connect.Connection;
-import edu.utexas.mpc.warble3.model.thing.connect.HttpConnection;
+import edu.utexas.mpc.warble3.model.thing.connection.Connection;
+import edu.utexas.mpc.warble3.model.thing.connection.HttpConnection;
 import edu.utexas.mpc.warble3.model.thing.discovery.SSDPDiscovery;
 import edu.utexas.mpc.warble3.util.Logging;
 

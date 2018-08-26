@@ -23,7 +23,7 @@
  *
  */
 
-package edu.utexas.mpc.warble3.model.thing.connect;
+package edu.utexas.mpc.warble3.model.thing.connection;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

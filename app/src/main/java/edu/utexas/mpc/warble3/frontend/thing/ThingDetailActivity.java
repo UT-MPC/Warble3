@@ -43,7 +43,7 @@ import edu.utexas.mpc.warble3.R;
 import edu.utexas.mpc.warble3.frontend.adapter.SimpleAdapter;
 import edu.utexas.mpc.warble3.model.resource.Resource;
 import edu.utexas.mpc.warble3.model.thing.component.Thing;
-import edu.utexas.mpc.warble3.model.thing.connect.Connection;
+import edu.utexas.mpc.warble3.model.thing.connection.Connection;
 import edu.utexas.mpc.warble3.model.thing.credential.ThingAccessCredential;
 import edu.utexas.mpc.warble3.model.thing.discovery.Discovery;
 import edu.utexas.mpc.warble3.util.Logging;
