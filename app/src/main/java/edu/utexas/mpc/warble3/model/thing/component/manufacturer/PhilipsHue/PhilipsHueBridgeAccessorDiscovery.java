@@ -39,6 +39,6 @@ public final class PhilipsHueBridgeAccessorDiscovery extends AccessorDiscovery {
 
     @Override
     public List<? extends Thing> onDiscover() {
-        return null;
+        return philipsHueBridge.getThings();
     }
 }

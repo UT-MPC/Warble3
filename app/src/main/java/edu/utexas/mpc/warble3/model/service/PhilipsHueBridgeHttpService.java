@@ -31,15 +31,19 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import edu.utexas.mpc.warble3.model.thing.component.Thing;
+import edu.utexas.mpc.warble3.model.thing.component.ThingState;
+import edu.utexas.mpc.warble3.model.thing.component.manufacturer.PhilipsHue.PhilipsHueBridge;
 import edu.utexas.mpc.warble3.model.thing.component.manufacturer.PhilipsHue.PhilipsHueBridgeHttpInterface;
 import edu.utexas.mpc.warble3.model.thing.component.manufacturer.PhilipsHue.PhilipsHueLight;
-import edu.utexas.mpc.warble3.model.thing.component.manufacturer.PhilipsHue.PhilipsHueLightState;
+import edu.utexas.mpc.warble3.model.thing.connect.AccessorConnection;
+import edu.utexas.mpc.warble3.model.thing.connect.Connection;
 import edu.utexas.mpc.warble3.util.Logging;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.http.Body;
@@ -53,10 +57,12 @@ public final class PhilipsHueBridgeHttpService extends HttpService implements Ph
     private static String TAG = "PhilipsHueBridgeHttpService";
 
     private PhilipsHueBridgeRestApi api;
+    private PhilipsHueBridge bridge;
 
-    public PhilipsHueBridgeHttpService(String baseUrl) {
+    public PhilipsHueBridgeHttpService(String baseUrl, PhilipsHueBridge bridge) {
         super();
         api = getRetrofitInstance(baseUrl).create(PhilipsHueBridgeRestApi.class);
+        this.bridge = bridge;
     }
 
     @Override
@@ -123,17 +129,69 @@ public final class PhilipsHueBridgeHttpService extends HttpService implements Ph
     }
 
     @Override
-    public List<PhilipsHueLight> getLights(String user) {
+    public List<Thing> getThings(String user) {
+        if (user == null) {
+            return null;
+        }
+        else {
+            List<Thing> things = new ArrayList<>();
+            things.addAll(getLights(user));
+            return things;
+        }
+    }
+
+    private List<PhilipsHueLight> getLights(String user) {
+        Response<Map<String, MainResponse.Light>> response;
+        try {
+            response = api.getLights(user).execute();
+        } catch (IOException e) {
+            if (Logging.WARN) Log.w(TAG, e.toString());
+            return null;
+        }
+
+        Map<String, MainResponse.Light> responseBody = response.body();
+
+        if (responseBody != null) {
+            List<PhilipsHueLight> lights = new ArrayList<>();
+            for (Map.Entry<String, MainResponse.Light> entry : responseBody.entrySet()) {
+                PhilipsHueLight light = new PhilipsHueLight();
+
+                MainResponse.Light entryValue = entry.getValue();
+
+                light.setName(entryValue.name);
+                light.setFriendlyName(entryValue.name);
+
+                light.setUuid(entryValue.uniqueid);
+
+                light.setAccessName(entry.getKey());
+
+                light.setManufacturerSerialNumber(entryValue.uniqueid);
+                light.setManufacturerModelName(entryValue.productname);
+                light.setManufacturerModelNumber(entryValue.modelid);
+                light.setManufacturerName(entryValue.manufacturername);
+
+                List<Connection> connections = new ArrayList<>();
+                AccessorConnection accessorConnection = new AccessorConnection(light, this.bridge);
+                connections.add(accessorConnection);
+                light.setConnections(connections);
+
+                lights.add(light);
+            }
+
+            return lights;
+        }
+        else {
+            return null;
+        }
+    }
+
+    @Override
+    public ThingState getThingState(String user, Thing thing) {
         return null;
     }
 
     @Override
-    public PhilipsHueLightState getLightState(String user, PhilipsHueLight philipsHueLight) {
-        return null;
-    }
-
-    @Override
-    public void putLight(String user, PhilipsHueLight philipsHueLight, PhilipsHueLightState philipsHueLightState) {
+    public void putThingState(String user, Thing thing, ThingState thingState) {
 
     }
 
@@ -148,7 +206,7 @@ public final class PhilipsHueBridgeHttpService extends HttpService implements Ph
         Call<MainResponse.Config> getConfig(@Path("user") String userId);
 
         @GET("/api/{user}/lights")
-        Call<ResponseBody> getLights(@Path("user") String userId);
+        Call<Map<String, MainResponse.Light>> getLights(@Path("user") String userId);
 
         // Lights Capabilities
         @GET("/api/{user}/lights/{lightId}/state")

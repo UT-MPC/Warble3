@@ -27,6 +27,7 @@ package edu.utexas.mpc.warble3.model.thing.component.manufacturer.PhilipsHue;
 
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -59,7 +60,25 @@ public final class PhilipsHueBridge extends Bridge {
 
     @Override
     public List<Thing> getThings() {
-        return null;
+        List<Thing> things = new ArrayList<>();
+
+        for (Connection connection : getConnections()) {
+            if (connection instanceof HttpConnection) {
+                PhilipsHueBridgeHttpService service = new PhilipsHueBridgeHttpService(((HttpConnection) connection).getUrl(), this);
+
+                for (ThingAccessCredential thingAccessCredential : getThingAccessCredentials()) {
+                    if (thingAccessCredential instanceof UsernamePasswordCredential) {
+                        UsernamePasswordCredential usernamePasswordCredential = (UsernamePasswordCredential) thingAccessCredential;
+                        String token = usernamePasswordCredential.getToken();
+                        if (token != null) {
+                            things.addAll(service.getThings(token));
+                        }
+                    }
+                }
+            }
+        }
+
+        return things;
     }
 
     @Override
@@ -124,7 +143,7 @@ public final class PhilipsHueBridge extends Bridge {
 
         for (Connection connection : getConnections()) {
             if (connection instanceof HttpConnection) {
-                PhilipsHueBridgeHttpService service = new PhilipsHueBridgeHttpService(((HttpConnection) connection).getUrl());
+                PhilipsHueBridgeHttpService service = new PhilipsHueBridgeHttpService(((HttpConnection) connection).getUrl(), this);
 
                 if (thingAccessCredential instanceof UsernamePasswordCredential) {
                     UsernamePasswordCredential usernamePasswordCredential = (UsernamePasswordCredential) thingAccessCredential;
