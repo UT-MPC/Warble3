@@ -23,7 +23,7 @@
  *
  */
 
-package edu.utexas.mpc.warble3.warble.vendors.PhilipsHue;
+package edu.utexas.mpc.warble3.warble.vendors.PhilipsHue.service;
 
 import java.util.List;
 
