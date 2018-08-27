@@ -139,7 +139,9 @@ public final class PhilipsHueBridge extends Bridge {
         }
 
         for (ThingAccessCredential thingAccessCredential : getThingAccessCredentials()) {
-            authenticate(thingAccessCredential);
+            if(authenticate(thingAccessCredential)) {
+                break;
+            }
         }
 
         return getAuthenticationState() == THING_AUTHENTICATION_STATE.AUTHENTICATED;
