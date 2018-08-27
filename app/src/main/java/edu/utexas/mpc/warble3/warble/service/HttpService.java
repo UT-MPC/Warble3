@@ -32,7 +32,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public abstract class HttpService extends Service {
-    protected Retrofit getRetrofitInstance(String baseUrl) {
+    protected Retrofit getInstance(String baseUrl) {
         Gson gson = new GsonBuilder()
                 .setLenient()
                 .create();
