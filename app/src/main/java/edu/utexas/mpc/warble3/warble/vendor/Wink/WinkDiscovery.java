@@ -23,9 +23,16 @@
  *
  */
 
-package edu.utexas.mpc.warble3.warble.vendors.Wink;
+package edu.utexas.mpc.warble3.warble.vendor.Wink;
 
-import edu.utexas.mpc.warble3.warble.thing.component.BridgeState;
+import java.util.List;
 
-public final class WinkBridgeState extends BridgeState {
+import edu.utexas.mpc.warble3.warble.thing.component.Thing;
+import edu.utexas.mpc.warble3.warble.thing.discovery.ServerDiscovery;
+
+public final class WinkDiscovery extends ServerDiscovery {
+    @Override
+    public List<? extends Thing> onDiscover() {
+        return null;
+    }
 }

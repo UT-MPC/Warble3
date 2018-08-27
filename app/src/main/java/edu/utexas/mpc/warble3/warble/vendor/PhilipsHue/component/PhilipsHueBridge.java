@@ -23,7 +23,7 @@
  *
  */
 
-package edu.utexas.mpc.warble3.warble.vendors.PhilipsHue.component;
+package edu.utexas.mpc.warble3.warble.vendor.PhilipsHue.component;
 
 import android.util.Log;
 
@@ -42,8 +42,8 @@ import edu.utexas.mpc.warble3.warble.thing.connection.HttpConnection;
 import edu.utexas.mpc.warble3.warble.thing.credential.ThingAccessCredential;
 import edu.utexas.mpc.warble3.warble.thing.credential.UsernamePasswordCredential;
 import edu.utexas.mpc.warble3.warble.thing.discovery.Discovery;
-import edu.utexas.mpc.warble3.warble.vendors.PhilipsHue.discovery.PhilipsHueUPnPDiscovery;
-import edu.utexas.mpc.warble3.warble.vendors.PhilipsHue.service.PhilipsHueBridgeHttpService;
+import edu.utexas.mpc.warble3.warble.vendor.PhilipsHue.discovery.PhilipsHueUPnPDiscovery;
+import edu.utexas.mpc.warble3.warble.vendor.PhilipsHue.service.PhilipsHueBridgeHttpService;
 
 public final class PhilipsHueBridge extends Bridge {
     private static final String TAG = "PhilipsHueBridge";

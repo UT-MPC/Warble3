@@ -37,9 +37,9 @@ import edu.utexas.mpc.warble3.warble.thing.connection.Connection;
 import edu.utexas.mpc.warble3.warble.thing.credential.ThingAccessCredential;
 import edu.utexas.mpc.warble3.warble.thing.discovery.Discovery;
 import edu.utexas.mpc.warble3.warble.thing.feature.Accessor;
-import edu.utexas.mpc.warble3.warble.vendors.GE.GEDiscovery;
-import edu.utexas.mpc.warble3.warble.vendors.PhilipsHue.discovery.PhilipsHueUPnPDiscovery;
-import edu.utexas.mpc.warble3.warble.vendors.Wink.WinkDiscovery;
+import edu.utexas.mpc.warble3.warble.vendor.GE.GEDiscovery;
+import edu.utexas.mpc.warble3.warble.vendor.PhilipsHue.discovery.PhilipsHueUPnPDiscovery;
+import edu.utexas.mpc.warble3.warble.vendor.Wink.WinkDiscovery;
 
 public class ThingManager {
     private static final String TAG = "ThingManager";

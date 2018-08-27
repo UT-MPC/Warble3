@@ -23,9 +23,37 @@
  *
  */
 
-package edu.utexas.mpc.warble3.warble.vendors.PhilipsHue.component;
+package edu.utexas.mpc.warble3.warble.vendor.PhilipsHue.component;
 
-import edu.utexas.mpc.warble3.warble.thing.component.BridgeState;
+import edu.utexas.mpc.warble3.warble.thing.component.Light;
+import edu.utexas.mpc.warble3.warble.thing.credential.ThingAccessCredential;
 
-public final class PhilipsHueBridgeState extends BridgeState {
+public final class PhilipsHueLight extends Light {
+    private static final String TAG = "PhilipsHueLight";
+
+    public PhilipsHueLight() {
+        super();
+        // set discovery
+        // TODO: seems like not possible, because AccessorDiscovery needs bridge.
+    }
+
+    @Override
+    public boolean authenticate() {
+        return true;
+    }
+
+    @Override
+    public boolean authenticate(ThingAccessCredential thingAccessCredential) {
+        return true;
+    }
+
+    @Override
+    public void setCredentialRequired() {
+        setCredentialRequired(false);
+    }
+
+    @Override
+    public void setThingAccessCredentialClasses() {
+        setThingAccessCredentialClasses(null);
+    }
 }

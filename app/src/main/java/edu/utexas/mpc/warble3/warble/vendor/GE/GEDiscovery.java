@@ -23,18 +23,16 @@
  *
  */
 
-package edu.utexas.mpc.warble3.warble.vendors.PhilipsHue.service;
+package edu.utexas.mpc.warble3.warble.vendor.GE;
 
 import java.util.List;
 
 import edu.utexas.mpc.warble3.warble.thing.component.Thing;
-import edu.utexas.mpc.warble3.warble.thing.component.ThingState;
+import edu.utexas.mpc.warble3.warble.thing.discovery.Discovery;
 
-public interface PhilipsHueBridgeHttpInterface {
-    String createUser(String username);
-    String getConfig(String user);
-
-    List<Thing> getThings(String user);
-    ThingState getThingState(String user, Thing thing);
-    void putThingState(String user, Thing thing, ThingState thingState);
+public final class GEDiscovery extends Discovery {
+    @Override
+    public List<? extends Thing> onDiscover() {
+        return null;
+    }
 }

@@ -23,16 +23,18 @@
  *
  */
 
-package edu.utexas.mpc.warble3.warble.vendors.Wink;
+package edu.utexas.mpc.warble3.warble.vendor.PhilipsHue.service;
 
 import java.util.List;
 
 import edu.utexas.mpc.warble3.warble.thing.component.Thing;
-import edu.utexas.mpc.warble3.warble.thing.discovery.ServerDiscovery;
+import edu.utexas.mpc.warble3.warble.thing.component.ThingState;
 
-public final class WinkDiscovery extends ServerDiscovery {
-    @Override
-    public List<? extends Thing> onDiscover() {
-        return null;
-    }
+public interface PhilipsHueBridgeHttpInterface {
+    String createUser(String username);
+    String getConfig(String user);
+
+    List<Thing> getThings(String user);
+    ThingState getThingState(String user, Thing thing);
+    void putThingState(String user, Thing thing, ThingState thingState);
 }

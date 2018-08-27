@@ -23,7 +23,7 @@
  *
  */
 
-package edu.utexas.mpc.warble3.warble.vendors.PhilipsHue.service;
+package edu.utexas.mpc.warble3.warble.vendor.PhilipsHue.service;
 
 import android.util.Log;
 
@@ -40,7 +40,7 @@ import edu.utexas.mpc.warble3.util.Logging;
 import edu.utexas.mpc.warble3.warble.service.HttpService;
 import edu.utexas.mpc.warble3.warble.thing.component.Thing;
 import edu.utexas.mpc.warble3.warble.thing.component.ThingState;
-import edu.utexas.mpc.warble3.warble.vendors.PhilipsHue.component.PhilipsHueLight;
+import edu.utexas.mpc.warble3.warble.vendor.PhilipsHue.component.PhilipsHueLight;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.http.Body;
