@@ -36,13 +36,13 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import edu.utexas.mpc.warble3.R;
-import edu.utexas.mpc.warble3.model.user.DuplicateUsernameException;
-import edu.utexas.mpc.warble3.model.user.InvalidPasswordException;
-import edu.utexas.mpc.warble3.model.user.InvalidUsernameException;
-import edu.utexas.mpc.warble3.model.user.User;
-import edu.utexas.mpc.warble3.model.user.UserManager;
 import edu.utexas.mpc.warble3.util.Logging;
 import edu.utexas.mpc.warble3.util.SharedPreferenceHandler;
+import edu.utexas.mpc.warble3.warble.Warble;
+import edu.utexas.mpc.warble3.warble.user.DuplicateUsernameException;
+import edu.utexas.mpc.warble3.warble.user.InvalidPasswordException;
+import edu.utexas.mpc.warble3.warble.user.InvalidUsernameException;
+import edu.utexas.mpc.warble3.warble.user.User;
 
 public class WelcomeActivity extends AppCompatActivity {
     public static final String TAG = "WelcomeActivity";
@@ -51,7 +51,7 @@ public class WelcomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        final UserManager userManager = UserManager.getInstance();
+        final Warble warble = Warble.getInstance();
 
         SharedPreferences sharedPrefs = SharedPreferenceHandler.getSharedPrefsCurrentUserSettings(this);
         if (sharedPrefs.getString(SharedPreferenceHandler.SHARED_PREFS_USERNAME, null) != null) {
@@ -71,7 +71,7 @@ public class WelcomeActivity extends AppCompatActivity {
                     String enteredPassword = "password";
                     if (Logging.INFO) Log.i(TAG, String.format("Entered username = %s, password = %s", enteredUsername, enteredPassword));
 
-                    User user = UserManager.getInstance().authenticateUser(enteredUsername, enteredPassword);
+                    User user = warble.authenticateUser(enteredUsername, enteredPassword);
 
                     if (user == null) {
                         if (Logging.INFO) Log.i(TAG, String.format("Authentication unsuccessful", enteredUsername));
@@ -101,7 +101,7 @@ public class WelcomeActivity extends AppCompatActivity {
                     if (Logging.INFO) Log.i(TAG, String.format("Entered new username = %s, new password = %s", enteredNewUsername, enteredNewPassword));
 
                     try {
-                        userManager.createUser(enteredNewUsername, enteredNewPassword);
+                        warble.createUser(enteredNewUsername, enteredNewPassword);
                         if (Logging.INFO) Log.i(TAG, String.format("Username %s is successfully created", enteredNewUsername));
                         Toast.makeText(WelcomeActivity.this, getResources().getString(R.string.newUsernameInserted_welcomePage), Toast.LENGTH_SHORT).show();
                     }

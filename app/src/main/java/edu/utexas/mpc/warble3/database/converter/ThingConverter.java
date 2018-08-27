@@ -33,8 +33,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.utexas.mpc.warble3.database.ThingDb;
-import edu.utexas.mpc.warble3.model.thing.component.Thing;
 import edu.utexas.mpc.warble3.util.Logging;
+import edu.utexas.mpc.warble3.warble.thing.component.Thing;
 
 public class ThingConverter {
     private static final String TAG = "ThingConverter";

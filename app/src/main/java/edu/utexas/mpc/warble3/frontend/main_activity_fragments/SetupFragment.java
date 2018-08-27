@@ -44,13 +44,12 @@ import java.util.List;
 
 import edu.utexas.mpc.warble3.R;
 import edu.utexas.mpc.warble3.frontend.async_tasks.DiscoveryAsyncTask;
-import edu.utexas.mpc.warble3.frontend.async_tasks.DiscoveryAsyncTaskComplete;
 import edu.utexas.mpc.warble3.frontend.thing.ThingDetailActivity;
-import edu.utexas.mpc.warble3.model.resource.Resource;
-import edu.utexas.mpc.warble3.model.thing.component.THING_CONCRETE_TYPE;
-import edu.utexas.mpc.warble3.model.thing.component.Thing;
-import edu.utexas.mpc.warble3.model.thing.util.ThingUtil;
 import edu.utexas.mpc.warble3.util.Logging;
+import edu.utexas.mpc.warble3.warble.Warble;
+import edu.utexas.mpc.warble3.warble.thing.component.THING_CONCRETE_TYPE;
+import edu.utexas.mpc.warble3.warble.thing.component.Thing;
+import edu.utexas.mpc.warble3.warble.thing.util.ThingUtil;
 
 public class SetupFragment extends Fragment {
     private static final String TAG = "SetupFragment";
@@ -62,7 +61,7 @@ public class SetupFragment extends Fragment {
 
     public static SetupFragment getNewInstance() {
         SetupFragment setupFragment = new SetupFragment();
-        setupFragment.updateDiscoveredThings(ThingUtil.toThingHashMapByConcreteType(Resource.getInstance().getThings()));
+        setupFragment.updateDiscoveredThings(ThingUtil.toThingHashMapByConcreteType(Warble.getInstance().getThings()));
         return setupFragment;
     }
 
@@ -76,7 +75,12 @@ public class SetupFragment extends Fragment {
         onRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                new DiscoveryAsyncTask(new DiscoveryAsyncTaskComplete() {
+                new DiscoveryAsyncTask(new DiscoveryAsyncTask.DiscoveryAsyncTaskInterface() {
+                    @Override
+                    public void onDiscoveryTaskStart() {
+                        // Do nothing
+                    }
+
                     @Override
                     public void onDiscoveryTaskComplete(List<Thing> things) {
                         if (things == null) {

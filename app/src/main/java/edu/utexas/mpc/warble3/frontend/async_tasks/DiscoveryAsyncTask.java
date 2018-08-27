@@ -30,16 +30,16 @@ import android.util.Log;
 
 import java.util.List;
 
-import edu.utexas.mpc.warble3.model.resource.Resource;
-import edu.utexas.mpc.warble3.model.thing.component.Thing;
 import edu.utexas.mpc.warble3.util.Logging;
+import edu.utexas.mpc.warble3.warble.Warble;
+import edu.utexas.mpc.warble3.warble.thing.component.Thing;
 
 public class DiscoveryAsyncTask extends AsyncTask<Void, Void, List<Thing>> {
     private static final String TAG = "DiscoveryAsyncTask";
-    private DiscoveryAsyncTaskComplete mCallback;
-    private Resource resource = Resource.getInstance();
+    private DiscoveryAsyncTaskInterface mCallback;
+    private Warble warble = Warble.getInstance();
 
-    public DiscoveryAsyncTask(DiscoveryAsyncTaskComplete context) {
+    public DiscoveryAsyncTask(DiscoveryAsyncTaskInterface context) {
         mCallback = context;
     }
 
@@ -47,12 +47,17 @@ public class DiscoveryAsyncTask extends AsyncTask<Void, Void, List<Thing>> {
     protected List<Thing> doInBackground(Void... voids) {
         if (Logging.DEBUG) Log.d(TAG, "Executing DiscoveryAsyncTask ...");
 
-        resource.discoverThings(true);
-        return resource.getThings();
+        warble.discoverThings(true);
+        return warble.getThings();
     }
 
     @Override
     protected void onPostExecute(List<Thing> things) {
         mCallback.onDiscoveryTaskComplete(things);
+    }
+
+    public interface DiscoveryAsyncTaskInterface {
+        void onDiscoveryTaskStart();
+        void onDiscoveryTaskComplete(List<Thing> things);
     }
 }

@@ -27,13 +27,18 @@ package edu.utexas.mpc.warble3.frontend.async_tasks;
 
 import android.os.AsyncTask;
 
-import edu.utexas.mpc.warble3.model.thing.component.Thing;
+import edu.utexas.mpc.warble3.warble.thing.component.Thing;
 
 public class AuthenticateAsyncTask extends AsyncTask<Thing, Void, Thing> {
-    private AuthenticateAsyncTaskComplete mCallback;
+    private AuthenticateAsyncTaskInterface mCallback;
 
-    public AuthenticateAsyncTask(AuthenticateAsyncTaskComplete context) {
+    public AuthenticateAsyncTask(AuthenticateAsyncTaskInterface context) {
         mCallback = context;
+    }
+
+    @Override
+    protected void onPreExecute() {
+        mCallback.onAuthenticateTaskStart();
     }
 
     @Override
@@ -46,5 +51,10 @@ public class AuthenticateAsyncTask extends AsyncTask<Thing, Void, Thing> {
     @Override
     protected void onPostExecute(Thing thing) {
         mCallback.onAuthenticateTaskComplete(thing);
+    }
+
+    public interface AuthenticateAsyncTaskInterface {
+        void onAuthenticateTaskStart();
+        void onAuthenticateTaskComplete(Thing thing);
     }
 }
