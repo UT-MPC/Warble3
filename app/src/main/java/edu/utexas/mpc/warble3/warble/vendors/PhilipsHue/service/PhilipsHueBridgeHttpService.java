@@ -40,7 +40,6 @@ import edu.utexas.mpc.warble3.util.Logging;
 import edu.utexas.mpc.warble3.warble.service.HttpService;
 import edu.utexas.mpc.warble3.warble.thing.component.Thing;
 import edu.utexas.mpc.warble3.warble.thing.component.ThingState;
-import edu.utexas.mpc.warble3.warble.vendors.PhilipsHue.PhilipsHueBridgeHttpInterface;
 import edu.utexas.mpc.warble3.warble.vendors.PhilipsHue.component.PhilipsHueLight;
 import retrofit2.Call;
 import retrofit2.Response;
