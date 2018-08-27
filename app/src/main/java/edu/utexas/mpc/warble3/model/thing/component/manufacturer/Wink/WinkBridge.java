@@ -25,12 +25,14 @@
 
 package edu.utexas.mpc.warble3.model.thing.component.manufacturer.Wink;
 
+import java.util.Collections;
 import java.util.List;
 
 import edu.utexas.mpc.warble3.model.thing.component.Bridge;
 import edu.utexas.mpc.warble3.model.thing.component.Thing;
 import edu.utexas.mpc.warble3.model.thing.component.ThingState;
 import edu.utexas.mpc.warble3.model.thing.credential.ThingAccessCredential;
+import edu.utexas.mpc.warble3.model.thing.credential.UsernamePasswordCredential;
 
 public final class WinkBridge extends Bridge {
     public WinkBridge() {
@@ -75,5 +77,15 @@ public final class WinkBridge extends Bridge {
     @Override
     public boolean authenticate(ThingAccessCredential thingAccessCredential) {
         return false;
+    }
+
+    @Override
+    public void setCredentialRequired() {
+        setCredentialRequired(true);
+    }
+
+    @Override
+    public void setThingAccessCredentialClasses() {
+        setThingAccessCredentialClasses(Collections.<Class>singletonList(UsernamePasswordCredential.class));
     }
 }

@@ -42,4 +42,14 @@ public final class GELight extends Light {
     public boolean authenticate(ThingAccessCredential thingAccessCredential) {
         return false;
     }
+
+    @Override
+    public void setCredentialRequired() {
+        setCredentialRequired(false);
+    }
+
+    @Override
+    public void setThingAccessCredentialClasses() {
+        setThingAccessCredentialClasses(null);
+    }
 }
