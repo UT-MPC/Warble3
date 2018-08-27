@@ -34,6 +34,11 @@ import edu.utexas.mpc.warble3.model.thing.component.Thing;
 public abstract class Connection implements Serializable, Storeable, ConnectionStoreable {
     private static final String TAG = "Connection";
 
+    public static enum DIRECTIONAL_TYPE {
+        UNIDIRECTIONAL,
+        BIDIRECTIONAL
+    }
+
     private Thing source;
     private Thing destination;
 
