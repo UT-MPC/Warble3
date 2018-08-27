@@ -39,15 +39,15 @@ import edu.utexas.mpc.warble3.database.converter.ConnectionConverter;
 import edu.utexas.mpc.warble3.database.converter.ThingAccessCredentialConverter;
 import edu.utexas.mpc.warble3.database.converter.ThingConverter;
 import edu.utexas.mpc.warble3.database.converter.UserConverter;
-import edu.utexas.mpc.warble3.model.thing.component.THING_AUTHENTICATION_STATE;
-import edu.utexas.mpc.warble3.model.thing.component.THING_BINDING_STATE;
-import edu.utexas.mpc.warble3.model.thing.component.THING_CONNECTION_STATE;
-import edu.utexas.mpc.warble3.model.thing.component.Thing;
-import edu.utexas.mpc.warble3.model.thing.connection.Connection;
-import edu.utexas.mpc.warble3.model.thing.credential.ThingAccessCredential;
-import edu.utexas.mpc.warble3.model.user.User;
 import edu.utexas.mpc.warble3.setup.AppDatabaseInterface;
 import edu.utexas.mpc.warble3.util.Logging;
+import edu.utexas.mpc.warble3.warble.thing.component.THING_AUTHENTICATION_STATE;
+import edu.utexas.mpc.warble3.warble.thing.component.THING_BINDING_STATE;
+import edu.utexas.mpc.warble3.warble.thing.component.THING_CONNECTION_STATE;
+import edu.utexas.mpc.warble3.warble.thing.component.Thing;
+import edu.utexas.mpc.warble3.warble.thing.connection.Connection;
+import edu.utexas.mpc.warble3.warble.thing.credential.ThingAccessCredential;
+import edu.utexas.mpc.warble3.warble.user.User;
 
 @Database(entities = {UserDb.class, ThingDb.class, ConnectionDb.class, ThingAccessCredentialDb.class},
         version = 8,

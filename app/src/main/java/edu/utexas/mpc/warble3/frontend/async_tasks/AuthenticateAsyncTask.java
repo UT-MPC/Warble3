@@ -27,7 +27,7 @@ package edu.utexas.mpc.warble3.frontend.async_tasks;
 
 import android.os.AsyncTask;
 
-import edu.utexas.mpc.warble3.model.thing.component.Thing;
+import edu.utexas.mpc.warble3.warble.thing.component.Thing;
 
 public class AuthenticateAsyncTask extends AsyncTask<Thing, Void, Thing> {
     private AuthenticateAsyncTaskInterface mCallback;

@@ -36,13 +36,13 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import edu.utexas.mpc.warble3.R;
-import edu.utexas.mpc.warble3.model.Warble;
-import edu.utexas.mpc.warble3.model.user.DuplicateUsernameException;
-import edu.utexas.mpc.warble3.model.user.InvalidPasswordException;
-import edu.utexas.mpc.warble3.model.user.InvalidUsernameException;
-import edu.utexas.mpc.warble3.model.user.User;
 import edu.utexas.mpc.warble3.util.Logging;
 import edu.utexas.mpc.warble3.util.SharedPreferenceHandler;
+import edu.utexas.mpc.warble3.warble.Warble;
+import edu.utexas.mpc.warble3.warble.user.DuplicateUsernameException;
+import edu.utexas.mpc.warble3.warble.user.InvalidPasswordException;
+import edu.utexas.mpc.warble3.warble.user.InvalidUsernameException;
+import edu.utexas.mpc.warble3.warble.user.User;
 
 public class WelcomeActivity extends AppCompatActivity {
     public static final String TAG = "WelcomeActivity";

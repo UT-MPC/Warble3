@@ -34,10 +34,10 @@ import edu.utexas.mpc.warble3.database.type_converter.THING_AUTHENTICATION_STATE
 import edu.utexas.mpc.warble3.database.type_converter.THING_BINDING_STATE_converter;
 import edu.utexas.mpc.warble3.database.type_converter.THING_CONCRETE_TYPE_converter;
 import edu.utexas.mpc.warble3.database.type_converter.THING_CONNECTION_STATE_converter;
-import edu.utexas.mpc.warble3.model.thing.component.THING_AUTHENTICATION_STATE;
-import edu.utexas.mpc.warble3.model.thing.component.THING_BINDING_STATE;
-import edu.utexas.mpc.warble3.model.thing.component.THING_CONCRETE_TYPE;
-import edu.utexas.mpc.warble3.model.thing.component.THING_CONNECTION_STATE;
+import edu.utexas.mpc.warble3.warble.thing.component.THING_AUTHENTICATION_STATE;
+import edu.utexas.mpc.warble3.warble.thing.component.THING_BINDING_STATE;
+import edu.utexas.mpc.warble3.warble.thing.component.THING_CONCRETE_TYPE;
+import edu.utexas.mpc.warble3.warble.thing.component.THING_CONNECTION_STATE;
 
 @Entity(tableName = "ThingDb")
 public class ThingDb {

@@ -29,7 +29,7 @@ import android.app.Application;
 import android.content.Context;
 
 import edu.utexas.mpc.warble3.database.AppDatabase;
-import edu.utexas.mpc.warble3.model.Warble;
+import edu.utexas.mpc.warble3.warble.Warble;
 
 public class WarbleApplication extends Application {
     public static final String TAG = "WarbleApplication";

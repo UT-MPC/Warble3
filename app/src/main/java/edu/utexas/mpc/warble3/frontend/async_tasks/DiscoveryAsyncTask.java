@@ -30,9 +30,9 @@ import android.util.Log;
 
 import java.util.List;
 
-import edu.utexas.mpc.warble3.model.Warble;
-import edu.utexas.mpc.warble3.model.thing.component.Thing;
 import edu.utexas.mpc.warble3.util.Logging;
+import edu.utexas.mpc.warble3.warble.Warble;
+import edu.utexas.mpc.warble3.warble.thing.component.Thing;
 
 public class DiscoveryAsyncTask extends AsyncTask<Void, Void, List<Thing>> {
     private static final String TAG = "DiscoveryAsyncTask";

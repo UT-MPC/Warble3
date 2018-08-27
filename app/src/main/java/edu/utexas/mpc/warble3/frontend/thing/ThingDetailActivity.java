@@ -41,12 +41,12 @@ import java.util.Objects;
 
 import edu.utexas.mpc.warble3.R;
 import edu.utexas.mpc.warble3.frontend.adapter.SimpleAdapter;
-import edu.utexas.mpc.warble3.model.Warble;
-import edu.utexas.mpc.warble3.model.thing.component.Thing;
-import edu.utexas.mpc.warble3.model.thing.connection.Connection;
-import edu.utexas.mpc.warble3.model.thing.credential.ThingAccessCredential;
-import edu.utexas.mpc.warble3.model.thing.discovery.Discovery;
 import edu.utexas.mpc.warble3.util.Logging;
+import edu.utexas.mpc.warble3.warble.Warble;
+import edu.utexas.mpc.warble3.warble.thing.component.Thing;
+import edu.utexas.mpc.warble3.warble.thing.connection.Connection;
+import edu.utexas.mpc.warble3.warble.thing.credential.ThingAccessCredential;
+import edu.utexas.mpc.warble3.warble.thing.discovery.Discovery;
 
 public class ThingDetailActivity extends AppCompatActivity {
     private static final String TAG = "ThingDetailActivity";

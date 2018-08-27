@@ -30,10 +30,10 @@ import java.util.List;
 
 import edu.utexas.mpc.warble3.database.AppDatabase;
 import edu.utexas.mpc.warble3.database.ThingAccessCredentialDb;
-import edu.utexas.mpc.warble3.model.thing.component.Thing;
-import edu.utexas.mpc.warble3.model.thing.credential.ThingAccessCredential;
-import edu.utexas.mpc.warble3.model.thing.credential.ThingAccessCredentialFactory;
-import edu.utexas.mpc.warble3.model.user.User;
+import edu.utexas.mpc.warble3.warble.thing.component.Thing;
+import edu.utexas.mpc.warble3.warble.thing.credential.ThingAccessCredential;
+import edu.utexas.mpc.warble3.warble.thing.credential.ThingAccessCredentialFactory;
+import edu.utexas.mpc.warble3.warble.user.User;
 
 public class ThingAccessCredentialConverter {
     public static final String TAG = "ThingAccessCredConv";

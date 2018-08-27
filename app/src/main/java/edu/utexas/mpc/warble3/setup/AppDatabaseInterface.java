@@ -27,10 +27,10 @@ package edu.utexas.mpc.warble3.setup;
 
 import java.util.List;
 
-import edu.utexas.mpc.warble3.model.thing.component.Thing;
-import edu.utexas.mpc.warble3.model.thing.connection.Connection;
-import edu.utexas.mpc.warble3.model.thing.credential.ThingAccessCredential;
-import edu.utexas.mpc.warble3.model.user.User;
+import edu.utexas.mpc.warble3.warble.thing.component.Thing;
+import edu.utexas.mpc.warble3.warble.thing.connection.Connection;
+import edu.utexas.mpc.warble3.warble.thing.credential.ThingAccessCredential;
+import edu.utexas.mpc.warble3.warble.user.User;
 
 public interface AppDatabaseInterface {
     void onInitialize();

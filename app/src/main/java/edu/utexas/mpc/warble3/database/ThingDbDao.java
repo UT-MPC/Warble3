@@ -38,9 +38,9 @@ import java.util.List;
 import edu.utexas.mpc.warble3.database.type_converter.THING_AUTHENTICATION_STATE_converter;
 import edu.utexas.mpc.warble3.database.type_converter.THING_BINDING_STATE_converter;
 import edu.utexas.mpc.warble3.database.type_converter.THING_CONNECTION_STATE_converter;
-import edu.utexas.mpc.warble3.model.thing.component.THING_AUTHENTICATION_STATE;
-import edu.utexas.mpc.warble3.model.thing.component.THING_BINDING_STATE;
-import edu.utexas.mpc.warble3.model.thing.component.THING_CONNECTION_STATE;
+import edu.utexas.mpc.warble3.warble.thing.component.THING_AUTHENTICATION_STATE;
+import edu.utexas.mpc.warble3.warble.thing.component.THING_BINDING_STATE;
+import edu.utexas.mpc.warble3.warble.thing.component.THING_CONNECTION_STATE;
 
 @Dao
 public interface ThingDbDao {

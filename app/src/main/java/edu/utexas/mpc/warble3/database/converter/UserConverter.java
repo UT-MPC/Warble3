@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.utexas.mpc.warble3.database.UserDb;
-import edu.utexas.mpc.warble3.model.user.User;
+import edu.utexas.mpc.warble3.warble.user.User;
 
 public class UserConverter {
     public static User toUser(UserDb userDb) {

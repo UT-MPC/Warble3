@@ -43,12 +43,12 @@ import edu.utexas.mpc.warble3.frontend.async_tasks.DiscoveryAsyncTask;
 import edu.utexas.mpc.warble3.frontend.main_activity_fragments.ControlFragment;
 import edu.utexas.mpc.warble3.frontend.main_activity_fragments.SettingsFragment;
 import edu.utexas.mpc.warble3.frontend.main_activity_fragments.SetupFragment;
-import edu.utexas.mpc.warble3.model.Warble;
-import edu.utexas.mpc.warble3.model.thing.component.THING_CONCRETE_TYPE;
-import edu.utexas.mpc.warble3.model.thing.component.Thing;
-import edu.utexas.mpc.warble3.model.thing.util.ThingUtil;
 import edu.utexas.mpc.warble3.util.Logging;
 import edu.utexas.mpc.warble3.util.SharedPreferenceHandler;
+import edu.utexas.mpc.warble3.warble.Warble;
+import edu.utexas.mpc.warble3.warble.thing.component.THING_CONCRETE_TYPE;
+import edu.utexas.mpc.warble3.warble.thing.component.Thing;
+import edu.utexas.mpc.warble3.warble.thing.util.ThingUtil;
 
 public class MainActivity extends AppCompatActivity implements DiscoveryAsyncTask.DiscoveryAsyncTaskInterface {
     private static final String TAG = "MainActivity";

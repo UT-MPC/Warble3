@@ -38,11 +38,11 @@ import android.widget.Toast;
 
 import edu.utexas.mpc.warble3.R;
 import edu.utexas.mpc.warble3.frontend.async_tasks.AuthenticateAsyncTask;
-import edu.utexas.mpc.warble3.model.Warble;
-import edu.utexas.mpc.warble3.model.thing.component.Thing;
-import edu.utexas.mpc.warble3.model.thing.credential.UsernamePasswordCredential;
 import edu.utexas.mpc.warble3.util.Logging;
 import edu.utexas.mpc.warble3.util.SharedPreferenceHandler;
+import edu.utexas.mpc.warble3.warble.Warble;
+import edu.utexas.mpc.warble3.warble.thing.component.Thing;
+import edu.utexas.mpc.warble3.warble.thing.credential.UsernamePasswordCredential;
 
 public class AddThingAccessCredentialActivity extends AppCompatActivity implements AuthenticateAsyncTask.AuthenticateAsyncTaskInterface {
     private static final String TAG = "AddThingAccessCred";

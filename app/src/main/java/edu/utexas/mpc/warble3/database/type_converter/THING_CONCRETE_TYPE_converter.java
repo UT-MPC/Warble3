@@ -27,7 +27,7 @@ package edu.utexas.mpc.warble3.database.type_converter;
 
 import android.arch.persistence.room.TypeConverter;
 
-import edu.utexas.mpc.warble3.model.thing.component.THING_CONCRETE_TYPE;
+import edu.utexas.mpc.warble3.warble.thing.component.THING_CONCRETE_TYPE;
 
 public class THING_CONCRETE_TYPE_converter {
     @TypeConverter
