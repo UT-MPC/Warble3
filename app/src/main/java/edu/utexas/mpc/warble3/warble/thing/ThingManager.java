@@ -36,6 +36,7 @@ import edu.utexas.mpc.warble3.warble.thing.component.Thing;
 import edu.utexas.mpc.warble3.warble.thing.connection.Connection;
 import edu.utexas.mpc.warble3.warble.thing.credential.ThingAccessCredential;
 import edu.utexas.mpc.warble3.warble.thing.discovery.Discovery;
+import edu.utexas.mpc.warble3.warble.thing.feature.Accessor;
 import edu.utexas.mpc.warble3.warble.vendors.GE.GEDiscovery;
 import edu.utexas.mpc.warble3.warble.vendors.PhilipsHue.discovery.PhilipsHueUPnPDiscovery;
 import edu.utexas.mpc.warble3.warble.vendors.Wink.WinkDiscovery;
@@ -86,6 +87,15 @@ public class ThingManager {
             List<? extends Thing> things1 = discovery.onDiscover();
             if (things1 != null) {
                 things.addAll(things1);
+            }
+        }
+
+        for (Thing thing : things) {
+            if (thing instanceof Accessor) {
+                List<Thing> childThings = ((Accessor) thing).getThings();
+                if (childThings != null) {
+                    things.addAll(childThings);
+                }
             }
         }
 
