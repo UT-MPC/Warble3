@@ -23,7 +23,7 @@
  *
  */
 
-package edu.utexas.mpc.warble3.model.resource;
+package edu.utexas.mpc.warble3.model;
 
 import java.util.List;
 
@@ -36,31 +36,31 @@ import edu.utexas.mpc.warble3.model.user.InvalidUsernameException;
 import edu.utexas.mpc.warble3.model.user.User;
 import edu.utexas.mpc.warble3.model.user.UserManager;
 
-public class Resource {
-    private static final String TAG = "Resource";
+public class Warble {
+    private static final String TAG = "Warble";
 
-    private static Resource instance;
+    private static Warble instance;
 
     private UserManager userManager;
     private ThingManager thingManager;
 
-    private Resource() {
+    private Warble() {
         userManager = UserManager.getInstance();
         thingManager = ThingManager.getInstance();
     }
 
     public static void initializeInstance() {
         if (instance == null) {
-            instance = new Resource();
+            instance = new Warble();
         }
     }
 
-    public static Resource getInstance() {
+    public static Warble getInstance() {
         if (instance != null) {
             return instance;
         }
         else {
-            throw new NullPointerException("Resource is uninitialized");
+            throw new NullPointerException("Warble is uninitialized");
         }
     }
 

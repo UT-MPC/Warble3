@@ -38,7 +38,7 @@ import android.widget.Toast;
 
 import edu.utexas.mpc.warble3.R;
 import edu.utexas.mpc.warble3.frontend.async_tasks.AuthenticateAsyncTask;
-import edu.utexas.mpc.warble3.model.resource.Resource;
+import edu.utexas.mpc.warble3.model.Warble;
 import edu.utexas.mpc.warble3.model.thing.component.Thing;
 import edu.utexas.mpc.warble3.model.thing.credential.UsernamePasswordCredential;
 import edu.utexas.mpc.warble3.util.Logging;
@@ -83,7 +83,7 @@ public class AddThingAccessCredentialActivity extends AppCompatActivity implemen
                                 Toast.makeText(AddThingAccessCredentialActivity.this, "Unable to add the new Credential", Toast.LENGTH_SHORT).show();
                             }
                             else {
-                                newCred.setUser(Resource.getInstance().getUser(currentUsername));
+                                newCred.setUser(Warble.getInstance().getUser(currentUsername));
                                 newCred.setThing(thing);
                                 thing.addThingAccessCredentials(newCred);
 
@@ -113,7 +113,7 @@ public class AddThingAccessCredentialActivity extends AppCompatActivity implemen
     @Override
     public void onAuthenticateTaskComplete(Thing thing) {
         this.thing = thing;
-        Resource.getInstance().updateThing(thing);
+        Warble.getInstance().updateThing(thing);
 
         progressBar.setVisibility(View.GONE);
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);

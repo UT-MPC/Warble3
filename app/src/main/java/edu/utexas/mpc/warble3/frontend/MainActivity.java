@@ -43,7 +43,7 @@ import edu.utexas.mpc.warble3.frontend.async_tasks.DiscoveryAsyncTask;
 import edu.utexas.mpc.warble3.frontend.main_activity_fragments.ControlFragment;
 import edu.utexas.mpc.warble3.frontend.main_activity_fragments.SettingsFragment;
 import edu.utexas.mpc.warble3.frontend.main_activity_fragments.SetupFragment;
-import edu.utexas.mpc.warble3.model.resource.Resource;
+import edu.utexas.mpc.warble3.model.Warble;
 import edu.utexas.mpc.warble3.model.thing.component.THING_CONCRETE_TYPE;
 import edu.utexas.mpc.warble3.model.thing.component.Thing;
 import edu.utexas.mpc.warble3.model.thing.util.ThingUtil;
@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements DiscoveryAsyncTas
         if (Logging.INFO) Log.i(TAG, AppDatabase.getDatabase().toString());
         if (Logging.INFO) Log.i(TAG, SharedPreferenceHandler.getSharedPrefsString(this));
 
-        setupFragment.updateDiscoveredThings(ThingUtil.toThingHashMapByConcreteType(Resource.getInstance().getThings()));
+        setupFragment.updateDiscoveredThings(ThingUtil.toThingHashMapByConcreteType(Warble.getInstance().getThings()));
 
         new DiscoveryAsyncTask(this).execute();
     }
