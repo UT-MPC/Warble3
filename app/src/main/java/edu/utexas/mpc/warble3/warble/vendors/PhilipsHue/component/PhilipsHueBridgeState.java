@@ -23,7 +23,7 @@
  *
  */
 
-package edu.utexas.mpc.warble3.warble.vendors.PhilipsHue;
+package edu.utexas.mpc.warble3.warble.vendors.PhilipsHue.component;
 
 import edu.utexas.mpc.warble3.warble.thing.component.BridgeState;
 

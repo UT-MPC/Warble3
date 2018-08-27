@@ -41,9 +41,9 @@ import edu.utexas.mpc.warble3.warble.thing.component.Thing;
 import edu.utexas.mpc.warble3.warble.thing.component.ThingState;
 import edu.utexas.mpc.warble3.warble.thing.connection.AccessorConnection;
 import edu.utexas.mpc.warble3.warble.thing.connection.Connection;
-import edu.utexas.mpc.warble3.warble.vendors.PhilipsHue.PhilipsHueBridge;
 import edu.utexas.mpc.warble3.warble.vendors.PhilipsHue.PhilipsHueBridgeHttpInterface;
-import edu.utexas.mpc.warble3.warble.vendors.PhilipsHue.PhilipsHueLight;
+import edu.utexas.mpc.warble3.warble.vendors.PhilipsHue.component.PhilipsHueBridge;
+import edu.utexas.mpc.warble3.warble.vendors.PhilipsHue.component.PhilipsHueLight;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.http.Body;
@@ -1091,6 +1091,4 @@ public final class PhilipsHueBridgeHttpService extends HttpService implements Ph
             return resourcelinks;
         }
     }
-
-
 }

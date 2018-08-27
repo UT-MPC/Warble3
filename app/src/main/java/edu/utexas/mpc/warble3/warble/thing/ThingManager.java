@@ -37,7 +37,7 @@ import edu.utexas.mpc.warble3.warble.thing.connection.Connection;
 import edu.utexas.mpc.warble3.warble.thing.credential.ThingAccessCredential;
 import edu.utexas.mpc.warble3.warble.thing.discovery.Discovery;
 import edu.utexas.mpc.warble3.warble.vendors.GE.GEDiscovery;
-import edu.utexas.mpc.warble3.warble.vendors.PhilipsHue.PhilipsHueUPnPDiscovery;
+import edu.utexas.mpc.warble3.warble.vendors.PhilipsHue.discovery.PhilipsHueUPnPDiscovery;
 import edu.utexas.mpc.warble3.warble.vendors.Wink.WinkDiscovery;
 
 public class ThingManager {
