@@ -23,33 +23,16 @@
  *
  */
 
-package edu.utexas.mpc.warble3.warble.thing.component.manufacturer.GE;
+package edu.utexas.mpc.warble3.warble.vendors.Wink;
 
-import edu.utexas.mpc.warble3.warble.thing.component.Light;
-import edu.utexas.mpc.warble3.warble.thing.credential.ThingAccessCredential;
+import java.util.List;
 
-public final class GELight extends Light {
-    public GELight() {
-        super();
-    }
+import edu.utexas.mpc.warble3.warble.thing.component.Thing;
+import edu.utexas.mpc.warble3.warble.thing.discovery.ServerDiscovery;
 
+public final class WinkDiscovery extends ServerDiscovery {
     @Override
-    public boolean authenticate() {
-        return false;
-    }
-
-    @Override
-    public boolean authenticate(ThingAccessCredential thingAccessCredential) {
-        return false;
-    }
-
-    @Override
-    public void setCredentialRequired() {
-        setCredentialRequired(false);
-    }
-
-    @Override
-    public void setThingAccessCredentialClasses() {
-        setThingAccessCredentialClasses(null);
+    public List<? extends Thing> onDiscover() {
+        return null;
     }
 }

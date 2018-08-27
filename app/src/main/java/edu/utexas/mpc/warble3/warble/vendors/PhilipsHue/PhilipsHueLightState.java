@@ -23,18 +23,9 @@
  *
  */
 
-package edu.utexas.mpc.warble3.warble.thing.component.manufacturer.PhilipsHue;
+package edu.utexas.mpc.warble3.warble.vendors.PhilipsHue;
 
-import java.util.List;
+import edu.utexas.mpc.warble3.warble.thing.component.LightState;
 
-import edu.utexas.mpc.warble3.warble.thing.component.Thing;
-import edu.utexas.mpc.warble3.warble.thing.component.ThingState;
-
-public interface PhilipsHueBridgeHttpInterface {
-    String createUser(String username);
-    String getConfig(String user);
-
-    List<Thing> getThings(String user);
-    ThingState getThingState(String user, Thing thing);
-    void putThingState(String user, Thing thing, ThingState thingState);
+public final class PhilipsHueLightState extends LightState {
 }

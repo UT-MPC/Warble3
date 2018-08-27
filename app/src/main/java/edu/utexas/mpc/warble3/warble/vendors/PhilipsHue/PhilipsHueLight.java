@@ -23,28 +23,37 @@
  *
  */
 
-package edu.utexas.mpc.warble3.warble.thing.component.manufacturer.PhilipsHue;
+package edu.utexas.mpc.warble3.warble.vendors.PhilipsHue;
 
-import android.os.AsyncTask;
+import edu.utexas.mpc.warble3.warble.thing.component.Light;
+import edu.utexas.mpc.warble3.warble.thing.credential.ThingAccessCredential;
 
-import java.util.ArrayList;
-import java.util.List;
+public final class PhilipsHueLight extends Light {
+    private static final String TAG = "PhilipsHueLight";
 
-import edu.utexas.mpc.warble3.warble.thing.component.Thing;
+    public PhilipsHueLight() {
+        super();
+        // set discovery
+        // TODO: seems like not possible, because AccessorDiscovery needs bridge.
+    }
 
-public final class PhilipsHueDiscoveryAsyncTask extends AsyncTask<Void, Void, List<? extends Thing>> {
     @Override
-    protected List<? extends Thing> doInBackground(Void... voids) {
-        PhilipsHueUPnPDiscovery discovery = new PhilipsHueUPnPDiscovery();
+    public boolean authenticate() {
+        return true;
+    }
 
-        List<PhilipsHueBridge> philipsHueBridges = discovery.onDiscover();
+    @Override
+    public boolean authenticate(ThingAccessCredential thingAccessCredential) {
+        return true;
+    }
 
-        List<Thing> philipsHueThings = new ArrayList<>();
+    @Override
+    public void setCredentialRequired() {
+        setCredentialRequired(false);
+    }
 
-        if (philipsHueBridges != null) {
-            philipsHueThings.addAll(philipsHueBridges);
-        }
-
-        return philipsHueThings;
+    @Override
+    public void setThingAccessCredentialClasses() {
+        setThingAccessCredentialClasses(null);
     }
 }

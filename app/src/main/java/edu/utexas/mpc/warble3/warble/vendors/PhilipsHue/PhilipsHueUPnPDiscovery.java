@@ -23,7 +23,7 @@
  *
  */
 
-package edu.utexas.mpc.warble3.warble.thing.component.manufacturer.PhilipsHue;
+package edu.utexas.mpc.warble3.warble.vendors.PhilipsHue;
 
 import android.util.Log;
 

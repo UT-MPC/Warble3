@@ -23,16 +23,9 @@
  *
  */
 
-package edu.utexas.mpc.warble3.warble.thing.component.manufacturer.GE;
+package edu.utexas.mpc.warble3.warble.vendors.GE;
 
-import java.util.List;
+import edu.utexas.mpc.warble3.warble.thing.component.LightState;
 
-import edu.utexas.mpc.warble3.warble.thing.component.Thing;
-import edu.utexas.mpc.warble3.warble.thing.discovery.Discovery;
-
-public final class GEDiscovery extends Discovery {
-    @Override
-    public List<? extends Thing> onDiscover() {
-        return null;
-    }
+public final class GELightState extends LightState {
 }

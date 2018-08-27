@@ -23,9 +23,16 @@
  *
  */
 
-package edu.utexas.mpc.warble3.warble.thing.component.manufacturer.Wink;
+package edu.utexas.mpc.warble3.warble.vendors.GE;
 
-import edu.utexas.mpc.warble3.warble.thing.component.BridgeState;
+import java.util.List;
 
-public final class WinkBridgeState extends BridgeState {
+import edu.utexas.mpc.warble3.warble.thing.component.Thing;
+import edu.utexas.mpc.warble3.warble.thing.discovery.Discovery;
+
+public final class GEDiscovery extends Discovery {
+    @Override
+    public List<? extends Thing> onDiscover() {
+        return null;
+    }
 }

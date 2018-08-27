@@ -23,7 +23,7 @@
  *
  */
 
-package edu.utexas.mpc.warble3.warble.thing.component.manufacturer.Wink;
+package edu.utexas.mpc.warble3.warble.vendors.Wink;
 
 import java.util.Collections;
 import java.util.List;

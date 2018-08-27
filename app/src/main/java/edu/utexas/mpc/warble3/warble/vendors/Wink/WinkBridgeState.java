@@ -23,9 +23,9 @@
  *
  */
 
-package edu.utexas.mpc.warble3.warble.thing.component.manufacturer.PhilipsHue;
+package edu.utexas.mpc.warble3.warble.vendors.Wink;
 
 import edu.utexas.mpc.warble3.warble.thing.component.BridgeState;
 
-public final class PhilipsHueBridgeState extends BridgeState {
+public final class WinkBridgeState extends BridgeState {
 }

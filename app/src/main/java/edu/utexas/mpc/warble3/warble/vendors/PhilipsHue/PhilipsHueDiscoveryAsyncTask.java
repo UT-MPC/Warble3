@@ -23,9 +23,28 @@
  *
  */
 
-package edu.utexas.mpc.warble3.warble.thing.component.manufacturer.GE;
+package edu.utexas.mpc.warble3.warble.vendors.PhilipsHue;
 
-import edu.utexas.mpc.warble3.warble.thing.component.LightState;
+import android.os.AsyncTask;
 
-public final class GELightState extends LightState {
+import java.util.ArrayList;
+import java.util.List;
+
+import edu.utexas.mpc.warble3.warble.thing.component.Thing;
+
+public final class PhilipsHueDiscoveryAsyncTask extends AsyncTask<Void, Void, List<? extends Thing>> {
+    @Override
+    protected List<? extends Thing> doInBackground(Void... voids) {
+        PhilipsHueUPnPDiscovery discovery = new PhilipsHueUPnPDiscovery();
+
+        List<PhilipsHueBridge> philipsHueBridges = discovery.onDiscover();
+
+        List<Thing> philipsHueThings = new ArrayList<>();
+
+        if (philipsHueBridges != null) {
+            philipsHueThings.addAll(philipsHueBridges);
+        }
+
+        return philipsHueThings;
+    }
 }

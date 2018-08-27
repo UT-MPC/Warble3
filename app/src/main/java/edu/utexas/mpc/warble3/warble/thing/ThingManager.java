@@ -33,12 +33,12 @@ import java.util.List;
 import edu.utexas.mpc.warble3.database.AppDatabase;
 import edu.utexas.mpc.warble3.util.Logging;
 import edu.utexas.mpc.warble3.warble.thing.component.Thing;
-import edu.utexas.mpc.warble3.warble.thing.component.manufacturer.GE.GEDiscovery;
-import edu.utexas.mpc.warble3.warble.thing.component.manufacturer.PhilipsHue.PhilipsHueUPnPDiscovery;
-import edu.utexas.mpc.warble3.warble.thing.component.manufacturer.Wink.WinkDiscovery;
 import edu.utexas.mpc.warble3.warble.thing.connection.Connection;
 import edu.utexas.mpc.warble3.warble.thing.credential.ThingAccessCredential;
 import edu.utexas.mpc.warble3.warble.thing.discovery.Discovery;
+import edu.utexas.mpc.warble3.warble.vendors.GE.GEDiscovery;
+import edu.utexas.mpc.warble3.warble.vendors.PhilipsHue.PhilipsHueUPnPDiscovery;
+import edu.utexas.mpc.warble3.warble.vendors.Wink.WinkDiscovery;
 
 public class ThingManager {
     private static final String TAG = "ThingManager";

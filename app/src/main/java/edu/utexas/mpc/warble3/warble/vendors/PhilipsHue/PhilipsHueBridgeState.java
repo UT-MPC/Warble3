@@ -23,22 +23,9 @@
  *
  */
 
-package edu.utexas.mpc.warble3.warble.thing.component.manufacturer.PhilipsHue;
+package edu.utexas.mpc.warble3.warble.vendors.PhilipsHue;
 
-import java.util.List;
+import edu.utexas.mpc.warble3.warble.thing.component.BridgeState;
 
-import edu.utexas.mpc.warble3.warble.thing.component.Thing;
-import edu.utexas.mpc.warble3.warble.thing.discovery.AccessorDiscovery;
-
-public final class PhilipsHueBridgeAccessorDiscovery extends AccessorDiscovery {
-    private final PhilipsHueBridge philipsHueBridge;
-
-    public PhilipsHueBridgeAccessorDiscovery(PhilipsHueBridge philipsHueBridge) {
-        this.philipsHueBridge = philipsHueBridge;
-    }
-
-    @Override
-    public List<? extends Thing> onDiscover() {
-        return philipsHueBridge.getThings();
-    }
+public final class PhilipsHueBridgeState extends BridgeState {
 }
