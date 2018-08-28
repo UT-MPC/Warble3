@@ -142,7 +142,7 @@ public abstract class AppDatabase extends RoomDatabase implements AppDatabaseInt
     public List<Thing> getThings() {
         List<ThingDb> thingDbs = getDatabase().thingDbDao().getAllThingDbs();
 
-        if (thingDbs.size() == 0) {
+        if ((thingDbs == null) || (thingDbs.size() == 0)) {
             return null;
         }
         else {
