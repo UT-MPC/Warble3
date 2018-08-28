@@ -41,6 +41,7 @@ import edu.utexas.mpc.warble3.R;
 import edu.utexas.mpc.warble3.database.AppDatabase;
 import edu.utexas.mpc.warble3.frontend.async_tasks.DiscoveryAsyncTask;
 import edu.utexas.mpc.warble3.frontend.main_activity_fragments.ControlFragment;
+import edu.utexas.mpc.warble3.frontend.main_activity_fragments.ManualFragment;
 import edu.utexas.mpc.warble3.frontend.main_activity_fragments.SettingsFragment;
 import edu.utexas.mpc.warble3.frontend.main_activity_fragments.SetupFragment;
 import edu.utexas.mpc.warble3.util.Logging;
@@ -54,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements DiscoveryAsyncTas
     private static final String TAG = "MainActivity";
 
     private SetupFragment setupFragment = SetupFragment.getNewInstance();
-    private Fragment manualFragment = new Fragment();
+    private ManualFragment manualFragment = ManualFragment.getNewInstance();
     private ControlFragment controlFragment = ControlFragment.getNewInstance();
     private Fragment fourFragment = new Fragment();
     private SettingsFragment settingsFragment = SettingsFragment.getNewInstance();
