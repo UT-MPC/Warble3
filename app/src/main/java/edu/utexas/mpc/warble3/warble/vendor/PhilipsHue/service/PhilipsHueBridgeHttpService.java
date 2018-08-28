@@ -38,9 +38,11 @@ import java.util.Map;
 
 import edu.utexas.mpc.warble3.util.Logging;
 import edu.utexas.mpc.warble3.warble.service.HttpService;
+import edu.utexas.mpc.warble3.warble.thing.component.Light;
 import edu.utexas.mpc.warble3.warble.thing.component.Thing;
 import edu.utexas.mpc.warble3.warble.thing.component.ThingState;
 import edu.utexas.mpc.warble3.warble.vendor.PhilipsHue.component.PhilipsHueLight;
+import edu.utexas.mpc.warble3.warble.vendor.PhilipsHue.component.PhilipsHueLightState;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.http.Body;
@@ -182,7 +184,14 @@ public final class PhilipsHueBridgeHttpService extends HttpService implements Ph
 
     @Override
     public void putThingState(String user, Thing thing, ThingState thingState) {
-
+        if (thing instanceof Light) {
+            try {
+                api.putLightState(user, thing.getAccessName(), (PhilipsHueLightState) thingState).execute();
+            }
+            catch (IOException e) {
+                if (Logging.WARN) Log.w(TAG, String.format("%s", "putThingState is unsuccessful"));
+            }
+        }
     }
 
     protected interface PhilipsHueBridgeRestApi {
@@ -212,7 +221,7 @@ public final class PhilipsHueBridgeHttpService extends HttpService implements Ph
         @Headers({
                 "Content-Type: application/json"
         })
-        Call<List<Object>> putLightState(@Path("user") String userId, @Path("lightId") String lightId, @Body HashMap<String, Object> lightState);
+        Call<List<Object>> putLightState(@Path("user") String userId, @Path("lightId") String lightId, @Body PhilipsHueLightState lightState);
     }
 
     private class CreateUserRequest {
@@ -228,7 +237,6 @@ public final class PhilipsHueBridgeHttpService extends HttpService implements Ph
             this.devicetype = devicetype;
         }
     }
-
 
     private class CreateUserResponse {
         @SerializedName("success")
@@ -317,7 +325,7 @@ public final class PhilipsHueBridgeHttpService extends HttpService implements Ph
 
                 @SerializedName("xy")
                 @Expose
-                private List<Integer> xy;
+                private List<Double> xy;
 
                 @SerializedName("ct")
                 @Expose
