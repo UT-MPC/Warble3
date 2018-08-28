@@ -26,6 +26,7 @@
 package edu.utexas.mpc.warble3.warble.vendor.GE;
 
 import edu.utexas.mpc.warble3.warble.thing.component.Light;
+import edu.utexas.mpc.warble3.warble.thing.component.ThingState;
 import edu.utexas.mpc.warble3.warble.thing.credential.ThingAccessCredential;
 
 public final class GELight extends Light {
@@ -51,5 +52,10 @@ public final class GELight extends Light {
     @Override
     public void setThingAccessCredentialClasses() {
         setThingAccessCredentialClasses(null);
+    }
+
+    @Override
+    public void setState(ThingState thingState) {
+
     }
 }
