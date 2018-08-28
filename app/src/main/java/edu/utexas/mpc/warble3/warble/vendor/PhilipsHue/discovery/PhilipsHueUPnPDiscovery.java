@@ -23,7 +23,7 @@
  *
  */
 
-package edu.utexas.mpc.warble3.warble.vendors.PhilipsHue.discovery;
+package edu.utexas.mpc.warble3.warble.vendor.PhilipsHue.discovery;
 
 import android.util.Log;
 
@@ -43,7 +43,7 @@ import edu.utexas.mpc.warble3.util.Logging;
 import edu.utexas.mpc.warble3.warble.thing.connection.Connection;
 import edu.utexas.mpc.warble3.warble.thing.connection.HttpConnection;
 import edu.utexas.mpc.warble3.warble.thing.discovery.SSDPDiscovery;
-import edu.utexas.mpc.warble3.warble.vendors.PhilipsHue.component.PhilipsHueBridge;
+import edu.utexas.mpc.warble3.warble.vendor.PhilipsHue.component.PhilipsHueBridge;
 
 public final class PhilipsHueUPnPDiscovery extends SSDPDiscovery {
     private static final String TAG = "PhilipsHueUPnPDiscovery";

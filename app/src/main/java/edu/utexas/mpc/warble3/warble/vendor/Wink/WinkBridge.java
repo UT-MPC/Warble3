@@ -23,37 +23,69 @@
  *
  */
 
-package edu.utexas.mpc.warble3.warble.vendors.PhilipsHue.component;
+package edu.utexas.mpc.warble3.warble.vendor.Wink;
 
-import edu.utexas.mpc.warble3.warble.thing.component.Light;
+import java.util.Collections;
+import java.util.List;
+
+import edu.utexas.mpc.warble3.warble.thing.component.Bridge;
+import edu.utexas.mpc.warble3.warble.thing.component.Thing;
+import edu.utexas.mpc.warble3.warble.thing.component.ThingState;
 import edu.utexas.mpc.warble3.warble.thing.credential.ThingAccessCredential;
+import edu.utexas.mpc.warble3.warble.thing.credential.UsernamePasswordCredential;
 
-public final class PhilipsHueLight extends Light {
-    private static final String TAG = "PhilipsHueLight";
-
-    public PhilipsHueLight() {
+public final class WinkBridge extends Bridge {
+    public WinkBridge() {
         super();
-        // set discovery
-        // TODO: seems like not possible, because AccessorDiscovery needs bridge.
+    }
+
+    @Override
+    public List<Thing> getThings() {
+        return null;
+    }
+
+    @Override
+    public List<ThingState> getThingsState() {
+        return null;
+    }
+
+    @Override
+    public boolean updateThingState(Thing thing, ThingState thingState) {
+        return false;
+    }
+
+    @Override
+    public boolean updateThingState(Thing thing, ThingState thingState, boolean postCheck) {
+        return false;
+    }
+
+    @Override
+    public boolean updateThingsState(List<Thing> things, List<ThingState> thingsState) {
+        return false;
+    }
+
+    @Override
+    public boolean updateThingsState(List<Thing> things, List<ThingState> thingsState, boolean postCheck) {
+        return false;
     }
 
     @Override
     public boolean authenticate() {
-        return true;
+        return false;
     }
 
     @Override
     public boolean authenticate(ThingAccessCredential thingAccessCredential) {
-        return true;
+        return false;
     }
 
     @Override
     public void setCredentialRequired() {
-        setCredentialRequired(false);
+        setCredentialRequired(true);
     }
 
     @Override
     public void setThingAccessCredentialClasses() {
-        setThingAccessCredentialClasses(null);
+        setThingAccessCredentialClasses(Collections.<Class>singletonList(UsernamePasswordCredential.class));
     }
 }

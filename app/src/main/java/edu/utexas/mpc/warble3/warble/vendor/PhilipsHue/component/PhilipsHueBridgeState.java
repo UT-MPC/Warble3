@@ -23,9 +23,9 @@
  *
  */
 
-package edu.utexas.mpc.warble3.warble.vendors.GE;
+package edu.utexas.mpc.warble3.warble.vendor.PhilipsHue.component;
 
-import edu.utexas.mpc.warble3.warble.thing.component.LightState;
+import edu.utexas.mpc.warble3.warble.thing.component.BridgeState;
 
-public final class GELightState extends LightState {
+public final class PhilipsHueBridgeState extends BridgeState {
 }

@@ -36,9 +36,10 @@ import edu.utexas.mpc.warble3.warble.thing.component.Thing;
 import edu.utexas.mpc.warble3.warble.thing.connection.Connection;
 import edu.utexas.mpc.warble3.warble.thing.credential.ThingAccessCredential;
 import edu.utexas.mpc.warble3.warble.thing.discovery.Discovery;
-import edu.utexas.mpc.warble3.warble.vendors.GE.GEDiscovery;
-import edu.utexas.mpc.warble3.warble.vendors.PhilipsHue.discovery.PhilipsHueUPnPDiscovery;
-import edu.utexas.mpc.warble3.warble.vendors.Wink.WinkDiscovery;
+import edu.utexas.mpc.warble3.warble.thing.feature.Accessor;
+import edu.utexas.mpc.warble3.warble.vendor.GE.GEDiscovery;
+import edu.utexas.mpc.warble3.warble.vendor.PhilipsHue.discovery.PhilipsHueUPnPDiscovery;
+import edu.utexas.mpc.warble3.warble.vendor.Wink.WinkDiscovery;
 
 public class ThingManager {
     private static final String TAG = "ThingManager";
@@ -81,15 +82,35 @@ public class ThingManager {
         discoveries.add(new WinkDiscovery());
         discoveries.add(new GEDiscovery());
 
-        List<Thing> things = new ArrayList<>();
+        List<Thing> firstLevelThings = new ArrayList<>();
         for(Discovery discovery: discoveries) {
             List<? extends Thing> things1 = discovery.onDiscover();
             if (things1 != null) {
-                things.addAll(things1);
+                firstLevelThings.addAll(things1);
             }
         }
+        saveThings(firstLevelThings);
 
-        saveThings(things);
+        for (Thing firstLevelThing : firstLevelThings) {
+            Thing loadedThing = loadThing(firstLevelThing);
+            exploreThing(loadedThing);
+        }
+    }
+
+    private void exploreThing(Thing thing) {
+        List<Thing> childThings;
+
+        if (thing != null && (thing instanceof Accessor)) {
+            childThings = ((Accessor) thing).getThings();
+
+            if (childThings != null && childThings.size() != 0) {
+                saveThings(childThings);
+                for (Thing childThing : childThings) {
+                    Thing loadedThing = loadThing(childThing);
+                    exploreThing(loadedThing);
+                }
+            }
+        }
     }
 
     public void saveThing(Thing thing) {

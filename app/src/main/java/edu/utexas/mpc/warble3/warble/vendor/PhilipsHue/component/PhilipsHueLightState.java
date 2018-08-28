@@ -23,23 +23,9 @@
  *
  */
 
-package edu.utexas.mpc.warble3.warble.service;
+package edu.utexas.mpc.warble3.warble.vendor.PhilipsHue.component;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import edu.utexas.mpc.warble3.warble.thing.component.LightState;
 
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-
-public abstract class HttpService extends Service {
-    protected Retrofit getInstance(String baseUrl) {
-        Gson gson = new GsonBuilder()
-                .setLenient()
-                .create();
-
-        return new Retrofit.Builder()
-                .baseUrl(baseUrl)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build();
-    }
+public final class PhilipsHueLightState extends LightState {
 }

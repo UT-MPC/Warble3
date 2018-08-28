@@ -23,7 +23,7 @@
  *
  */
 
-package edu.utexas.mpc.warble3.warble.service;
+package edu.utexas.mpc.warble3.warble.vendor.PhilipsHue.service;
 
 import android.util.Log;
 
@@ -37,13 +37,10 @@ import java.util.List;
 import java.util.Map;
 
 import edu.utexas.mpc.warble3.util.Logging;
+import edu.utexas.mpc.warble3.warble.service.HttpService;
 import edu.utexas.mpc.warble3.warble.thing.component.Thing;
 import edu.utexas.mpc.warble3.warble.thing.component.ThingState;
-import edu.utexas.mpc.warble3.warble.thing.connection.AccessorConnection;
-import edu.utexas.mpc.warble3.warble.thing.connection.Connection;
-import edu.utexas.mpc.warble3.warble.vendors.PhilipsHue.PhilipsHueBridgeHttpInterface;
-import edu.utexas.mpc.warble3.warble.vendors.PhilipsHue.component.PhilipsHueBridge;
-import edu.utexas.mpc.warble3.warble.vendors.PhilipsHue.component.PhilipsHueLight;
+import edu.utexas.mpc.warble3.warble.vendor.PhilipsHue.component.PhilipsHueLight;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.http.Body;
@@ -57,12 +54,10 @@ public final class PhilipsHueBridgeHttpService extends HttpService implements Ph
     private static String TAG = "PhilipsHueBridgeHttpService";
 
     private PhilipsHueBridgeRestApi api;
-    private PhilipsHueBridge bridge;
 
-    public PhilipsHueBridgeHttpService(String baseUrl, PhilipsHueBridge bridge) {
+    public PhilipsHueBridgeHttpService(String baseUrl) {
         super();
-        api = getRetrofitInstance(baseUrl).create(PhilipsHueBridgeRestApi.class);
-        this.bridge = bridge;
+        api = getInstance(baseUrl).create(PhilipsHueBridgeRestApi.class);
     }
 
     @Override
@@ -169,11 +164,6 @@ public final class PhilipsHueBridgeHttpService extends HttpService implements Ph
                 light.setManufacturerModelName(entryValue.productname);
                 light.setManufacturerModelNumber(entryValue.modelid);
                 light.setManufacturerName(entryValue.manufacturername);
-
-                List<Connection> connections = new ArrayList<>();
-                AccessorConnection accessorConnection = new AccessorConnection(light, this.bridge);
-                connections.add(accessorConnection);
-                light.setConnections(connections);
 
                 lights.add(light);
             }
@@ -420,7 +410,7 @@ public final class PhilipsHueBridgeHttpService extends HttpService implements Ph
 
                     @SerializedName("colorgamut")
                     @Expose
-                    private List<List<Integer>> colorgamut;
+                    private List<List<Double>> colorgamut;
 
                     @SerializedName("ct")
                     @Expose
@@ -456,7 +446,7 @@ public final class PhilipsHueBridgeHttpService extends HttpService implements Ph
                         return colorgamuttype;
                     }
 
-                    public List<List<Integer>> getColorgamut() {
+                    public List<List<Double>> getColorgamut() {
                         return colorgamut;
                     }
 
