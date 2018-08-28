@@ -261,6 +261,8 @@ public abstract class Thing implements Serializable, Storeable {
 
     public abstract void setThingConcreteTypes();
 
+    public abstract void setState(ThingState thingState);
+
     @Override
     public void onPostStore(long dbid) {
         setDbid(dbid);
