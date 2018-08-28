@@ -33,8 +33,14 @@ public class AccessorConnection extends Connection implements ConnectionStoreabl
 
     private Thing accessor;
 
+    public AccessorConnection() {
+        super();
+        setDirectionalType(DIRECTIONAL_TYPE.UNIDIRECTIONAL);
+    }
+
     public AccessorConnection(Thing source, Thing destination) {
         super(source, destination);
+        this.accessor = this.getDestination();
         setDirectionalType(DIRECTIONAL_TYPE.UNIDIRECTIONAL);
     }
 
