@@ -41,8 +41,11 @@ public interface AppDatabaseInterface {
     void deleteAllUsers();
 
     List<Thing> getThings();
+    Thing getThingByUuid(String uuid);
+    Thing getThingByDbid(long dbid);
     long saveThing(Thing thing);
     List<Long> saveThings(List<Thing> things);
+    Thing loadThing(Thing thing);
     void deleteAllThings();
 
     List<Connection> getConnections();

@@ -150,6 +150,7 @@ public abstract class AppDatabase extends RoomDatabase implements AppDatabaseInt
         }
     }
 
+    @Override
     public Thing getThingByDbid(long dbid) {
         ThingDb thingDb = getDatabase().thingDbDao().getThingDb(dbid);
         if (thingDb == null) {
@@ -162,6 +163,7 @@ public abstract class AppDatabase extends RoomDatabase implements AppDatabaseInt
         }
     }
 
+    @Override
     public Thing getThingByUuid(String uuid) {
         ThingDb thingDb = getDatabase().thingDbDao().getThingDbByUuid(uuid);
         if (thingDb == null) {
@@ -174,6 +176,7 @@ public abstract class AppDatabase extends RoomDatabase implements AppDatabaseInt
         }
     }
 
+    @Override
     public Thing loadThing(Thing thing) {
         return getThingFromDb(thing);
     }
@@ -189,6 +192,7 @@ public abstract class AppDatabase extends RoomDatabase implements AppDatabaseInt
                 returnThing = getThingByDbid(thingDbid);
             }
             String thingUuid = thing.getUuid();
+
             if ((returnThing == null) && (thingUuid != null) && (!thingUuid.equals(""))) {
                 returnThing = getThingByUuid(thingUuid);
             }
