@@ -25,5 +25,14 @@
 
 package edu.utexas.mpc.warble3.warble.thing.component;
 
-public abstract class LightState extends ThingState {
+public class LightState extends ThingState {
+    private boolean active;
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 }
