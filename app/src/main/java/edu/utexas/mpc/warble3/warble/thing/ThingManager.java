@@ -49,7 +49,7 @@ public class ThingManager {
     private ThingManager() {}
 
     public static ThingManager getInstance() {
-        if (instance == null) {
+        if (instance == null) {                         // Singleton Design Pattern
             instance = new ThingManager();
         }
         return instance;
@@ -58,16 +58,22 @@ public class ThingManager {
     public List<Thing> getThings() {
         List<Thing> things = AppDatabase.getDatabase().getThings();
 
-        if (things == null) {
+        if ((things == null) || (things.size() == 0)) {
             return null;
         }
         else {
             for (Thing thing : things) {
-                List<Connection> connections = AppDatabase.getDatabase().getConnectionsBySourceId(thing.getDbid());
-                thing.setConnections(connections);
+                long thingDbid = thing.getDbid();
+                if (thingDbid > 0) {
+                    List<Connection> connections = AppDatabase.getDatabase().getConnectionsBySourceId(thingDbid);
+                    thing.setConnections(connections);
 
-                List<ThingAccessCredential> thingAccessCredentials = AppDatabase.getDatabase().getThingAccessCredentialsByThingId(thing.getDbid());
-                thing.setThingAccessCredentials(thingAccessCredentials);
+                    List<ThingAccessCredential> thingAccessCredentials = AppDatabase.getDatabase().getThingAccessCredentialsByThingId(thing.getDbid());
+                    thing.setThingAccessCredentials(thingAccessCredentials);
+                }
+                else {
+                    if (Logging.WARN) Log.w(TAG, String.format("Thing %s ThingDbid = %s", thing.getFriendlyName(), thingDbid));
+                }
             }
 
             return things;
