@@ -82,24 +82,35 @@ public class ThingManager {
         discoveries.add(new WinkDiscovery());
         discoveries.add(new GEDiscovery());
 
-        List<Thing> things = new ArrayList<>();
+        List<Thing> firstLevelThings = new ArrayList<>();
         for(Discovery discovery: discoveries) {
             List<? extends Thing> things1 = discovery.onDiscover();
             if (things1 != null) {
-                things.addAll(things1);
+                firstLevelThings.addAll(things1);
             }
         }
+        saveThings(firstLevelThings);
 
-        for (Thing thing : things) {
-            if (thing instanceof Accessor) {
-                List<Thing> childThings = ((Accessor) thing).getThings();
-                if (childThings != null) {
-                    things.addAll(childThings);
+        for (Thing firstLevelThing : firstLevelThings) {
+            Thing loadedThing = loadThing(firstLevelThing);
+            exploreThing(loadedThing);
+        }
+    }
+
+    private void exploreThing(Thing thing) {
+        List<Thing> childThings;
+
+        if (thing != null && (thing instanceof Accessor)) {
+            childThings = ((Accessor) thing).getThings();
+
+            if (childThings != null && childThings.size() != 0) {
+                saveThings(childThings);
+                for (Thing childThing : childThings) {
+                    Thing loadedThing = loadThing(childThing);
+                    exploreThing(loadedThing);
                 }
             }
         }
-
-        saveThings(things);
     }
 
     public void saveThing(Thing thing) {
