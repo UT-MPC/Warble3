@@ -33,28 +33,35 @@ import edu.utexas.mpc.warble3.warble.thing.credential.ThingAccessCredential;
 import edu.utexas.mpc.warble3.warble.user.User;
 
 public interface AppDatabaseInterface {
-    void onInitialize();
-    void onTerminate();
+    void    onInitialize();
+    void    onTerminate();
 
-    void addUser(User newUser);
-    User getUserByUsername(String username);
-    void deleteAllUsers();
+    void    addUser(User newUser);
+    User    getUserByUsername(String username);
+    void    deleteAllUsers();
 
-    List<Thing> getThings();
-    Thing getThingByUuid(String uuid);
-    Thing getThingByDbid(long dbid);
-    long saveThing(Thing thing);
-    List<Long> saveThings(List<Thing> things);
-    Thing loadThing(Thing thing);
-    void deleteAllThings();
+    List<Thing>     getThings();
+    Thing           getThingByUuid(String uuid);
+    Thing           getThingByDbid(long dbid);
+    long            saveThing(Thing thing);
+    List<Long>      saveThings(List<Thing> things);
+    Thing           loadThing(Thing thing);
+    void            deleteAllThings();
 
-    List<Connection> getConnections();
-    long saveConnection(Connection connection);
-    List<Long> saveConnections(List<Connection> connections);
-    void deleteAllConnections();
+    List<Connection>    getConnections();
+    Connection          getConnectionByDbid(long dbid);
+    List<Connection>    getConnectionsBySourceId(long thingDbid);
+    List<Connection>    getConnectionsByDestinationId(long thingDbid);
+    long                saveConnection(Connection connection);
+    List<Long>          saveConnections(List<Connection> connections);
+    Connection          loadConnection(Connection connection);
+    void                deleteAllConnections();
 
-    List<ThingAccessCredential> getThingAccessCredentials();
-    long saveThingAccessCredential(ThingAccessCredential thingAccessCredential);
-    List<Long> saveThingAccessCredentials(List<ThingAccessCredential> thingAccessCredentials);
-    void deleteAllThingAccessCredentials();
+    List<ThingAccessCredential>     getThingAccessCredentials();
+    ThingAccessCredential           getThingAccessCredentialByDbid(long dbid);
+    List<ThingAccessCredential>     getThingAccessCredentialsByThingId(long thingId);
+    long                            saveThingAccessCredential(ThingAccessCredential thingAccessCredential);
+    List<Long>                      saveThingAccessCredentials(List<ThingAccessCredential> thingAccessCredentials);
+    ThingAccessCredential           loadThingAccessCredential(ThingAccessCredential thingAccessCredential);
+    void                            deleteAllThingAccessCredentials();
 }
