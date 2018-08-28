@@ -73,8 +73,6 @@ public class ThingConverter {
                 thing.setAuthenticationState(thingDb.getAuthenticationState());
                 thing.setBindingState(thingDb.getBindingState());
 
-                thing.setDbid(thingDb.getDbid());
-
                 return (Thing) object;
             }
             catch (ClassNotFoundException e) {
@@ -155,8 +153,6 @@ public class ThingConverter {
             thingDb.setConnectionState(thing.getConnectionState());
             thingDb.setAuthenticationState(thing.getAuthenticationState());
             thingDb.setBindingState(thing.getBindingState());
-
-            thingDb.setDbid(thing.getDbid());
 
             return thingDb;
         }

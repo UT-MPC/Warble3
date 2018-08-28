@@ -72,8 +72,6 @@ public class ConnectionConverter {
                     if (Logging.WARN) Log.w(TAG, String.format("Connection %s is unable to cast to ConnectionStoreable, or vice versa", connection.toString()));
                 }
 
-                connection.setDbid(connectionDb.getDbid());
-
                 return connection;
             }
             catch (ClassNotFoundException e) {
@@ -132,8 +130,6 @@ public class ConnectionConverter {
         catch (ClassCastException e) {
             if (Logging.WARN) Log.w(TAG, String.format("Connection %s is unable to cast to ConnectionStoreable", connection.toString()));
         }
-
-        connectionDb.setDbid(connection.getDbid());
 
         return connectionDb;
     }
