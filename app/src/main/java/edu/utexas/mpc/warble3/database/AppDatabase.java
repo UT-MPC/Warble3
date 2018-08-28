@@ -253,7 +253,14 @@ public abstract class AppDatabase extends RoomDatabase implements AppDatabaseInt
     // Connection
     @Override
     public List<Connection> getConnections() {
-        return null;
+        List<ConnectionDb> connectionDbs = getDatabase().connectionDbDao().getAllConnectionDbs();
+
+        if ((connectionDbs == null) || (connectionDbs.size() == 0)) {
+            return null;
+        }
+        else {
+            return ConnectionConverter.toConnections(connectionDbs);
+        }
     }
 
     public Connection getConnectionByDbid(long dbid) {
