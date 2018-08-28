@@ -410,7 +410,7 @@ public final class PhilipsHueBridgeHttpService extends HttpService implements Ph
 
                     @SerializedName("colorgamut")
                     @Expose
-                    private List<List<Integer>> colorgamut;
+                    private List<List<Double>> colorgamut;
 
                     @SerializedName("ct")
                     @Expose
@@ -446,7 +446,7 @@ public final class PhilipsHueBridgeHttpService extends HttpService implements Ph
                         return colorgamuttype;
                     }
 
-                    public List<List<Integer>> getColorgamut() {
+                    public List<List<Double>> getColorgamut() {
                         return colorgamut;
                     }
 
