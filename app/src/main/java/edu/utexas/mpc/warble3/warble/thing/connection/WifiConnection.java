@@ -31,6 +31,11 @@ import edu.utexas.mpc.warble3.warble.thing.component.Thing;
 public class WifiConnection extends Connection implements ConnectionStoreable {
     private static final String TAG = "WifiConnection";
 
+    public WifiConnection() {
+        super();
+        setDirectionalType(DIRECTIONAL_TYPE.UNIDIRECTIONAL);
+    }
+
     public WifiConnection(Thing source, Thing destination) {
         super(source, destination);
         setDirectionalType(DIRECTIONAL_TYPE.UNIDIRECTIONAL);
