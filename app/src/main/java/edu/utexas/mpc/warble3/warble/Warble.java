@@ -106,7 +106,7 @@ public class Warble {
     }
 
     public void setThingState(Thing thing, ThingState thingState) {
-        // TODO: implement
+        thing.setState(thingState);
     }
 
     public Thing loadThing(Thing thing) {
