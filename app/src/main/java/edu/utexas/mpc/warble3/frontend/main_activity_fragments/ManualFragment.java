@@ -75,7 +75,7 @@ public class ManualFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_manual, null);
 
         expandableListView = view.findViewById(R.id.manualFragment_expandableListView);
-        setDiscoveredThings(discoveredThings);
+        updateDiscoveredThings(discoveredThings);
 
         onRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
             @Override
