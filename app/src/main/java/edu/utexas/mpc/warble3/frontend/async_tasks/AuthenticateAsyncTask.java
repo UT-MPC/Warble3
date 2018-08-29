@@ -28,9 +28,37 @@ package edu.utexas.mpc.warble3.frontend.async_tasks;
 import android.os.AsyncTask;
 
 import edu.utexas.mpc.warble3.warble.thing.component.Thing;
+import edu.utexas.mpc.warble3.warble.thing.credential.ThingAccessCredential;
 
-public class AuthenticateAsyncTask extends AsyncTask<Thing, Void, Thing> {
+public class AuthenticateAsyncTask extends AsyncTask<AuthenticateAsyncTask.AuthenticateAsyncTaskParam, Void, Boolean> {
+    public static class AuthenticateAsyncTaskParam {
+        private Thing thing;
+        private ThingAccessCredential thingAccessCredential;
+
+        public AuthenticateAsyncTaskParam(Thing thing, ThingAccessCredential thingAccessCredential) {
+            this.thing = thing;
+            this.thingAccessCredential = thingAccessCredential;
+        }
+
+        public Thing getThing() {
+            return thing;
+        }
+
+        public void setThing(Thing thing) {
+            this.thing = thing;
+        }
+
+        public ThingAccessCredential getThingAccessCredential() {
+            return thingAccessCredential;
+        }
+
+        public void setThingAccessCredential(ThingAccessCredential thingAccessCredential) {
+            this.thingAccessCredential = thingAccessCredential;
+        }
+    }
+
     private AuthenticateAsyncTaskInterface mCallback;
+    private AuthenticateAsyncTaskParam param;
 
     public AuthenticateAsyncTask(AuthenticateAsyncTaskInterface context) {
         mCallback = context;
@@ -42,19 +70,18 @@ public class AuthenticateAsyncTask extends AsyncTask<Thing, Void, Thing> {
     }
 
     @Override
-    protected Thing doInBackground(Thing... things) {
-        Thing thing = things[0];
-        thing.authenticate();
-        return thing;
+    protected Boolean doInBackground(AuthenticateAsyncTaskParam... params) {
+        param = params[0];
+        return param.thing.authenticate(param.thingAccessCredential);
     }
 
     @Override
-    protected void onPostExecute(Thing thing) {
-        mCallback.onAuthenticateTaskComplete(thing);
+    protected void onPostExecute(Boolean result) {
+        mCallback.onAuthenticateTaskComplete(result, param);
     }
 
     public interface AuthenticateAsyncTaskInterface {
         void onAuthenticateTaskStart();
-        void onAuthenticateTaskComplete(Thing thing);
+        void onAuthenticateTaskComplete(Boolean result, AuthenticateAsyncTaskParam param);
     }
 }
