@@ -39,8 +39,8 @@ public abstract class Connection implements Serializable, Storeable, ConnectionS
         BIDIRECTIONAL
     }
 
-    private Thing source;
-    private Thing destination;
+    protected Thing source;
+    protected Thing destination;
 
     private DIRECTIONAL_TYPE directionalType;
 

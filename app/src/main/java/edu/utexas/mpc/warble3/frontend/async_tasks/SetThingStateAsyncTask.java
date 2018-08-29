@@ -27,17 +27,18 @@ package edu.utexas.mpc.warble3.frontend.async_tasks;
 
 import android.os.AsyncTask;
 
+import edu.utexas.mpc.warble3.warble.Warble;
 import edu.utexas.mpc.warble3.warble.thing.component.Thing;
-import edu.utexas.mpc.warble3.warble.thing.credential.ThingAccessCredential;
+import edu.utexas.mpc.warble3.warble.thing.component.ThingState;
 
-public class AuthenticateAsyncTask extends AsyncTask<AuthenticateAsyncTask.AuthenticateAsyncTaskParam, Void, Boolean> {
-    public static class AuthenticateAsyncTaskParam {
+public class SetThingStateAsyncTask extends AsyncTask<SetThingStateAsyncTask.SetThingStateAsyncTaskParam, Void, Void> {
+    public static class SetThingStateAsyncTaskParam {
         private Thing thing;
-        private ThingAccessCredential thingAccessCredential;
+        private ThingState thingState;
 
-        public AuthenticateAsyncTaskParam(Thing thing, ThingAccessCredential thingAccessCredential) {
+        public SetThingStateAsyncTaskParam(Thing thing, ThingState thingState) {
             this.thing = thing;
-            this.thingAccessCredential = thingAccessCredential;
+            this.thingState = thingState;
         }
 
         public Thing getThing() {
@@ -48,40 +49,21 @@ public class AuthenticateAsyncTask extends AsyncTask<AuthenticateAsyncTask.Authe
             this.thing = thing;
         }
 
-        public ThingAccessCredential getThingAccessCredential() {
-            return thingAccessCredential;
+        public ThingState getThingState() {
+            return thingState;
         }
 
-        public void setThingAccessCredential(ThingAccessCredential thingAccessCredential) {
-            this.thingAccessCredential = thingAccessCredential;
+        public void setThingState(ThingState thingState) {
+            this.thingState = thingState;
         }
     }
 
-    private AuthenticateAsyncTaskInterface mCallback;
-    private AuthenticateAsyncTaskParam param;
-
-    public AuthenticateAsyncTask(AuthenticateAsyncTaskInterface context) {
-        mCallback = context;
-    }
-
     @Override
-    protected void onPreExecute() {
-        mCallback.onAuthenticateTaskStart();
-    }
+    protected Void doInBackground(SetThingStateAsyncTaskParam... setThingStateAsyncTaskParams) {
+        for (SetThingStateAsyncTaskParam param : setThingStateAsyncTaskParams) {
+            Warble.getInstance().setThingState(param.thing, param.thingState);
+        }
 
-    @Override
-    protected Boolean doInBackground(AuthenticateAsyncTaskParam... params) {
-        param = params[0];
-        return param.thing.authenticate(param.thingAccessCredential);
-    }
-
-    @Override
-    protected void onPostExecute(Boolean result) {
-        mCallback.onAuthenticateTaskComplete(result, param);
-    }
-
-    public interface AuthenticateAsyncTaskInterface {
-        void onAuthenticateTaskStart();
-        void onAuthenticateTaskComplete(Boolean result, AuthenticateAsyncTaskParam param);
+        return null;
     }
 }

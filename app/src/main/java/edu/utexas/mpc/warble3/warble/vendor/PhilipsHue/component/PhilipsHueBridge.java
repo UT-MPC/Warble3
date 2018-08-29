@@ -103,7 +103,26 @@ public final class PhilipsHueBridge extends Bridge {
 
     @Override
     public boolean updateThingState(Thing thing, ThingState thingState) {
-        return false;
+        for (Connection connection : getConnections()) {
+            if (connection instanceof HttpConnection) {
+                PhilipsHueBridgeHttpService service = new PhilipsHueBridgeHttpService(((HttpConnection) connection).getUrl());
+
+                if (getThingAccessCredentials() != null) {
+                    for (ThingAccessCredential thingAccessCredential : getThingAccessCredentials()) {
+                        if (thingAccessCredential instanceof UsernamePasswordCredential) {
+                            UsernamePasswordCredential usernamePasswordCredential = (UsernamePasswordCredential) thingAccessCredential;
+                            String token = usernamePasswordCredential.getToken();
+                            if (token != null) {
+                                service.putThingState(token, thing, thingState);
+
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return true;
     }
 
     @Override
@@ -205,6 +224,9 @@ public final class PhilipsHueBridge extends Bridge {
     public void setThingAccessCredentialClasses() {
         setThingAccessCredentialClasses(Collections.<Class>singletonList(UsernamePasswordCredential.class));
     }
+
+    @Override
+    public void setState(ThingState thingState) {}
 
     public boolean isThingAccessCredentialValid(ThingAccessCredential thingAccessCredential) {
         if (!getCredentialRequired()) {

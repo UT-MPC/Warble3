@@ -28,7 +28,7 @@ package edu.utexas.mpc.warble3.warble.thing.connection;
 import edu.utexas.mpc.warble3.database.interfaces.ConnectionStoreable;
 import edu.utexas.mpc.warble3.warble.thing.component.Thing;
 
-public class AccessorConnection extends Connection implements ConnectionStoreable{
+public class AccessorConnection extends Connection implements ConnectionStoreable {
     private static final String TAG = "AccessorConnection";
 
     private Thing accessor;
@@ -40,8 +40,22 @@ public class AccessorConnection extends Connection implements ConnectionStoreabl
 
     public AccessorConnection(Thing source, Thing destination) {
         super(source, destination);
-        this.accessor = this.getDestination();
+        this.accessor = getDestination();
         setDirectionalType(DIRECTIONAL_TYPE.UNIDIRECTIONAL);
+    }
+
+    public Thing getAccessor() {
+        return accessor;
+    }
+
+    public void setAccessor(Thing accessor) {
+        this.accessor = accessor;
+    }
+
+    @Override
+    public void setDestination(Thing destination) {
+        this.destination = destination;
+        this.accessor = this.destination;
     }
 
     @Override
@@ -51,7 +65,6 @@ public class AccessorConnection extends Connection implements ConnectionStoreabl
 
     @Override
     public void fromConnectionInfo(String connectionInfo) {
-
     }
 
     @Override

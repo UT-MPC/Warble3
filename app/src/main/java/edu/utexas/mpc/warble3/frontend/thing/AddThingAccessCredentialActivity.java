@@ -85,9 +85,10 @@ public class AddThingAccessCredentialActivity extends AppCompatActivity implemen
                             else {
                                 newCred.setUser(Warble.getInstance().getUser(currentUsername));
                                 newCred.setThing(thing);
-                                thing.addThingAccessCredentials(newCred);
 
-                                new AuthenticateAsyncTask(AddThingAccessCredentialActivity.this).execute(thing);
+                                AuthenticateAsyncTask authenticateAsyncTask = new AuthenticateAsyncTask(AddThingAccessCredentialActivity.this);
+                                AuthenticateAsyncTask.AuthenticateAsyncTaskParam authenticateAsyncTaskParam = new AuthenticateAsyncTask.AuthenticateAsyncTaskParam(thing, newCred);
+                                authenticateAsyncTask.execute(authenticateAsyncTaskParam);
                             }
                         }
                         else {
@@ -111,9 +112,16 @@ public class AddThingAccessCredentialActivity extends AppCompatActivity implemen
     }
 
     @Override
-    public void onAuthenticateTaskComplete(Thing thing) {
-        this.thing = thing;
-        Warble.getInstance().updateThing(thing);
+    public void onAuthenticateTaskComplete(Boolean result, AuthenticateAsyncTask.AuthenticateAsyncTaskParam param) {
+        if (result) {
+            thing = param.getThing();
+            thing.addThingAccessCredentials(param.getThingAccessCredential());
+            Warble.getInstance().updateThing(thing);
+        }
+        else {
+            Toast.makeText(AddThingAccessCredentialActivity.this, "Authentication Failed", Toast.LENGTH_SHORT).show();
+            if (Logging.INFO) Log.i(TAG, String.format("Authentication Failed. Thing: %s", param.getThing().getFriendlyName()));
+        }
 
         progressBar.setVisibility(View.GONE);
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);

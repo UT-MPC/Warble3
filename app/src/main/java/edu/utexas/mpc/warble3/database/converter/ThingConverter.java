@@ -73,8 +73,6 @@ public class ThingConverter {
                 thing.setAuthenticationState(thingDb.getAuthenticationState());
                 thing.setBindingState(thingDb.getBindingState());
 
-                thing.setDbid(thingDb.getDbid());
-
                 return (Thing) object;
             }
             catch (ClassNotFoundException e) {
@@ -101,7 +99,7 @@ public class ThingConverter {
     }
 
     public static List<Thing> toThings(List<ThingDb> thingDbs) {
-        if (thingDbs == null || thingDbs.size() == 0) {
+        if ((thingDbs == null) || (thingDbs.size() == 0)) {
             return null;
         }
         else {
@@ -109,7 +107,13 @@ public class ThingConverter {
             for (ThingDb thingDb : thingDbs) {
                 things.add(toThing(thingDb));
             }
-            return things;
+
+            if (things.size() == 0) {
+                return null;
+            }
+            else {
+                return things;
+            }
         }
     }
 
@@ -150,14 +154,12 @@ public class ThingConverter {
             thingDb.setAuthenticationState(thing.getAuthenticationState());
             thingDb.setBindingState(thing.getBindingState());
 
-            thingDb.setDbid(thing.getDbid());
-
             return thingDb;
         }
     }
 
     public static List<ThingDb> toThingDbs(List<Thing> things) {
-        if (things == null || things.size() == 0) {
+        if ((things == null) || (things.size() == 0)) {
             return null;
         }
         else {
@@ -165,7 +167,13 @@ public class ThingConverter {
             for (Thing thing : things) {
                 thingDbs.add(toThingDb(thing));
             }
-            return thingDbs;
+
+            if (thingDbs.size() == 0) {
+                return null;
+            }
+            else {
+                return thingDbs;
+            }
         }
     }
 }

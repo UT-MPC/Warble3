@@ -26,7 +26,11 @@
 package edu.utexas.mpc.warble3.warble.vendor.PhilipsHue.component;
 
 import edu.utexas.mpc.warble3.warble.thing.component.Light;
+import edu.utexas.mpc.warble3.warble.thing.component.ThingState;
+import edu.utexas.mpc.warble3.warble.thing.connection.AccessorConnection;
+import edu.utexas.mpc.warble3.warble.thing.connection.Connection;
 import edu.utexas.mpc.warble3.warble.thing.credential.ThingAccessCredential;
+import edu.utexas.mpc.warble3.warble.thing.feature.Accessor;
 
 public final class PhilipsHueLight extends Light {
     private static final String TAG = "PhilipsHueLight";
@@ -55,5 +59,20 @@ public final class PhilipsHueLight extends Light {
     @Override
     public void setThingAccessCredentialClasses() {
         setThingAccessCredentialClasses(null);
+    }
+
+    @Override
+    public void setState(ThingState thingState) {
+        if (getConnections() != null) {
+            for (Connection connection : getConnections()) {
+                if (connection instanceof AccessorConnection) {
+                    Accessor accessor = (Accessor) ((AccessorConnection) connection).getAccessor();
+
+                    accessor.updateThingState(this, thingState);
+
+                    break;
+                }
+            }
+        }
     }
 }

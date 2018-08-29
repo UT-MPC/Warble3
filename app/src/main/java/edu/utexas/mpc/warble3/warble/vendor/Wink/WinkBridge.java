@@ -88,4 +88,9 @@ public final class WinkBridge extends Bridge {
     public void setThingAccessCredentialClasses() {
         setThingAccessCredentialClasses(Collections.<Class>singletonList(UsernamePasswordCredential.class));
     }
+
+    @Override
+    public void setState(ThingState thingState) {
+
+    }
 }

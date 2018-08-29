@@ -57,7 +57,6 @@ public class ThingAccessCredentialConverter {
             }
 
             thingAccessCredential.fromStoreableText(thingAccessCredentialDb.getCredentialInfo());
-            thingAccessCredential.setDbid(thingAccessCredentialDb.getDbid());
 
             return thingAccessCredential;
         }
@@ -104,7 +103,6 @@ public class ThingAccessCredentialConverter {
             else {
                 thingAccessCredentialDb.setThingId(thing.getDbid());
             }
-            thingAccessCredentialDb.setDbid(thingAccessCredential.getDbid());
 
             return thingAccessCredentialDb;
         }
