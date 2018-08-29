@@ -25,8 +25,11 @@
 
 package edu.utexas.mpc.warble3.warble.thing.component;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class LightState extends ThingState {
-    private boolean active;
+    @SerializedName("on") @Expose private boolean active;
 
     public boolean isActive() {
         return active;
