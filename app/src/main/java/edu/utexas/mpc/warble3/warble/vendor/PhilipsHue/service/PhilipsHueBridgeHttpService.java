@@ -39,6 +39,7 @@ import java.util.Map;
 import edu.utexas.mpc.warble3.util.Logging;
 import edu.utexas.mpc.warble3.warble.service.HttpService;
 import edu.utexas.mpc.warble3.warble.thing.component.Light;
+import edu.utexas.mpc.warble3.warble.thing.component.LightState;
 import edu.utexas.mpc.warble3.warble.thing.component.Thing;
 import edu.utexas.mpc.warble3.warble.thing.component.ThingState;
 import edu.utexas.mpc.warble3.warble.vendor.PhilipsHue.component.PhilipsHueLight;
@@ -200,7 +201,7 @@ public final class PhilipsHueBridgeHttpService extends HttpService implements Ph
     public void putThingState(String user, Thing thing, ThingState thingState) {
         if (thing instanceof Light) {
             try {
-                api.putLightState(user, thing.getAccessName(), thingState).execute();
+                api.putLightState(user, thing.getAccessName(), (LightState) thingState).execute();
             }
             catch (IOException e) {
                 if (Logging.WARN) Log.w(TAG, String.format("%s", "putThingState is unsuccessful"));
@@ -209,33 +210,33 @@ public final class PhilipsHueBridgeHttpService extends HttpService implements Ph
     }
 
     protected interface PhilipsHueBridgeRestApi {
-        @POST("/api")
+        @POST("api")
         @Headers({
                 "Content-Type: application/json"
         })
         Call<List<CreateUserResponse>> createUser(@Body CreateUserRequest createUserRequest);
 
-        @GET("/api/{user}/config")
+        @GET("api/{user}/config")
         Call<MainResponse.Config> getConfig(@Path("user") String userId);
 
-        @GET("/api/{user}/lights")
+        @GET("api/{user}/lights")
         Call<Map<String, MainResponse.Light>> getLights(@Path("user") String userId);
 
         // Lights Capabilities
-        @GET("/api/{user}/lights/{lightId}/state")
+        @GET("api/{user}/lights/{lightId}/state")
         Call<List<Object>> getLightState(@Path("user") String userId, @Path("lightId") int lightId);
 
-        @PUT("/api/{user}/lights/{lightId}")
+        @PUT("api/{user}/lights/{lightId}")
         @Headers({
                 "Content-Type: application/json"
         })
         Call<List<Object>> putLight(@Path("user") String userId, @Path("lightId") String lightId, @Body HashMap<String, Object> light);
 
-        @PUT("/api/{user}/lights/{lightId}/state")
+        @PUT("api/{user}/lights/{lightId}/state")
         @Headers({
                 "Content-Type: application/json"
         })
-        Call<List<Object>> putLightState(@Path("user") String userId, @Path("lightId") String lightId, @Body ThingState lightState);
+        Call<List<Object>> putLightState(@Path("user") String userId, @Path("lightId") String lightId, @Body LightState lightState);
     }
 
     private class CreateUserRequest {
