@@ -26,6 +26,7 @@
 package edu.utexas.mpc.warble3.warble.thing;
 
 import android.util.Log;
+import android.util.LongSparseArray;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +59,11 @@ public class ThingManager {
     public List<Thing> getThings() {
         List<Thing> things = AppDatabase.getDatabase().getThings();
 
+        LongSparseArray<Thing> thingLongSparseArray = new LongSparseArray<>();
+        for (Thing thing : things) {
+            thingLongSparseArray.put(thing.getDbid(), thing);
+        }
+
         if ((things == null) || (things.size() == 0)) {
             return null;
         }
@@ -66,10 +72,37 @@ public class ThingManager {
                 long thingDbid = thing.getDbid();
                 if (thingDbid > 0) {
                     List<Connection> connections = AppDatabase.getDatabase().getConnectionsBySourceId(thingDbid);
-                    thing.setConnections(connections);
+                    if (connections != null) {
+                        for (Connection connection : connections) {
+                            if ((connection.getSource() != null) && (connection.getSource().getDbid() != 0)) {
+                                connection.setSource(thingLongSparseArray.get(connection.getSource().getDbid()));
+                            }
+                            else {
+                                connection.setSource(null);
+                            }
+
+                            if ((connection.getDestination() != null) && (connection.getDestination().getDbid() != 0)) {
+                                connection.setDestination(thingLongSparseArray.get(connection.getDestination().getDbid()));
+                            }
+                            else {
+                                connection.setDestination(null);
+                            }
+                        }
+                        thing.setConnections(connections);
+                    }
 
                     List<ThingAccessCredential> thingAccessCredentials = AppDatabase.getDatabase().getThingAccessCredentialsByThingId(thing.getDbid());
-                    thing.setThingAccessCredentials(thingAccessCredentials);
+                    if (thingAccessCredentials != null) {
+                        for(ThingAccessCredential thingAccessCredential : thingAccessCredentials) {
+                            if ((thingAccessCredential.getThing() != null) && (thingAccessCredential.getThing().getDbid() != 0)) {
+                                thingAccessCredential.setThing(thingLongSparseArray.get(thingAccessCredential.getThing().getDbid()));
+                            }
+                            else {
+                                thingAccessCredential.setThing(null);
+                            }
+                        }
+                        thing.setThingAccessCredentials(thingAccessCredentials);
+                    }
                 }
                 else {
                     if (Logging.WARN) Log.w(TAG, String.format("Thing %s ThingDbid = %s", thing.getFriendlyName(), thingDbid));
