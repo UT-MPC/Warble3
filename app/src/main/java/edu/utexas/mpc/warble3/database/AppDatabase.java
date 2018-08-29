@@ -230,7 +230,8 @@ public abstract class AppDatabase extends RoomDatabase implements AppDatabaseInt
             }
             else {
                 ThingDb updatedThingDb = ThingConverter.toThingDb(thing);
-                updatedThingDb.setDbid(storedThing.getDbid());
+                thingDbid = storedThing.getDbid();
+                updatedThingDb.setDbid(thingDbid);
                 getDatabase().thingDbDao().update(updatedThingDb);
             }
 
@@ -553,7 +554,8 @@ public abstract class AppDatabase extends RoomDatabase implements AppDatabaseInt
                 thingAccessCredentialDbid = getDatabase().thingAccessCredentialDbDao().insert(ThingAccessCredentialConverter.toThingAccessCredentialDb(thingAccessCredential));
             else {
                 ThingAccessCredentialDb updatedThingAccessCredentialDb = ThingAccessCredentialConverter.toThingAccessCredentialDb(thingAccessCredential);
-                updatedThingAccessCredentialDb.setDbid(storedThingAccessCredential.getDbid());
+                thingAccessCredentialDbid = storedThingAccessCredential.getDbid();
+                updatedThingAccessCredentialDb.setDbid(thingAccessCredentialDbid);
                 getDatabase().thingAccessCredentialDbDao().update(updatedThingAccessCredentialDb);
             }
 
