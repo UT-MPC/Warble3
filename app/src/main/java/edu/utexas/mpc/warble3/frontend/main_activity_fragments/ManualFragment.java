@@ -47,6 +47,7 @@ import java.util.List;
 
 import edu.utexas.mpc.warble3.R;
 import edu.utexas.mpc.warble3.frontend.async_tasks.DiscoveryAsyncTask;
+import edu.utexas.mpc.warble3.frontend.async_tasks.SetThingStateAsyncTask;
 import edu.utexas.mpc.warble3.frontend.thing.ThingDetailActivity;
 import edu.utexas.mpc.warble3.util.Logging;
 import edu.utexas.mpc.warble3.warble.Warble;
@@ -222,7 +223,8 @@ public class ManualFragment extends Fragment {
                                 else {
                                     lightState.setActive(false);
                                 }
-                                thing.setState(lightState);
+                                SetThingStateAsyncTask.SetThingStateAsyncTaskParam param = new SetThingStateAsyncTask.SetThingStateAsyncTaskParam(thing, lightState);
+                                new SetThingStateAsyncTask().execute(param);
                             }
                         }
                         default: {}
