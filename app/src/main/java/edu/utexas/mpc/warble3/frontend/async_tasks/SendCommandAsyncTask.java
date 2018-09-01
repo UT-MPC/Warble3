@@ -23,56 +23,37 @@
  *
  */
 
-package edu.utexas.mpc.warble3.warble.vendor.GE;
+package edu.utexas.mpc.warble3.frontend.async_tasks;
 
+import android.os.AsyncTask;
+
+import edu.utexas.mpc.warble3.warble.Warble;
 import edu.utexas.mpc.warble3.warble.thing.command.Command;
 import edu.utexas.mpc.warble3.warble.thing.command.Response;
-import edu.utexas.mpc.warble3.warble.thing.component.Light;
-import edu.utexas.mpc.warble3.warble.thing.component.ThingState;
-import edu.utexas.mpc.warble3.warble.thing.credential.ThingAccessCredential;
+import edu.utexas.mpc.warble3.warble.thing.component.Thing;
 
-public final class GELight extends Light {
-    public GELight() {
-        super();
+public class SendCommandAsyncTask extends AsyncTask<Void, Void, Response> {
+    private SendCommandAsyncTaskInterface callback;
+    private Command command;
+    private Thing thing;
+
+    public SendCommandAsyncTask(SendCommandAsyncTaskInterface callback, Command command, Thing thing) {
+        this.callback = callback;
+        this.command = command;
+        this.thing = thing;
     }
 
     @Override
-    public boolean authenticate() {
-        return false;
+    protected Response doInBackground(Void... voids) {
+        return Warble.getInstance().sendCommand(command, thing);
     }
 
     @Override
-    public boolean authenticate(ThingAccessCredential thingAccessCredential) {
-        return false;
+    protected void onPostExecute(Response response) {
+        callback.onComplete(response);
     }
 
-    @Override
-    public void setCredentialRequired() {
-        setCredentialRequired(false);
-    }
-
-    @Override
-    public void setThingAccessCredentialClasses() {
-        setThingAccessCredentialClasses(null);
-    }
-
-    @Override
-    public void setState(ThingState thingState) {
-
-    }
-
-    @Override
-    public Response callCommand(Command command) {
-        return null;
-    }
-
-    @Override
-    public void sendCommand(Command command) {
-
-    }
-
-    @Override
-    public Response receiveResponse() {
-        return null;
+    public interface SendCommandAsyncTaskInterface {
+        void onComplete(Response response);
     }
 }

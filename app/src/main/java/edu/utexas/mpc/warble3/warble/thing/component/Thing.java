@@ -30,11 +30,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.utexas.mpc.warble3.database.interfaces.Storeable;
+import edu.utexas.mpc.warble3.warble.thing.command.Commandable;
 import edu.utexas.mpc.warble3.warble.thing.connection.Connection;
 import edu.utexas.mpc.warble3.warble.thing.credential.ThingAccessCredential;
 import edu.utexas.mpc.warble3.warble.thing.discovery.Discovery;
 
-public abstract class Thing implements Serializable, Storeable {
+public abstract class Thing implements Serializable, Storeable, Commandable {
     private static final String TAG = "Thing";
 
     private String name;

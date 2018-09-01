@@ -23,56 +23,24 @@
  *
  */
 
-package edu.utexas.mpc.warble3.warble.vendor.GE;
+package edu.utexas.mpc.warble3.warble.thing.command;
 
-import edu.utexas.mpc.warble3.warble.thing.command.Command;
-import edu.utexas.mpc.warble3.warble.thing.command.Response;
-import edu.utexas.mpc.warble3.warble.thing.component.Light;
-import edu.utexas.mpc.warble3.warble.thing.component.ThingState;
 import edu.utexas.mpc.warble3.warble.thing.credential.ThingAccessCredential;
 
-public final class GELight extends Light {
-    public GELight() {
+public class AuthenticateCommand extends Command {
+    public AuthenticateCommand(ThingAccessCredential thingAccessCredential) {
         super();
+        this.name = COMMAND_NAME.AUTHENTICATE;
+
+        this.flag1 = false;
+        this.register1 = thingAccessCredential;
     }
 
-    @Override
-    public boolean authenticate() {
-        return false;
-    }
+    public AuthenticateCommand(ThingAccessCredential thingAccessCredential, boolean save) {
+        super();
+        this.name = COMMAND_NAME.AUTHENTICATE;
 
-    @Override
-    public boolean authenticate(ThingAccessCredential thingAccessCredential) {
-        return false;
-    }
-
-    @Override
-    public void setCredentialRequired() {
-        setCredentialRequired(false);
-    }
-
-    @Override
-    public void setThingAccessCredentialClasses() {
-        setThingAccessCredentialClasses(null);
-    }
-
-    @Override
-    public void setState(ThingState thingState) {
-
-    }
-
-    @Override
-    public Response callCommand(Command command) {
-        return null;
-    }
-
-    @Override
-    public void sendCommand(Command command) {
-
-    }
-
-    @Override
-    public Response receiveResponse() {
-        return null;
+        this.flag1 = save;
+        this.register1 = thingAccessCredential;
     }
 }

@@ -23,56 +23,42 @@
  *
  */
 
-package edu.utexas.mpc.warble3.warble.vendor.GE;
+package edu.utexas.mpc.warble3.warble.thing.command;
 
-import edu.utexas.mpc.warble3.warble.thing.command.Command;
-import edu.utexas.mpc.warble3.warble.thing.command.Response;
-import edu.utexas.mpc.warble3.warble.thing.component.Light;
-import edu.utexas.mpc.warble3.warble.thing.component.ThingState;
-import edu.utexas.mpc.warble3.warble.thing.credential.ThingAccessCredential;
+public abstract class Response {
+    private boolean status;
+    private Command.COMMAND_NAME commandName;
+    private String description;
 
-public final class GELight extends Light {
-    public GELight() {
-        super();
+    public Response() {}
+
+    public Response(boolean status, Command.COMMAND_NAME commandName, String description) {
+        this.status = status;
+        this.commandName = commandName;
+        this.description = description;
     }
 
-    @Override
-    public boolean authenticate() {
-        return false;
+    public boolean getStatus() {
+        return status;
     }
 
-    @Override
-    public boolean authenticate(ThingAccessCredential thingAccessCredential) {
-        return false;
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
-    @Override
-    public void setCredentialRequired() {
-        setCredentialRequired(false);
+    public Command.COMMAND_NAME getCommandName() {
+        return commandName;
     }
 
-    @Override
-    public void setThingAccessCredentialClasses() {
-        setThingAccessCredentialClasses(null);
+    public void setCommandName(Command.COMMAND_NAME commandName) {
+        this.commandName = commandName;
     }
 
-    @Override
-    public void setState(ThingState thingState) {
-
+    public String getDescription() {
+        return description;
     }
 
-    @Override
-    public Response callCommand(Command command) {
-        return null;
-    }
-
-    @Override
-    public void sendCommand(Command command) {
-
-    }
-
-    @Override
-    public Response receiveResponse() {
-        return null;
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

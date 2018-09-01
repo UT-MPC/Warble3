@@ -23,56 +23,58 @@
  *
  */
 
-package edu.utexas.mpc.warble3.warble.vendor.GE;
+package edu.utexas.mpc.warble3.warble.thing.command;
 
-import edu.utexas.mpc.warble3.warble.thing.command.Command;
-import edu.utexas.mpc.warble3.warble.thing.command.Response;
-import edu.utexas.mpc.warble3.warble.thing.component.Light;
-import edu.utexas.mpc.warble3.warble.thing.component.ThingState;
-import edu.utexas.mpc.warble3.warble.thing.credential.ThingAccessCredential;
-
-public final class GELight extends Light {
-    public GELight() {
-        super();
+public abstract class Command {
+    public enum COMMAND_NAME {
+        AUTHENTICATE,
+        SET_THING_STATE
     }
 
-    @Override
-    public boolean authenticate() {
-        return false;
+    protected COMMAND_NAME name;
+    protected Object header;
+    protected Object flag1;
+    protected Object flag2;
+    protected Object flag3;
+    protected Object flag4;
+    protected Object flag5;
+    protected Object flag6;
+    protected Object register1;
+    protected Object register2;
+    protected Object register3;
+    protected Object register4;
+    protected Object register5;
+    protected Object register6;
+
+    public COMMAND_NAME getName() {
+        return name;
     }
 
-    @Override
-    public boolean authenticate(ThingAccessCredential thingAccessCredential) {
-        return false;
+    public Object getHeader() {
+        return header;
     }
 
-    @Override
-    public void setCredentialRequired() {
-        setCredentialRequired(false);
+    public Object getRegister1() {
+        return register1;
     }
 
-    @Override
-    public void setThingAccessCredentialClasses() {
-        setThingAccessCredentialClasses(null);
+    public Object getRegister2() {
+        return register2;
     }
 
-    @Override
-    public void setState(ThingState thingState) {
-
+    public Object getRegister3() {
+        return register3;
     }
 
-    @Override
-    public Response callCommand(Command command) {
-        return null;
+    public Object getRegister4() {
+        return register4;
     }
 
-    @Override
-    public void sendCommand(Command command) {
-
+    public Object getRegister5() {
+        return register5;
     }
 
-    @Override
-    public Response receiveResponse() {
-        return null;
+    public Object getRegister6() {
+        return register6;
     }
 }

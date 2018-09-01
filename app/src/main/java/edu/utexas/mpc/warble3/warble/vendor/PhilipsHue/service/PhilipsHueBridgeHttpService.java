@@ -288,14 +288,6 @@ public final class PhilipsHueBridgeHttpService extends HttpService implements Ph
         }
     }
 
-    private class LightsResponse {
-        private Map<String, MainResponse.Light> lights;
-
-        public Map<String, MainResponse.Light> getLights() {
-            return lights;
-        }
-    }
-
     private class MainResponse {
         @SerializedName("lights") @Expose private Map<String, Light> lights;
 

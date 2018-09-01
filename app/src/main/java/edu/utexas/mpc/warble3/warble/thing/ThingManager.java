@@ -33,6 +33,10 @@ import java.util.List;
 
 import edu.utexas.mpc.warble3.database.AppDatabase;
 import edu.utexas.mpc.warble3.util.Logging;
+import edu.utexas.mpc.warble3.warble.thing.command.Command;
+import edu.utexas.mpc.warble3.warble.thing.command.CommandCaller;
+import edu.utexas.mpc.warble3.warble.thing.command.GenericCommandCaller;
+import edu.utexas.mpc.warble3.warble.thing.command.Response;
 import edu.utexas.mpc.warble3.warble.thing.component.Thing;
 import edu.utexas.mpc.warble3.warble.thing.connection.Connection;
 import edu.utexas.mpc.warble3.warble.thing.credential.ThingAccessCredential;
@@ -221,5 +225,10 @@ public class ThingManager {
         }
 
         return results;
+    }
+
+    public Response sendCommand(Command command, Thing thing) {
+        CommandCaller commandCaller = new GenericCommandCaller(command, thing);
+        return commandCaller.call();
     }
 }

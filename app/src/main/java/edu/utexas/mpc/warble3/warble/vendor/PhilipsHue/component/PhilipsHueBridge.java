@@ -32,6 +32,9 @@ import java.util.Collections;
 import java.util.List;
 
 import edu.utexas.mpc.warble3.util.Logging;
+import edu.utexas.mpc.warble3.warble.thing.command.Command;
+import edu.utexas.mpc.warble3.warble.thing.command.GenericResponse;
+import edu.utexas.mpc.warble3.warble.thing.command.Response;
 import edu.utexas.mpc.warble3.warble.thing.component.Bridge;
 import edu.utexas.mpc.warble3.warble.thing.component.THING_AUTHENTICATION_STATE;
 import edu.utexas.mpc.warble3.warble.thing.component.Thing;
@@ -227,6 +230,65 @@ public final class PhilipsHueBridge extends Bridge {
 
     @Override
     public void setState(ThingState thingState) {}
+
+    @Override
+    public Response callCommand(Command command) {
+        Response response = new GenericResponse();
+
+        if (command == null) {
+            response.setStatus(false);
+            response.setCommandName(null);
+            response.setDescription("no command");
+
+            return response;
+        }
+
+        if (command.getName() == null) {
+            response.setStatus(false);
+            response.setCommandName(null);
+            response.setDescription("no command name");
+
+            return response;
+        }
+
+        switch (command.getName()) {
+            case AUTHENTICATE: {
+                response.setCommandName(command.getName());
+
+                if (command.getRegister1() == null) {
+                    response.setStatus(false);
+                    response.setDescription("no credential");
+
+                    return response;
+                }
+
+                boolean result = authenticate((ThingAccessCredential) command.getRegister1());
+                response.setStatus(result);
+                if (result) {
+                    response.setDescription("");
+                }
+                else {
+                    response.setDescription("unknown reason");
+                }
+                break;
+            }
+            default: {
+                response.setCommandName(command.getName());
+                response.setStatus(false);
+                response.setDescription("unknown command name");
+            }
+        }
+
+        return response;
+    }
+
+    @Override
+    public void sendCommand(Command command) {}
+
+    @Override
+    public Response receiveResponse() {
+        return null;
+    }
 
     public boolean isThingAccessCredentialValid(ThingAccessCredential thingAccessCredential) {
         if (!getCredentialRequired()) {

@@ -28,6 +28,8 @@ package edu.utexas.mpc.warble3.warble;
 import java.util.List;
 
 import edu.utexas.mpc.warble3.warble.thing.ThingManager;
+import edu.utexas.mpc.warble3.warble.thing.command.Command;
+import edu.utexas.mpc.warble3.warble.thing.command.Response;
 import edu.utexas.mpc.warble3.warble.thing.component.Thing;
 import edu.utexas.mpc.warble3.warble.thing.component.ThingState;
 import edu.utexas.mpc.warble3.warble.user.DuplicateUsernameException;
@@ -113,15 +115,21 @@ public class Warble {
         return thingManager.loadThing(thing);
     }
 
+    public Response sendCommand(Command command, Thing thing) {
+        return ThingManager.getInstance().sendCommand(command, thing);
+    }
+
     @Deprecated
     public void removeThing(Thing thing) {
         // TODO: implement
     }
 
+    @Deprecated
     public void addThings(List<Thing> newThings) {
         // TODO: implement
     }
 
+    @Deprecated
     public void updateThings(List<Thing> things) {
         // TODO: implement
     }
