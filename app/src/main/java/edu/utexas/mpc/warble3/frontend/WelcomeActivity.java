@@ -38,6 +38,7 @@ import android.widget.Toast;
 import edu.utexas.mpc.warble3.R;
 import edu.utexas.mpc.warble3.util.Logging;
 import edu.utexas.mpc.warble3.util.SharedPreferenceHandler;
+import edu.utexas.mpc.warble3.util.WarbleHandler;
 import edu.utexas.mpc.warble3.warble.Warble;
 import edu.utexas.mpc.warble3.warble.user.DuplicateUsernameException;
 import edu.utexas.mpc.warble3.warble.user.InvalidPasswordException;
@@ -51,7 +52,7 @@ public class WelcomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        final Warble warble = Warble.getInstance();
+        final Warble warble = WarbleHandler.getInstance();
 
         SharedPreferences sharedPrefs = SharedPreferenceHandler.getSharedPrefsCurrentUserSettings(this);
         if (sharedPrefs.getString(SharedPreferenceHandler.SHARED_PREFS_USERNAME, null) != null) {

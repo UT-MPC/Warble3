@@ -50,7 +50,7 @@ import edu.utexas.mpc.warble3.frontend.async_tasks.DiscoveryAsyncTask;
 import edu.utexas.mpc.warble3.frontend.async_tasks.SendCommandAsyncTask;
 import edu.utexas.mpc.warble3.frontend.thing.ThingDetailActivity;
 import edu.utexas.mpc.warble3.util.Logging;
-import edu.utexas.mpc.warble3.warble.Warble;
+import edu.utexas.mpc.warble3.util.WarbleHandler;
 import edu.utexas.mpc.warble3.warble.thing.command.Response;
 import edu.utexas.mpc.warble3.warble.thing.command.SetThingStateCommand;
 import edu.utexas.mpc.warble3.warble.thing.component.Light;
@@ -69,7 +69,7 @@ public class ManualFragment extends Fragment {
 
     public static ManualFragment getNewInstance() {
         ManualFragment manualFragment = new ManualFragment();
-        manualFragment.updateDiscoveredThings(ThingUtil.toThingHashMapByConcreteType(Warble.getInstance().getThings()));
+        manualFragment.updateDiscoveredThings(ThingUtil.toThingHashMapByConcreteType(WarbleHandler.getInstance().fetch()));
         return manualFragment;
     }
 
@@ -226,14 +226,16 @@ public class ManualFragment extends Fragment {
                                     lightState.setActive(false);
                                 }
 
-                                new SendCommandAsyncTask(new SendCommandAsyncTask.SendCommandAsyncTaskInterface() {
+                                SendCommandAsyncTask task = new SendCommandAsyncTask(new SetThingStateCommand(lightState), thing);
+                                task.setCallback(new SendCommandAsyncTask.SendCommandAsyncTaskInterface() {
                                     @Override
                                     public void onComplete(Response response) {
                                         if (!response.getStatus()) {
                                             if (Logging.VERBOSE) Log.v(TAG, "SendCommand is unsuccessful");
                                         }
                                     }
-                                }, new SetThingStateCommand(lightState), thing).execute();
+                                });
+                                task.execute();
                             }
                         }
                         default: {}

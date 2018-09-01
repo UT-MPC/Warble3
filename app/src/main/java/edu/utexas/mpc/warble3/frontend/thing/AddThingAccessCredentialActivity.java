@@ -40,7 +40,7 @@ import edu.utexas.mpc.warble3.R;
 import edu.utexas.mpc.warble3.frontend.async_tasks.AuthenticateAsyncTask;
 import edu.utexas.mpc.warble3.util.Logging;
 import edu.utexas.mpc.warble3.util.SharedPreferenceHandler;
-import edu.utexas.mpc.warble3.warble.Warble;
+import edu.utexas.mpc.warble3.util.WarbleHandler;
 import edu.utexas.mpc.warble3.warble.thing.component.Thing;
 import edu.utexas.mpc.warble3.warble.thing.credential.UsernamePasswordCredential;
 
@@ -83,7 +83,7 @@ public class AddThingAccessCredentialActivity extends AppCompatActivity implemen
                                 Toast.makeText(AddThingAccessCredentialActivity.this, "Unable to add the new Credential", Toast.LENGTH_SHORT).show();
                             }
                             else {
-                                newCred.setUser(Warble.getInstance().getUser(currentUsername));
+                                newCred.setUser(WarbleHandler.getInstance().getUser(currentUsername));
                                 newCred.setThing(thing);
 
                                 AuthenticateAsyncTask authenticateAsyncTask = new AuthenticateAsyncTask(AddThingAccessCredentialActivity.this);
@@ -116,7 +116,7 @@ public class AddThingAccessCredentialActivity extends AppCompatActivity implemen
         if (result) {
             thing = param.getThing();
             thing.addThingAccessCredentials(param.getThingAccessCredential());
-            Warble.getInstance().updateThing(thing);
+            WarbleHandler.getInstance().updateThing(thing);
         }
         else {
             Toast.makeText(AddThingAccessCredentialActivity.this, "Authentication Failed", Toast.LENGTH_SHORT).show();
