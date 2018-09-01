@@ -23,47 +23,38 @@
  *
  */
 
-package edu.utexas.mpc.warble3.frontend.async_tasks;
+package edu.utexas.mpc.warble3.warble.modifier;
 
-import android.os.AsyncTask;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-import edu.utexas.mpc.warble3.warble.Warble;
+import edu.utexas.mpc.warble3.warble.thing.ThingManager;
+import edu.utexas.mpc.warble3.warble.thing.component.THING_CONCRETE_TYPE;
 import edu.utexas.mpc.warble3.warble.thing.component.Thing;
-import edu.utexas.mpc.warble3.warble.thing.component.ThingState;
 
-public class SetThingStateAsyncTask extends AsyncTask<SetThingStateAsyncTask.SetThingStateAsyncTaskParam, Void, Void> {
-    public static class SetThingStateAsyncTaskParam {
-        private Thing thing;
-        private ThingState thingState;
+public class ThingConcreteModifier extends WarbleModifier {
+    private List<THING_CONCRETE_TYPE> thingConcreteTypes;
 
-        public SetThingStateAsyncTaskParam(Thing thing, ThingState thingState) {
-            this.thing = thing;
-            this.thingState = thingState;
-        }
-
-        public Thing getThing() {
-            return thing;
-        }
-
-        public void setThing(Thing thing) {
-            this.thing = thing;
-        }
-
-        public ThingState getThingState() {
-            return thingState;
-        }
-
-        public void setThingState(ThingState thingState) {
-            this.thingState = thingState;
-        }
+    public ThingConcreteModifier(THING_CONCRETE_TYPE... thingConcreteTypes) {
+        this.thingConcreteTypes = Arrays.asList(thingConcreteTypes);
     }
 
     @Override
-    protected Void doInBackground(SetThingStateAsyncTaskParam... setThingStateAsyncTaskParams) {
-        for (SetThingStateAsyncTaskParam param : setThingStateAsyncTaskParams) {
-            Warble.getInstance().setThingState(param.thing, param.thingState);
+    public List<Thing> fetch() {
+        return select(ThingManager.getInstance().getThings());
+    }
+
+    @Override
+    public List<Thing> select(List<Thing> things) {
+        List<Thing> returnThings = new ArrayList<>();
+
+        for (Thing thing : things) {
+            if (thingConcreteTypes.contains(thing.getThingConcreteType())) {
+                returnThings.add(thing);
+            }
         }
 
-        return null;
+        return returnThings;
     }
 }
