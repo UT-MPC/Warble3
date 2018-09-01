@@ -28,6 +28,8 @@ package edu.utexas.mpc.warble3.warble.vendor.Wink;
 import java.util.Collections;
 import java.util.List;
 
+import edu.utexas.mpc.warble3.warble.thing.command.Command;
+import edu.utexas.mpc.warble3.warble.thing.command.Response;
 import edu.utexas.mpc.warble3.warble.thing.component.Bridge;
 import edu.utexas.mpc.warble3.warble.thing.component.Thing;
 import edu.utexas.mpc.warble3.warble.thing.component.ThingState;
@@ -92,5 +94,20 @@ public final class WinkBridge extends Bridge {
     @Override
     public void setState(ThingState thingState) {
 
+    }
+
+    @Override
+    public Response callCommand(Command command) {
+        return null;
+    }
+
+    @Override
+    public void sendCommand(Command command) {
+
+    }
+
+    @Override
+    public Response receiveResponse() {
+        return null;
     }
 }

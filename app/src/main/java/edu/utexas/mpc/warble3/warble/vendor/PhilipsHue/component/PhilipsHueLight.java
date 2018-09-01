@@ -25,6 +25,9 @@
 
 package edu.utexas.mpc.warble3.warble.vendor.PhilipsHue.component;
 
+import edu.utexas.mpc.warble3.warble.thing.command.Command;
+import edu.utexas.mpc.warble3.warble.thing.command.GenericResponse;
+import edu.utexas.mpc.warble3.warble.thing.command.Response;
 import edu.utexas.mpc.warble3.warble.thing.component.Light;
 import edu.utexas.mpc.warble3.warble.thing.component.ThingState;
 import edu.utexas.mpc.warble3.warble.thing.connection.AccessorConnection;
@@ -74,5 +77,78 @@ public final class PhilipsHueLight extends Light {
                 }
             }
         }
+    }
+
+    @Override
+    public Response callCommand(Command command) {
+        Response response = new GenericResponse();
+
+        if (command == null) {
+            response.setStatus(false);
+            response.setCommandName(null);
+            response.setDescription("no command");
+
+            return response;
+        }
+
+        if (command.getName() == null) {
+            response.setStatus(false);
+            response.setCommandName(null);
+            response.setDescription("no command name");
+
+            return response;
+        }
+
+        switch (command.getName()) {
+            case AUTHENTICATE: {
+                response.setCommandName(command.getName());
+
+                if (command.getRegister1() == null) {
+                    response.setStatus(false);
+                    response.setDescription("no credential");
+
+                    return response;
+                }
+
+                boolean result = authenticate((ThingAccessCredential) command.getRegister1());
+                response.setStatus(result);
+                if (result) {
+                    response.setDescription("");
+                }
+                else {
+                    response.setDescription("unknown reason");
+                }
+                break;
+            }
+            case SET_THING_STATE: {
+                response.setCommandName(command.getName());
+
+                if (command.getRegister1() == null) {
+                    response.setStatus(false);
+                    response.setDescription("no thing state");
+
+                    return response;
+                }
+
+                setState((ThingState) command.getRegister1());
+
+                break;
+            }
+            default: {
+                response.setCommandName(command.getName());
+                response.setStatus(false);
+                response.setDescription("unknown command name");
+            }
+        }
+
+        return response;
+    }
+
+    @Override
+    public void sendCommand(Command command) {}
+
+    @Override
+    public Response receiveResponse() {
+        return null;
     }
 }

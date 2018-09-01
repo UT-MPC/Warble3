@@ -25,6 +25,8 @@
 
 package edu.utexas.mpc.warble3.warble.vendor.GE;
 
+import edu.utexas.mpc.warble3.warble.thing.command.Command;
+import edu.utexas.mpc.warble3.warble.thing.command.Response;
 import edu.utexas.mpc.warble3.warble.thing.component.Light;
 import edu.utexas.mpc.warble3.warble.thing.component.ThingState;
 import edu.utexas.mpc.warble3.warble.thing.credential.ThingAccessCredential;
@@ -57,5 +59,20 @@ public final class GELight extends Light {
     @Override
     public void setState(ThingState thingState) {
 
+    }
+
+    @Override
+    public Response callCommand(Command command) {
+        return null;
+    }
+
+    @Override
+    public void sendCommand(Command command) {
+
+    }
+
+    @Override
+    public Response receiveResponse() {
+        return null;
     }
 }

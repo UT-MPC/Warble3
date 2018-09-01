@@ -47,10 +47,12 @@ import java.util.List;
 
 import edu.utexas.mpc.warble3.R;
 import edu.utexas.mpc.warble3.frontend.async_tasks.DiscoveryAsyncTask;
-import edu.utexas.mpc.warble3.frontend.async_tasks.SetThingStateAsyncTask;
+import edu.utexas.mpc.warble3.frontend.async_tasks.SendCommandAsyncTask;
 import edu.utexas.mpc.warble3.frontend.thing.ThingDetailActivity;
 import edu.utexas.mpc.warble3.util.Logging;
 import edu.utexas.mpc.warble3.warble.Warble;
+import edu.utexas.mpc.warble3.warble.thing.command.Response;
+import edu.utexas.mpc.warble3.warble.thing.command.SetThingStateCommand;
 import edu.utexas.mpc.warble3.warble.thing.component.Light;
 import edu.utexas.mpc.warble3.warble.thing.component.LightState;
 import edu.utexas.mpc.warble3.warble.thing.component.THING_CONCRETE_TYPE;
@@ -223,8 +225,15 @@ public class ManualFragment extends Fragment {
                                 else {
                                     lightState.setActive(false);
                                 }
-                                SetThingStateAsyncTask.SetThingStateAsyncTaskParam param = new SetThingStateAsyncTask.SetThingStateAsyncTaskParam(thing, lightState);
-                                new SetThingStateAsyncTask().execute(param);
+
+                                new SendCommandAsyncTask(new SendCommandAsyncTask.SendCommandAsyncTaskInterface() {
+                                    @Override
+                                    public void onComplete(Response response) {
+                                        if (!response.getStatus()) {
+                                            if (Logging.VERBOSE) Log.v(TAG, "SendCommand is unsuccessful");
+                                        }
+                                    }
+                                }, new SetThingStateCommand(lightState), thing).execute();
                             }
                         }
                         default: {}
