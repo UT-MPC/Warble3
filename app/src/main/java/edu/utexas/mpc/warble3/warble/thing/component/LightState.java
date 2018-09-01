@@ -35,6 +35,7 @@ import edu.utexas.mpc.warble3.util.Logging;
 public class LightState extends ThingState {
     private static String TAG = "ThingState";
 
+    // TODO: This gson annotation has to be removed and implemented in Thing.
     @SerializedName("on") @Expose private boolean active;
 
     private int brightness;             // range 0 - 10000
