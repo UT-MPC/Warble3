@@ -27,30 +27,26 @@ package edu.utexas.mpc.warble3.warble.thing.component;
 
 import android.util.Log;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
 import edu.utexas.mpc.warble3.util.Logging;
 
 public class LightState extends ThingState {
     private static String TAG = "ThingState";
 
-    // TODO: This gson annotation has to be removed and implemented in Thing.
-    @SerializedName("on") @Expose private boolean active;
+    private ACTIVE_STATE active;
 
-    private int brightness;             // range 0 - 10000
-    private int hue;                    // range 0 - 10000
-    private int saturation;             // range 0 - 10000
+    private int brightness = -1;            // range 0 - 65536, -1 means not set
+    private int hue = -1;                   // range 0 - 65536, -1 means not set
+    private int saturation = -1;            // range 0 - 65536, -1 means not set
 
-    private int red;                    // range 0 - 10000
-    private int green;                  // range 0 - 10000
-    private int blue;                   // range 0 - 10000
+    private int red = -1;                   // range 0 - 65536, -1 means not set
+    private int green = -1;                 // range 0 - 65536, -1 means not set
+    private int blue = -1;                  // range 0 - 65536, -1 means not set
 
-    public boolean isActive() {
+    public ACTIVE_STATE getActive() {
         return active;
     }
 
-    public void setActive(boolean active) {
+    public void setActive(ACTIVE_STATE active) {
         this.active = active;
     }
 
@@ -63,9 +59,9 @@ public class LightState extends ThingState {
             this.brightness = 0;
             if (Logging.VERBOSE) Log.v(TAG, String.format("setBrightness(int brightness) - Setting brightness as %s, instead of %s", this.hue, hue));
         }
-        else if (brightness > 10000) {
+        else if (brightness > 65536) {
             if (Logging.VERBOSE) Log.v(TAG, String.format("setBrightness(int brightness) - Setting brightness as %s, instead of %s", this.hue, hue));
-            this.brightness = 10000;
+            this.brightness = 65536;
         }
         else {
             this.brightness = brightness;
@@ -81,8 +77,8 @@ public class LightState extends ThingState {
             this.hue = 0;
             if (Logging.VERBOSE) Log.v(TAG, String.format("setHue(int hue) - Setting hue as %s, instead of %s", this.hue, hue));
         }
-        else if (hue > 10000) {
-            this.hue = 10000;
+        else if (hue > 65536) {
+            this.hue = 65536;
             if (Logging.VERBOSE) Log.v(TAG, String.format("setHue(int hue) - Setting hue as %s, instead of %s", this.hue, hue));
         }
         else {
@@ -99,8 +95,8 @@ public class LightState extends ThingState {
             this.saturation = 0;
             if (Logging.VERBOSE) Log.v(TAG, String.format("setSaturation(int saturation) - Setting saturation as %s, instead of %s", this.saturation, saturation));
         }
-        else if (saturation > 10000) {
-            this.saturation = 10000;
+        else if (saturation > 65536) {
+            this.saturation = 65536;
             if (Logging.VERBOSE) Log.v(TAG, String.format("setSaturation(int saturation) - Setting saturation as %s, instead of %s", this.saturation, saturation));
         }
         else {
@@ -117,8 +113,8 @@ public class LightState extends ThingState {
             this.red = 0;
             if (Logging.VERBOSE) Log.v(TAG, String.format("setRed(int red) - Setting red as %s, instead of %s", this.red, red));
         }
-        else if (red > 10000) {
-            this.red = 10000;
+        else if (red > 65536) {
+            this.red = 65536;
             if (Logging.VERBOSE) Log.v(TAG, String.format("setRed(int red) - Setting red as %s, instead of %s", this.red, red));
         }
         else {
@@ -135,8 +131,8 @@ public class LightState extends ThingState {
             this.green = 0;
             if (Logging.VERBOSE) Log.v(TAG, String.format("setGreen(int green) - Setting green as %s, instead of %s", this.green, green));
         }
-        else if (green > 10000) {
-            this.green = 10000;
+        else if (green > 65536) {
+            this.green = 65536;
             if (Logging.VERBOSE) Log.v(TAG, String.format("setGreen(int green) - Setting green as %s, instead of %s", this.green, green));
         }
         else {
@@ -153,8 +149,8 @@ public class LightState extends ThingState {
             this.blue = 0;
             if (Logging.VERBOSE) Log.v(TAG, String.format("setBlue(int blue) - Setting blue as %s, instead of %s", this.blue, blue));
         }
-        else if (blue > 10000) {
-            this.blue = 10000;
+        else if (blue > 65536) {
+            this.blue = 65536;
             if (Logging.VERBOSE) Log.v(TAG, String.format("setBlue(int blue) - Setting blue as %s, instead of %s", this.blue, blue));
         }
         else {

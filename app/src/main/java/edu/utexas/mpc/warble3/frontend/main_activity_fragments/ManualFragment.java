@@ -57,6 +57,7 @@ import edu.utexas.mpc.warble3.warble.thing.component.Light;
 import edu.utexas.mpc.warble3.warble.thing.component.LightState;
 import edu.utexas.mpc.warble3.warble.thing.component.THING_CONCRETE_TYPE;
 import edu.utexas.mpc.warble3.warble.thing.component.Thing;
+import edu.utexas.mpc.warble3.warble.thing.component.ThingState;
 import edu.utexas.mpc.warble3.warble.thing.util.ThingUtil;
 
 public class ManualFragment extends Fragment {
@@ -220,10 +221,10 @@ public class ManualFragment extends Fragment {
                             if (thing instanceof Light) {
                                 LightState lightState = new LightState();
                                 if (thingManualItemSwitch.isChecked()) {
-                                    lightState.setActive(true);
+                                    lightState.setActive(ThingState.ACTIVE_STATE.ON);
                                 }
                                 else {
-                                    lightState.setActive(false);
+                                    lightState.setActive(ThingState.ACTIVE_STATE.OFF);
                                 }
 
                                 SendCommandAsyncTask task = new SendCommandAsyncTask(new SetThingStateCommand(lightState), thing);
