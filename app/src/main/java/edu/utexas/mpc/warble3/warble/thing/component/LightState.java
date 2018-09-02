@@ -160,9 +160,14 @@ public class LightState extends ThingState {
 
     @Override
     public String toString() {
-        String string = "";
-        string += "LightState:";
-        string += String.format("active=%s;", active);
-        return string;
+        return "LightState{" +
+                "active=" + active +
+                ", brightness=" + brightness +
+                ", hue=" + hue +
+                ", saturation=" + saturation +
+                ", red=" + red +
+                ", green=" + green +
+                ", blue=" + blue +
+                '}';
     }
 }
