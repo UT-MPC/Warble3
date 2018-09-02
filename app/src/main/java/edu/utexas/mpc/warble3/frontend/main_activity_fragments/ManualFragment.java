@@ -50,13 +50,14 @@ import edu.utexas.mpc.warble3.frontend.async_tasks.DiscoveryAsyncTask;
 import edu.utexas.mpc.warble3.frontend.async_tasks.SendCommandAsyncTask;
 import edu.utexas.mpc.warble3.frontend.thing.ThingDetailActivity;
 import edu.utexas.mpc.warble3.util.Logging;
-import edu.utexas.mpc.warble3.warble.Warble;
+import edu.utexas.mpc.warble3.util.WarbleHandler;
 import edu.utexas.mpc.warble3.warble.thing.command.Response;
 import edu.utexas.mpc.warble3.warble.thing.command.SetThingStateCommand;
 import edu.utexas.mpc.warble3.warble.thing.component.Light;
 import edu.utexas.mpc.warble3.warble.thing.component.LightState;
 import edu.utexas.mpc.warble3.warble.thing.component.THING_CONCRETE_TYPE;
 import edu.utexas.mpc.warble3.warble.thing.component.Thing;
+import edu.utexas.mpc.warble3.warble.thing.component.ThingState;
 import edu.utexas.mpc.warble3.warble.thing.util.ThingUtil;
 
 public class ManualFragment extends Fragment {
@@ -69,7 +70,7 @@ public class ManualFragment extends Fragment {
 
     public static ManualFragment getNewInstance() {
         ManualFragment manualFragment = new ManualFragment();
-        manualFragment.updateDiscoveredThings(ThingUtil.toThingHashMapByConcreteType(Warble.getInstance().getThings()));
+        manualFragment.updateDiscoveredThings(ThingUtil.toThingHashMapByConcreteType(WarbleHandler.getInstance().fetch()));
         return manualFragment;
     }
 
@@ -220,20 +221,22 @@ public class ManualFragment extends Fragment {
                             if (thing instanceof Light) {
                                 LightState lightState = new LightState();
                                 if (thingManualItemSwitch.isChecked()) {
-                                    lightState.setActive(true);
+                                    lightState.setActive(ThingState.ACTIVE_STATE.ON);
                                 }
                                 else {
-                                    lightState.setActive(false);
+                                    lightState.setActive(ThingState.ACTIVE_STATE.OFF);
                                 }
 
-                                new SendCommandAsyncTask(new SendCommandAsyncTask.SendCommandAsyncTaskInterface() {
+                                SendCommandAsyncTask task = new SendCommandAsyncTask(new SetThingStateCommand(lightState), thing);
+                                task.setCallback(new SendCommandAsyncTask.SendCommandAsyncTaskInterface() {
                                     @Override
                                     public void onComplete(Response response) {
                                         if (!response.getStatus()) {
                                             if (Logging.VERBOSE) Log.v(TAG, "SendCommand is unsuccessful");
                                         }
                                     }
-                                }, new SetThingStateCommand(lightState), thing).execute();
+                                });
+                                task.execute();
                             }
                         }
                         default: {}

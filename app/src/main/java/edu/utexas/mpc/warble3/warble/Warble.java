@@ -25,8 +25,11 @@
 
 package edu.utexas.mpc.warble3.warble;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import edu.utexas.mpc.warble3.warble.modifier.AllThingModifier;
+import edu.utexas.mpc.warble3.warble.modifier.WarbleModifier;
 import edu.utexas.mpc.warble3.warble.thing.ThingManager;
 import edu.utexas.mpc.warble3.warble.thing.command.Command;
 import edu.utexas.mpc.warble3.warble.thing.command.Response;
@@ -41,32 +44,36 @@ import edu.utexas.mpc.warble3.warble.user.UserManager;
 public class Warble {
     private static final String TAG = "Warble";
 
-    private static Warble instance;
-
     private UserManager userManager;
     private ThingManager thingManager;
 
-    private Warble() {
+    private List<WarbleModifier> template = new ArrayList<>();
+
+    public Warble() {
         userManager = UserManager.getInstance();
         thingManager = ThingManager.getInstance();
     }
 
-    public static void initializeInstance() {
-        if (instance == null) {
-            instance = new Warble();
+    // =========== Modifier ===========
+    public void addModifier(WarbleModifier modifier) {
+        if (modifier != null) {
+            template.add(modifier);
         }
     }
 
-    public static Warble getInstance() {
-        if (instance != null) {
-            return instance;
-        }
-        else {
-            throw new NullPointerException("Warble is uninitialized");
-        }
+    public List<WarbleModifier> getTemplate() {
+        return template;
     }
 
-    // User
+    public void setTemplate(List<WarbleModifier> template) {
+        this.template = template;
+    }
+
+    public void clearTemplate() {
+        this.template.clear();
+    }
+
+    // ============= User =============
     public User getUser(String username) {
         return userManager.getUser(username);
     }
@@ -79,7 +86,7 @@ public class Warble {
         userManager.createUser(username, password);
     }
 
-    // Thing
+    // ============ Thing =============
     public void discoverThings() {
         thingManager.discover();
     }
@@ -91,16 +98,30 @@ public class Warble {
         }
     }
 
-    public List<Thing> getThings() {
-        return thingManager.getThings();
+    public List<Thing> fetch() {
+        List<Thing> things = new ArrayList<>();
+
+        if ((template == null) || (template.size() == 0)) {
+            template.add(new AllThingModifier());
+        }
+
+        for (WarbleModifier modifier : template) {
+            List<Thing> newThings = modifier.fetch();
+            if (newThings != null) {
+                things.addAll(newThings);
+            }
+        }
+
+        if (things.size() == 0) {
+            return null;
+        }
+        else {
+            return things;
+        }
     }
 
     public void authenticateThings() {
-        thingManager.authenticateThings(getThings());
-    }
-
-    public void addThing(Thing newThing) {
-        // TODO: implement
+        thingManager.authenticateThings(fetch());
     }
 
     public void updateThing(Thing thing) {
@@ -115,27 +136,8 @@ public class Warble {
         return thingManager.loadThing(thing);
     }
 
+    // =========== Command ============
     public Response sendCommand(Command command, Thing thing) {
         return ThingManager.getInstance().sendCommand(command, thing);
-    }
-
-    @Deprecated
-    public void removeThing(Thing thing) {
-        // TODO: implement
-    }
-
-    @Deprecated
-    public void addThings(List<Thing> newThings) {
-        // TODO: implement
-    }
-
-    @Deprecated
-    public void updateThings(List<Thing> things) {
-        // TODO: implement
-    }
-
-    @Deprecated
-    public void removeThings(List<Thing> things) {
-        // TODO: implement
     }
 }

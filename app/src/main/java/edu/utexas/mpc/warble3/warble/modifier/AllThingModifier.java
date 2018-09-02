@@ -23,7 +23,30 @@
  *
  */
 
-package edu.utexas.mpc.warble3.warble.identifier;
+package edu.utexas.mpc.warble3.warble.modifier;
 
-public abstract class Identifier {
+import java.util.List;
+
+import edu.utexas.mpc.warble3.warble.thing.ThingManager;
+import edu.utexas.mpc.warble3.warble.thing.component.Thing;
+
+public class AllThingModifier extends WarbleModifier {
+    public AllThingModifier() {
+        super();
+    }
+
+    @Override
+    public List<Thing> fetch() {
+        return ThingManager.getInstance().getThings();
+    }
+
+    @Override
+    public List<Thing> select(List<Thing> things) {
+        return things;
+    }
+
+    @Override
+    public boolean equals(Object oth) {
+        return super.equals(oth);
+    }
 }

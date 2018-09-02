@@ -201,12 +201,45 @@ public final class PhilipsHueBridgeHttpService extends HttpService implements Ph
     public void putThingState(String user, Thing thing, ThingState thingState) {
         if (thing instanceof Light) {
             try {
-                api.putLightState(user, thing.getAccessName(), (LightState) thingState).execute();
+                api.putLightState(user, thing.getAccessName(), toPutLightStateBody(thingState)).execute();
             }
             catch (IOException e) {
                 if (Logging.WARN) Log.w(TAG, String.format("%s", "putThingState is unsuccessful"));
             }
         }
+    }
+
+    private HashMap<String, Object> toPutLightStateBody(ThingState thingState) {
+        HashMap<String, Object> body = new HashMap<>();
+
+        if (thingState instanceof LightState) {
+            LightState lightState = (LightState) thingState;
+
+            if (lightState.getActive() != null) {
+                if (lightState.getActive() == ThingState.ACTIVE_STATE.ON) {
+                    body.put("on", true);
+                }
+                else if (lightState.getActive() == ThingState.ACTIVE_STATE.OFF) {
+                    body.put("on", false);
+                }
+            }
+            if (lightState.getBrightness() >= 0) {
+                int bri = lightState.getBrightness() * 253 / 65536 + 1;
+                body.put("bri", bri);
+            }
+            if (lightState.getHue() >= 0) {
+                body.put("hue", lightState.getHue());
+            }
+            if (lightState.getSaturation() >= 0) {
+                int sat = lightState.getSaturation() * 254 / 65536;
+                body.put("sat", sat);
+            }
+        }
+        else {
+            if (Logging.WARN) Log.w(TAG, "toPutLightStateBody(ThingState thingState) - thingState is unable to be converted to PutLightStateBody");
+        }
+
+        return body;
     }
 
     protected interface PhilipsHueBridgeRestApi {
@@ -236,7 +269,7 @@ public final class PhilipsHueBridgeHttpService extends HttpService implements Ph
         @Headers({
                 "Content-Type: application/json"
         })
-        Call<List<Object>> putLightState(@Path("user") String userId, @Path("lightId") String lightId, @Body LightState lightState);
+        Call<List<Object>> putLightState(@Path("user") String userId, @Path("lightId") String lightId, @Body HashMap<String, Object> putLightStateBody);
     }
 
     private class CreateUserRequest {

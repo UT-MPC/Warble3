@@ -23,33 +23,17 @@
  *
  */
 
-package edu.utexas.mpc.warble3.setup;
+package edu.utexas.mpc.warble3.util;
 
-import android.app.Application;
-import android.content.Context;
+import edu.utexas.mpc.warble3.warble.Warble;
 
-import edu.utexas.mpc.warble3.database.AppDatabase;
+public class WarbleHandler {
+    private static Warble INSTANCE = null;
 
-public class WarbleApplication extends Application {
-    public static final String TAG = "WarbleApplication";
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-
-        initialization();
-    }
-
-    private void initialization() {
-        Context appContext = getApplicationContext();
-
-        AppDatabase.initializeDatabase(appContext);
-        AppDatabase.getDatabase().onInitialize();
-    }
-
-    @Override
-    public void onTerminate() {
-        super.onTerminate();
-        AppDatabase.getDatabase().onTerminate();
+    public static Warble getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new Warble();
+        }
+        return INSTANCE;
     }
 }

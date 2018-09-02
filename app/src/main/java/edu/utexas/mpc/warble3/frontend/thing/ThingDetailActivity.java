@@ -42,7 +42,7 @@ import java.util.Objects;
 import edu.utexas.mpc.warble3.R;
 import edu.utexas.mpc.warble3.frontend.adapter.SimpleAdapter;
 import edu.utexas.mpc.warble3.util.Logging;
-import edu.utexas.mpc.warble3.warble.Warble;
+import edu.utexas.mpc.warble3.util.WarbleHandler;
 import edu.utexas.mpc.warble3.warble.thing.component.Thing;
 import edu.utexas.mpc.warble3.warble.thing.connection.Connection;
 import edu.utexas.mpc.warble3.warble.thing.credential.ThingAccessCredential;
@@ -68,7 +68,7 @@ public class ThingDetailActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        thing = Warble.getInstance().loadThing(thing);
+        thing = WarbleHandler.getInstance().loadThing(thing);
 
         if (thing == null) {
             finish();

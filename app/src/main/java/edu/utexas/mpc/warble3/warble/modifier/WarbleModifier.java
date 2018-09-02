@@ -23,7 +23,13 @@
  *
  */
 
-package edu.utexas.mpc.warble3.warble.authentication;
+package edu.utexas.mpc.warble3.warble.modifier;
 
-public class OAuth2 extends Authetication {
+import java.util.List;
+
+import edu.utexas.mpc.warble3.warble.thing.component.Thing;
+
+public abstract class WarbleModifier {
+    public abstract List<Thing> fetch();
+    public abstract List<Thing> select(List<Thing> things);
 }

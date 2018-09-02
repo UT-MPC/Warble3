@@ -27,7 +27,7 @@ package edu.utexas.mpc.warble3.frontend.async_tasks;
 
 import android.os.AsyncTask;
 
-import edu.utexas.mpc.warble3.warble.Warble;
+import edu.utexas.mpc.warble3.util.WarbleHandler;
 import edu.utexas.mpc.warble3.warble.thing.command.Command;
 import edu.utexas.mpc.warble3.warble.thing.command.Response;
 import edu.utexas.mpc.warble3.warble.thing.component.Thing;
@@ -37,20 +37,25 @@ public class SendCommandAsyncTask extends AsyncTask<Void, Void, Response> {
     private Command command;
     private Thing thing;
 
-    public SendCommandAsyncTask(SendCommandAsyncTaskInterface callback, Command command, Thing thing) {
-        this.callback = callback;
+    public SendCommandAsyncTask(Command command, Thing thing) {
         this.command = command;
         this.thing = thing;
     }
 
     @Override
     protected Response doInBackground(Void... voids) {
-        return Warble.getInstance().sendCommand(command, thing);
+        return WarbleHandler.getInstance().sendCommand(command, thing);
     }
 
     @Override
     protected void onPostExecute(Response response) {
-        callback.onComplete(response);
+        if (callback != null) {
+            callback.onComplete(response);
+        }
+    }
+
+    public void setCallback(SendCommandAsyncTaskInterface callback) {
+        this.callback = callback;
     }
 
     public interface SendCommandAsyncTaskInterface {

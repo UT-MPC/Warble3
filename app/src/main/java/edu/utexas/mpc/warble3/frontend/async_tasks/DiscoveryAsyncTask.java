@@ -31,13 +31,14 @@ import android.util.Log;
 import java.util.List;
 
 import edu.utexas.mpc.warble3.util.Logging;
+import edu.utexas.mpc.warble3.util.WarbleHandler;
 import edu.utexas.mpc.warble3.warble.Warble;
 import edu.utexas.mpc.warble3.warble.thing.component.Thing;
 
 public class DiscoveryAsyncTask extends AsyncTask<Void, Void, List<Thing>> {
     private static final String TAG = "DiscoveryAsyncTask";
     private DiscoveryAsyncTaskInterface mCallback;
-    private Warble warble = Warble.getInstance();
+    private Warble warble = WarbleHandler.getInstance();
 
     public DiscoveryAsyncTask(DiscoveryAsyncTaskInterface context) {
         mCallback = context;
@@ -48,7 +49,7 @@ public class DiscoveryAsyncTask extends AsyncTask<Void, Void, List<Thing>> {
         if (Logging.DEBUG) Log.d(TAG, "Executing DiscoveryAsyncTask ...");
 
         warble.discoverThings(true);
-        return warble.getThings();
+        return warble.fetch();
     }
 
     @Override
