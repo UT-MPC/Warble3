@@ -28,8 +28,10 @@ package edu.utexas.mpc.warble3.database;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.TypeConverter;
 import android.arch.persistence.room.TypeConverters;
 
+import edu.utexas.mpc.warble3.database.type_converter.LocationConverter;
 import edu.utexas.mpc.warble3.database.type_converter.THING_AUTHENTICATION_STATE_converter;
 import edu.utexas.mpc.warble3.database.type_converter.THING_BINDING_STATE_converter;
 import edu.utexas.mpc.warble3.database.type_converter.THING_CONCRETE_TYPE_converter;
@@ -38,6 +40,7 @@ import edu.utexas.mpc.warble3.warble.thing.component.THING_AUTHENTICATION_STATE;
 import edu.utexas.mpc.warble3.warble.thing.component.THING_BINDING_STATE;
 import edu.utexas.mpc.warble3.warble.thing.component.THING_CONCRETE_TYPE;
 import edu.utexas.mpc.warble3.warble.thing.component.THING_CONNECTION_STATE;
+import edu.utexas.mpc.warble3.warble.thing.util.Location;
 
 @Entity(tableName = "ThingDb")
 public class ThingDb {
@@ -76,6 +79,9 @@ public class ThingDb {
 
     @TypeConverters(THING_BINDING_STATE_converter.class)
     private THING_BINDING_STATE bindingState;
+
+    @TypeConverters(LocationConverter.class)
+    private Location location;
 
     public long getDbid() {
         return dbid;
@@ -211,6 +217,14 @@ public class ThingDb {
 
     public void setBindingState(THING_BINDING_STATE bindingState) {
         this.bindingState = bindingState;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
     }
 
     @Override

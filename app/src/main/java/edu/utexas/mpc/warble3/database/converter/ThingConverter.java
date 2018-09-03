@@ -33,8 +33,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.utexas.mpc.warble3.database.ThingDb;
+import edu.utexas.mpc.warble3.database.type_converter.LocationConverter;
 import edu.utexas.mpc.warble3.util.Logging;
 import edu.utexas.mpc.warble3.warble.thing.component.Thing;
+import edu.utexas.mpc.warble3.warble.thing.util.Location;
 
 public class ThingConverter {
     private static final String TAG = "ThingConverter";
@@ -72,6 +74,8 @@ public class ThingConverter {
                 thing.setConnectionState(thingDb.getConnectionState());
                 thing.setAuthenticationState(thingDb.getAuthenticationState());
                 thing.setBindingState(thingDb.getBindingState());
+
+                thing.setLocation(thingDb.getLocation());
 
                 return (Thing) object;
             }
@@ -153,6 +157,8 @@ public class ThingConverter {
             thingDb.setConnectionState(thing.getConnectionState());
             thingDb.setAuthenticationState(thing.getAuthenticationState());
             thingDb.setBindingState(thing.getBindingState());
+
+            thingDb.setLocation(thing.getLocation());
 
             return thingDb;
         }
