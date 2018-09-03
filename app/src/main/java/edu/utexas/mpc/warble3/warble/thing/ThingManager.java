@@ -63,15 +63,15 @@ public class ThingManager {
     public List<Thing> getThings() {
         List<Thing> things = AppDatabase.getDatabase().getThings();
 
-        LongSparseArray<Thing> thingLongSparseArray = new LongSparseArray<>();
-        for (Thing thing : things) {
-            thingLongSparseArray.put(thing.getDbid(), thing);
-        }
-
         if ((things == null) || (things.size() == 0)) {
             return null;
         }
         else {
+            LongSparseArray<Thing> thingLongSparseArray = new LongSparseArray<>();
+            for (Thing thing : things) {
+                thingLongSparseArray.put(thing.getDbid(), thing);
+            }
+
             for (Thing thing : things) {
                 long thingDbid = thing.getDbid();
                 if (thingDbid > 0) {
