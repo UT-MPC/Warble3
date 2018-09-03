@@ -39,7 +39,7 @@ public class SetThingStateCommand extends Command {
     public String toString() {
         return "SetThingStateCommand{" +
                 "name=" + name +
-                ", thingState=" + register1 +
+                ", state=" + register1 +
                 '}';
     }
 }
