@@ -596,7 +596,7 @@ public abstract class AppDatabase extends RoomDatabase implements AppDatabaseInt
     }
 
     public void deleteAllInteractionDbs() {
-        AppDatabase.getDatabase().deleteAllInteractionDbs();
+        AppDatabase.getDatabase().interactionHistoryDbDao().deleteAllInteractionHistoryDbs();
     }
 
 
