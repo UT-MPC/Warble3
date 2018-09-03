@@ -3,7 +3,9 @@ package edu.utexas.mpc.warble3.warble.thing.util;
 import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
 
-public class Location {
+import java.io.Serializable;
+
+public class Location implements Serializable {
     @Expose private double latitude;
     @Expose private double longitude;
 
@@ -73,6 +75,11 @@ public class Location {
     }
 
     public static Location fromString(String string) {
-        return new Gson().fromJson(string.replace("Location", ""), Location.class);
+        if (string == null || string.equals("")) {
+            return null;
+        }
+        else {
+            return new Gson().fromJson(string.replace("Location", ""), Location.class);
+        }
     }
 }
