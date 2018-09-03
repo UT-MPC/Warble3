@@ -47,7 +47,7 @@ import edu.utexas.mpc.warble3.warble.thing.connection.Connection;
 import edu.utexas.mpc.warble3.warble.thing.credential.ThingAccessCredential;
 import edu.utexas.mpc.warble3.warble.user.User;
 
-@Database(entities = {UserDb.class, ThingDb.class, ConnectionDb.class, ThingAccessCredentialDb.class},
+@Database(entities = {UserDb.class, ThingDb.class, ConnectionDb.class, ThingAccessCredentialDb.class, InteractionHistoryDb.class},
         version = 8,
         exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase implements AppDatabaseInterface {
@@ -59,6 +59,7 @@ public abstract class AppDatabase extends RoomDatabase implements AppDatabaseInt
     public abstract ThingDbDao thingDbDao();
     public abstract ConnectionDbDao connectionDbDao();
     public abstract ThingAccessCredentialDbDao thingAccessCredentialDbDao();
+    public abstract InteractionHistoryDbDao interactionHistoryDbDao();
 
     public static void initializeDatabase(Context context) {
         if (INSTANCE == null) {
@@ -585,6 +586,20 @@ public abstract class AppDatabase extends RoomDatabase implements AppDatabaseInt
         }
     }
 
+    // InteractionHistory
+    public List<InteractionHistoryDb> getInteractionHistoryDbs() {
+        return AppDatabase.getDatabase().interactionHistoryDbDao().getInteractionHistoryDbs();
+    }
+
+    public long saveInteractionHistoryDb(InteractionHistoryDb interactionHistoryDb) {
+        return AppDatabase.getDatabase().interactionHistoryDbDao().insert(interactionHistoryDb);
+    }
+
+    public void deleteAllInteractionDbs() {
+        AppDatabase.getDatabase().deleteAllInteractionDbs();
+    }
+
+
     @Override
     public void onInitialize() {
         getDatabase().thingDbDao().updateAllConnectionStates(THING_CONNECTION_STATE.INITIAL);
@@ -610,7 +625,10 @@ public abstract class AppDatabase extends RoomDatabase implements AppDatabaseInt
                 toStringConnectionDbs()
                 + "\n" +
                 toStringThingAccessCredentialDbs()
-                + "\n====================";
+                + "\n" +
+                toStringInteractionHistoryDbs()
+                + "\n" +
+                "====================";
     }
 
     private String toStringUserDbs() {
@@ -679,6 +697,24 @@ public abstract class AppDatabase extends RoomDatabase implements AppDatabaseInt
                 stringBuilder.append("\n");
                 stringBuilder.append("- ");
                 stringBuilder.append(thingAccessCredentialDb.toString());
+            }
+        }
+
+        return stringBuilder.toString();
+    }
+
+    private String toStringInteractionHistoryDbs() {
+        StringBuilder stringBuilder = new StringBuilder();
+        List<InteractionHistoryDb> interactionHistoryDbs = getDatabase().interactionHistoryDbDao().getInteractionHistoryDbs();
+        if (interactionHistoryDbs == null) {
+            stringBuilder.append("Number of interactionHistoryDb : 0");
+        }
+        else {
+            stringBuilder.append(String.format(Locale.getDefault(), "Number of interactionHistoryDbs : %d", interactionHistoryDbs.size()));
+            for (InteractionHistoryDb interactionHistoryDb : interactionHistoryDbs) {
+                stringBuilder.append("\n");
+                stringBuilder.append("- ");
+                stringBuilder.append(interactionHistoryDb.toString());
             }
         }
 
