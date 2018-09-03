@@ -34,4 +34,12 @@ public class SetThingStateCommand extends Command {
         this.name = COMMAND_NAME.SET_THING_STATE;
         this.register1 = thingState;
     }
+
+    @Override
+    public String toString() {
+        return "SetThingStateCommand{" +
+                "name=" + name +
+                ", thingState=" + register1 +
+                '}';
+    }
 }
