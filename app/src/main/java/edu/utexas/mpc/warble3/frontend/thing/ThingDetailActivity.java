@@ -83,6 +83,9 @@ public class ThingDetailActivity extends AppCompatActivity {
             ((TextView) findViewById(R.id.uuid_thingActivity_textView)).setText(thing.getUuid());
             ((TextView) findViewById(R.id.thingTypes_thingActivity_textView)).setText(thing.getThingTypes().toString());
             ((TextView) findViewById(R.id.concreteTypes_thingActivity_textView)).setText(thing.getThingConcreteType().toString());
+            if (thing.getLocation() != null) {
+                ((TextView) findViewById(R.id.location_thingActivity_textView)).setText(thing.getLocation().toString());
+            }
             ((TextView) findViewById(R.id.accessName_thingActivity_textView)).setText(thing.getAccessName());
             ((TextView) findViewById(R.id.accessUsername_thingActivity_textView)).setText(thing.getAccessUsername());
             ((TextView) findViewById(R.id.accessPasscode_thingActivity_textView)).setText(thing.getAccessPasscode());
