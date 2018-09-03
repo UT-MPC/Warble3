@@ -85,9 +85,18 @@ public class SettingsFragment extends Fragment {
                 AppDatabase.getDatabase().deleteAllThings();
                 AppDatabase.getDatabase().deleteAllConnections();
                 AppDatabase.getDatabase().deleteAllThingAccessCredentials();
+                AppDatabase.getDatabase().deleteAllInteractionDbs();
 
                 logout_settingsFragment_textView.performClick();
                 logout_settingsFragment_textView.invalidate();
+            }
+        });
+
+        TextView dbIntHistReset_settingsFragment_textView = view.findViewById(R.id.dbIntHistReset_settingsFragment_textView);
+        dbIntHistReset_settingsFragment_textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AppDatabase.getDatabase().deleteAllInteractionDbs();
             }
         });
         return view;

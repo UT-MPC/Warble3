@@ -75,6 +75,7 @@
     <string name="debugSection_settingsFragment">Debug</string>
     <string name="dbPrint_settingsFragment">Print Database</string>
     <string name="dbReset_settingsFragment">Reset Database</string>
+    <string name="dbIntHistReset_settingsFragment">Int Hist Reset Database</string>
 
     <!--Thing Activity-->
     <string name="name_thingActivity">Name : </string>
