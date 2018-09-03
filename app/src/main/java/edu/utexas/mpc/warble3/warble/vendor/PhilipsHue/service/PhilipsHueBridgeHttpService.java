@@ -32,6 +32,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,6 +43,7 @@ import edu.utexas.mpc.warble3.warble.thing.component.Light;
 import edu.utexas.mpc.warble3.warble.thing.component.LightState;
 import edu.utexas.mpc.warble3.warble.thing.component.Thing;
 import edu.utexas.mpc.warble3.warble.thing.component.ThingState;
+import edu.utexas.mpc.warble3.warble.thing.util.Location;
 import edu.utexas.mpc.warble3.warble.vendor.PhilipsHue.component.PhilipsHueLight;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -181,6 +183,18 @@ public final class PhilipsHueBridgeHttpService extends HttpService implements Ph
                 light.setManufacturerModelName(entryValue.productname);
                 light.setManufacturerModelNumber(entryValue.modelid);
                 light.setManufacturerName(entryValue.manufacturername);
+
+                Location location = new Location();
+                List<String> locationInfo = new ArrayList<>(Arrays.asList(entryValue.name.split(",")));
+                try {
+                    location.setLatitude(Double.parseDouble(locationInfo.get(1)));
+                    location.setLongitude(Double.parseDouble(locationInfo.get(2)));
+                    location.setIndoorX(Double.parseDouble(locationInfo.get(3)));
+                    location.setIndoorY(Double.parseDouble(locationInfo.get(4)));
+                    location.setIndoorZ(Double.parseDouble(locationInfo.get(5)));
+                }
+                catch (IndexOutOfBoundsException ignored) {}
+                light.setLocation(location);
 
                 lights.add(light);
             }
