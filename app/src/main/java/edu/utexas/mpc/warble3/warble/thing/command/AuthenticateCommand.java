@@ -43,4 +43,13 @@ public class AuthenticateCommand extends Command {
         this.flag1 = save;
         this.register1 = thingAccessCredential;
     }
+
+    @Override
+    public String toString() {
+        return "AuthenticateCommand{" +
+                "name=" + name +
+                ", save=" + flag1 +
+                ", credential=" + register1 +
+                '}';
+    }
 }
