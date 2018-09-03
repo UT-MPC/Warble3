@@ -43,6 +43,7 @@ import edu.utexas.mpc.warble3.util.Logging;
 import edu.utexas.mpc.warble3.warble.thing.connection.Connection;
 import edu.utexas.mpc.warble3.warble.thing.connection.HttpConnection;
 import edu.utexas.mpc.warble3.warble.thing.discovery.SSDPDiscovery;
+import edu.utexas.mpc.warble3.warble.thing.util.Location;
 import edu.utexas.mpc.warble3.warble.vendor.PhilipsHue.component.PhilipsHueBridge;
 
 public final class PhilipsHueUPnPDiscovery extends SSDPDiscovery {
@@ -89,6 +90,8 @@ public final class PhilipsHueUPnPDiscovery extends SSDPDiscovery {
             String manufacturerModelNumber;
             String manufacturerName;
 
+            Location location = null;
+
             List<Connection> connections = new ArrayList<>();
 
             PhilipsHueBridge new_bridge;
@@ -124,6 +127,8 @@ public final class PhilipsHueUPnPDiscovery extends SSDPDiscovery {
                 new_bridge.setManufacturerModelName(manufacturerModelName);
                 new_bridge.setManufacturerModelNumber(manufacturerModelNumber);
                 new_bridge.setManufacturerName(manufacturerName);
+
+                new_bridge.setLocation(location);
 
                 HttpConnection httpConnection = new HttpConnection(new_bridge, null);
                 httpConnection.setUrl(URLBaseElement.getText());
