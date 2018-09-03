@@ -66,11 +66,11 @@ public class Location implements Serializable {
     @Override
     public String toString() {
         return "Location{" +
-                "latitude=" + latitude +
-                ", longitude=" + longitude +
-                ", indoorX=" + indoorX +
-                ", indoorY=" + indoorY +
-                ", indoorZ=" + indoorZ +
+                "lat=" + latitude +
+                ", lon=" + longitude +
+                ", inX=" + indoorX +
+                ", inY=" + indoorY +
+                ", inZ=" + indoorZ +
                 '}';
     }
 
