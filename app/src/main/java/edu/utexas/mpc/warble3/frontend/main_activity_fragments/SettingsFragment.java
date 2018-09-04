@@ -36,6 +36,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.Arrays;
+import java.util.List;
+
 import edu.utexas.mpc.warble3.R;
 import edu.utexas.mpc.warble3.database.AppDatabase;
 import edu.utexas.mpc.warble3.frontend.WelcomeActivity;
@@ -73,7 +76,10 @@ public class SettingsFragment extends Fragment {
         dbPrint_settingsFragment_textView.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                if (Logging.INFO) Log.i(TAG, AppDatabase.getDatabase().toString());
+                List<String> databaseStrings = Arrays.asList(AppDatabase.getDatabase().toString().split("\n"));
+                for (String string : databaseStrings) {
+                    if (Logging.INFO) Log.i(TAG, string);
+                }
             }
         });
 
