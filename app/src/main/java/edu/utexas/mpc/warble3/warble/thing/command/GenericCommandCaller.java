@@ -25,6 +25,8 @@
 
 package edu.utexas.mpc.warble3.warble.thing.command;
 
+import edu.utexas.mpc.warble3.database.AppDatabase;
+import edu.utexas.mpc.warble3.database.InteractionHistoryDb;
 import edu.utexas.mpc.warble3.warble.thing.component.Thing;
 
 public class GenericCommandCaller extends CommandCaller {
@@ -34,6 +36,13 @@ public class GenericCommandCaller extends CommandCaller {
 
     @Override
     public Response call() {
+        InteractionHistoryDb interactionHistoryDb = new InteractionHistoryDb();
+        interactionHistoryDb.setCommand(getCommand().toString());
+        interactionHistoryDb.setThingUuid(getThing().getUuid());
+        if (getThing().getLocation() != null)
+            interactionHistoryDb.setThingLocation(getThing().getLocation().toString());
+        AppDatabase.getDatabase().saveInteractionHistoryDb(interactionHistoryDb);
+
         return getThing().callCommand(getCommand());
     }
 }

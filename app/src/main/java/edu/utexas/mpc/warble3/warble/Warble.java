@@ -128,10 +128,6 @@ public class Warble {
         thingManager.saveThing(thing);
     }
 
-    public void setThingState(Thing thing, ThingState thingState) {
-        thing.setState(thingState);
-    }
-
     public Thing loadThing(Thing thing) {
         return thingManager.loadThing(thing);
     }

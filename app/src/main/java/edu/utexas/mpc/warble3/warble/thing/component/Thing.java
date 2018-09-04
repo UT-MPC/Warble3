@@ -26,6 +26,7 @@
 package edu.utexas.mpc.warble3.warble.thing.component;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,6 +35,7 @@ import edu.utexas.mpc.warble3.warble.thing.command.Commandable;
 import edu.utexas.mpc.warble3.warble.thing.connection.Connection;
 import edu.utexas.mpc.warble3.warble.thing.credential.ThingAccessCredential;
 import edu.utexas.mpc.warble3.warble.thing.discovery.Discovery;
+import edu.utexas.mpc.warble3.warble.thing.util.Location;
 
 public abstract class Thing implements Serializable, Storeable, Commandable {
     private static final String TAG = "Thing";
@@ -65,6 +67,8 @@ public abstract class Thing implements Serializable, Storeable, Commandable {
     private THING_CONNECTION_STATE connectionState = THING_CONNECTION_STATE.INITIAL;
     private THING_AUTHENTICATION_STATE authenticationState = THING_AUTHENTICATION_STATE.UNAUTHENTICATED;
     private THING_BINDING_STATE bindingState = THING_BINDING_STATE.UNBOUND;
+
+    private Location location;
 
     private long dbid;
 
@@ -242,6 +246,14 @@ public abstract class Thing implements Serializable, Storeable, Commandable {
         this.bindingState = bindingState;
     }
 
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
     public long getDbid() {
         return dbid;
     }
@@ -254,6 +266,8 @@ public abstract class Thing implements Serializable, Storeable, Commandable {
 
     public abstract boolean authenticate(ThingAccessCredential thingAccessCredential);
 
+    public abstract void setState(ThingState thingState);
+
     public abstract void setCredentialRequired();
 
     public abstract void setThingAccessCredentialClasses();
@@ -261,8 +275,6 @@ public abstract class Thing implements Serializable, Storeable, Commandable {
     public abstract void setThingTypes();
 
     public abstract void setThingConcreteTypes();
-
-    public abstract void setState(ThingState thingState);
 
     @Override
     public void onPostStore(long dbid) {

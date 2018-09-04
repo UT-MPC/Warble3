@@ -75,6 +75,7 @@
     <string name="debugSection_settingsFragment">Debug</string>
     <string name="dbPrint_settingsFragment">Print Database</string>
     <string name="dbReset_settingsFragment">Reset Database</string>
+    <string name="dbIntHistReset_settingsFragment">Int Hist Reset Database</string>
 
     <!--Thing Activity-->
     <string name="name_thingActivity">Name : </string>
@@ -82,6 +83,7 @@
     <string name="uuid_thingActivity">UUID : </string>
     <string name="thingTypes_thingActivity">Thing Types : </string>
     <string name="concreteTypes_thingActivity">Concrete Types : </string>
+    <string name="location_thingActivity">Location : </string>
     <string name="accessName_thingActivity">Access Name : </string>
     <string name="accessUsername_thingActivity">Access Username : </string>
     <string name="accessPasscode_thingActivity">Access Passcode : </string>

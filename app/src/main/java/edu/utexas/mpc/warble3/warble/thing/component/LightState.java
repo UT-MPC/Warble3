@@ -160,14 +160,27 @@ public class LightState extends ThingState {
 
     @Override
     public String toString() {
-        return "LightState{" +
-                "active=" + active +
-                ", brightness=" + brightness +
-                ", hue=" + hue +
-                ", saturation=" + saturation +
-                ", red=" + red +
-                ", green=" + green +
-                ", blue=" + blue +
-                '}';
+        String string = "";
+
+        string += "LightState{";
+        if (active != ACTIVE_STATE.NOT_SET)
+            string += "active=" + active.toString() + ", ";
+        if (brightness >= 0)
+            string += "brightness=" + brightness + ", ";
+        if (hue >= 0)
+            string += "hue=" + hue + ", ";
+        if (saturation >= 0)
+            string += "saturation=" + saturation + ", ";
+        if (red >= 0)
+            string += "red=" + red + ", ";
+        if (green >= 0)
+            string += "green=" + green + ", ";
+        if (blue >= 0)
+            string += "blue=" + blue + ", ";
+        string += "}";
+
+        string = string.replace(", }", "}");
+
+        return string;
     }
 }

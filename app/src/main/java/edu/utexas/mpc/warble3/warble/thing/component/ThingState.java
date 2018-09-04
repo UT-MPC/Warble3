@@ -27,6 +27,7 @@ package edu.utexas.mpc.warble3.warble.thing.component;
 
 public abstract class ThingState {
     public enum ACTIVE_STATE {
+        NOT_SET,
         ON,
         OFF
     }

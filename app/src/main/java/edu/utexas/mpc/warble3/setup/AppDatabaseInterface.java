@@ -27,6 +27,7 @@ package edu.utexas.mpc.warble3.setup;
 
 import java.util.List;
 
+import edu.utexas.mpc.warble3.database.InteractionHistoryDb;
 import edu.utexas.mpc.warble3.warble.thing.component.Thing;
 import edu.utexas.mpc.warble3.warble.thing.connection.Connection;
 import edu.utexas.mpc.warble3.warble.thing.credential.ThingAccessCredential;
@@ -64,4 +65,8 @@ public interface AppDatabaseInterface {
     List<Long>                      saveThingAccessCredentials(List<ThingAccessCredential> thingAccessCredentials);
     ThingAccessCredential           loadThingAccessCredential(ThingAccessCredential thingAccessCredential);
     void                            deleteAllThingAccessCredentials();
+
+    List<InteractionHistoryDb>      getInteractionHistoryDbs();
+    long                            saveInteractionHistoryDb(InteractionHistoryDb interactionHistoryDbs);
+    void                            deleteAllInteractionDbs();
 }
