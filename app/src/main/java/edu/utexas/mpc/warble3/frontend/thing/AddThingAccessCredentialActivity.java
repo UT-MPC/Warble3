@@ -38,13 +38,16 @@ import android.widget.Toast;
 
 import edu.utexas.mpc.warble3.R;
 import edu.utexas.mpc.warble3.frontend.async_tasks.AuthenticateAsyncTask;
+import edu.utexas.mpc.warble3.frontend.async_tasks.SendCommandAsyncTask;
 import edu.utexas.mpc.warble3.util.Logging;
 import edu.utexas.mpc.warble3.util.SharedPreferenceHandler;
 import edu.utexas.mpc.warble3.util.WarbleHandler;
+import edu.utexas.mpc.warble3.warble.thing.command.AuthenticateCommand;
+import edu.utexas.mpc.warble3.warble.thing.command.Response;
 import edu.utexas.mpc.warble3.warble.thing.component.Thing;
 import edu.utexas.mpc.warble3.warble.thing.credential.UsernamePasswordCredential;
 
-public class AddThingAccessCredentialActivity extends AppCompatActivity implements AuthenticateAsyncTask.AuthenticateAsyncTaskInterface {
+public class AddThingAccessCredentialActivity extends AppCompatActivity {
     private static final String TAG = "AddThingAccessCred";
 
     public static final String THING_ACCESS_CREDENTIAL_CLASS_INTENT_EXTRA = "edu.texas.mpc.warble3.frontend.thing.AddThingAccessCredentialActivity.THING_ACCESS_CREDENTIAL_CLASS_INTENT_EXTRA";
@@ -75,7 +78,7 @@ public class AddThingAccessCredentialActivity extends AppCompatActivity implemen
                     @Override
                     public void onClick(View view) {
                         if (thing != null) {
-                            UsernamePasswordCredential newCred = new UsernamePasswordCredential(username.getText().toString(), password.getText().toString());
+                            final UsernamePasswordCredential newCred = new UsernamePasswordCredential(username.getText().toString(), password.getText().toString());
                             String currentUsername = SharedPreferenceHandler.getSharedPrefsCurrentUserSettings(AddThingAccessCredentialActivity.this).getString(SharedPreferenceHandler.SHARED_PREFS_USERNAME, null);
 
                             if (currentUsername == null) {
@@ -86,9 +89,34 @@ public class AddThingAccessCredentialActivity extends AppCompatActivity implemen
                                 newCred.setUser(WarbleHandler.getInstance().getUser(currentUsername));
                                 newCred.setThing(thing);
 
-                                AuthenticateAsyncTask authenticateAsyncTask = new AuthenticateAsyncTask(AddThingAccessCredentialActivity.this);
-                                AuthenticateAsyncTask.AuthenticateAsyncTaskParam authenticateAsyncTaskParam = new AuthenticateAsyncTask.AuthenticateAsyncTaskParam(thing, newCred);
-                                authenticateAsyncTask.execute(authenticateAsyncTaskParam);
+                                AuthenticateCommand authenticateCommand = new AuthenticateCommand(newCred);
+                                SendCommandAsyncTask sendCommandAsyncTask = new SendCommandAsyncTask(authenticateCommand, thing);
+                                sendCommandAsyncTask.setCallback(new SendCommandAsyncTask.SendCommandAsyncTaskInterface() {
+                                    @Override
+                                    public void onStart() {
+                                        progressBar.setVisibility(View.VISIBLE);
+                                        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                                    }
+
+                                    @Override
+                                    public void onComplete(Response response) {
+                                        if ((response != null) && (response.getStatus())) {
+                                            thing = WarbleHandler.getInstance().loadThing(thing);
+                                            thing.addThingAccessCredentials(newCred);
+                                            WarbleHandler.getInstance().updateThing(thing);
+                                        }
+                                        else {
+                                            Toast.makeText(AddThingAccessCredentialActivity.this, "Authentication Failed", Toast.LENGTH_SHORT).show();
+                                            if (Logging.INFO) Log.i(TAG, String.format("Authentication Failed. Thing: %s", thing.getFriendlyName()));
+                                        }
+
+                                        progressBar.setVisibility(View.GONE);
+                                        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+                                        finish();
+                                    }
+                                });
+                                sendCommandAsyncTask.execute();
                             }
                         }
                         else {
@@ -103,29 +131,5 @@ public class AddThingAccessCredentialActivity extends AppCompatActivity implemen
             default:
                 break;
         }
-    }
-
-    @Override
-    public void onAuthenticateTaskStart() {
-        progressBar.setVisibility(View.VISIBLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-    }
-
-    @Override
-    public void onAuthenticateTaskComplete(Boolean result, AuthenticateAsyncTask.AuthenticateAsyncTaskParam param) {
-        if (result) {
-            thing = param.getThing();
-            thing.addThingAccessCredentials(param.getThingAccessCredential());
-            WarbleHandler.getInstance().updateThing(thing);
-        }
-        else {
-            Toast.makeText(AddThingAccessCredentialActivity.this, "Authentication Failed", Toast.LENGTH_SHORT).show();
-            if (Logging.INFO) Log.i(TAG, String.format("Authentication Failed. Thing: %s", param.getThing().getFriendlyName()));
-        }
-
-        progressBar.setVisibility(View.GONE);
-        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-
-        finish();
     }
 }
