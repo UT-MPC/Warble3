@@ -230,6 +230,9 @@ public class ManualFragment extends Fragment {
                                 SendCommandAsyncTask task = new SendCommandAsyncTask(new SetThingStateCommand(lightState), thing);
                                 task.setCallback(new SendCommandAsyncTask.SendCommandAsyncTaskInterface() {
                                     @Override
+                                    public void onStart() {}
+
+                                    @Override
                                     public void onComplete(Response response) {
                                         if (!response.getStatus()) {
                                             if (Logging.VERBOSE) Log.v(TAG, "SendCommand is unsuccessful");

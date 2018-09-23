@@ -48,6 +48,11 @@ public class SendCommandAsyncTask extends AsyncTask<Void, Void, Response> {
     }
 
     @Override
+    protected void onPreExecute() {
+        callback.onStart();
+    }
+
+    @Override
     protected void onPostExecute(Response response) {
         if (callback != null) {
             callback.onComplete(response);
@@ -59,6 +64,7 @@ public class SendCommandAsyncTask extends AsyncTask<Void, Void, Response> {
     }
 
     public interface SendCommandAsyncTaskInterface {
+        void onStart();
         void onComplete(Response response);
     }
 }
