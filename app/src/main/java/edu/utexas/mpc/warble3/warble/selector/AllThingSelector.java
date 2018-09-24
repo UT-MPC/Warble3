@@ -23,38 +23,30 @@
  *
  */
 
-package edu.utexas.mpc.warble3.warble.modifier;
+package edu.utexas.mpc.warble3.warble.selector;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import edu.utexas.mpc.warble3.warble.thing.ThingManager;
-import edu.utexas.mpc.warble3.warble.thing.component.THING_CONCRETE_TYPE;
 import edu.utexas.mpc.warble3.warble.thing.component.Thing;
 
-public class ThingConcreteModifier extends WarbleModifier {
-    private List<THING_CONCRETE_TYPE> thingConcreteTypes;
-
-    public ThingConcreteModifier(THING_CONCRETE_TYPE... thingConcreteTypes) {
-        this.thingConcreteTypes = Arrays.asList(thingConcreteTypes);
+public class AllThingSelector extends AbstractSelector {
+    public AllThingSelector() {
+        super();
     }
 
     @Override
     public List<Thing> fetch() {
-        return select(ThingManager.getInstance().getThings());
+        return ThingManager.getInstance().getThings();
     }
 
     @Override
     public List<Thing> select(List<Thing> things) {
-        List<Thing> returnThings = new ArrayList<>();
+        return things;
+    }
 
-        for (Thing thing : things) {
-            if (thingConcreteTypes.contains(thing.getThingConcreteType())) {
-                returnThings.add(thing);
-            }
-        }
-
-        return returnThings;
+    @Override
+    public boolean equals(Object oth) {
+        return super.equals(oth);
     }
 }
