@@ -28,8 +28,8 @@ package edu.utexas.mpc.warble3.warble;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.utexas.mpc.warble3.warble.modifier.AllThingModifier;
-import edu.utexas.mpc.warble3.warble.modifier.WarbleModifier;
+import edu.utexas.mpc.warble3.warble.selector.AllThingSelector;
+import edu.utexas.mpc.warble3.warble.selector.AbstractSelector;
 import edu.utexas.mpc.warble3.warble.thing.ThingManager;
 import edu.utexas.mpc.warble3.warble.thing.command.Command;
 import edu.utexas.mpc.warble3.warble.thing.command.Response;
@@ -47,25 +47,25 @@ public class Warble {
     private UserManager userManager;
     private ThingManager thingManager;
 
-    private List<WarbleModifier> template = new ArrayList<>();
+    private List<AbstractSelector> template = new ArrayList<>();
 
     public Warble() {
         userManager = UserManager.getInstance();
         thingManager = ThingManager.getInstance();
     }
 
-    // =========== Modifier ===========
-    public void addModifier(WarbleModifier modifier) {
-        if (modifier != null) {
-            template.add(modifier);
+    // =========== Selector ===========
+    public void addSelector(AbstractSelector selector) {
+        if (selector != null) {
+            template.add(selector);
         }
     }
 
-    public List<WarbleModifier> getTemplate() {
+    public List<AbstractSelector> getTemplate() {
         return template;
     }
 
-    public void setTemplate(List<WarbleModifier> template) {
+    public void setTemplate(List<AbstractSelector> template) {
         this.template = template;
     }
 
@@ -102,11 +102,11 @@ public class Warble {
         List<Thing> things = new ArrayList<>();
 
         if ((template == null) || (template.size() == 0)) {
-            template.add(new AllThingModifier());
+            template.add(new AllThingSelector());
         }
 
-        for (WarbleModifier modifier : template) {
-            List<Thing> newThings = modifier.fetch();
+        for (AbstractSelector selector : template) {
+            List<Thing> newThings = selector.fetch();
             if (newThings != null) {
                 things.addAll(newThings);
             }
