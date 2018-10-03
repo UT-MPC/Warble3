@@ -2,8 +2,9 @@
 A flexible and expressive middleware for IoT applications. It focuses on the personalization, interoperability, and simplicity of programming. Warble encapsulates device and communication protocol complexities, representing the interaction to the IoT devices as flexible programming abstractions. Due to the Warble nature being a middleware, there are three open-ended components, i.e. interface to the application using Warble (through proxy, selector), interface to the real devices in an IoT ecosystem (through adapter, discovery), and interface to the device it resides on (through database, context builder, communication service).
 
 ## Development Status : Ongoing
-The current version has both Warble and an example of Warble application (in Android) together in the same repository. The reason is because Warble is in early development. Therefore, this repository has an Android project structure. In the near future, we are going to refactor this repository to have Warble and the application sample to be separated.
-#### Supported Communication Protocol: Wi-Fi, Bluetooth
+The current version has both Warble and an example of Warble application (in Android) together in the same repository. Therefore, this repository has an Android project structure. In the near future, we are going to refactor this repository to have Warble and the application sample to be separated.
+#### Currently Supported Communication Protocol: Wi-Fi, Bluetooth
+#### Currently Supported Discovery Protocol: SSDP, UPnP
 
 ## Quick Concepts
 Warble views the IoT structure differently compared to the today's practice of IoT. Warble's IoT view is built upon device-to-device communications and an open vision of the IoT, rather than multi-centralized structure which relies on the internet connection and cloud services.
