@@ -47,8 +47,7 @@ Warble divides IoT devices into these roles (a thing is possible to take one or 
 #### Selector
 > **Application Interface**. Selector returns the relevant *things* based on the given input by the application. *Warble* gives four pre-defined selectors (at the moment), i.e. `TypeSelector`, `NearestThingSelector`, `RangeSelector`, and `InteractionHistorySelector`. A group of *selectors* makes a template. When fetching using a template, *Warble* returns the intersection of the relevant *things* according to the *selectors*
 For example: `TypeSelector` takes a *thing* type as the input parameters, let's say SMOKE_DETECTOR. When fetching using this selector instance, *Warble* returns *thing* proxies of the relevant smoke detectors that *Warble* could reach to.
-
-Most importantly, in addition to the pre-defined *selectors*, an *application* could define its own selectors, its own algorithm to select relevant *things* based on the inputs. This serves one of *Warble* traits: Personalization.
+> Most importantly, in addition to the pre-defined *selectors*, an *application* could define its own selectors, its own algorithm to select relevant *things* based on the inputs. This serves one of *Warble* traits: Personalization.
 
 #### Interaction History
 > **Application Interface**. *Interaction History* adds on *Warble*'s Personalization trait. *Interaction History* is stored in user's personal device to protect user privacy. From these records, *Warble* and its application are able to learn effectively on selecting the relevant *things* in the form of *selectors'* algorithm.
