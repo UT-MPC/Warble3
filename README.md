@@ -96,19 +96,20 @@ Example:
 ```
 List<Thing> things = warble.fetch(template, 3);
 
-for (Thing thing : things)
-	if (thing instance of Light) {
+for (Thing thing : things) {
+  if (thing instance of Light) {
     Light light = (Light) thing;
     
     LightState lightState = new LightState();
     lightState.setActive(ThingState.ACTIVE_STATE.ON)
     
-		warble.sendCommand(new SetThingStateCommand(lightState), light)
+    warble.sendCommand(new SetThingStateCommand(lightState), light)
     
-	} else if (thing instance of Thermostat) {
-		Thermostat thermostat = (Thermostat) thing;
+  } 
+  else if (thing instance of Thermostat) {
+    Thermostat thermostat = (Thermostat) thing;
     //...
-	}
+  }
 }
 ```
 
@@ -118,26 +119,26 @@ Function `select(List<Thing> things)` implements an algorithm to select/filter r
 
 ```
 public final class LOSSelector extends Selector {
-	public LOSSelector(Location location, double heading, double angle, double range) {
-		// ... save instance variables
-	}
+  public LOSSelector(Location location, double heading, double angle, double range) {
+    // ... save instance variables
+  }
 	
-	@Override
-	public List<Thing> fetch() {
-        return select(ThingManager.getInstance().getThings());
-    }
-	
-	@Override
-	public List<Thing> select(List<Thing> things) {
-		CircleSector sector = // ... compute sector
-		List<Thing> selectedThings = new ArrayList<>();
-		
-		for(Thing thing : things) {
-			if (sector.contains(thing.getLocation())
-				selectedThings.add(thing);
-		}
-		return selectedThings;
-	}
+  @Override
+  public List<Thing> fetch() {
+    return select(ThingManager.getInstance().getThings());
+  }
+  
+  @Override
+  public List<Thing> select(List<Thing> things) {
+  	CircleSector sector = // ... compute sector
+  	List<Thing> selectedThings = new ArrayList<>();
+  	
+  	for(Thing thing : things) {
+  	  if (sector.contains(thing.getLocation())
+  	    selectedThings.add(thing);
+  	}
+  	return selectedThings;
+  }
 }
 ```
 
