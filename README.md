@@ -7,7 +7,7 @@ The current version has both Warble and an example of Warble application (in And
 #### Currently Supported Discovery Protocol: SSDP, UPnP
 
 ## Quick Concepts
-Warble views the IoT structure differently compared to the today's practice of IoT. Warble's IoT view is built upon device-to-device communications and an open vision of the IoT, rather than multi-centralized structure which relies on the internet connection and cloud services.
+Warble views the IoT structure differently compared to the today's practice of IoT. Warble's IoT view is built upon device-to-device communications and an open vision of the IoT, rather than multi-centralized structure which relies on the internet connection and cloud services. However, the current centralized structure mostly adopted today can still work with *Warble*.
 
 <img src="doc/media/WarbleIoTStructure.png" width="300px"/>
 
