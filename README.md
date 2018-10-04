@@ -130,14 +130,14 @@ public final class LOSSelector extends Selector {
   
   @Override
   public List<Thing> select(List<Thing> things) {
-  	CircleSector sector = // ... compute sector
-  	List<Thing> selectedThings = new ArrayList<>();
-  	
-  	for(Thing thing : things) {
-  	  if (sector.contains(thing.getLocation())
-  	    selectedThings.add(thing);
-  	}
-  	return selectedThings;
+    CircleSector sector = // ... compute sector
+    List<Thing> selectedThings = new ArrayList<>();
+    
+    for(Thing thing : things) {
+      if (sector.contains(thing.getLocation())
+        selectedThings.add(thing);
+    }
+    return selectedThings;
   }
 }
 ```
