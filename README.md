@@ -87,10 +87,10 @@ List<Thing> things = warble.fetch(template, 3);    // fetch() returns the thing 
 ### Sending Command to a Thing
 Use `warble.sendCommand(command : Command, thing : Thing)` to send a command to a thing. `thing` is the *thing* proxy returned by `warble.fetch()` wherease `command` can be instatantiated from `edu.utexas.mpc.warble3.warble.thing.command` package. The table below lists down the supported commands at the moment.
 
-| Supported Command                                  | Description                            |
-| -------------------------------------------------- | -------------------------------------- |
-| AuthenticateCommand(cred : ThingAccessCredential)  | Command to authenticate a thing        |
-| SetThingStateCommand(thingState : ThingState)      | Command to set thing state of a thing  |
+| Supported Command                                    | Description                            |
+| ---------------------------------------------------- | -------------------------------------- |
+| `AuthenticateCommand(cred : ThingAccessCredential)`  | Command to authenticate a thing        |
+| `SetThingStateCommand(thingState : ThingState)`      | Command to set thing state of a thing  |
 
 Example:
 ```
