@@ -31,6 +31,8 @@ import edu.utexas.mpc.warble3.warble.thing.ThingManager;
 import edu.utexas.mpc.warble3.warble.thing.component.Thing;
 
 public class AllThingSelector extends AbstractSelector {
+    private static String TAG = "AllThingSelector";
+
     public AllThingSelector() {
         super();
     }

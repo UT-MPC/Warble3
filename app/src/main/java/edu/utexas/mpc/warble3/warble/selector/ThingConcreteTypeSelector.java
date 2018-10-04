@@ -34,6 +34,8 @@ import edu.utexas.mpc.warble3.warble.thing.component.THING_CONCRETE_TYPE;
 import edu.utexas.mpc.warble3.warble.thing.component.Thing;
 
 public class ThingConcreteTypeSelector extends AbstractSelector {
+    private static String TAG = "ThingConcreteTypeSelector";
+
     private List<THING_CONCRETE_TYPE> thingConcreteTypes;
 
     public ThingConcreteTypeSelector(THING_CONCRETE_TYPE... thingConcreteTypes) {

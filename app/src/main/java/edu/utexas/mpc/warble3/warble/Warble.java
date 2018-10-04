@@ -28,13 +28,12 @@ package edu.utexas.mpc.warble3.warble;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.utexas.mpc.warble3.warble.selector.AllThingSelector;
 import edu.utexas.mpc.warble3.warble.selector.AbstractSelector;
+import edu.utexas.mpc.warble3.warble.selector.AllThingSelector;
 import edu.utexas.mpc.warble3.warble.thing.ThingManager;
 import edu.utexas.mpc.warble3.warble.thing.command.Command;
 import edu.utexas.mpc.warble3.warble.thing.command.Response;
 import edu.utexas.mpc.warble3.warble.thing.component.Thing;
-import edu.utexas.mpc.warble3.warble.thing.component.ThingState;
 import edu.utexas.mpc.warble3.warble.user.DuplicateUsernameException;
 import edu.utexas.mpc.warble3.warble.user.InvalidPasswordException;
 import edu.utexas.mpc.warble3.warble.user.InvalidUsernameException;
@@ -118,6 +117,10 @@ public class Warble {
         else {
             return things;
         }
+    }
+
+    public void reject(List<Thing> things) {
+        // TODO: Implement
     }
 
     public void authenticateThings() {

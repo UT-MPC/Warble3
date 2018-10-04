@@ -115,10 +115,12 @@ public final class PhilipsHueBridgeHttpService extends HttpService implements Ph
         if (responseBody != null) {
             Map<String, MainResponse.Config.User> whitelist = responseBody.getWhitelist();
 
-            String name = whitelist.get(user).getName();
+            if (whitelist != null) {
+                String name = whitelist.get(user).getName();
 
-            if (name != null){
-                return name;
+                if (name != null){
+                    return name;
+                }
             }
             else {
                 return null;
