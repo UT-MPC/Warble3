@@ -7,7 +7,7 @@ The current version has both Warble and an example of Warble application (in And
 #### Currently Supported Discovery Protocol: SSDP, UPnP
 
 ## Quick Concepts
-Warble views the IoT structure differently compared to the today's practice of IoT. Warble's IoT view is built upon device-to-device communications and an open vision of the IoT, rather than multi-centralized structure which relies on the internet connection and cloud services.
+Warble views the IoT structure differently compared to the today's practice of IoT. Warble's IoT view is built upon device-to-device communications and an open vision of the IoT, rather than multi-centralized structure which relies on the internet connection and cloud services. However, the current centralized structure mostly adopted today can still work with *Warble*.
 
 <img src="doc/media/WarbleIoTStructure.png" width="300px"/>
 
@@ -30,6 +30,9 @@ Warble divides IoT devices into these roles (a thing is possible to take one or 
   > an application that uses Warble on its core to interact with *things*.
 
 ### Warble Components and Architecture
+
+<img src="doc/media/WarbleArchitecture.png" width="300px"/>
+
 #### Warble API
 > **Application Interface**. *Application* interacts with Warble using the API accessible via *Warble* instance (there is no static methods).
 
@@ -64,3 +67,89 @@ For example: `TypeSelector` takes a *thing* type as the input parameters, let's 
 
 #### Communication Service
 > **Host Interface**. *Communication Service* is fulfilled and also limited by the communication capabilities of the *controller*, for example: Wi-Fi, bluetooth.
+
+## How to Use Warble?
+### Instantiation
+```
+Warble warble = new Warble();
+```
+
+### One-Time Binding
+```
+List<Selector> template = new ArrayList<Selector>();
+template.add(new TypeSelector(THING_CONCRETE_TYPE.LIGHT, THING_CONCRETE_TYPE.THERMOSTAT));
+template.add(new NearestThingSelector(myLoc));
+template.add(new InteractionHistorySelector(myLoc));
+
+List<Thing> things = warble.fetch(template, 3);    // fetch() returns the thing proxies
+```
+
+### Sending Command to a Thing
+Use `warble.sendCommand(command : Command, thing : Thing)` to send a command to a thing. `thing` is the *thing* proxy returned by `warble.fetch()` wherease `command` can be instatantiated from `edu.utexas.mpc.warble3.warble.thing.command` package. The table below lists down the supported commands at the moment.
+
+| Supported Command                                    | Description                            |
+| ---------------------------------------------------- | -------------------------------------- |
+| `AuthenticateCommand(cred : ThingAccessCredential)`  | Command to authenticate a thing        |
+| `SetThingStateCommand(thingState : ThingState)`      | Command to set thing state of a thing  |
+
+Example:
+```
+List<Thing> things = warble.fetch(template, 3);
+
+for (Thing thing : things) {
+  if (thing instance of Light) {
+    Light light = (Light) thing;
+    
+    LightState lightState = new LightState();
+    lightState.setActive(ThingState.ACTIVE_STATE.ON)
+    
+    warble.sendCommand(new SetThingStateCommand(lightState), light)
+    
+  } 
+  else if (thing instance of Thermostat) {
+    Thermostat thermostat = (Thermostat) thing;
+    //...
+  }
+}
+```
+
+### Creating a Custom *Selector*
+A custom *selector* can be built by creating a new class extending *Selector* class. Next, we override two functions, i.e. `fetch()` and `select(List<Thing> things)`.
+Function `select(List<Thing> things)` implements an algorithm to select/filter relevant *things* from the input *things*. Therefore, this function can be used to filter *things* independently. Function `fetch()` returns relevant *things* without the caller explicitly giving the input *things*. The input *things* comes from *Warble* database or a custom way to get the input *things*.
+
+```
+public final class LOSSelector extends Selector {
+  public LOSSelector(Location location, double heading, double angle, double range) {
+    // ... save instance variables
+  }
+	
+  @Override
+  public List<Thing> fetch() {
+    return select(ThingManager.getInstance().getThings());
+  }
+  
+  @Override
+  public List<Thing> select(List<Thing> things) {
+    CircleSector sector = // ... compute sector
+    List<Thing> selectedThings = new ArrayList<>();
+    
+    for(Thing thing : things) {
+      if (sector.contains(thing.getLocation())
+        selectedThings.add(thing);
+    }
+    return selectedThings;
+  }
+}
+```
+
+<!--### Dynamic Binding
+Plan plan = new Plan();
+plan.set(Plan.LIGHTING_ON, True);
+plan.set(Plan.LIGHTING_COLOR, "green");
+plan.set(Plan.LIGHTING_BRIGHTNESS, 0.5);
+plan.set(Plan.AMBIENT_TEMPERATURE, 298);-->
+<!--DBinding dBind = warble.dynamicBind(template, 3);
+dBind.bind(plan); // start binding based on plan
+// ...
+plan.set(Plan.LIGHTING_COLOR, "RGB#EEEEEE");
+dBind.bind(plan); // bind again with changed light color-->
