@@ -38,7 +38,7 @@ import edu.utexas.mpc.warble.thing.credential.ThingAccessCredential;
 import edu.utexas.mpc.warble.thing.credential.UsernamePasswordCredential;
 import edu.utexas.mpc.warble.thing.discovery.Discovery;
 import edu.utexas.mpc.warble.vendor.PhilipsHue.discovery.PhilipsHueUPnPDiscovery;
-import edu.utexas.mpc.warble.vendor.PhilipsHue.service.PhilipsHueBridgeHttpService;
+import edu.utexas.mpc.warble.vendor.PhilipsHue.service.PhilipsHueBridgeHttpServiceAdapter;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -61,7 +61,7 @@ public final class PhilipsHueBridge extends Bridge {
 
         for (Connection connection : getConnections()) {
             if (connection instanceof HttpConnection) {
-                PhilipsHueBridgeHttpService service = new PhilipsHueBridgeHttpService(((HttpConnection) connection).getUrl());
+                PhilipsHueBridgeHttpServiceAdapter service = new PhilipsHueBridgeHttpServiceAdapter(((HttpConnection) connection).getUrl());
 
                 if (getThingAccessCredentials() != null) {
                     for (ThingAccessCredential thingAccessCredential : getThingAccessCredentials()) {
@@ -106,7 +106,7 @@ public final class PhilipsHueBridge extends Bridge {
     public boolean updateThingState(Thing thing, ThingState thingState) {
         for (Connection connection : getConnections()) {
             if (connection instanceof HttpConnection) {
-                PhilipsHueBridgeHttpService service = new PhilipsHueBridgeHttpService(((HttpConnection) connection).getUrl());
+                PhilipsHueBridgeHttpServiceAdapter service = new PhilipsHueBridgeHttpServiceAdapter(((HttpConnection) connection).getUrl());
 
                 if (getThingAccessCredentials() != null) {
                     for (ThingAccessCredential thingAccessCredential : getThingAccessCredentials()) {
@@ -180,7 +180,7 @@ public final class PhilipsHueBridge extends Bridge {
 
         for (Connection connection : getConnections()) {
             if (connection instanceof HttpConnection) {
-                PhilipsHueBridgeHttpService service = new PhilipsHueBridgeHttpService(((HttpConnection) connection).getUrl());
+                PhilipsHueBridgeHttpServiceAdapter service = new PhilipsHueBridgeHttpServiceAdapter(((HttpConnection) connection).getUrl());
 
                 if (thingAccessCredential instanceof UsernamePasswordCredential) {
                     UsernamePasswordCredential usernamePasswordCredential = (UsernamePasswordCredential) thingAccessCredential;

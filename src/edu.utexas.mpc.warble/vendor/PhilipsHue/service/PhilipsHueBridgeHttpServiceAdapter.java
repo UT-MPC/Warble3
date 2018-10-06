@@ -26,7 +26,7 @@ package edu.utexas.mpc.warble.vendor.PhilipsHue.service;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import edu.utexas.mpc.warble.service.HttpService;
+import edu.utexas.mpc.warble.service.BaseHttpServiceAdapter;
 import edu.utexas.mpc.warble.thing.component.Light;
 import edu.utexas.mpc.warble.thing.component.LightState;
 import edu.utexas.mpc.warble.thing.component.Thing;
@@ -41,13 +41,13 @@ import java.io.IOException;
 import java.util.*;
 import java.util.logging.Logger;
 
-public final class PhilipsHueBridgeHttpService extends HttpService implements PhilipsHueBridgeHttpInterface {
-    private static final String TAG = PhilipsHueBridgeHttpService.class.getSimpleName();
+public final class PhilipsHueBridgeHttpServiceAdapter extends BaseHttpServiceAdapter implements PhilipsHueBridgeHttpInterface {
+    private static final String TAG = PhilipsHueBridgeHttpServiceAdapter.class.getSimpleName();
     private static final Logger LOGGER = Logger.getLogger(TAG);
 
     private PhilipsHueBridgeRestApi api;
 
-    public PhilipsHueBridgeHttpService(String baseUrl) {
+    public PhilipsHueBridgeHttpServiceAdapter(String baseUrl) {
         super();
         api = getInstance(baseUrl).create(PhilipsHueBridgeRestApi.class);
     }
