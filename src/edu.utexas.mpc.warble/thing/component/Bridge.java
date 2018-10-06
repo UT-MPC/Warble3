@@ -28,9 +28,11 @@ import edu.utexas.mpc.warble.thing.feature.Accessor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public abstract class Bridge extends Thing implements Accessor {
-    public static final String TAG = "Bridge";
+    private static final String TAG = Bridge.class.getSimpleName();
+    private static final Logger LOGGER = Logger.getLogger(TAG);
 
     @Override
     public void setThingTypes() {

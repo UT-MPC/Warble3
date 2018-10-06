@@ -26,7 +26,12 @@ package edu.utexas.mpc.warble.thing.command;
 
 import edu.utexas.mpc.warble.thing.component.ThingState;
 
+import java.util.logging.Logger;
+
 public class SetThingStateCommand extends Command {
+    private static final String TAG = SetThingStateCommand.class.getSimpleName();
+    private static final Logger LOGGER = Logger.getLogger(TAG);
+
     public SetThingStateCommand(ThingState thingState) {
         super();
 

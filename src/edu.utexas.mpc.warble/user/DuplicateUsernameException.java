@@ -24,6 +24,9 @@
 
 package edu.utexas.mpc.warble.user;
 
+import java.util.logging.Logger;
+
 public class DuplicateUsernameException extends Exception {
-    private static final String TAG = "DuplicateUsernameException";
+    private static final String TAG = DuplicateUsernameException.class.getSimpleName();
+    private static final Logger LOGGER = Logger.getLogger(TAG);
 }

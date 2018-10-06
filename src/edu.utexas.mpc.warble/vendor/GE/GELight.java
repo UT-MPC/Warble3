@@ -30,7 +30,12 @@ import edu.utexas.mpc.warble.thing.component.Light;
 import edu.utexas.mpc.warble.thing.component.ThingState;
 import edu.utexas.mpc.warble.thing.credential.ThingAccessCredential;
 
+import java.util.logging.Logger;
+
 public final class GELight extends Light {
+    private static final String TAG = GELight.class.getSimpleName();
+    private static final Logger LOGGER = Logger.getLogger(TAG);
+
     public GELight() {
         super();
     }

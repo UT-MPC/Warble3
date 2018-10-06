@@ -28,8 +28,12 @@ import edu.utexas.mpc.warble.thing.component.Thing;
 import edu.utexas.mpc.warble.thing.discovery.Discovery;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 public final class GEDiscovery extends Discovery {
+    private static final String TAG = GEDiscovery.class.getSimpleName();
+    private static final Logger LOGGER = Logger.getLogger(TAG);
+
     @Override
     public List<? extends Thing> onDiscover() {
         return null;

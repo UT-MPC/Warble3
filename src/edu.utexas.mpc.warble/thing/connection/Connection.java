@@ -29,9 +29,11 @@ import edu.utexas.mpc.warble3.database.interfaces.ConnectionStoreable;
 import edu.utexas.mpc.warble3.database.interfaces.Storeable;
 
 import java.io.Serializable;
+import java.util.logging.Logger;
 
 public abstract class Connection implements Serializable, Storeable, ConnectionStoreable {
-    private static final String TAG = "Connection";
+    private static final String TAG = Connection.class.getSimpleName();
+    private static final Logger LOGGER = Logger.getLogger(TAG);
 
     public static enum DIRECTIONAL_TYPE {
         UNIDIRECTIONAL,

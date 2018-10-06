@@ -24,19 +24,21 @@
 
 package edu.utexas.mpc.warble;
 
-import edu.utexas.mpc.warble3.warble.selector.AbstractSelector;
-import edu.utexas.mpc.warble3.warble.selector.AllThingSelector;
-import edu.utexas.mpc.warble3.warble.thing.ThingManager;
-import edu.utexas.mpc.warble3.warble.thing.command.Command;
-import edu.utexas.mpc.warble3.warble.thing.command.Response;
-import edu.utexas.mpc.warble3.warble.thing.component.Thing;
-import edu.utexas.mpc.warble3.warble.user.*;
+import edu.utexas.mpc.warble.selector.AbstractSelector;
+import edu.utexas.mpc.warble.selector.AllThingSelector;
+import edu.utexas.mpc.warble.thing.ThingManager;
+import edu.utexas.mpc.warble.thing.command.Command;
+import edu.utexas.mpc.warble.thing.command.Response;
+import edu.utexas.mpc.warble.thing.component.Thing;
+import edu.utexas.mpc.warble.user.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class Warble {
-    private static final String TAG = "Warble";
+    private static final String TAG = Warble.class.getSimpleName();
+    private static final Logger LOGGER = Logger.getLogger(TAG);
 
     private UserManager userManager;
     private ThingManager thingManager;

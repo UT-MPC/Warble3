@@ -27,11 +27,13 @@ package edu.utexas.mpc.warble.thing.connection;
 import edu.utexas.mpc.warble.thing.component.Thing;
 import edu.utexas.mpc.warble3.database.interfaces.ConnectionStoreable;
 
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class HttpConnection extends Connection implements ConnectionStoreable {
-    private static final String TAG = "HttpConnection";
+    private static final String TAG = HttpConnection.class.getSimpleName();
+    private static final Logger LOGGER = Logger.getLogger(TAG);
 
     public enum IP_TYPE {
         IPv4,

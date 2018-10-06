@@ -26,5 +26,9 @@ package edu.utexas.mpc.warble.vendor.Wink;
 
 import edu.utexas.mpc.warble.thing.component.BridgeState;
 
+import java.util.logging.Logger;
+
 public final class WinkBridgeState extends BridgeState {
+    private static final String TAG = WinkBridgeState.class.getSimpleName();
+    private static final Logger LOGGER = Logger.getLogger(TAG);
 }

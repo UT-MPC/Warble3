@@ -24,7 +24,12 @@
 
 package edu.utexas.mpc.warble.thing.command;
 
+import java.util.logging.Logger;
+
 public class GenericResponse extends Response {
+    private static final String TAG = GenericResponse.class.getSimpleName();
+    private static final Logger LOGGER = Logger.getLogger(TAG);
+
     public GenericResponse() {
         super();
     }

@@ -26,5 +26,9 @@ package edu.utexas.mpc.warble.vendor.PhilipsHue.component;
 
 import edu.utexas.mpc.warble.thing.component.LightState;
 
+import java.util.logging.Logger;
+
 public final class PhilipsHueLightState extends LightState {
+    private static final String TAG = PhilipsHueLightState.class.getSimpleName();
+    private static final Logger LOGGER = Logger.getLogger(TAG);
 }

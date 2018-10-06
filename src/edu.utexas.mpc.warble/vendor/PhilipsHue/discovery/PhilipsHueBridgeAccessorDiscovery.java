@@ -29,8 +29,12 @@ import edu.utexas.mpc.warble.thing.discovery.AccessorDiscovery;
 import edu.utexas.mpc.warble.vendor.PhilipsHue.component.PhilipsHueBridge;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 public final class PhilipsHueBridgeAccessorDiscovery extends AccessorDiscovery {
+    private static final String TAG = PhilipsHueBridgeAccessorDiscovery.class.getSimpleName();
+    private static final Logger LOGGER = Logger.getLogger(TAG);
+
     private final PhilipsHueBridge philipsHueBridge;
 
     public PhilipsHueBridgeAccessorDiscovery(PhilipsHueBridge philipsHueBridge) {

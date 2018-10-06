@@ -24,11 +24,13 @@
 
 package edu.utexas.mpc.warble.thing.credential;
 
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class UsernamePasswordCredential extends ThingAccessCredential {
-    public static final String TAG = "UsernamePasswordCredential";
+    private static final String TAG = UsernamePasswordCredential.class.getSimpleName();
+    private static final Logger LOGGER = Logger.getLogger(TAG);
 
     private String username;
     private String password;

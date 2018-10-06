@@ -34,8 +34,11 @@ import edu.utexas.mpc.warble.thing.connection.Connection;
 import edu.utexas.mpc.warble.thing.credential.ThingAccessCredential;
 import edu.utexas.mpc.warble.thing.feature.Accessor;
 
+import java.util.logging.Logger;
+
 public final class PhilipsHueLight extends Light {
-    private static final String TAG = "PhilipsHueLight";
+    private static final String TAG = PhilipsHueLight.class.getSimpleName();
+    private static final Logger LOGGER = Logger.getLogger(TAG);
 
     public PhilipsHueLight() {
         super();

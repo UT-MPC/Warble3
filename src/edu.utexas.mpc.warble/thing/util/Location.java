@@ -28,8 +28,12 @@ import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
 
 import java.io.Serializable;
+import java.util.logging.Logger;
 
 public class Location implements Serializable {
+    private static final String TAG = Location.class.getSimpleName();
+    private static final Logger LOGGER = Logger.getLogger(TAG);
+
     @Expose private double latitude;
     @Expose private double longitude;
 

@@ -26,9 +26,11 @@ package edu.utexas.mpc.warble.thing.component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public abstract class Alarm extends Thing {
-    public static final String TAG = "Alarm";
+    private static final String TAG = Alarm.class.getSimpleName();
+    private static final Logger LOGGER = Logger.getLogger(TAG);
 
     @Override
     public void setThingTypes() {

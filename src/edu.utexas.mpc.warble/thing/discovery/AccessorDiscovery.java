@@ -24,5 +24,9 @@
 
 package edu.utexas.mpc.warble.thing.discovery;
 
+import java.util.logging.Logger;
+
 public abstract class AccessorDiscovery extends Discovery {
+    private static final String TAG = AccessorDiscovery.class.getSimpleName();
+    private static final Logger LOGGER = Logger.getLogger(TAG);
 }

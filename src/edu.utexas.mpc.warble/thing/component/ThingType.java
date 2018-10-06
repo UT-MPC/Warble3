@@ -25,9 +25,11 @@
 package edu.utexas.mpc.warble.thing.component;
 
 import java.io.Serializable;
+import java.util.logging.Logger;
 
 public class ThingType implements Serializable {
-    public static final String TAG = "ThingType";
+    private static final String TAG = ThingType.class.getSimpleName();
+    private static final Logger LOGGER = Logger.getLogger(TAG);
 
     private THING_MAIN_TYPE thingMainType;
     private THING_FUNCTION_TYPE thingFunctionType;

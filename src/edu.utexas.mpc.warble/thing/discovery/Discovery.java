@@ -24,13 +24,15 @@
 
 package edu.utexas.mpc.warble.thing.discovery;
 
-import edu.utexas.mpc.warble3.warble.thing.component.Thing;
+import edu.utexas.mpc.warble.thing.component.Thing;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.logging.Logger;
 
 public abstract class Discovery implements Serializable {
-    private static String TAG = "Discovery";
+    private static final String TAG = Discovery.class.getSimpleName();
+    private static final Logger LOGGER = Logger.getLogger(TAG);
 
     public abstract List<? extends Thing> onDiscover();
 

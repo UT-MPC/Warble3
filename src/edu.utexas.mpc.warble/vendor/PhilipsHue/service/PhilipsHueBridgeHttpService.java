@@ -39,9 +39,11 @@ import retrofit2.http.*;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.logging.Logger;
 
 public final class PhilipsHueBridgeHttpService extends HttpService implements PhilipsHueBridgeHttpInterface {
-    private static String TAG = "PhilipsHueBridgeHttpService";
+    private static final String TAG = PhilipsHueBridgeHttpService.class.getSimpleName();
+    private static final Logger LOGGER = Logger.getLogger(TAG);
 
     private PhilipsHueBridgeRestApi api;
 

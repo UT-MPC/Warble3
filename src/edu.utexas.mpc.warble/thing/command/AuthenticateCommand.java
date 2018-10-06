@@ -26,7 +26,12 @@ package edu.utexas.mpc.warble.thing.command;
 
 import edu.utexas.mpc.warble.thing.credential.ThingAccessCredential;
 
+import java.util.logging.Logger;
+
 public class AuthenticateCommand extends Command {
+    private static final String TAG = AuthenticateCommand.class.getSimpleName();
+    private static final Logger LOGGER = Logger.getLogger(TAG);
+
     public AuthenticateCommand(ThingAccessCredential thingAccessCredential) {
         super();
         this.name = COMMAND_NAME.AUTHENTICATE;

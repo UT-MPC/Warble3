@@ -28,8 +28,12 @@ import edu.utexas.mpc.warble.thing.component.Thing;
 import edu.utexas.mpc.warble.thing.discovery.ServerDiscovery;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 public final class WinkDiscovery extends ServerDiscovery {
+    private static final String TAG = WinkDiscovery.class.getSimpleName();
+    private static final Logger LOGGER = Logger.getLogger(TAG);
+
     @Override
     public List<? extends Thing> onDiscover() {
         return null;

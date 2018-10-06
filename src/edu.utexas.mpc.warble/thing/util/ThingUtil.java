@@ -30,8 +30,12 @@ import edu.utexas.mpc.warble.thing.component.Thing;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class ThingUtil {
+    private static final String TAG = ThingUtil.class.getSimpleName();
+    private static final Logger LOGGER = Logger.getLogger(TAG);
+
     public static HashMap<THING_CONCRETE_TYPE, List<Thing>> toThingHashMapByConcreteType(List<Thing> things) {
         if (things == null) {
             return null;

@@ -24,6 +24,9 @@
 
 package edu.utexas.mpc.warble.thing.component;
 
+import java.util.logging.Logger;
+
 public abstract class BridgeState extends ThingState {
-    public static final String TAG = "BridgeState";
+    private static final String TAG = BridgeState.class.getSimpleName();
+    private static final Logger LOGGER = Logger.getLogger(TAG);
 }

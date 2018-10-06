@@ -44,7 +44,7 @@ import java.util.regex.Pattern;
 
 public final class PhilipsHueUPnPDiscovery extends SSDPDiscovery {
     private static final String TAG = PhilipsHueUPnPDiscovery.class.getSimpleName();
-    private static final Logger LOGGER = Logger.getLogger(PhilipsHueUPnPDiscovery.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(TAG);
 
     private static final String RESPONSE_SIGNATURE = "IpBridge";
 

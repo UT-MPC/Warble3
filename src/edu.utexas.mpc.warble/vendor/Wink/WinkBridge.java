@@ -34,8 +34,12 @@ import edu.utexas.mpc.warble.thing.credential.UsernamePasswordCredential;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Logger;
 
 public final class WinkBridge extends Bridge {
+    private static final String TAG = WinkBridge.class.getSimpleName();
+    private static final Logger LOGGER = Logger.getLogger(TAG);
+
     public WinkBridge() {
         super();
     }

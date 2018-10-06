@@ -28,7 +28,12 @@ import edu.utexas.mpc.warble.thing.component.Thing;
 import edu.utexas.mpc.warble3.database.AppDatabase;
 import edu.utexas.mpc.warble3.database.InteractionHistoryDb;
 
+import java.util.logging.Logger;
+
 public class GenericCommandCaller extends CommandCaller {
+    private static final String TAG = GenericCommandCaller.class.getSimpleName();
+    private static final Logger LOGGER = Logger.getLogger(TAG);
+
     public GenericCommandCaller(Command command, Thing thing) {
         super(command, thing);
     }

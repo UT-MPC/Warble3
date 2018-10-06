@@ -26,5 +26,9 @@ package edu.utexas.mpc.warble.vendor.GE;
 
 import edu.utexas.mpc.warble.thing.component.LightState;
 
+import java.util.logging.Logger;
+
 public final class GELightState extends LightState {
+    private static final String TAG = GELightState.class.getSimpleName();
+    private static final Logger LOGGER = Logger.getLogger(TAG);
 }

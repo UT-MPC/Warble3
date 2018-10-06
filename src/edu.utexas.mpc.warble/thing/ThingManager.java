@@ -43,9 +43,11 @@ import edu.utexas.mpc.warble3.warble.vendor.Wink.WinkDiscovery;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class ThingManager {
-    private static final String TAG = "ThingManager";
+    private static final String TAG = ThingManager.class.getSimpleName();
+    private static final Logger LOGGER = Logger.getLogger(TAG);
 
     private static ThingManager instance = new ThingManager();
 

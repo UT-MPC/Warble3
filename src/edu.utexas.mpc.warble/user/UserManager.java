@@ -24,11 +24,11 @@
 
 package edu.utexas.mpc.warble.user;
 
-import android.database.sqlite.SQLiteConstraintException;
-import edu.utexas.mpc.warble3.database.AppDatabase;
+import java.util.logging.Logger;
 
 public class UserManager {
-    private static final String TAG = "UserManager";
+    private static final String TAG = UserManager.class.getSimpleName();
+    private static final Logger LOGGER = Logger.getLogger(TAG);
 
     private static UserManager instance = new UserManager();
 

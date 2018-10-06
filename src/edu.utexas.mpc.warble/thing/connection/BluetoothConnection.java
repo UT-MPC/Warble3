@@ -27,8 +27,11 @@ package edu.utexas.mpc.warble.thing.connection;
 import edu.utexas.mpc.warble.thing.component.Thing;
 import edu.utexas.mpc.warble3.database.interfaces.ConnectionStoreable;
 
+import java.util.logging.Logger;
+
 public class BluetoothConnection extends Connection implements ConnectionStoreable {
-    private static final String TAG = "BluetoothConnection";
+    private static final String TAG = BluetoothConnection.class.getSimpleName();
+    private static final Logger LOGGER = Logger.getLogger(TAG);
 
     public BluetoothConnection(Thing source, Thing destination) {
         super(source, destination);

@@ -24,8 +24,11 @@
 
 package edu.utexas.mpc.warble.thing.component;
 
+import java.util.logging.Logger;
+
 public class LightState extends ThingState {
-    private static String TAG = "ThingState";
+    private static final String TAG = LightState.class.getSimpleName();
+    private static final Logger LOGGER = Logger.getLogger(TAG);
 
     private ACTIVE_STATE active;
 

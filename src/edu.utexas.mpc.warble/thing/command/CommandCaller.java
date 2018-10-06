@@ -26,7 +26,12 @@ package edu.utexas.mpc.warble.thing.command;
 
 import edu.utexas.mpc.warble.thing.component.Thing;
 
+import java.util.logging.Logger;
+
 public abstract class CommandCaller {
+    private static final String TAG = CommandCaller.class.getSimpleName();
+    private static final Logger LOGGER = Logger.getLogger(TAG);
+
     private Command command;
     private Thing thing;
 

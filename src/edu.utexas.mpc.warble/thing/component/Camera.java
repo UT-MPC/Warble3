@@ -26,9 +26,11 @@ package edu.utexas.mpc.warble.thing.component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public abstract class Camera extends Thing {
-    public static final String TAG = "Camera";
+    private static final String TAG = Camera.class.getSimpleName();
+    private static final Logger LOGGER = Logger.getLogger(TAG);
 
     @Override
     public void setThingTypes() {

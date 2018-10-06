@@ -26,9 +26,11 @@ package edu.utexas.mpc.warble.thing.component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public abstract class WaterHeater extends Thing {
-    public static final String TAG = "WaterHeater";
+    private static final String TAG = WaterHeater.class.getSimpleName();
+    private static final Logger LOGGER = Logger.getLogger(TAG);
 
     @Override
     public void setThingTypes() {

@@ -25,9 +25,11 @@
 package edu.utexas.mpc.warble.user;
 
 import java.io.Serializable;
+import java.util.logging.Logger;
 
 public class User implements Serializable {
-    public static final String TAG = "User";
+    private static final String TAG = User.class.getSimpleName();
+    private static final Logger LOGGER = Logger.getLogger(TAG);
 
     private String username;
     private String password;

@@ -24,5 +24,9 @@
 
 package edu.utexas.mpc.warble.user;
 
+import java.util.logging.Logger;
+
 public class UserControl {
+    private static final String TAG = UserControl.class.getSimpleName();
+    private static final Logger LOGGER = Logger.getLogger(TAG);
 }

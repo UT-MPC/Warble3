@@ -24,5 +24,9 @@
 
 package edu.utexas.mpc.warble.thing.component;
 
+import java.util.logging.Logger;
+
 public abstract class RefrigeratorState extends ThingState {
+    private static final String TAG = RefrigeratorState.class.getSimpleName();
+    private static final Logger LOGGER = Logger.getLogger(TAG);
 }

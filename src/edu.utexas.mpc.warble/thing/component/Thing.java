@@ -34,9 +34,11 @@ import edu.utexas.mpc.warble3.database.interfaces.Storeable;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public abstract class Thing implements Serializable, Storeable, Commandable {
-    private static final String TAG = "Thing";
+    private static final String TAG = Thing.class.getSimpleName();
+    private static final Logger LOGGER = Logger.getLogger(TAG);
 
     private String name;
     private String friendlyName;

@@ -26,5 +26,9 @@ package edu.utexas.mpc.warble.vendor.PhilipsHue.component;
 
 import edu.utexas.mpc.warble.thing.component.BridgeState;
 
+import java.util.logging.Logger;
+
 public final class PhilipsHueBridgeState extends BridgeState {
+    private static final String TAG = PhilipsHueBridgeState.class.getSimpleName();
+    private static final Logger LOGGER = Logger.getLogger(TAG);
 }

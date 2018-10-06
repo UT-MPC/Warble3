@@ -24,5 +24,9 @@
 
 package edu.utexas.mpc.warble.service;
 
+import java.util.logging.Logger;
+
 public abstract class Service {
+    private static final String TAG = Service.class.getSimpleName();
+    private static final Logger LOGGER = Logger.getLogger(TAG);
 }

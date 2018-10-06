@@ -31,8 +31,8 @@ import java.util.List;
 import java.util.logging.Logger;
 
 public abstract class SSDPDiscovery extends Discovery {
-    private static final String TAG = "SSDPDiscovery";
-    private static final Logger LOGGER = Logger.getLogger(SSDPDiscovery.class.getName());
+    private static final String TAG = SSDPDiscovery.class.getSimpleName();
+    private static final Logger LOGGER = Logger.getLogger(TAG);
 
     protected static final String IPv4_MULTICAST_ADDRESS = "239.255.255.250";
     protected static final int IPv4_SSDP_PORT = 1900;

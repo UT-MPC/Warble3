@@ -30,9 +30,11 @@ import edu.utexas.mpc.warble3.database.interfaces.Storeable;
 import edu.utexas.mpc.warble3.database.interfaces.TextStoreable;
 
 import java.io.Serializable;
+import java.util.logging.Logger;
 
 public abstract class ThingAccessCredential implements Serializable, Storeable, TextStoreable {
-    public static final String TAG = "ThingAccessCredential";
+    private static final String TAG = ThingAccessCredential.class.getSimpleName();
+    private static final Logger LOGGER = Logger.getLogger(TAG);
 
     private User user;
     private Thing thing;

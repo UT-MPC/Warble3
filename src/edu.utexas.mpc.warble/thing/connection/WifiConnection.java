@@ -27,8 +27,11 @@ package edu.utexas.mpc.warble.thing.connection;
 import edu.utexas.mpc.warble.thing.component.Thing;
 import edu.utexas.mpc.warble3.database.interfaces.ConnectionStoreable;
 
+import java.util.logging.Logger;
+
 public class WifiConnection extends Connection implements ConnectionStoreable {
-    private static final String TAG = "WifiConnection";
+    private static final String TAG = WifiConnection.class.getSimpleName();
+    private static final Logger LOGGER = Logger.getLogger(TAG);
 
     public WifiConnection() {
         super();

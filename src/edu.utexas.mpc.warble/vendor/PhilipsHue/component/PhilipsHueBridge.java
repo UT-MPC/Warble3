@@ -46,8 +46,8 @@ import java.util.List;
 import java.util.logging.Logger;
 
 public final class PhilipsHueBridge extends Bridge {
-    private static final String TAG = "PhilipsHueBridge";
-    private static final Logger LOGGER = Logger.getLogger(PhilipsHueBridge.class.getName());
+    private static final String TAG = PhilipsHueBridge.class.getSimpleName();
+    private static final Logger LOGGER = Logger.getLogger(TAG);
 
     public PhilipsHueBridge() {
         super();

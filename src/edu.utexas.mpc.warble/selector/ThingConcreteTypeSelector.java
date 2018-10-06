@@ -31,9 +31,11 @@ import edu.utexas.mpc.warble.thing.component.Thing;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class ThingConcreteTypeSelector extends AbstractSelector {
-    private static String TAG = "ThingConcreteTypeSelector";
+    private static final String TAG = ThingConcreteTypeSelector.class.getSimpleName();
+    private static final Logger LOGGER = Logger.getLogger(TAG);
 
     private List<THING_CONCRETE_TYPE> thingConcreteTypes;
 

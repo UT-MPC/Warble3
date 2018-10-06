@@ -28,9 +28,11 @@ import edu.utexas.mpc.warble.thing.ThingManager;
 import edu.utexas.mpc.warble.thing.component.Thing;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 public class AllThingSelector extends AbstractSelector {
-    private static String TAG = "AllThingSelector";
+    private static final String TAG = AllThingSelector.class.getSimpleName();
+    private static final Logger LOGGER = Logger.getLogger(TAG);
 
     public AllThingSelector() {
         super();

@@ -24,7 +24,12 @@
 
 package edu.utexas.mpc.warble.thing.credential;
 
+import java.util.logging.Logger;
+
 public class ThingAccessCredentialFactory {
+    private static final String TAG = ThingAccessCredentialFactory.class.getSimpleName();
+    private static final Logger LOGGER = Logger.getLogger(TAG);
+
     public ThingAccessCredential createThingAccessCredential(String thingAccessCredentialClassName) {
         if (thingAccessCredentialClassName == null) {
             return null;

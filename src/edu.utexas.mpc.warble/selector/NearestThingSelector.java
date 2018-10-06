@@ -30,9 +30,11 @@ import edu.utexas.mpc.warble.thing.util.Location;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class NearestThingSelector extends AbstractSelector {
-    private static String TAG = "NearestThingSelector";
+    private static final String TAG = NearestThingSelector.class.getSimpleName();
+    private static final Logger LOGGER = Logger.getLogger(TAG);
 
     private Location currentLocation;
 

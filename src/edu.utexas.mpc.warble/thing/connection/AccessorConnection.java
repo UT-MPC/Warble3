@@ -27,8 +27,11 @@ package edu.utexas.mpc.warble.thing.connection;
 import edu.utexas.mpc.warble.thing.component.Thing;
 import edu.utexas.mpc.warble3.database.interfaces.ConnectionStoreable;
 
+import java.util.logging.Logger;
+
 public class AccessorConnection extends Connection implements ConnectionStoreable {
-    private static final String TAG = "AccessorConnection";
+    private static final String TAG = AccessorConnection.class.getSimpleName();
+    private static final Logger LOGGER = Logger.getLogger(TAG);
 
     private Thing accessor;
 
