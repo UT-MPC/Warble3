@@ -24,25 +24,5 @@
 
 package edu.utexas.mpc.warble.service;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-
-import java.util.logging.Logger;
-
-public abstract class HttpService extends Service {
-    private static final String TAG = HttpService.class.getSimpleName();
-    private static final Logger LOGGER = Logger.getLogger(TAG);
-
-    protected Retrofit getInstance(String baseUrl) {
-        Gson gson = new GsonBuilder()
-                .setLenient()
-                .create();
-
-        return new Retrofit.Builder()
-                .baseUrl(baseUrl)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .build();
-    }
+public class ServiceAdapterManager {
 }
