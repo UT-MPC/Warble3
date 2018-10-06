@@ -32,7 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-public class NearestThingSelector extends AbstractSelector {
+public class NearestThingSelector extends Selector {
     private static final String TAG = NearestThingSelector.class.getSimpleName();
     private static final Logger LOGGER = Logger.getLogger(TAG);
 

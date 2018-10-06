@@ -29,8 +29,8 @@ import edu.utexas.mpc.warble.thing.component.Thing;
 import java.util.List;
 import java.util.logging.Logger;
 
-public abstract class AbstractSelector {
-    private static final String TAG = AbstractSelector.class.getSimpleName();
+public abstract class Selector {
+    private static final String TAG = Selector.class.getSimpleName();
     private static final Logger LOGGER = Logger.getLogger(TAG);
 
     public abstract List<Thing> fetch();

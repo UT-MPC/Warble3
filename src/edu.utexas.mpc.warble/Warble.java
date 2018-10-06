@@ -24,8 +24,8 @@
 
 package edu.utexas.mpc.warble;
 
-import edu.utexas.mpc.warble.selector.AbstractSelector;
 import edu.utexas.mpc.warble.selector.AllThingSelector;
+import edu.utexas.mpc.warble.selector.Selector;
 import edu.utexas.mpc.warble.thing.ThingManager;
 import edu.utexas.mpc.warble.thing.command.Command;
 import edu.utexas.mpc.warble.thing.command.Response;
@@ -43,7 +43,7 @@ public class Warble {
     private UserManager userManager;
     private ThingManager thingManager;
 
-    private List<AbstractSelector> template = new ArrayList<>();
+    private List<Selector> template = new ArrayList<>();
 
     public Warble() {
         userManager = UserManager.getInstance();
@@ -51,17 +51,17 @@ public class Warble {
     }
 
     // =========== Selector ===========
-    public void addSelector(AbstractSelector selector) {
+    public void addSelector(Selector selector) {
         if (selector != null) {
             template.add(selector);
         }
     }
 
-    public List<AbstractSelector> getTemplate() {
+    public List<Selector> getTemplate() {
         return template;
     }
 
-    public void setTemplate(List<AbstractSelector> template) {
+    public void setTemplate(List<Selector> template) {
         this.template = template;
     }
 
@@ -101,7 +101,7 @@ public class Warble {
             template.add(new AllThingSelector());
         }
 
-        for (AbstractSelector selector : template) {
+        for (Selector selector : template) {
             List<Thing> newThings = selector.fetch();
             if (newThings != null) {
                 things.addAll(newThings);

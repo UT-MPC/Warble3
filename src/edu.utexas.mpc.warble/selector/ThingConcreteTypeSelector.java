@@ -33,7 +33,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
-public class ThingConcreteTypeSelector extends AbstractSelector {
+public class ThingConcreteTypeSelector extends Selector {
     private static final String TAG = ThingConcreteTypeSelector.class.getSimpleName();
     private static final Logger LOGGER = Logger.getLogger(TAG);
 

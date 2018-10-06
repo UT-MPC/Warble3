@@ -32,7 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-public class IndoorLocationRangeSelector extends AbstractSelector {
+public class IndoorLocationRangeSelector extends Selector {
     private static final String TAG = IndoorLocationRangeSelector.class.getSimpleName();
     private static final Logger LOGGER = Logger.getLogger(TAG);
 
