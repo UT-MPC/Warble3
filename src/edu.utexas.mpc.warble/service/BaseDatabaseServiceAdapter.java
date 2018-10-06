@@ -33,7 +33,7 @@ import edu.utexas.mpc.warble.user.User;
 import java.util.List;
 import java.util.logging.Logger;
 
-public abstract class BaseDatabaseServiceAdapter {
+public abstract class BaseDatabaseServiceAdapter extends ServiceAdapter {
     private static final String TAG = BaseDatabaseServiceAdapter.class.getSimpleName();
     private static final Logger LOGGER = Logger.getLogger(TAG);
 

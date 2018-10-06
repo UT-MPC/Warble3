@@ -26,7 +26,7 @@ package edu.utexas.mpc.warble.service;
 
 import java.util.logging.Logger;
 
-public abstract class BaseLocationServiceAdapter {
+public abstract class BaseLocationServiceAdapter extends ServiceAdapter {
     private static final String TAG = BaseLocationServiceAdapter.class.getSimpleName();
     private static final Logger LOGGER = Logger.getLogger(TAG);
 }

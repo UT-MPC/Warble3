@@ -24,6 +24,10 @@
 
 package edu.utexas.mpc.warble.service;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.util.HashMap;
 import java.util.logging.Logger;
 
 public abstract class BaseHttpServiceAdapter extends ServiceAdapter {
@@ -40,4 +44,77 @@ public abstract class BaseHttpServiceAdapter extends ServiceAdapter {
 //                .addConverterFactory(GsonConverterFactory.create(gson))
 //                .build();
 //    }
+
+    public abstract <T> HttpResponse<T> sendSynchronous(String baseUrl,
+                                                        String apiPath,
+                                                        METHOD method,
+                                                        String[] headers,
+                                                        String body,
+                                                        HashMap<String, Object> parts
+    );
+
+    public abstract void sendAsynchronous(Callback callback,
+                                          String baseUrl,
+                                          String apiPath,
+                                          METHOD method,
+                                          String[] headers,
+                                          String body,
+                                          HashMap<String, Object> parts
+    );
+
+    public interface Callback<T> {
+        void onResponse(HttpResponse<T> response);
+        void onFailure(Throwable t);
+    }
+
+    public enum METHOD {
+        GET,
+        POST,
+        DELETE,
+        PUT,
+        HEAD,
+        TRACE,
+        CONNECT,
+        OPTIONS
+    }
+
+    public class HttpResponse<T> {
+        private int code;
+        private String[] headers;
+        private T body;
+
+        public HttpResponse(int code, String[] headers, String body) {
+            this.code = code;
+            this.headers = headers;
+            setBody(body);
+        }
+
+        public int getCode() {
+            return code;
+        }
+
+        public void setCode(int code) {
+            this.code = code;
+        }
+
+        public String[] getHeaders() {
+            return headers;
+        }
+
+        public void setHeaders(String[] headers) {
+            this.headers = headers;
+        }
+
+        public T getBody() {
+            return body;
+        }
+
+        public void setBody(T body) {
+            this.body = body;
+        }
+
+        public void setBody(String body) {
+            this.body = new Gson().fromJson(body, new TypeToken<T>(){}.getType());
+        }
+    }
 }

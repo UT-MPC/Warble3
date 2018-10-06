@@ -26,7 +26,7 @@ package edu.utexas.mpc.warble.service;
 
 import java.util.logging.Logger;
 
-public abstract class BaseBluetoothServiceAdapter {
+public abstract class BaseBluetoothServiceAdapter extends ServiceAdapter {
     private static final String TAG = BaseBluetoothServiceAdapter.class.getSimpleName();
     private static final Logger LOGGER = Logger.getLogger(TAG);
 }
