@@ -24,13 +24,20 @@
 
 package edu.utexas.mpc.warble.user;
 
+import edu.utexas.mpc.warble.service.BaseDatabaseServiceAdapter;
+import edu.utexas.mpc.warble.service.SERVICE_ADAPTER_TYPE;
+import edu.utexas.mpc.warble.service.ServiceAdapterManager;
+import edu.utexas.mpc.warble.service.ServiceAdapterUser;
+
 import java.util.logging.Logger;
 
-public class UserManager {
+public class UserManager implements ServiceAdapterUser {
     private static final String TAG = UserManager.class.getSimpleName();
     private static final Logger LOGGER = Logger.getLogger(TAG);
 
     private static UserManager instance = new UserManager();
+
+    private BaseDatabaseServiceAdapter databaseServiceAdapter = null;
 
     private UserManager() {}
 
@@ -58,16 +65,16 @@ public class UserManager {
         }
         else {
             try {
-                AppDatabase.getDatabase().addUser(new User(username, password));
+                databaseServiceAdapter.addUser(new User(username, password));
             }
-            catch (SQLiteConstraintException e) {
+            catch (Exception e) {
                 throw new DuplicateUsernameException();
             }
         }
     }
 
     public User getUser(String username) {
-        return AppDatabase.getDatabase().getUserByUsername(username);
+        return databaseServiceAdapter.getUserByUsername(username);
     }
 
     public User authenticateUser(String username, String password) {
@@ -81,5 +88,10 @@ public class UserManager {
         else {
             return null;
         }
+    }
+
+    @Override
+    public void setServiceAdapter(ServiceAdapterManager serviceAdapterManager) {
+        databaseServiceAdapter = (BaseDatabaseServiceAdapter) serviceAdapterManager.getServiceAdapter(SERVICE_ADAPTER_TYPE.DATABASE);
     }
 }

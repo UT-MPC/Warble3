@@ -24,8 +24,10 @@
 
 package edu.utexas.mpc.warble.thing;
 
-import android.util.Log;
-import android.util.LongSparseArray;
+import edu.utexas.mpc.warble.service.BaseDatabaseServiceAdapter;
+import edu.utexas.mpc.warble.service.SERVICE_ADAPTER_TYPE;
+import edu.utexas.mpc.warble.service.ServiceAdapterManager;
+import edu.utexas.mpc.warble.service.ServiceAdapterUser;
 import edu.utexas.mpc.warble.thing.command.Command;
 import edu.utexas.mpc.warble.thing.command.CommandCaller;
 import edu.utexas.mpc.warble.thing.command.GenericCommandCaller;
@@ -33,23 +35,24 @@ import edu.utexas.mpc.warble.thing.command.Response;
 import edu.utexas.mpc.warble.thing.component.Thing;
 import edu.utexas.mpc.warble.thing.connection.Connection;
 import edu.utexas.mpc.warble.thing.credential.ThingAccessCredential;
-import edu.utexas.mpc.warble3.database.AppDatabase;
-import edu.utexas.mpc.warble3.util.Logging;
-import edu.utexas.mpc.warble3.warble.thing.discovery.Discovery;
-import edu.utexas.mpc.warble3.warble.thing.feature.Accessor;
-import edu.utexas.mpc.warble3.warble.vendor.GE.GEDiscovery;
-import edu.utexas.mpc.warble3.warble.vendor.PhilipsHue.discovery.PhilipsHueUPnPDiscovery;
-import edu.utexas.mpc.warble3.warble.vendor.Wink.WinkDiscovery;
+import edu.utexas.mpc.warble.thing.discovery.Discovery;
+import edu.utexas.mpc.warble.thing.feature.Accessor;
+import edu.utexas.mpc.warble.vendor.GE.GEDiscovery;
+import edu.utexas.mpc.warble.vendor.PhilipsHue.discovery.PhilipsHueUPnPDiscovery;
+import edu.utexas.mpc.warble.vendor.Wink.WinkDiscovery;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 
-public class ThingManager {
+public class ThingManager implements ServiceAdapterUser {
     private static final String TAG = ThingManager.class.getSimpleName();
     private static final Logger LOGGER = Logger.getLogger(TAG);
 
     private static ThingManager instance = new ThingManager();
+
+    private BaseDatabaseServiceAdapter databaseServiceAdapter = null;
 
     private ThingManager() {}
 
@@ -61,32 +64,32 @@ public class ThingManager {
     }
 
     public List<Thing> getThings() {
-        List<Thing> things = AppDatabase.getDatabase().getThings();
+        List<Thing> things = databaseServiceAdapter.getThings();
 
         if ((things == null) || (things.size() == 0)) {
             return null;
         }
         else {
-            LongSparseArray<Thing> thingLongSparseArray = new LongSparseArray<>();
+            HashMap<Long, Thing> thingHashMap = new HashMap<>();
             for (Thing thing : things) {
-                thingLongSparseArray.put(thing.getDbid(), thing);
+                thingHashMap.put(thing.getDbid(), thing);
             }
 
             for (Thing thing : things) {
                 long thingDbid = thing.getDbid();
                 if (thingDbid > 0) {
-                    List<Connection> connections = AppDatabase.getDatabase().getConnectionsBySourceId(thingDbid);
+                    List<Connection> connections = databaseServiceAdapter.getConnectionsBySourceId(thingDbid);
                     if (connections != null) {
                         for (Connection connection : connections) {
                             if ((connection.getSource() != null) && (connection.getSource().getDbid() != 0)) {
-                                connection.setSource(thingLongSparseArray.get(connection.getSource().getDbid()));
+                                connection.setSource(thingHashMap.get(connection.getSource().getDbid()));
                             }
                             else {
                                 connection.setSource(null);
                             }
 
                             if ((connection.getDestination() != null) && (connection.getDestination().getDbid() != 0)) {
-                                connection.setDestination(thingLongSparseArray.get(connection.getDestination().getDbid()));
+                                connection.setDestination(thingHashMap.get(connection.getDestination().getDbid()));
                             }
                             else {
                                 connection.setDestination(null);
@@ -95,11 +98,11 @@ public class ThingManager {
                         thing.setConnections(connections);
                     }
 
-                    List<ThingAccessCredential> thingAccessCredentials = AppDatabase.getDatabase().getThingAccessCredentialsByThingId(thing.getDbid());
+                    List<ThingAccessCredential> thingAccessCredentials = databaseServiceAdapter.getThingAccessCredentialsByThingId(thing.getDbid());
                     if (thingAccessCredentials != null) {
                         for(ThingAccessCredential thingAccessCredential : thingAccessCredentials) {
                             if ((thingAccessCredential.getThing() != null) && (thingAccessCredential.getThing().getDbid() != 0)) {
-                                thingAccessCredential.setThing(thingLongSparseArray.get(thingAccessCredential.getThing().getDbid()));
+                                thingAccessCredential.setThing(thingHashMap.get(thingAccessCredential.getThing().getDbid()));
                             }
                             else {
                                 thingAccessCredential.setThing(null);
@@ -109,7 +112,7 @@ public class ThingManager {
                     }
                 }
                 else {
-                    if (Logging.WARN) Log.w(TAG, String.format("Thing %s ThingDbid = %s", thing.getFriendlyName(), thingDbid));
+                    LOGGER.warning(String.format("Thing %s ThingDbid = %s", thing.getFriendlyName(), thingDbid));
                 }
             }
 
@@ -158,9 +161,9 @@ public class ThingManager {
 
     public void saveThing(Thing thing) {
         if (thing != null) {
-            if (Logging.VERBOSE) Log.v(TAG, String.format("Saving %s ...", thing.getFriendlyName()));
+            LOGGER.fine(String.format("Saving %s ...", thing.getFriendlyName()));
 
-            AppDatabase.getDatabase().saveThing(thing);
+            databaseServiceAdapter.saveThing(thing);
 
             List<Connection> connections = thing.getConnections();
             if (connections != null) {
@@ -169,13 +172,13 @@ public class ThingManager {
                     if (destinationThing != null) {
                         saveThing(destinationThing);
                     }
-                    AppDatabase.getDatabase().saveConnection(connection);
+                    databaseServiceAdapter.saveConnection(connection);
                 }
             }
 
             List<ThingAccessCredential> thingAccessCredentials = thing.getThingAccessCredentials();
             if (thingAccessCredentials != null) {
-                AppDatabase.getDatabase().saveThingAccessCredentials(thingAccessCredentials);
+                databaseServiceAdapter.saveThingAccessCredentials(thingAccessCredentials);
             }
         }
     }
@@ -193,21 +196,21 @@ public class ThingManager {
             return null;
         }
         else {
-            Thing loadedThing = AppDatabase.getDatabase().loadThing(thing);
+            Thing loadedThing = databaseServiceAdapter.loadThing(thing);
 
             if (loadedThing == null) {
                 return null;
             }
             else {
-                loadedThing.setConnections(AppDatabase.getDatabase().getConnectionsBySourceId(loadedThing.getDbid()));
-                loadedThing.setThingAccessCredentials(AppDatabase.getDatabase().getThingAccessCredentialsByThingId(loadedThing.getDbid()));
+                loadedThing.setConnections(databaseServiceAdapter.getConnectionsBySourceId(loadedThing.getDbid()));
+                loadedThing.setThingAccessCredentials(databaseServiceAdapter.getThingAccessCredentialsByThingId(loadedThing.getDbid()));
             }
             return loadedThing;
         }
     }
 
     public boolean authenticateThing(Thing thing) {
-        if (Logging.VERBOSE) Log.v(TAG, String.format("Authenticating %s ...", thing.getFriendlyName()));
+        LOGGER.fine(String.format("Authenticating %s ...", thing.getFriendlyName()));
 
         boolean result = thing.authenticate();
         saveThing(thing);
@@ -230,5 +233,11 @@ public class ThingManager {
     public Response sendCommand(Command command, Thing thing) {
         CommandCaller commandCaller = new GenericCommandCaller(command, thing);
         return commandCaller.call();
+    }
+
+    @Override
+    public void setServiceAdapter(ServiceAdapterManager serviceAdapterManager) {
+        // TODO catch casting exception
+        databaseServiceAdapter = (BaseDatabaseServiceAdapter) serviceAdapterManager.getServiceAdapter(SERVICE_ADAPTER_TYPE.DATABASE);
     }
 }
