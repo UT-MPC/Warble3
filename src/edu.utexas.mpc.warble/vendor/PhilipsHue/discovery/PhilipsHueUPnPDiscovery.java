@@ -155,7 +155,7 @@ public final class PhilipsHueUPnPDiscovery extends SSDPDiscovery {
         List<String> responses = receiveDatagramPacket();
 
         for (String response : responses) {
-            if (Logging.VERBOSE) Log.v(TAG, response);
+            LOGGER.finer(response);
             if (isPhilipsHue(response)) {
                 PhilipsHueBridge bridge = bridgeXmlTranslation(response);
                 if (bridge != null) {
@@ -173,16 +173,16 @@ public final class PhilipsHueUPnPDiscovery extends SSDPDiscovery {
             }
         }
 
-        if (Logging.INFO) Log.i(TAG, String.format("Number of discovered Philips Hue Bridges by UPnP: %d", philipsHueBridges.size()));
+        LOGGER.info(String.format("Number of discovered Philips Hue Bridges by UPnP: %d", philipsHueBridges.size()));
         if (philipsHueBridges.size() > 0) {
-            if (Logging.INFO) Log.i(TAG, "Discover Philips Hue Bridges by UPnP:");
+            LOGGER.info("Discover Philips Hue Bridges by UPnP:");
             for (PhilipsHueBridge philipsHueBridge : philipsHueBridges) {
-                if (Logging.INFO) Log.i(TAG, String.format("- %s", philipsHueBridge.toString()));
+                LOGGER.info(String.format("- %s", philipsHueBridge.toString()));
             }
             return philipsHueBridges;
         }
         else {
-            if (Logging.INFO) Log.i(TAG, "No Philips Hue Bridges by UPnP discovered");
+            LOGGER.info("No Philips Hue Bridges by UPnP discovered");
             return null;
         }
     }
