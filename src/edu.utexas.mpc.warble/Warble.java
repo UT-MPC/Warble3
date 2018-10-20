@@ -26,11 +26,18 @@ package edu.utexas.mpc.warble;
 
 import edu.utexas.mpc.warble.selector.AllThingSelector;
 import edu.utexas.mpc.warble.selector.Selector;
+import edu.utexas.mpc.warble.service.SERVICE_ADAPTER_TYPE;
+import edu.utexas.mpc.warble.service.ServiceAdapter;
+import edu.utexas.mpc.warble.service.ServiceAdapterManager;
 import edu.utexas.mpc.warble.thing.ThingManager;
 import edu.utexas.mpc.warble.thing.command.Command;
 import edu.utexas.mpc.warble.thing.command.Response;
 import edu.utexas.mpc.warble.thing.component.Thing;
-import edu.utexas.mpc.warble.user.*;
+import edu.utexas.mpc.warble.user.DuplicateUsernameException;
+import edu.utexas.mpc.warble.user.InvalidPasswordException;
+import edu.utexas.mpc.warble.user.InvalidUsernameException;
+import edu.utexas.mpc.warble.user.User;
+import edu.utexas.mpc.warble.user.UserManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,12 +49,18 @@ public class Warble {
 
     private UserManager userManager;
     private ThingManager thingManager;
+    private ServiceAdapterManager serviceAdapterManager;
 
     private List<Selector> template = new ArrayList<>();
 
     public Warble() {
+        serviceAdapterManager = ServiceAdapterManager.getInstance();
+
         userManager = UserManager.getInstance();
+        userManager.setServiceAdapter(serviceAdapterManager);
+
         thingManager = ThingManager.getInstance();
+        thingManager.setServiceAdapter(serviceAdapterManager);
     }
 
     // =========== Selector ===========
@@ -135,5 +148,17 @@ public class Warble {
     // =========== Command ============
     public Response sendCommand(Command command, Thing thing) {
         return ThingManager.getInstance().sendCommand(command, thing);
+    }
+
+    // =========== Service Adapter ============
+    public ServiceAdapter getServiceAdapter(SERVICE_ADAPTER_TYPE serviceAdapterType) {
+        return serviceAdapterManager.getServiceAdapter(serviceAdapterType);
+    }
+
+    public void setServiceAdapter(SERVICE_ADAPTER_TYPE serviceAdapterType, ServiceAdapter serviceAdapter) {
+        serviceAdapterManager.setServiceAdapter(serviceAdapterType, serviceAdapter);
+
+        userManager.setServiceAdapter(serviceAdapterManager);
+        thingManager.setServiceAdapter(serviceAdapterManager);
     }
 }

@@ -24,5 +24,37 @@
 
 package edu.utexas.mpc.warble.service;
 
+import java.util.HashMap;
+import java.util.logging.Logger;
+
 public class ServiceAdapterManager {
+    private static final String TAG = ServiceAdapterManager.class.getSimpleName();
+    private static final Logger LOGGER = Logger.getLogger(TAG);
+
+    private static ServiceAdapterManager instance = new ServiceAdapterManager();
+
+    private HashMap<SERVICE_ADAPTER_TYPE, ServiceAdapter> serviceAdapterHashMap;
+
+    private ServiceAdapterManager() {
+        serviceAdapterHashMap = new HashMap<>();
+
+        for (SERVICE_ADAPTER_TYPE serviceAdapterType : SERVICE_ADAPTER_TYPE.values()) {
+            serviceAdapterHashMap.put(serviceAdapterType, null);
+        }
+    }
+
+    public static ServiceAdapterManager getInstance() {
+        if (instance == null) {                         // Singleton Design Pattern
+            instance = new ServiceAdapterManager();
+        }
+        return instance;
+    }
+
+    public ServiceAdapter getServiceAdapter(SERVICE_ADAPTER_TYPE serviceAdapterType) {
+        return serviceAdapterHashMap.get(serviceAdapterType);
+    }
+
+    public void setServiceAdapter(SERVICE_ADAPTER_TYPE serviceAdapterType, ServiceAdapter serviceAdapter) {
+        serviceAdapterHashMap.put(serviceAdapterType, serviceAdapter);
+    }
 }
