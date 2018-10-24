@@ -24,15 +24,14 @@
 
 package thing.credential;
 
+import thing.component.TextStoreable;
 import thing.component.Thing;
 import user.User;
-import .database.interfaces.Storeable;
-import .database.interfaces.TextStoreable;
 
 import java.io.Serializable;
 import java.util.logging.Logger;
 
-public abstract class ThingAccessCredential implements Serializable, Storeable, TextStoreable {
+public abstract class ThingAccessCredential implements Serializable, TextStoreable {
     private static final String TAG = ThingAccessCredential.class.getSimpleName();
     private static final Logger LOGGER = Logger.getLogger(TAG);
 
