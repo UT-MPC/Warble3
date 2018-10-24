@@ -25,11 +25,10 @@
 package thing.connection;
 
 import thing.component.Thing;
-import .database.interfaces.ConnectionStoreable;
 
 import java.util.logging.Logger;
 
-public class AccessorConnection extends Connection implements ConnectionStoreable {
+public class AccessorConnection extends Connection {
     private static final String TAG = AccessorConnection.class.getSimpleName();
     private static final Logger LOGGER = Logger.getLogger(TAG);
 
@@ -61,15 +60,6 @@ public class AccessorConnection extends Connection implements ConnectionStoreabl
     }
 
     @Override
-    public String toConnectionInfo() {
-        return null;
-    }
-
-    @Override
-    public void fromConnectionInfo(String connectionInfo) {
-    }
-
-    @Override
     public boolean equals(Object object) {
         if (object == this) {
             return true;
@@ -83,5 +73,15 @@ public class AccessorConnection extends Connection implements ConnectionStoreabl
 
         return (this.getSource().equals(c.getSource())) &&
                 (this.accessor.equals(c.accessor));
+    }
+
+    @Override
+    public String toStoreableText() {
+        return null;
+    }
+
+    @Override
+    public void fromStoreableText(String storeableText) {
+
     }
 }

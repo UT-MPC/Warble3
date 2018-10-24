@@ -24,18 +24,17 @@
 
 package thing.connection;
 
+import thing.component.TextStoreable;
 import thing.component.Thing;
-import .database.interfaces.ConnectionStoreable;
-import .database.interfaces.Storeable;
 
 import java.io.Serializable;
 import java.util.logging.Logger;
 
-public abstract class Connection implements Serializable, Storeable, ConnectionStoreable {
+public abstract class Connection implements Serializable, TextStoreable {
     private static final String TAG = Connection.class.getSimpleName();
     private static final Logger LOGGER = Logger.getLogger(TAG);
 
-    public static enum DIRECTIONAL_TYPE {
+    public enum DIRECTIONAL_TYPE {
         UNIDIRECTIONAL,
         BIDIRECTIONAL
     }

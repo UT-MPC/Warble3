@@ -25,27 +25,16 @@
 package thing.connection;
 
 import thing.component.Thing;
-import .database.interfaces.ConnectionStoreable;
 
 import java.util.logging.Logger;
 
-public class BluetoothConnection extends Connection implements ConnectionStoreable {
+public class BluetoothConnection extends Connection {
     private static final String TAG = BluetoothConnection.class.getSimpleName();
     private static final Logger LOGGER = Logger.getLogger(TAG);
 
     public BluetoothConnection(Thing source, Thing destination) {
         super(source, destination);
         setDirectionalType(DIRECTIONAL_TYPE.UNIDIRECTIONAL);
-    }
-
-    @Override
-    public String toConnectionInfo() {
-        return null;
-    }
-
-    @Override
-    public void fromConnectionInfo(String connectionInfo) {
-
     }
 
     @Override
@@ -61,5 +50,15 @@ public class BluetoothConnection extends Connection implements ConnectionStoreab
         BluetoothConnection c = (BluetoothConnection) object;
 
         return (this.getSource().equals(c.getSource()));
+    }
+
+    @Override
+    public String toStoreableText() {
+        return null;
+    }
+
+    @Override
+    public void fromStoreableText(String storeableText) {
+
     }
 }

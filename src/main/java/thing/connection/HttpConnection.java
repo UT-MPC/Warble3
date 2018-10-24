@@ -25,13 +25,12 @@
 package thing.connection;
 
 import thing.component.Thing;
-import .database.interfaces.ConnectionStoreable;
 
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class HttpConnection extends Connection implements ConnectionStoreable {
+public class HttpConnection extends Connection {
     private static final String TAG = HttpConnection.class.getSimpleName();
     private static final Logger LOGGER = Logger.getLogger(TAG);
 
@@ -79,14 +78,14 @@ public class HttpConnection extends Connection implements ConnectionStoreable {
     }
 
     @Override
-    public String toConnectionInfo() {
+    public String toStoreableText() {
         return String.format("%s %s", ipType.name(), url);
     }
 
     @Override
-    public void fromConnectionInfo(String connectionInfo) {
+    public void fromStoreableText(String storeableText) {
         Pattern pattern = Pattern.compile("(IPv4|IPv6)(\\s+)((https://|http://)?([0-9.]+)(:([0-9]+))*/*)");
-        Matcher matcher = pattern.matcher(connectionInfo);
+        Matcher matcher = pattern.matcher(storeableText);
 
         if (matcher.find()) {
             ipType = IP_TYPE.valueOf(matcher.group(1));

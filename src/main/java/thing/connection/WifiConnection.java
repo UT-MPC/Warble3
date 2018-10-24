@@ -25,11 +25,10 @@
 package thing.connection;
 
 import thing.component.Thing;
-import .database.interfaces.ConnectionStoreable;
 
 import java.util.logging.Logger;
 
-public class WifiConnection extends Connection implements ConnectionStoreable {
+public class WifiConnection extends Connection {
     private static final String TAG = WifiConnection.class.getSimpleName();
     private static final Logger LOGGER = Logger.getLogger(TAG);
 
@@ -41,16 +40,6 @@ public class WifiConnection extends Connection implements ConnectionStoreable {
     public WifiConnection(Thing source, Thing destination) {
         super(source, destination);
         setDirectionalType(DIRECTIONAL_TYPE.UNIDIRECTIONAL);
-    }
-
-    @Override
-    public String toConnectionInfo() {
-        return null;
-    }
-
-    @Override
-    public void fromConnectionInfo(String connectionInfo) {
-
     }
 
     @Override
@@ -66,5 +55,15 @@ public class WifiConnection extends Connection implements ConnectionStoreable {
         WifiConnection c = (WifiConnection) object;
 
         return (this.getSource().equals(c.getSource()));
+    }
+
+    @Override
+    public String toStoreableText() {
+        return null;
+    }
+
+    @Override
+    public void fromStoreableText(String storeableText) {
+
     }
 }
