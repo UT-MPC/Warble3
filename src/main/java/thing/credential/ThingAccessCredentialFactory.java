@@ -41,7 +41,7 @@ public class ThingAccessCredentialFactory {
             String thingAccessCredentialClassSimpleName = thingAccessCredentialClassNameList[thingAccessCredentialClassNameList.length-1];
 
             switch (thingAccessCredentialClassSimpleName) {
-                case UsernamePasswordCredential.TAG:
+                case "UsernamePasswordCredential":
                     thingAccessCredential = new UsernamePasswordCredential();
                     break;
             }
