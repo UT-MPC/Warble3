@@ -30,11 +30,6 @@ public abstract class Command {
     private static final String TAG = Command.class.getSimpleName();
     private static final Logger LOGGER = Logger.getLogger(TAG);
 
-    public enum COMMAND_NAME {
-        AUTHENTICATE,
-        SET_THING_STATE
-    }
-
     protected COMMAND_NAME name;
     protected Object header;
     protected Object flag1;
@@ -49,6 +44,10 @@ public abstract class Command {
     protected Object register4;
     protected Object register5;
     protected Object register6;
+
+    public Command(COMMAND_NAME name) {
+        this.name = name;
+    }
 
     public COMMAND_NAME getName() {
         return name;
@@ -80,5 +79,10 @@ public abstract class Command {
 
     public Object getRegister6() {
         return register6;
+    }
+
+    public enum COMMAND_NAME {
+        AUTHENTICATE,
+        SET_THING_STATE
     }
 }
