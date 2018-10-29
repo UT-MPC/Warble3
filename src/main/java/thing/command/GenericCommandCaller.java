@@ -24,29 +24,63 @@
 
 package thing.command;
 
+import context.Context;
+import interaction.Interaction;
+import service.BaseDatabaseServiceAdapter;
+import service.SERVICE_ADAPTER_TYPE_OUTPUT;
+import service.ServiceAdapterManager;
+import service.ServiceAdapterUser;
 import thing.component.Thing;
-import .database.AppDatabase;
-import .database.InteractionHistoryDb;
+import user.User;
 
 import java.util.logging.Logger;
 
-public class GenericCommandCaller extends CommandCaller {
+public final class GenericCommandCaller extends CommandCaller implements ServiceAdapterUser {
     private static final String TAG = GenericCommandCaller.class.getSimpleName();
     private static final Logger LOGGER = Logger.getLogger(TAG);
 
-    public GenericCommandCaller(Command command, Thing thing) {
-        super(command, thing);
+    private ServiceAdapterManager serviceAdapterManager;
+    private BaseDatabaseServiceAdapter databaseServiceAdapter;
+    private User user;
+
+    public GenericCommandCaller(ServiceAdapterManager serviceAdapterManager, User user) {
+        this.serviceAdapterManager = serviceAdapterManager;
+        this.user = user;
+    }
+
+    public void setServiceAdapterManager(ServiceAdapterManager serviceAdapterManager) {
+        this.serviceAdapterManager = serviceAdapterManager;
     }
 
     @Override
-    public Response call() {
-        InteractionHistoryDb interactionHistoryDb = new InteractionHistoryDb();
-        interactionHistoryDb.setCommand(getCommand().toString());
-        interactionHistoryDb.setThingUuid(getThing().getUuid());
-        if (getThing().getLocation() != null)
-            interactionHistoryDb.setThingLocation(getThing().getLocation().toString());
-        AppDatabase.getDatabase().saveInteractionHistoryDb(interactionHistoryDb);
+    public Response call(Context context, Command command, Thing thing) {
+        databaseServiceAdapter.saveInteraction(
+                new Interaction(
+                        context,
+                        context.getUser().getUsername(),
+                        command.toString(),
+                        thing.getUuid()
+                )
+        );
 
-        return getThing().callCommand(getCommand());
+        return thing.callCommand(serviceAdapterManager, command);
+    }
+
+    public void setDatabaseServiceAdapter(BaseDatabaseServiceAdapter databaseServiceAdapter) {
+        this.databaseServiceAdapter = databaseServiceAdapter;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    @Override
+    public void setServiceAdapter(ServiceAdapterManager serviceAdapterManager) {
+        this.serviceAdapterManager = serviceAdapterManager;
+        this.databaseServiceAdapter = (BaseDatabaseServiceAdapter) this.serviceAdapterManager.getServiceAdapter(SERVICE_ADAPTER_TYPE_OUTPUT.DATABASE);
     }
 }

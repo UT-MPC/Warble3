@@ -24,14 +24,16 @@
 
 package thing.command;
 
+import service.ServiceAdapterManager;
+
 import java.util.logging.Logger;
 
 public interface Commandable {
-    static final String TAG = Commandable.class.getSimpleName();
-    static final Logger LOGGER = Logger.getLogger(TAG);
+    String TAG = Commandable.class.getSimpleName();
+    Logger LOGGER = Logger.getLogger(TAG);
 
-    Response    callCommand(Command command);
+    Response callCommand(ServiceAdapterManager serviceAdapterManager, Command command);
 
-    void        sendCommand(Command command);
+    void sendCommand(ServiceAdapterManager serviceAdapterManager, Command command);
     Response    receiveResponse();
 }

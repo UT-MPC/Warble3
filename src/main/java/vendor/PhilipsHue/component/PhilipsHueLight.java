@@ -24,6 +24,7 @@
 
 package vendor.PhilipsHue.component;
 
+import service.ServiceAdapterManager;
 import thing.command.Command;
 import thing.command.GenericResponse;
 import thing.command.Response;
@@ -32,7 +33,7 @@ import thing.component.ThingState;
 import thing.connection.AccessorConnection;
 import thing.connection.Connection;
 import thing.credential.ThingAccessCredential;
-import thing.feature.Accessor;
+import thing.feature.Hub;
 
 import java.util.logging.Logger;
 
@@ -40,18 +41,16 @@ public final class PhilipsHueLight extends Light {
     private static final String TAG = PhilipsHueLight.class.getSimpleName();
     private static final Logger LOGGER = Logger.getLogger(TAG);
 
-    public PhilipsHueLight() {
-        super();
+    public PhilipsHueLight(String uuid) {
+        super(uuid);
         // set discovery
         // TODO: seems like not possible, because AccessorDiscovery needs bridge.
     }
 
-    @Override
     public boolean authenticate() {
         return true;
     }
 
-    @Override
     public boolean authenticate(ThingAccessCredential thingAccessCredential) {
         return true;
     }
@@ -66,15 +65,13 @@ public final class PhilipsHueLight extends Light {
         setThingAccessCredentialClasses(null);
     }
 
-    @Override
-    public void setState(ThingState thingState) {
+    public void setState(ServiceAdapterManager serviceAdapterManager, ThingState thingState) {
         if (getConnections() != null) {
             for (Connection connection : getConnections()) {
                 if (connection instanceof AccessorConnection) {
-                    Accessor accessor = (Accessor) ((AccessorConnection) connection).getAccessor();
+                    Hub hub = (Hub) ((AccessorConnection) connection).getAccessor();
 
-                    accessor.updateThingState(this, thingState);
-
+                    hub.updateThingState(serviceAdapterManager, this, thingState);
                     break;
                 }
             }
@@ -82,23 +79,13 @@ public final class PhilipsHueLight extends Light {
     }
 
     @Override
-    public Response callCommand(Command command) {
-        Response response = new GenericResponse();
+    public Response callCommand(ServiceAdapterManager serviceAdapterManager, Command command) {
+        Response response = super.preCallCommand(command);
 
-        if (command == null) {
-            response.setStatus(false);
-            response.setCommandName(null);
-            response.setDescription("no command");
-
+        if (response != null) {
             return response;
-        }
-
-        if (command.getName() == null) {
-            response.setStatus(false);
-            response.setCommandName(null);
-            response.setDescription("no command name");
-
-            return response;
+        } else {
+            response = new GenericResponse();
         }
 
         switch (command.getName()) {
@@ -107,7 +94,7 @@ public final class PhilipsHueLight extends Light {
 
                 if (command.getRegister1() == null) {
                     response.setStatus(false);
-                    response.setDescription("no credential");
+                    response.setDescription("NO_CREDENTIAL");
 
                     return response;
                 }
@@ -118,7 +105,7 @@ public final class PhilipsHueLight extends Light {
                     response.setDescription("");
                 }
                 else {
-                    response.setDescription("unknown reason");
+                    response.setDescription("UNKNOWN_REASON");
                 }
                 break;
             }
@@ -127,19 +114,19 @@ public final class PhilipsHueLight extends Light {
 
                 if (command.getRegister1() == null) {
                     response.setStatus(false);
-                    response.setDescription("no thing state");
+                    response.setDescription("NO_THING_STATE");
 
                     return response;
                 }
 
-                setState((ThingState) command.getRegister1());
+                setState(serviceAdapterManager, (ThingState) command.getRegister1());
 
                 break;
             }
             default: {
                 response.setCommandName(command.getName());
                 response.setStatus(false);
-                response.setDescription("unknown command name");
+                response.setDescription("UNSUPPORTED_COMMAND");
             }
         }
 
@@ -147,7 +134,8 @@ public final class PhilipsHueLight extends Light {
     }
 
     @Override
-    public void sendCommand(Command command) {}
+    public void sendCommand(ServiceAdapterManager serviceAdapterManager, Command command) {
+    }
 
     @Override
     public Response receiveResponse() {

@@ -24,15 +24,13 @@
 
 package vendor.Wink;
 
+import service.ServiceAdapterManager;
 import thing.command.Command;
 import thing.command.Response;
 import thing.component.Bridge;
 import thing.component.Thing;
 import thing.component.ThingState;
-import thing.credential.ThingAccessCredential;
-import thing.credential.UsernamePasswordCredential;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -40,77 +38,52 @@ public final class WinkBridge extends Bridge {
     private static final String TAG = WinkBridge.class.getSimpleName();
     private static final Logger LOGGER = Logger.getLogger(TAG);
 
-    public WinkBridge() {
-        super();
-    }
-
-    @Override
-    public List<Thing> getThings() {
-        return null;
-    }
-
-    @Override
-    public List<ThingState> getThingsState() {
-        return null;
-    }
-
-    @Override
-    public boolean updateThingState(Thing thing, ThingState thingState) {
-        return false;
-    }
-
-    @Override
-    public boolean updateThingState(Thing thing, ThingState thingState, boolean postCheck) {
-        return false;
-    }
-
-    @Override
-    public boolean updateThingsState(List<Thing> things, List<ThingState> thingsState) {
-        return false;
-    }
-
-    @Override
-    public boolean updateThingsState(List<Thing> things, List<ThingState> thingsState, boolean postCheck) {
-        return false;
-    }
-
-    @Override
-    public boolean authenticate() {
-        return false;
-    }
-
-    @Override
-    public boolean authenticate(ThingAccessCredential thingAccessCredential) {
-        return false;
+    public WinkBridge(String uuid) {
+        super(uuid);
     }
 
     @Override
     public void setCredentialRequired() {
-        setCredentialRequired(true);
+
     }
 
     @Override
     public void setThingAccessCredentialClasses() {
-        setThingAccessCredentialClasses(Collections.<Class>singletonList(UsernamePasswordCredential.class));
-    }
-
-    @Override
-    public void setState(ThingState thingState) {
 
     }
 
     @Override
-    public Response callCommand(Command command) {
+    public Response callCommand(ServiceAdapterManager serviceAdapterManager, Command command) {
         return null;
     }
 
     @Override
-    public void sendCommand(Command command) {
+    public void sendCommand(ServiceAdapterManager serviceAdapterManager, Command command) {
 
     }
 
     @Override
     public Response receiveResponse() {
         return null;
+    }
+
+    @Override
+    public List<Thing> getThings(ServiceAdapterManager serviceAdapterManager) {
+        return null;
+    }
+
+    @Override
+    public List<ThingState> getThingsState(ServiceAdapterManager serviceAdapterManager) {
+        return null;
+    }
+
+    @Override
+    public boolean updateThingState(ServiceAdapterManager serviceAdapterManager, Thing thing, ThingState thingState) {
+        return false;
+    }
+
+    @Override
+    public boolean updateThingState(ServiceAdapterManager serviceAdapterManager, Thing thing, ThingState thingState, boolean postCheck) {
+        return false;
     }
 }

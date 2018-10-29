@@ -24,6 +24,7 @@
 
 package thing.command;
 
+import context.Context;
 import thing.component.Thing;
 
 import java.util.logging.Logger;
@@ -32,29 +33,11 @@ public abstract class CommandCaller {
     private static final String TAG = CommandCaller.class.getSimpleName();
     private static final Logger LOGGER = Logger.getLogger(TAG);
 
-    private Command command;
-    private Thing thing;
-
-    public CommandCaller(Command command, Thing thing) {
-        this.command = command;
-        this.thing = thing;
+    public CommandCaller() {
     }
 
-    public abstract Response call();
+    public abstract Response call(Context context, Command command, Thing thing);
 
-    public Command getCommand() {
-        return command;
-    }
-
-    public void setCommand(Command command) {
-        this.command = command;
-    }
-
-    public Thing getThing() {
-        return thing;
-    }
-
-    public void setThing(Thing thing) {
-        this.thing = thing;
+    public class NoCommandCaller extends Exception {
     }
 }

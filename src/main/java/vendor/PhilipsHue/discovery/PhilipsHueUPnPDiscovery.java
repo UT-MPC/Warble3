@@ -24,15 +24,16 @@
 
 package vendor.PhilipsHue.discovery;
 
-import thing.connection.Connection;
-import thing.connection.HttpConnection;
-import thing.discovery.SSDPDiscovery;
-import thing.util.Location;
-import vendor.PhilipsHue.component.PhilipsHueBridge;
+import context.Location;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
+import service.ServiceAdapterManager;
+import thing.connection.Connection;
+import thing.connection.HttpConnection;
+import thing.discovery.SSDPDiscovery;
+import vendor.PhilipsHue.component.PhilipsHueBridge;
 
 import java.io.IOException;
 import java.net.URL;
@@ -100,14 +101,13 @@ public final class PhilipsHueUPnPDiscovery extends SSDPDiscovery {
                 Element URLBaseElement = rootElement.getChild("URLBase", rootElement.getNamespace());
                 Element deviceElement = rootElement.getChild("device", rootElement.getNamespace());
 
-                new_bridge = new PhilipsHueBridge();
+                uuid = deviceElement.getChild("UDN", rootElement.getNamespace()).getText().replace("uuid:", "");
+                new_bridge = new PhilipsHueBridge(uuid);
 
                 name = deviceElement.getChild("friendlyName", rootElement.getNamespace()).getText();
                 friendlyName = deviceElement.getChild("friendlyName", rootElement.getNamespace()).getText();
-                uuid = deviceElement.getChild("UDN", rootElement.getNamespace()).getText().replace("uuid:", "");
                 new_bridge.setName(name);
                 new_bridge.setFriendlyName(friendlyName);
-                new_bridge.setUuid(uuid);
 
                 accessName = null;
                 accessUsername = null;
@@ -147,7 +147,7 @@ public final class PhilipsHueUPnPDiscovery extends SSDPDiscovery {
     }
 
     @Override
-    public List<PhilipsHueBridge> onDiscover() {
+    public List<PhilipsHueBridge> onDiscover(ServiceAdapterManager serviceAdapterManager) {
         List<PhilipsHueBridge> philipsHueBridges = new ArrayList<>();
         List<String> existingIpAddresses = new ArrayList<>();
 

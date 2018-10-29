@@ -1,279 +1,58 @@
-/*
- * MIT License
- *
- * Copyright (c) 2018 Yosef Saputra
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
-
 package vendor.PhilipsHue.service;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import service.BaseHttpServiceAdapter;
-import thing.component.Light;
-import thing.component.LightState;
 import thing.component.Thing;
 import thing.component.ThingState;
-import thing.util.Location;
-import vendor.PhilipsHue.component.PhilipsHueLight;
-import retrofit2.Call;
-import retrofit2.Response;
-import retrofit2.http.*;
+import thing.connection.API;
 
-import java.io.IOException;
-import java.util.*;
-import java.util.logging.Logger;
+import java.util.List;
+import java.util.Map;
 
-public final class PhilipsHueBridgeHttpServiceAdapter extends BaseHttpServiceAdapter implements PhilipsHueBridgeHttpInterface {
-    private static final String TAG = PhilipsHueBridgeHttpServiceAdapter.class.getSimpleName();
-    private static final Logger LOGGER = Logger.getLogger(TAG);
+public class PhilipsHueBridgeHttpApi extends API {
+    private BaseHttpServiceAdapter httpServiceAdapter;
+    private String baseUrl;
 
-    private PhilipsHueBridgeRestApi api;
-
-    public PhilipsHueBridgeHttpServiceAdapter(String baseUrl) {
-        super();
-        api = getInstance(baseUrl).create(PhilipsHueBridgeRestApi.class);
+    public PhilipsHueBridgeHttpApi(BaseHttpServiceAdapter httpServiceAdapter, String baseUrl) {
+        this.httpServiceAdapter = httpServiceAdapter;
+        this.baseUrl = baseUrl;
     }
 
-    @Override
     public String createUser(String username) {
         CreateUserRequest createUserRequest = new CreateUserRequest();
-        createUserRequest.setDevicetype(String.format("%s", username));
+        createUserRequest.devicetype = username;
 
-        String returnVal = null;
-        Response<List<CreateUserResponse>> response;
-        try {
-            response = api.createUser(createUserRequest).execute();
-        }
-        catch (IOException e) {
-            if (Logging.WARN) Log.w(TAG, e.toString());
-            return null;
-        }
+        BaseHttpServiceAdapter.HttpResponse<CreateUserResponse> createUserResponse =
+                httpServiceAdapter.sendSynchronous(
+                        baseUrl,
+                        "api",
+                        BaseHttpServiceAdapter.METHOD.POST,
+                        new String[]{"Content-Type: application/json"},
+                        createUserRequest.toString(),
+                        null);
 
-        List<CreateUserResponse> responseBody = response.body();
-
-        if (responseBody != null) {
-            for (CreateUserResponse createUserResponse : responseBody) {
-                try {
-                    CreateUserResponse.Success success = createUserResponse.getSuccess();
-                    returnVal = success.getUsername();
-                    if (Logging.INFO) Log.i(TAG, String.format("Create User succeed. Token: %s", success.getUsername()));
-                } catch (NullPointerException e) {
-                    CreateUserResponse.Error error = createUserResponse.getError();
-                    if (Logging.WARN) Log.w(TAG, String.format("Create User failed. Reason: %s", error.getDescription()));
-                }
-            }
-            return returnVal;
+        if (createUserResponse.getBody().success != null) {
+            return createUserResponse.getBody().success.username;
         }
         else {
             return null;
         }
     }
 
-    @Override
     public String getConfig(String user) {
-        Response<MainResponse.Config> response;
-        try {
-            response = api.getConfig(user).execute();
-        }
-        catch (IOException e) {
-            if (Logging.WARN) Log.w(TAG, e.toString());
-            return null;
-        }
-
-        MainResponse.Config responseBody = response.body();
-
-        if (responseBody != null) {
-            Map<String, MainResponse.Config.User> whitelist = responseBody.getWhitelist();
-
-            if (whitelist != null) {
-                String name = whitelist.get(user).getName();
-
-                if (name != null){
-                    return name;
-                }
-            }
-            else {
-                return null;
-            }
-        }
         return null;
     }
 
-    @Override
     public List<Thing> getThings(String user) {
-        if (user == null) {
-            return null;
-        }
-        else {
-            List<Thing> things = new ArrayList<>();
-
-            List<PhilipsHueLight> lights = getLights(user);
-            if (lights != null) {
-                things.addAll(lights);
-            }
-            return things;
-        }
+        return null;
     }
 
-    private List<PhilipsHueLight> getLights(String user) {
-        Response<Map<String, MainResponse.Light>> response = null;
-        try {
-            response = api.getLights(user).execute();
-        }
-        catch (IOException | RuntimeException e) {
-            if (Logging.WARN) Log.w(TAG, e.toString());
-            // TODO: RuntimeException is caused by bridge returning error status. it will be good if we can extract the error message. Difficulty is to cast Object to HashMap<String, MainResponse.Light>
-            return null;
-        }
-
-        Map<String, MainResponse.Light> responseBody = null;
-        try {
-            if (response != null) {
-                responseBody = response.body();
-            }
-        }
-        catch (Exception e) {
-            if (Logging.WARN) Log.w(TAG, e.toString());
-            return null;
-        }
-
-        if (responseBody != null) {
-            List<PhilipsHueLight> lights = new ArrayList<>();
-            for (Map.Entry<String, MainResponse.Light> entry : responseBody.entrySet()) {
-                PhilipsHueLight light = new PhilipsHueLight();
-
-                MainResponse.Light entryValue = entry.getValue();
-
-                light.setName(entryValue.name);
-                light.setFriendlyName(entryValue.name);
-
-                light.setUuid(entryValue.uniqueid);
-
-                light.setAccessName(entry.getKey());
-
-                light.setManufacturerSerialNumber(entryValue.uniqueid);
-                light.setManufacturerModelName(entryValue.productname);
-                light.setManufacturerModelNumber(entryValue.modelid);
-                light.setManufacturerName(entryValue.manufacturername);
-
-                Location location = new Location();
-                List<String> locationInfo = new ArrayList<>(Arrays.asList(entryValue.name.split(",")));
-                try {
-                    location.setLatitude(Double.parseDouble(locationInfo.get(1)));
-                    location.setLongitude(Double.parseDouble(locationInfo.get(2)));
-                    location.setIndoorX(Double.parseDouble(locationInfo.get(3)));
-                    location.setIndoorY(Double.parseDouble(locationInfo.get(4)));
-                    location.setIndoorZ(Double.parseDouble(locationInfo.get(5)));
-                }
-                catch (IndexOutOfBoundsException ignored) {}
-                light.setLocation(location);
-
-                lights.add(light);
-            }
-
-            return lights;
-        }
-        else {
-            return null;
-        }
-    }
-
-    @Override
     public ThingState getThingState(String user, Thing thing) {
         return null;
     }
 
-    @Override
     public void putThingState(String user, Thing thing, ThingState thingState) {
-        if (thing instanceof Light) {
-            try {
-                api.putLightState(user, thing.getAccessName(), toPutLightStateBody(thingState)).execute();
-            }
-            catch (IOException e) {
-                if (Logging.WARN) Log.w(TAG, String.format("%s", "putThingState is unsuccessful"));
-            }
-        }
-    }
-
-    private HashMap<String, Object> toPutLightStateBody(ThingState thingState) {
-        HashMap<String, Object> body = new HashMap<>();
-
-        if (thingState instanceof LightState) {
-            LightState lightState = (LightState) thingState;
-
-            if (lightState.getActive() != null) {
-                if (lightState.getActive() == ThingState.ACTIVE_STATE.ON) {
-                    body.put("on", true);
-                }
-                else if (lightState.getActive() == ThingState.ACTIVE_STATE.OFF) {
-                    body.put("on", false);
-                }
-            }
-            if (lightState.getBrightness() >= 0) {
-                int bri = lightState.getBrightness() * 253 / 65536 + 1;
-                body.put("bri", bri);
-            }
-            if (lightState.getHue() >= 0) {
-                body.put("hue", lightState.getHue());
-            }
-            if (lightState.getSaturation() >= 0) {
-                int sat = lightState.getSaturation() * 254 / 65536;
-                body.put("sat", sat);
-            }
-        }
-        else {
-            if (Logging.WARN) Log.w(TAG, "toPutLightStateBody(ThingState thingState) - thingState is unable to be converted to PutLightStateBody");
-        }
-
-        return body;
-    }
-
-    protected interface PhilipsHueBridgeRestApi {
-        @POST("api")
-        @Headers({
-                "Content-Type: application/json"
-        })
-        Call<List<CreateUserResponse>> createUser(@Body CreateUserRequest createUserRequest);
-
-        @GET("api/{user}/config")
-        Call<MainResponse.Config> getConfig(@Path("user") String userId);
-
-        @GET("api/{user}/lights")
-        Call<Map<String, MainResponse.Light>> getLights(@Path("user") String userId);
-
-        // Lights Capabilities
-        @GET("api/{user}/lights/{lightId}/state")
-        Call<List<Object>> getLightState(@Path("user") String userId, @Path("lightId") int lightId);
-
-        @PUT("api/{user}/lights/{lightId}")
-        @Headers({
-                "Content-Type: application/json"
-        })
-        Call<List<Object>> putLight(@Path("user") String userId, @Path("lightId") String lightId, @Body HashMap<String, Object> light);
-
-        @PUT("api/{user}/lights/{lightId}/state")
-        @Headers({
-                "Content-Type: application/json"
-        })
-        Call<List<Object>> putLightState(@Path("user") String userId, @Path("lightId") String lightId, @Body HashMap<String, Object> putLightStateBody);
     }
 
     private class CreateUserRequest {

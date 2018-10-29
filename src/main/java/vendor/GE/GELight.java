@@ -24,11 +24,10 @@
 
 package vendor.GE;
 
+import service.ServiceAdapterManager;
 import thing.command.Command;
 import thing.command.Response;
 import thing.component.Light;
-import thing.component.ThingState;
-import thing.credential.ThingAccessCredential;
 
 import java.util.logging.Logger;
 
@@ -36,42 +35,27 @@ public final class GELight extends Light {
     private static final String TAG = GELight.class.getSimpleName();
     private static final Logger LOGGER = Logger.getLogger(TAG);
 
-    public GELight() {
-        super();
-    }
-
-    @Override
-    public boolean authenticate() {
-        return false;
-    }
-
-    @Override
-    public boolean authenticate(ThingAccessCredential thingAccessCredential) {
-        return false;
+    public GELight(String uuid) {
+        super(uuid);
     }
 
     @Override
     public void setCredentialRequired() {
-        setCredentialRequired(false);
+
     }
 
     @Override
     public void setThingAccessCredentialClasses() {
-        setThingAccessCredentialClasses(null);
-    }
-
-    @Override
-    public void setState(ThingState thingState) {
 
     }
 
     @Override
-    public Response callCommand(Command command) {
+    public Response callCommand(ServiceAdapterManager serviceAdapterManager, Command command) {
         return null;
     }
 
     @Override
-    public void sendCommand(Command command) {
+    public void sendCommand(ServiceAdapterManager serviceAdapterManager, Command command) {
 
     }
 

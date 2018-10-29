@@ -24,6 +24,7 @@
 
 package vendor.GE;
 
+import service.ServiceAdapterManager;
 import thing.component.Thing;
 import thing.discovery.Discovery;
 
@@ -35,7 +36,7 @@ public final class GEDiscovery extends Discovery {
     private static final Logger LOGGER = Logger.getLogger(TAG);
 
     @Override
-    public List<? extends Thing> onDiscover() {
+    public List<? extends Thing> onDiscover(ServiceAdapterManager serviceAdapterManager) {
         return null;
     }
 }

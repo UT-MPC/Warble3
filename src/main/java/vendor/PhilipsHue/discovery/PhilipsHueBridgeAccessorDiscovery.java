@@ -24,6 +24,7 @@
 
 package vendor.PhilipsHue.discovery;
 
+import service.ServiceAdapterManager;
 import thing.component.Thing;
 import thing.discovery.AccessorDiscovery;
 import vendor.PhilipsHue.component.PhilipsHueBridge;
@@ -42,7 +43,7 @@ public final class PhilipsHueBridgeAccessorDiscovery extends AccessorDiscovery {
     }
 
     @Override
-    public List<? extends Thing> onDiscover() {
-        return philipsHueBridge.getThings();
+    public List<? extends Thing> onDiscover(ServiceAdapterManager serviceAdapterManager) {
+        return philipsHueBridge.getThings(serviceAdapterManager);
     }
 }

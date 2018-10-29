@@ -24,7 +24,7 @@
 
 package interaction;
 
-import thing.util.Location;
+import context.Context;
 
 import java.util.logging.Logger;
 
@@ -33,14 +33,14 @@ public class Interaction {
     private static final Logger LOGGER = Logger.getLogger(TAG);
 
     private long timestamp;
-    private Location location;
 
+    private Context context;
     private String username;
     private String command;
     private String thingUuid;
 
-    public Interaction(Location location, String username, String command, String thingUuid) {
-        this.location = location;
+    public Interaction(Context context, String username, String command, String thingUuid) {
+        this.context = context;
         this.username = username;
         this.command = command;
         this.thingUuid = thingUuid;
@@ -55,12 +55,12 @@ public class Interaction {
         timestamp = System.currentTimeMillis();
     }
 
-    public Location getLocation() {
-        return location;
+    public Context getContext() {
+        return context;
     }
 
-    public void setLocation(Location location) {
-        this.location = location;
+    public void setContext(Context context) {
+        this.context = context;
     }
 
     public String getUsername() {

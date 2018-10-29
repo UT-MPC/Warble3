@@ -24,6 +24,7 @@
 
 package thing.discovery;
 
+import service.ServiceAdapterManager;
 import thing.component.Thing;
 
 import java.io.Serializable;
@@ -34,7 +35,7 @@ public abstract class Discovery implements Serializable {
     private static final String TAG = Discovery.class.getSimpleName();
     private static final Logger LOGGER = Logger.getLogger(TAG);
 
-    public abstract List<? extends Thing> onDiscover();
+    public abstract List<? extends Thing> onDiscover(ServiceAdapterManager serviceAdapterManager);
 
     @Override
     public String toString() {
