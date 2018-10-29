@@ -33,9 +33,8 @@ public class SetThingStateCommand extends Command {
     private static final Logger LOGGER = Logger.getLogger(TAG);
 
     public SetThingStateCommand(ThingState thingState) {
-        super();
+        super(COMMAND_NAME.SET_THING_STATE);
 
-        this.name = COMMAND_NAME.SET_THING_STATE;
         this.register1 = thingState;
     }
 

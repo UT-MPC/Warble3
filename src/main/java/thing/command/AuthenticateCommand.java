@@ -33,16 +33,14 @@ public class AuthenticateCommand extends Command {
     private static final Logger LOGGER = Logger.getLogger(TAG);
 
     public AuthenticateCommand(ThingAccessCredential thingAccessCredential) {
-        super();
-        this.name = COMMAND_NAME.AUTHENTICATE;
+        super(COMMAND_NAME.AUTHENTICATE);
 
         this.flag1 = false;
         this.register1 = thingAccessCredential;
     }
 
     public AuthenticateCommand(ThingAccessCredential thingAccessCredential, boolean save) {
-        super();
-        this.name = COMMAND_NAME.AUTHENTICATE;
+        super(COMMAND_NAME.AUTHENTICATE);
 
         this.flag1 = save;
         this.register1 = thingAccessCredential;
