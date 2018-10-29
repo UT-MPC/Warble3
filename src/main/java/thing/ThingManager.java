@@ -24,22 +24,19 @@
 
 package thing;
 
+import context.Context;
 import service.BaseDatabaseServiceAdapter;
-import service.SERVICE_ADAPTER_TYPE;
+import service.SERVICE_ADAPTER_TYPE_OUTPUT;
 import service.ServiceAdapterManager;
 import service.ServiceAdapterUser;
 import thing.command.Command;
 import thing.command.CommandCaller;
-import thing.command.GenericCommandCaller;
 import thing.command.Response;
 import thing.component.Thing;
 import thing.connection.Connection;
 import thing.credential.ThingAccessCredential;
 import thing.discovery.Discovery;
-import thing.feature.Accessor;
-import vendor.GE.GEDiscovery;
-import vendor.PhilipsHue.discovery.PhilipsHueUPnPDiscovery;
-import vendor.Wink.WinkDiscovery;
+import thing.feature.Hub;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -50,20 +47,15 @@ public class ThingManager implements ServiceAdapterUser {
     private static final String TAG = ThingManager.class.getSimpleName();
     private static final Logger LOGGER = Logger.getLogger(TAG);
 
-    private static ThingManager instance = new ThingManager();
+    private ServiceAdapterManager serviceAdapterManager = null;
+    private CommandCaller commandCaller;
 
-    private BaseDatabaseServiceAdapter databaseServiceAdapter = null;
-
-    private ThingManager() {}
-
-    public static ThingManager getInstance() {
-        if (instance == null) {                         // Singleton Design Pattern
-            instance = new ThingManager();
-        }
-        return instance;
+    public ThingManager() {
     }
 
     public List<Thing> getThings() {
+        BaseDatabaseServiceAdapter databaseServiceAdapter = ((BaseDatabaseServiceAdapter) serviceAdapterManager.getServiceAdapter(SERVICE_ADAPTER_TYPE_OUTPUT.DATABASE));
+
         List<Thing> things = databaseServiceAdapter.getThings();
 
         if ((things == null) || (things.size() == 0)) {
@@ -124,13 +116,13 @@ public class ThingManager implements ServiceAdapterUser {
         List<Discovery> discoveries = new ArrayList<>();
 
         // TODO: Discovery list has to be managed somewhere else
-        discoveries.add(new PhilipsHueUPnPDiscovery());
-        discoveries.add(new WinkDiscovery());
-        discoveries.add(new GEDiscovery());
+//        discoveries.add(new PhilipsHueUPnPDiscovery());
+//        discoveries.add(new WinkDiscovery());
+//        discoveries.add(new GEDiscovery());
 
         List<Thing> firstLevelThings = new ArrayList<>();
         for(Discovery discovery: discoveries) {
-            List<? extends Thing> things1 = discovery.onDiscover();
+            List<? extends Thing> things1 = discovery.onDiscover(serviceAdapterManager);
             if (things1 != null) {
                 firstLevelThings.addAll(things1);
             }
@@ -146,8 +138,8 @@ public class ThingManager implements ServiceAdapterUser {
     private void exploreThing(Thing thing) {
         List<Thing> childThings;
 
-        if (thing != null && (thing instanceof Accessor)) {
-            childThings = ((Accessor) thing).getThings();
+        if (thing != null && (thing instanceof Hub)) {
+            childThings = ((Hub) thing).getThings(serviceAdapterManager);
 
             if (childThings != null && childThings.size() != 0) {
                 saveThings(childThings);
@@ -162,6 +154,8 @@ public class ThingManager implements ServiceAdapterUser {
     public void saveThing(Thing thing) {
         if (thing != null) {
             LOGGER.fine(String.format("Saving %s ...", thing.getFriendlyName()));
+
+            BaseDatabaseServiceAdapter databaseServiceAdapter = (BaseDatabaseServiceAdapter) serviceAdapterManager.getServiceAdapter(SERVICE_ADAPTER_TYPE_OUTPUT.DATABASE);
 
             databaseServiceAdapter.saveThing(thing);
 
@@ -196,6 +190,8 @@ public class ThingManager implements ServiceAdapterUser {
             return null;
         }
         else {
+            BaseDatabaseServiceAdapter databaseServiceAdapter = (BaseDatabaseServiceAdapter) serviceAdapterManager.getServiceAdapter(SERVICE_ADAPTER_TYPE_OUTPUT.DATABASE);
+
             Thing loadedThing = databaseServiceAdapter.loadThing(thing);
 
             if (loadedThing == null) {
@@ -210,12 +206,14 @@ public class ThingManager implements ServiceAdapterUser {
     }
 
     public boolean authenticateThing(Thing thing) {
-        LOGGER.fine(String.format("Authenticating %s ...", thing.getFriendlyName()));
-
-        boolean result = thing.authenticate();
-        saveThing(thing);
-
-        return result;
+        //TODO: implement
+//        LOGGER.fine(String.format("Authenticating %s ...", thing.getFriendlyName()));
+//
+//        boolean result = thing.authenticate();
+//        saveThing(thing);
+//
+//        return result;
+        return false;
     }
 
     public List<Boolean> authenticateThings(List<Thing> things) {
@@ -230,14 +228,13 @@ public class ThingManager implements ServiceAdapterUser {
         return results;
     }
 
-    public Response sendCommand(Command command, Thing thing) {
-        CommandCaller commandCaller = new GenericCommandCaller(command, thing);
-        return commandCaller.call();
+    public Response sendCommand(Context context, Command command, Thing thing) {
+        return commandCaller.call(context, command, thing);
     }
 
     @Override
     public void setServiceAdapter(ServiceAdapterManager serviceAdapterManager) {
         // TODO catch casting exception
-        databaseServiceAdapter = (BaseDatabaseServiceAdapter) serviceAdapterManager.getServiceAdapter(SERVICE_ADAPTER_TYPE.DATABASE);
+        this.serviceAdapterManager = serviceAdapterManager;
     }
 }

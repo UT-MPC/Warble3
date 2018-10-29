@@ -22,9 +22,11 @@
  * SOFTWARE.
  */
 
+import context.ContextManager;
 import selector.AllThingSelector;
 import selector.Selector;
-import service.SERVICE_ADAPTER_TYPE;
+import service.SERVICE_ADAPTER_TYPE_INPUT;
+import service.SERVICE_ADAPTER_TYPE_OUTPUT;
 import service.ServiceAdapter;
 import service.ServiceAdapterManager;
 import thing.ThingManager;
@@ -43,37 +45,21 @@ public class Warble {
 
     private UserManager userManager;
     private ThingManager thingManager;
+    private ContextManager contextManager;
+
     private ServiceAdapterManager serviceAdapterManager;
 
-    private List<Selector> template = new ArrayList<>();
-
     public Warble() {
-        serviceAdapterManager = ServiceAdapterManager.getInstance();
+        serviceAdapterManager = new ServiceAdapterManager();
 
-        userManager = UserManager.getInstance();
+        contextManager = new ContextManager();
+        contextManager.setServiceAdapter(serviceAdapterManager);
+
+        userManager = new UserManager();
         userManager.setServiceAdapter(serviceAdapterManager);
 
-        thingManager = ThingManager.getInstance();
+        thingManager = new ThingManager();
         thingManager.setServiceAdapter(serviceAdapterManager);
-    }
-
-    // =========== Selector ===========
-    public void addSelector(Selector selector) {
-        if (selector != null) {
-            template.add(selector);
-        }
-    }
-
-    public List<Selector> getTemplate() {
-        return template;
-    }
-
-    public void setTemplate(List<Selector> template) {
-        this.template = template;
-    }
-
-    public void clearTemplate() {
-        this.template.clear();
     }
 
     // ============= User =============
@@ -101,15 +87,23 @@ public class Warble {
         }
     }
 
-    public List<Thing> fetch() {
-        List<Thing> things = new ArrayList<>();
+    public List<Thing> fetch(List<Selector> template) {
+        return fetch(template, 1);
+    }
 
-        if ((template == null) || (template.size() == 0)) {
+    public List<Thing> fetch(List<Selector> template, int numberOfThings) {
+        List<Thing> things = thingManager.getThings();
+
+        if (template == null) {
+            template = new ArrayList<>();
+        }
+
+        if (template.size() == 0) {
             template.add(new AllThingSelector());
         }
 
         for (Selector selector : template) {
-            List<Thing> newThings = selector.fetch();
+            List<Thing> newThings = selector.select(things);
             if (newThings != null) {
                 things.addAll(newThings);
             }
@@ -117,8 +111,9 @@ public class Warble {
 
         if (things.size() == 0) {
             return null;
-        }
-        else {
+        } else if ((numberOfThings != -1) & (things.size() > numberOfThings)) {
+            return things.subList(0, numberOfThings - 1);
+        } else {
             return things;
         }
     }
@@ -128,7 +123,7 @@ public class Warble {
     }
 
     public void authenticateThings() {
-        thingManager.authenticateThings(fetch());
+        thingManager.authenticateThings(fetch(null, -1));
     }
 
     public void updateThing(Thing thing) {
@@ -141,18 +136,31 @@ public class Warble {
 
     // =========== Command ============
     public Response sendCommand(Command command, Thing thing) {
-        return ThingManager.getInstance().sendCommand(command, thing);
+        return thingManager.sendCommand(contextManager.getContext(), command, thing);
     }
 
     // =========== Service Adapter ============
-    public ServiceAdapter getServiceAdapter(SERVICE_ADAPTER_TYPE serviceAdapterType) {
+    public ServiceAdapter getServiceAdapter(SERVICE_ADAPTER_TYPE_INPUT serviceAdapterType) {
         return serviceAdapterManager.getServiceAdapter(serviceAdapterType);
     }
 
-    public void setServiceAdapter(SERVICE_ADAPTER_TYPE serviceAdapterType, ServiceAdapter serviceAdapter) {
+    public ServiceAdapter getServiceAdapter(SERVICE_ADAPTER_TYPE_OUTPUT serviceAdapterType) {
+        return serviceAdapterManager.getServiceAdapter(serviceAdapterType);
+    }
+
+    public void setServiceAdapter(SERVICE_ADAPTER_TYPE_INPUT serviceAdapterType, ServiceAdapter serviceAdapter) {
         serviceAdapterManager.setServiceAdapter(serviceAdapterType, serviceAdapter);
 
         userManager.setServiceAdapter(serviceAdapterManager);
         thingManager.setServiceAdapter(serviceAdapterManager);
+        contextManager.setServiceAdapter(serviceAdapterManager);
+    }
+
+    public void setServiceAdapter(SERVICE_ADAPTER_TYPE_OUTPUT serviceAdapterType, ServiceAdapter serviceAdapter) {
+        serviceAdapterManager.setServiceAdapter(serviceAdapterType, serviceAdapter);
+
+        userManager.setServiceAdapter(serviceAdapterManager);
+        thingManager.setServiceAdapter(serviceAdapterManager);
+        contextManager.setServiceAdapter(serviceAdapterManager);
     }
 }

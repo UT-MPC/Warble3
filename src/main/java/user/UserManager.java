@@ -25,7 +25,7 @@
 package user;
 
 import service.BaseDatabaseServiceAdapter;
-import service.SERVICE_ADAPTER_TYPE;
+import service.SERVICE_ADAPTER_TYPE_OUTPUT;
 import service.ServiceAdapterManager;
 import service.ServiceAdapterUser;
 
@@ -35,17 +35,9 @@ public class UserManager implements ServiceAdapterUser {
     private static final String TAG = UserManager.class.getSimpleName();
     private static final Logger LOGGER = Logger.getLogger(TAG);
 
-    private static UserManager instance = new UserManager();
-
     private BaseDatabaseServiceAdapter databaseServiceAdapter = null;
 
-    private UserManager() {}
-
-    public static UserManager getInstance() {
-        if (instance == null) {
-            instance = new UserManager();
-        }
-        return instance;
+    public UserManager() {
     }
 
     private Boolean validateUsername(String username) {
@@ -92,6 +84,6 @@ public class UserManager implements ServiceAdapterUser {
 
     @Override
     public void setServiceAdapter(ServiceAdapterManager serviceAdapterManager) {
-        databaseServiceAdapter = (BaseDatabaseServiceAdapter) serviceAdapterManager.getServiceAdapter(SERVICE_ADAPTER_TYPE.DATABASE);
+        databaseServiceAdapter = (BaseDatabaseServiceAdapter) serviceAdapterManager.getServiceAdapter(SERVICE_ADAPTER_TYPE_OUTPUT.DATABASE);
     }
 }
