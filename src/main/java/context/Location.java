@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package thing.util;
+package context;
 
 import com.google.gson.Gson;
 import com.google.gson.annotations.Expose;
