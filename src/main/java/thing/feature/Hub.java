@@ -24,18 +24,18 @@
 
 package thing.feature;
 
+import service.ServiceAdapterManager;
 import thing.component.Thing;
 import thing.component.ThingState;
 
 import java.util.List;
 
-public interface Accessor {
-    List<Thing> getThings();
-    List<ThingState> getThingsState();
+public interface Hub {
+    List<Thing> getThings(ServiceAdapterManager serviceAdapterManager);
 
-    boolean updateThingState(Thing thing, ThingState thingState);
-    boolean updateThingState(Thing thing, ThingState thingState, boolean postCheck);
+    List<ThingState> getThingsState(ServiceAdapterManager serviceAdapterManager);
 
-    boolean updateThingsState(List<Thing> things, List<ThingState> thingsState);
-    boolean updateThingsState(List<Thing> things, List<ThingState> thingsState, boolean postCheck);
+    boolean updateThingState(ServiceAdapterManager serviceAdapterManager, Thing thing, ThingState thingState);
+
+    boolean updateThingState(ServiceAdapterManager serviceAdapterManager, Thing thing, ThingState thingState, boolean postCheck);
 }
