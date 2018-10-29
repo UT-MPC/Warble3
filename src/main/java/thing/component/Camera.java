@@ -1,4 +1,5 @@
 /*
+/*
  * MIT License
  *
  * Copyright (c) 2018 Yosef Saputra
@@ -31,6 +32,10 @@ import java.util.logging.Logger;
 public abstract class Camera extends Thing {
     private static final String TAG = Camera.class.getSimpleName();
     private static final Logger LOGGER = Logger.getLogger(TAG);
+
+    public Camera(String uuid) {
+        super(uuid);
+    }
 
     @Override
     public void setThingTypes() {

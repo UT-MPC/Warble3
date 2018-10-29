@@ -32,6 +32,10 @@ public abstract class Thermostat extends Thing {
     private static final String TAG = Thermostat.class.getSimpleName();
     private static final Logger LOGGER = Logger.getLogger(TAG);
 
+    public Thermostat(String uuid) {
+        super(uuid);
+    }
+
     @Override
     public void setThingTypes() {
         List<ThingType> thingTypes = new ArrayList<>();

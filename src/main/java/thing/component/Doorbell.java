@@ -32,6 +32,10 @@ public abstract class Doorbell extends Thing {
     private static final String TAG = Doorbell.class.getSimpleName();
     private static final Logger LOGGER = Logger.getLogger(TAG);
 
+    public Doorbell(String uuid) {
+        super(uuid);
+    }
+
     @Override
     public void setThingTypes() {
         List<ThingType> thingTypes = new ArrayList<>();

@@ -32,6 +32,10 @@ public abstract class Alarm extends Thing {
     private static final String TAG = Alarm.class.getSimpleName();
     private static final Logger LOGGER = Logger.getLogger(TAG);
 
+    public Alarm(String uuid) {
+        super(uuid);
+    }
+
     @Override
     public void setThingTypes() {
         List<ThingType> thingTypes = new ArrayList<>();

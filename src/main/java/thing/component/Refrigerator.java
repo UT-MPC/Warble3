@@ -32,6 +32,10 @@ public abstract class Refrigerator extends Thing {
     private static final String TAG = Refrigerator.class.getSimpleName();
     private static final Logger LOGGER = Logger.getLogger(TAG);
 
+    public Refrigerator(String uuid) {
+        super(uuid);
+    }
+
     @Override
     public void setThingTypes() {
         List<ThingType> thingTypes = new ArrayList<>();

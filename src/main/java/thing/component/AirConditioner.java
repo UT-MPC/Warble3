@@ -32,6 +32,10 @@ public abstract class AirConditioner extends Thing {
     private static final String TAG = AirConditioner.class.getSimpleName();
     private static final Logger LOGGER = Logger.getLogger(TAG);
 
+    public AirConditioner(String uuid) {
+        super(uuid);
+    }
+
     @Override
     public void setThingTypes() {
         List<ThingType> thingTypes = new ArrayList<>();

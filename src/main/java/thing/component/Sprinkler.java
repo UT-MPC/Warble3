@@ -32,6 +32,10 @@ public abstract class Sprinkler extends Thing {
     private static final String TAG = Sprinkler.class.getSimpleName();
     private static final Logger LOGGER = Logger.getLogger(TAG);
 
+    public Sprinkler(String uuid) {
+        super(uuid);
+    }
+
     @Override
     public void setThingTypes() {
         List<ThingType> thingTypes = new ArrayList<>();

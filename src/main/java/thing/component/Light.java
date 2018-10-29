@@ -32,6 +32,10 @@ public abstract class Light extends Thing {
     private static final String TAG = Light.class.getSimpleName();
     private static final Logger LOGGER = Logger.getLogger(TAG);
 
+    public Light(String uuid) {
+        super(uuid);
+    }
+
     @Override
     public void setThingTypes() {
         List<ThingType> thingTypes = new ArrayList<>();

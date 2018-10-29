@@ -32,6 +32,10 @@ public abstract class Lock extends Thing {
     private static final String TAG = Lock.class.getSimpleName();
     private static final Logger LOGGER = Logger.getLogger(TAG);
 
+    public Lock(String uuid) {
+        super(uuid);
+    }
+
     @Override
     public void setThingTypes() {
         List<ThingType> thingTypes = new ArrayList<>();

@@ -24,15 +24,19 @@
 
 package thing.component;
 
-import thing.feature.Accessor;
+import thing.feature.Hub;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-public abstract class Bridge extends Thing implements Accessor {
+public abstract class Bridge extends Thing implements Hub {
     private static final String TAG = Bridge.class.getSimpleName();
     private static final Logger LOGGER = Logger.getLogger(TAG);
+
+    public Bridge(String uuid) {
+        super(uuid);
+    }
 
     @Override
     public void setThingTypes() {

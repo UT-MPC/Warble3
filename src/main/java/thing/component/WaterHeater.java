@@ -32,6 +32,10 @@ public abstract class WaterHeater extends Thing {
     private static final String TAG = WaterHeater.class.getSimpleName();
     private static final Logger LOGGER = Logger.getLogger(TAG);
 
+    public WaterHeater(String uuid) {
+        super(uuid);
+    }
+
     @Override
     public void setThingTypes() {
         List<ThingType> thingTypes = new ArrayList<>();
