@@ -24,12 +24,14 @@
 
 package thing.component;
 
+import context.Location;
+import thing.command.Command;
 import thing.command.Commandable;
+import thing.command.GenericResponse;
+import thing.command.Response;
 import thing.connection.Connection;
 import thing.credential.ThingAccessCredential;
 import thing.discovery.Discovery;
-import thing.util.Location;
-import .database.interfaces.Storeable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -40,39 +42,41 @@ public abstract class Thing implements Serializable, Storeable, Commandable {
     private static final String TAG = Thing.class.getSimpleName();
     private static final Logger LOGGER = Logger.getLogger(TAG);
 
-    private String name;
-    private String friendlyName;
+    protected String name;
+    protected String friendlyName;
 
-    private String uuid;
+    protected String uuid;
 
-    private String accessName;
-    private String accessUsername;
-    private String accessPasscode;
+    protected String accessName;
+    protected String accessUsername;
+    protected String accessPasscode;
 
-    private String manufacturerSerialNumber;
-    private String manufacturerModelName;
-    private String manufacturerModelNumber;
-    private String manufacturerName;
+    protected String manufacturerSerialNumber;
+    protected String manufacturerModelName;
+    protected String manufacturerModelNumber;
+    protected String manufacturerName;
 
-    private List<ThingType> thingTypes;
-    private THING_CONCRETE_TYPE thingConcreteType;
+    protected List<ThingType> thingTypes;
+    protected THING_CONCRETE_TYPE thingConcreteType;
 
-    private List<Connection> connections;
-    private List<Discovery> discoveries;
+    protected List<Connection> connections;
+    protected Connection lastActiveConnection;
+    protected List<Discovery> discoveries;
 
-    private boolean isCredentialRequired = true;
-    private List<ThingAccessCredential> thingAccessCredentials;
-    private List<Class> thingAccessCredentialClasses;
+    protected boolean isCredentialRequired = true;
+    protected List<ThingAccessCredential> thingAccessCredentials;
+    protected List<Class> thingAccessCredentialClasses;
 
-    private THING_CONNECTION_STATE connectionState = THING_CONNECTION_STATE.INITIAL;
-    private THING_AUTHENTICATION_STATE authenticationState = THING_AUTHENTICATION_STATE.UNAUTHENTICATED;
-    private THING_BINDING_STATE bindingState = THING_BINDING_STATE.UNBOUND;
+    protected THING_CONNECTION_STATE connectionState = THING_CONNECTION_STATE.INITIAL;
+    protected THING_AUTHENTICATION_STATE authenticationState = THING_AUTHENTICATION_STATE.UNAUTHENTICATED;
+    protected THING_BINDING_STATE bindingState = THING_BINDING_STATE.UNBOUND;
 
-    private Location location;
+    protected Location location;
 
-    private long dbid;
+    protected long dbid;
 
-    public Thing() {
+    public Thing(String uuid) {
+        this.uuid = uuid;
         setCredentialRequired();                        // Template Design Pattern
         setThingAccessCredentialClasses();              // Template Design Pattern
         setThingTypes();                                // Template Design Pattern
@@ -262,12 +266,6 @@ public abstract class Thing implements Serializable, Storeable, Commandable {
         this.dbid = dbid;
     }
 
-    public abstract boolean authenticate();
-
-    public abstract boolean authenticate(ThingAccessCredential thingAccessCredential);
-
-    public abstract void setState(ThingState thingState);
-
     public abstract void setCredentialRequired();
 
     public abstract void setThingAccessCredentialClasses();
@@ -275,6 +273,28 @@ public abstract class Thing implements Serializable, Storeable, Commandable {
     public abstract void setThingTypes();
 
     public abstract void setThingConcreteTypes();
+
+    public Response preCallCommand(Command command) {
+        if (command == null) {
+            Response response = new GenericResponse();
+
+            response.setStatus(false);
+            response.setCommandName(null);
+            response.setDescription("no command");
+
+            return response;
+        } else if (command.getName() == null) {
+            Response response = new GenericResponse();
+
+            response.setStatus(false);
+            response.setCommandName(null);
+            response.setDescription("no command name");
+
+            return response;
+        } else {
+            return null;
+        }
+    }
 
     @Override
     public void onPostStore(long dbid) {
