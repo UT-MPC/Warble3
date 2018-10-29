@@ -24,9 +24,13 @@
 
 package service;
 
+import context.Location;
+
 import java.util.logging.Logger;
 
 public abstract class BaseLocationServiceAdapter extends ServiceAdapter {
     private static final String TAG = BaseLocationServiceAdapter.class.getSimpleName();
     private static final Logger LOGGER = Logger.getLogger(TAG);
+
+    public abstract Location getLocation();
 }
