@@ -38,6 +38,11 @@ public class BluetoothConnection extends Connection {
     }
 
     @Override
+    public boolean testConnection() {
+        return true;
+    }
+
+    @Override
     public boolean equals(Object object) {
         if (object == this) {
             return true;

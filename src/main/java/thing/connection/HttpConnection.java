@@ -53,6 +53,11 @@ public class HttpConnection extends Connection {
         setDirectionalType(DIRECTIONAL_TYPE.UNIDIRECTIONAL);
     }
 
+    @Override
+    public boolean testConnection() {
+        return true;
+    }
+
     public String getUrl() {
         return url;
     }

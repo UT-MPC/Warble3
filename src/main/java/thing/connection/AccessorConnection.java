@@ -45,6 +45,11 @@ public class AccessorConnection extends Connection {
         setDirectionalType(DIRECTIONAL_TYPE.UNIDIRECTIONAL);
     }
 
+    @Override
+    public boolean testConnection() {
+        return true;
+    }
+
     public Thing getAccessor() {
         return accessor;
     }

@@ -34,16 +34,10 @@ public abstract class Connection implements Serializable, TextStoreable {
     private static final String TAG = Connection.class.getSimpleName();
     private static final Logger LOGGER = Logger.getLogger(TAG);
 
-    public enum DIRECTIONAL_TYPE {
-        UNIDIRECTIONAL,
-        BIDIRECTIONAL
-    }
-
     protected Thing source;
     protected Thing destination;
-
     private DIRECTIONAL_TYPE directionalType;
-
+    private API api;
     private long dbid;
 
     public Connection() {
@@ -53,6 +47,8 @@ public abstract class Connection implements Serializable, TextStoreable {
         this.source = source;
         this.destination = destination;
     }
+
+    public abstract boolean testConnection();
 
     public Thing getSource() {
         return source;
@@ -78,6 +74,14 @@ public abstract class Connection implements Serializable, TextStoreable {
         this.directionalType = directionalType;
     }
 
+    public API getApi() {
+        return api;
+    }
+
+    public void setApi(API api) {
+        this.api = api;
+    }
+
     public long getDbid() {
         return dbid;
     }
@@ -85,6 +89,7 @@ public abstract class Connection implements Serializable, TextStoreable {
     public void setDbid(long dbid) {
         this.dbid = dbid;
     }
+
 
     @Override
     public void onPostStore(long dbid) {
@@ -98,4 +103,9 @@ public abstract class Connection implements Serializable, TextStoreable {
 
     @Override
     public abstract boolean equals(Object object);
+
+    public enum DIRECTIONAL_TYPE {
+        UNIDIRECTIONAL,
+        BIDIRECTIONAL
+    }
 }
