@@ -31,30 +31,35 @@ public class ServiceAdapterManager {
     private static final String TAG = ServiceAdapterManager.class.getSimpleName();
     private static final Logger LOGGER = Logger.getLogger(TAG);
 
-    private static ServiceAdapterManager instance = new ServiceAdapterManager();
+    private HashMap<SERVICE_ADAPTER_TYPE_INPUT, ServiceAdapter> serviceAdapterInputHashMap;
+    private HashMap<SERVICE_ADAPTER_TYPE_OUTPUT, ServiceAdapter> serviceAdapterOutputHashMap;
 
-    private HashMap<SERVICE_ADAPTER_TYPE, ServiceAdapter> serviceAdapterHashMap;
+    public ServiceAdapterManager() {
+        serviceAdapterInputHashMap = new HashMap<>();
+        serviceAdapterOutputHashMap = new HashMap<>();
 
-    private ServiceAdapterManager() {
-        serviceAdapterHashMap = new HashMap<>();
+        for (SERVICE_ADAPTER_TYPE_INPUT serviceAdapterType : SERVICE_ADAPTER_TYPE_INPUT.values()) {
+            serviceAdapterInputHashMap.put(serviceAdapterType, null);
+        }
 
-        for (SERVICE_ADAPTER_TYPE serviceAdapterType : SERVICE_ADAPTER_TYPE.values()) {
-            serviceAdapterHashMap.put(serviceAdapterType, null);
+        for (SERVICE_ADAPTER_TYPE_OUTPUT serviceAdapterType : SERVICE_ADAPTER_TYPE_OUTPUT.values()) {
+            serviceAdapterOutputHashMap.put(serviceAdapterType, null);
         }
     }
 
-    public static ServiceAdapterManager getInstance() {
-        if (instance == null) {                         // Singleton Design Pattern
-            instance = new ServiceAdapterManager();
-        }
-        return instance;
+    public ServiceAdapter getServiceAdapter(SERVICE_ADAPTER_TYPE_INPUT serviceAdapterType) {
+        return serviceAdapterInputHashMap.get(serviceAdapterType);
     }
 
-    public ServiceAdapter getServiceAdapter(SERVICE_ADAPTER_TYPE serviceAdapterType) {
-        return serviceAdapterHashMap.get(serviceAdapterType);
+    public void setServiceAdapter(SERVICE_ADAPTER_TYPE_INPUT serviceAdapterType, ServiceAdapter serviceAdapter) {
+        serviceAdapterInputHashMap.put(serviceAdapterType, serviceAdapter);
     }
 
-    public void setServiceAdapter(SERVICE_ADAPTER_TYPE serviceAdapterType, ServiceAdapter serviceAdapter) {
-        serviceAdapterHashMap.put(serviceAdapterType, serviceAdapter);
+    public ServiceAdapter getServiceAdapter(SERVICE_ADAPTER_TYPE_OUTPUT serviceAdapterType) {
+        return serviceAdapterOutputHashMap.get(serviceAdapterType);
+    }
+
+    public void setServiceAdapter(SERVICE_ADAPTER_TYPE_OUTPUT serviceAdapterType, ServiceAdapter serviceAdapter) {
+        serviceAdapterOutputHashMap.put(serviceAdapterType, serviceAdapter);
     }
 }
