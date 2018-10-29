@@ -24,7 +24,6 @@
 
 package selector;
 
-import thing.ThingManager;
 import thing.component.Thing;
 
 import java.util.List;
@@ -39,13 +38,16 @@ public class AllThingSelector extends Selector {
     }
 
     @Override
-    public List<Thing> fetch() {
-        return ThingManager.getInstance().getThings();
-    }
+    public List<Thing> select(List<Thing> things, int k) {
+        if ((things == null) || things.size() == 0 || (k == 0)) {
+            return null;
+        }
 
-    @Override
-    public List<Thing> select(List<Thing> things) {
-        return things;
+        if (k < 0) {
+            return things;
+        } else {
+            return things.subList(0, k - 1);
+        }
     }
 
     @Override

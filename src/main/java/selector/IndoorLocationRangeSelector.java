@@ -24,9 +24,8 @@
 
 package selector;
 
-import thing.ThingManager;
+import context.Location;
 import thing.component.Thing;
-import thing.util.Location;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,21 +44,27 @@ public class IndoorLocationRangeSelector extends Selector {
     }
 
     @Override
-    public List<Thing> fetch() {
-        return select(ThingManager.getInstance().getThings());
-    }
-
-    @Override
-    public List<Thing> select(List<Thing> things) {
-        if (things == null) {
+    public List<Thing> select(List<Thing> things, int k) {
+        if ((things == null) || things.size() == 0 || (k == 0)) {
             return null;
         }
 
         List<Thing> returnThings = new ArrayList<>();
 
-        for (Thing thing : things) {
-            if (getIndoorDistance(thing.getLocation()) < indoorRange) {
-                returnThings.add(thing);
+        if (k < 0) {
+            for (Thing thing : things) {
+                if (getIndoorDistance(thing.getLocation()) < indoorRange) {
+                    returnThings.add(thing);
+                }
+            }
+        } else {
+            for (Thing thing : things) {
+                if (getIndoorDistance(thing.getLocation()) < indoorRange) {
+                    returnThings.add(thing);
+                }
+                if (returnThings.size() >= k) {
+                    break;
+                }
             }
         }
 

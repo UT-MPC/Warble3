@@ -24,9 +24,8 @@
 
 package selector;
 
-import thing.ThingManager;
+import context.Location;
 import thing.component.Thing;
-import thing.util.Location;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,13 +42,8 @@ public class NearestThingSelector extends Selector {
     }
 
     @Override
-    public List<Thing> fetch() {
-        return select(ThingManager.getInstance().getThings());
-    }
-
-    @Override
-    public List<Thing> select(List<Thing> things) {
-        if (things == null || things.size() == 0) {
+    public List<Thing> select(List<Thing> things, int k) {
+        if ((things == null) || things.size() == 0 || (k == 0)) {
             return null;
         }
 

@@ -24,7 +24,6 @@
 
 package selector;
 
-import thing.ThingManager;
 import thing.component.THING_CONCRETE_TYPE;
 import thing.component.Thing;
 
@@ -44,17 +43,27 @@ public class ThingConcreteTypeSelector extends Selector {
     }
 
     @Override
-    public List<Thing> fetch() {
-        return select(ThingManager.getInstance().getThings());
-    }
+    public List<Thing> select(List<Thing> things, int k) {
+        if ((things == null) || things.size() == 0 || (k == 0)) {
+            return null;
+        }
 
-    @Override
-    public List<Thing> select(List<Thing> things) {
         List<Thing> returnThings = new ArrayList<>();
 
-        for (Thing thing : things) {
-            if (thingConcreteTypes.contains(thing.getThingConcreteType())) {
-                returnThings.add(thing);
+        if (k < 0) {
+            for (Thing thing : things) {
+                if (thingConcreteTypes.contains(thing.getThingConcreteType())) {
+                    returnThings.add(thing);
+                }
+            }
+        } else {
+            for (Thing thing : things) {
+                if (thingConcreteTypes.contains(thing.getThingConcreteType())) {
+                    returnThings.add(thing);
+                }
+                if (returnThings.size() >= k) {
+                    break;
+                }
             }
         }
 
