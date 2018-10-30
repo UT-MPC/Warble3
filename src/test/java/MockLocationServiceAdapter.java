@@ -6,4 +6,14 @@ public class MockLocationServiceAdapter extends BaseLocationServiceAdapter {
     public Location getLocation() {
         return null;
     }
+
+    @Override
+    public void onInitialize() {
+
+    }
+
+    @Override
+    public void onTerminate() {
+
+    }
 }

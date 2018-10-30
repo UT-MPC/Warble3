@@ -22,4 +22,14 @@ public class MockHttpServiceAdapter extends BaseHttpServiceAdapter {
         System.out.println(parts.toString());
         System.out.println("==== END MOCK ====");
     }
+
+    @Override
+    public void onInitialize() {
+
+    }
+
+    @Override
+    public void onTerminate() {
+
+    }
 }
