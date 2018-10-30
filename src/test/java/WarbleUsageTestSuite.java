@@ -13,7 +13,7 @@ public class WarbleUsageTestSuite {
 
     @Before
     public void init() {
-        Warble warble = new Warble();
+        warble = new Warble();
 
         warble.setServiceAdapter(SERVICE_ADAPTER_TYPE_OUTPUT.DATABASE, new MockDatabaseServiceAdapter());
         warble.setServiceAdapter(SERVICE_ADAPTER_TYPE_INPUT.LOCATION, new MockLocationServiceAdapter());
