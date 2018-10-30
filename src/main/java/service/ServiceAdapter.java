@@ -29,4 +29,12 @@ import java.util.logging.Logger;
 public abstract class ServiceAdapter {
     private static final String TAG = ServiceAdapter.class.getSimpleName();
     private static final Logger LOGGER = Logger.getLogger(TAG);
+
+    public ServiceAdapter() {
+        onInitialize();
+    }
+
+    public abstract void onInitialize();
+
+    public abstract void onTerminate();
 }
