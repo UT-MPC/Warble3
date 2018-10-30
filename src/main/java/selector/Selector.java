@@ -34,7 +34,7 @@ public abstract class Selector {
     private static final Logger LOGGER = Logger.getLogger(TAG);
 
     public List<Thing> select(List<Thing> things) {
-        return select(things, 1);
+        return select(things, -1);
     }
 
     public abstract List<Thing> select(List<Thing> things, int k);
