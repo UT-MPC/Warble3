@@ -116,12 +116,12 @@ public class Warble {
     }
 
     /**
-     * Fetch a relevant thing matching the Selectors requirements in template
+     * Fetch all relevant Things matching the Selectors requirements in template
      * @param   template  list of Selectors that define the criteria on how the things are selected
-     * @return a relevant thing
+     * @return all relevant Things
      */
     public List<Thing> fetch(List<Selector> template) {
-        return fetch(template, 1);
+        return fetch(template, -1);
     }
 
     /**
@@ -134,11 +134,16 @@ public class Warble {
      * Fetch the relevant Things matching the Selectors requirements in template
      *
      * @param template       list of Selectors that define the criteria on how the Things are selected
-     * @param numberOfThings the number of relevant Things to be fetched
-     * @return list of relevant things
+     * @param numberOfThings the maximum number of relevant Things to be fetched. -1 means all relevant Things.
+     * @return list of relevant things. If no selected Things is available, will return null
      */
     public List<Thing> fetch(List<Selector> template, int numberOfThings) {
         List<Thing> things = thingManager.getThings();
+        if (things == null) {
+            return null;
+        }
+
+        List<Thing> returnThings = new ArrayList<>();
 
         if (template == null) {
             template = new ArrayList<>();
@@ -149,18 +154,20 @@ public class Warble {
         }
 
         for (Selector selector : template) {
-            List<Thing> newThings = selector.select(things);
-            if (newThings != null) {
-                things.addAll(newThings);
+            List<Thing> selectedThings = selector.select(things);
+            if (selectedThings != null) {
+                returnThings.addAll(selectedThings);
             }
         }
 
-        if (things.size() == 0) {
+        if (returnThings.size() == 0) {
             return null;
-        } else if ((numberOfThings != -1) & (things.size() > numberOfThings)) {
-            return things.subList(0, numberOfThings - 1);
+        } else if (numberOfThings == -1) {
+            return returnThings;
+        } else if (returnThings.size() > numberOfThings) {
+            return returnThings.subList(0, numberOfThings);
         } else {
-            return things;
+            return null;
         }
     }
 
