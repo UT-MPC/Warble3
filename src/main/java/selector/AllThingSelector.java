@@ -46,7 +46,7 @@ public class AllThingSelector extends Selector {
         if (k < 0) {
             return things;
         } else {
-            return things.subList(0, k - 1);
+            return things.subList(0, k);
         }
     }
 
