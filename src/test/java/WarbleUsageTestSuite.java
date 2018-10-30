@@ -4,9 +4,12 @@ import selector.AllThingSelector;
 import selector.Selector;
 import service.SERVICE_ADAPTER_TYPE_INPUT;
 import service.SERVICE_ADAPTER_TYPE_OUTPUT;
+import thing.component.Thing;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 public class WarbleUsageTestSuite {
     private Warble warble;
@@ -25,6 +28,8 @@ public class WarbleUsageTestSuite {
         List<Selector> template = new ArrayList<>();
         template.add(new AllThingSelector());
 
-        warble.fetch(template);
+        List<Thing> things = warble.fetch(template);
+
+        assertEquals(2, things.size());
     }
 }
