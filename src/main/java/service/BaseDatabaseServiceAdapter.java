@@ -37,8 +37,9 @@ public abstract class BaseDatabaseServiceAdapter extends ServiceAdapter {
     private static final String TAG = BaseDatabaseServiceAdapter.class.getSimpleName();
     private static final Logger LOGGER = Logger.getLogger(TAG);
 
-    public abstract void    onInitialize();
-    public abstract void    onTerminate();
+    public BaseDatabaseServiceAdapter() {
+        super();
+    }
 
     public abstract void    addUser(User newUser);
     public abstract User    getUserByUsername(String username);

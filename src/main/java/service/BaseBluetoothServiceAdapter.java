@@ -29,4 +29,8 @@ import java.util.logging.Logger;
 public abstract class BaseBluetoothServiceAdapter extends ServiceAdapter {
     private static final String TAG = BaseBluetoothServiceAdapter.class.getSimpleName();
     private static final Logger LOGGER = Logger.getLogger(TAG);
+
+    public BaseBluetoothServiceAdapter() {
+        super();
+    }
 }

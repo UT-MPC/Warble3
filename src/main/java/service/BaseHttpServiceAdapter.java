@@ -34,6 +34,10 @@ public abstract class BaseHttpServiceAdapter extends ServiceAdapter {
     private static final String TAG = BaseHttpServiceAdapter.class.getSimpleName();
     private static final Logger LOGGER = Logger.getLogger(TAG);
 
+    public BaseHttpServiceAdapter() {
+        super();
+    }
+
 //    protected Retrofit getInstance(String baseUrl) {
 //        Gson gson = new GsonBuilder()
 //                .setLenient()

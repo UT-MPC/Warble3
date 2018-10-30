@@ -32,5 +32,9 @@ public abstract class BaseLocationServiceAdapter extends ServiceAdapter {
     private static final String TAG = BaseLocationServiceAdapter.class.getSimpleName();
     private static final Logger LOGGER = Logger.getLogger(TAG);
 
+    public BaseLocationServiceAdapter() {
+        super();
+    }
+
     public abstract Location getLocation();
 }

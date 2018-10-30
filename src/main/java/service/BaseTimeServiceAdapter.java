@@ -29,4 +29,8 @@ import java.util.logging.Logger;
 public abstract class BaseTimeServiceAdapter extends ServiceAdapter {
     private static final String TAG = BaseTimeServiceAdapter.class.getSimpleName();
     private static final Logger LOGGER = Logger.getLogger(TAG);
+
+    public BaseTimeServiceAdapter() {
+        super();
+    }
 }
