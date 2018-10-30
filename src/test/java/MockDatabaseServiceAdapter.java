@@ -7,6 +7,7 @@ import user.User;
 import vendor.PhilipsHue.component.PhilipsHueBridge;
 import vendor.PhilipsHue.component.PhilipsHueLight;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MockDatabaseServiceAdapter extends BaseDatabaseServiceAdapter {
@@ -16,10 +17,19 @@ public class MockDatabaseServiceAdapter extends BaseDatabaseServiceAdapter {
 
     @Override
     public void onInitialize() {
+        users = new ArrayList<>();
+        things = new ArrayList<>();
+        interactions = new ArrayList<>();
+
         users.add(new User("ys", "password"));
 
         PhilipsHueBridge bridge1 = new PhilipsHueBridge("123abc");
+        bridge1.setFriendlyName("bridge1");
         PhilipsHueLight light1 = new PhilipsHueLight("456def");
+        light1.setFriendlyName("light1");
+
+        things.add(bridge1);
+        things.add(light1);
     }
 
     @Override
@@ -44,7 +54,7 @@ public class MockDatabaseServiceAdapter extends BaseDatabaseServiceAdapter {
 
     @Override
     public List<Thing> getThings() {
-        return null;
+        return things;
     }
 
     @Override
