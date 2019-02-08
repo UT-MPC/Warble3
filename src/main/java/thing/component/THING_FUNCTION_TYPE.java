@@ -25,15 +25,25 @@
 package thing.component;
 
 public enum THING_FUNCTION_TYPE {
-    ACCESSOR,                       // ex: bridge
-    FOOD_DRINK_PROCESSOR,           // ex: coffee machine
-    FOOD_DRINK_STORAGE,             // ex: refrigerator, freezer
-    GARDEN_MANAGEMENT,              // ex: sprinkler
-    HOUSE_UTILITY,                  // ex: electric plug, doorbell
-    LIGHTING,                       // ex: table lamp, room lamp
-    ROOM_COVER,                     // ex: blind, curtain
-    ROOM_CONDITIONING,              // ex: air conditioner, heater, diffuser, humidifier, fan, dehumidifier
-    SECURITY,                       // ex: lock
-    STORAGE,                        // ex:
-    VISION,                         // ex: camera, cctv
+    ACCESSOR("ACCESSOR"),                   // ex: bridge
+    AMBIENT("AMBIENT"),                    // ex: air conditioner, heater, diffuser, humidifier, fan, dehumidifier
+    FOOD_DRINK_PROCESSOR("FOOD_DRINK_PROCESSOR"),     // ex: coffee machine
+    FOOD_DRINK_STORAGE("FOOD_DRINK_STORAGE"),         // ex: refrigerator, freezer
+    GARDEN_MANAGEMENT("GARDEN_MANAGEMENT"),          // ex: sprinkler
+    HOUSE_UTILITY("HOUSE_UTILITY"),              // ex: electric plug, doorbell
+    LIGHTING("LIGHTING"),                   // ex: table lamp, room lamp
+    ROOM_COVER("ROOM_COVER"),                 // ex: blind, curtain
+    SECURITY("SECURITY"),                   // ex: lock
+    STORAGE("STORAGE"),                    // ex:
+    VISION("VISION");                     // ex: camera, cctv
+
+    private final String val;
+
+    THING_FUNCTION_TYPE(String val) {
+        this.val = val;
+    }
+
+    public String toString() {
+        return val;
+    }
 }

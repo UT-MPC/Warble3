@@ -1,5 +1,8 @@
 package vendor.PhilipsHue.component;
 
+import java.util.List;
+import java.util.logging.Logger;
+
 import service.BaseHttpServiceAdapter;
 import service.SERVICE_ADAPTER_TYPE_OUTPUT;
 import service.ServiceAdapterManager;
@@ -16,9 +19,6 @@ import thing.credential.ThingAccessCredential;
 import thing.credential.UsernamePasswordCredential;
 import vendor.PhilipsHue.service.PhilipsHueBridgeHttpApi;
 
-import java.util.List;
-import java.util.logging.Logger;
-
 public final class PhilipsHueBridge extends Bridge {
     private static final String TAG = PhilipsHueBridge.class.getSimpleName();
     private static final Logger LOGGER = Logger.getLogger(TAG);
@@ -29,12 +29,18 @@ public final class PhilipsHueBridge extends Bridge {
 
     @Override
     public void setCredentialRequired() {
-
+        LOGGER.warning("setCredentialRequired() is not implemented");
     }
 
     @Override
     public void setThingAccessCredentialClasses() {
+        LOGGER.warning("setThingAccessCredentialClasses() is not implemented");
+    }
 
+    @Override
+    public ThingState getThingState() {
+        LOGGER.warning("getThingState() is not implemented");
+        return null;
     }
 
     private Connection getActiveConnection() {

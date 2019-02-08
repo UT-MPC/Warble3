@@ -39,8 +39,8 @@ public abstract class Thermostat extends Thing {
     @Override
     public void setThingTypes() {
         List<ThingType> thingTypes = new ArrayList<>();
-        thingTypes.add(new ThingType(THING_MAIN_TYPE.ACTUATOR, THING_FUNCTION_TYPE.ROOM_CONDITIONING));
-        thingTypes.add(new ThingType(THING_MAIN_TYPE.SENSOR, THING_FUNCTION_TYPE.ROOM_CONDITIONING));
+        thingTypes.add(new ThingType(THING_MAIN_TYPE.ACTUATOR, THING_FUNCTION_TYPE.AMBIENT));
+        thingTypes.add(new ThingType(THING_MAIN_TYPE.SENSOR, THING_FUNCTION_TYPE.AMBIENT));
         setThingTypes(thingTypes);
     }
 

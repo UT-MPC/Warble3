@@ -24,6 +24,8 @@
 
 package vendor.PhilipsHue.component;
 
+import java.util.logging.Logger;
+
 import service.ServiceAdapterManager;
 import thing.command.Command;
 import thing.command.GenericResponse;
@@ -34,8 +36,6 @@ import thing.connection.AccessorConnection;
 import thing.connection.Connection;
 import thing.credential.ThingAccessCredential;
 import thing.feature.Hub;
-
-import java.util.logging.Logger;
 
 public final class PhilipsHueLight extends Light {
     private static final String TAG = PhilipsHueLight.class.getSimpleName();
@@ -63,6 +63,12 @@ public final class PhilipsHueLight extends Light {
     @Override
     public void setThingAccessCredentialClasses() {
         setThingAccessCredentialClasses(null);
+    }
+
+    @Override
+    public ThingState getThingState() {
+        LOGGER.warning("getThingState() is not implemented");
+        return null;
     }
 
     public void setState(ServiceAdapterManager serviceAdapterManager, ThingState thingState) {

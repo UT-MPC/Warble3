@@ -24,12 +24,13 @@
 
 package vendor.GE;
 
+import java.util.logging.Logger;
+
 import service.ServiceAdapterManager;
 import thing.command.Command;
 import thing.command.Response;
 import thing.component.Light;
-
-import java.util.logging.Logger;
+import thing.component.ThingState;
 
 public final class GELight extends Light {
     private static final String TAG = GELight.class.getSimpleName();
@@ -41,12 +42,18 @@ public final class GELight extends Light {
 
     @Override
     public void setCredentialRequired() {
-
+        LOGGER.warning("setCredentialRequired() is not implemented");
     }
 
     @Override
     public void setThingAccessCredentialClasses() {
+        LOGGER.warning("setThingAccessCredentialClasses() is not implemented");
+    }
 
+    @Override
+    public ThingState getThingState() {
+        LOGGER.warning("getThingState() is not implemented");
+        return null;
     }
 
     @Override

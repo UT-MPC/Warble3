@@ -24,15 +24,15 @@
 
 package vendor.Wink;
 
+import java.util.List;
+import java.util.logging.Logger;
+
 import service.ServiceAdapterManager;
 import thing.command.Command;
 import thing.command.Response;
 import thing.component.Bridge;
 import thing.component.Thing;
 import thing.component.ThingState;
-
-import java.util.List;
-import java.util.logging.Logger;
 
 public final class WinkBridge extends Bridge {
     private static final String TAG = WinkBridge.class.getSimpleName();
@@ -44,12 +44,18 @@ public final class WinkBridge extends Bridge {
 
     @Override
     public void setCredentialRequired() {
-
+        LOGGER.warning("setCredentialRequired() is not implemented");
     }
 
     @Override
     public void setThingAccessCredentialClasses() {
+        LOGGER.warning("setThingAccessCredentialClasses() is not implemented");
+    }
 
+    @Override
+    public ThingState getThingState() {
+        LOGGER.warning("getThingState() is not implemented");
+        return null;
     }
 
     @Override

@@ -24,6 +24,11 @@
 
 package thing;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.logging.Logger;
+
 import context.Context;
 import service.BaseDatabaseServiceAdapter;
 import service.SERVICE_ADAPTER_TYPE_OUTPUT;
@@ -37,11 +42,6 @@ import thing.connection.Connection;
 import thing.credential.ThingAccessCredential;
 import thing.discovery.Discovery;
 import thing.feature.Hub;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.logging.Logger;
 
 public class ThingManager implements ServiceAdapterUser {
     private static final String TAG = ThingManager.class.getSimpleName();
@@ -194,15 +194,30 @@ public class ThingManager implements ServiceAdapterUser {
 
             Thing loadedThing = databaseServiceAdapter.loadThing(thing);
 
-            if (loadedThing == null) {
-                return null;
-            }
-            else {
-                loadedThing.setConnections(databaseServiceAdapter.getConnectionsBySourceId(loadedThing.getDbid()));
-                loadedThing.setThingAccessCredentials(databaseServiceAdapter.getThingAccessCredentialsByThingId(loadedThing.getDbid()));
-            }
-            return loadedThing;
+            return getThing(databaseServiceAdapter, loadedThing);
         }
+    }
+
+    public Thing getThing(String uuid) {
+        if (uuid.equals("")) {
+            return null;
+        } else {
+            BaseDatabaseServiceAdapter databaseServiceAdapter = (BaseDatabaseServiceAdapter) serviceAdapterManager.getServiceAdapter(SERVICE_ADAPTER_TYPE_OUTPUT.DATABASE);
+
+            Thing loadedThing = databaseServiceAdapter.getThingByUuid(uuid);
+
+            return getThing(databaseServiceAdapter, loadedThing);
+        }
+    }
+
+    private Thing getThing(BaseDatabaseServiceAdapter databaseServiceAdapter, Thing loadedThing) {
+        if (loadedThing == null) {
+            return null;
+        } else {
+            loadedThing.setConnections(databaseServiceAdapter.getConnectionsBySourceId(loadedThing.getDbid()));
+            loadedThing.setThingAccessCredentials(databaseServiceAdapter.getThingAccessCredentialsByThingId(loadedThing.getDbid()));
+        }
+        return loadedThing;
     }
 
     public boolean authenticateThing(Thing thing) {

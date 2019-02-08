@@ -24,6 +24,11 @@
 
 package thing.component;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Logger;
+
 import context.Location;
 import thing.command.Command;
 import thing.command.Commandable;
@@ -32,11 +37,6 @@ import thing.command.Response;
 import thing.connection.Connection;
 import thing.credential.ThingAccessCredential;
 import thing.discovery.Discovery;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Logger;
 
 public abstract class Thing implements Serializable, Storeable, Commandable {
     private static final String TAG = Thing.class.getSimpleName();
@@ -273,6 +273,8 @@ public abstract class Thing implements Serializable, Storeable, Commandable {
     public abstract void setThingTypes();
 
     public abstract void setThingConcreteTypes();
+
+    public abstract ThingState getThingState();
 
     public Response preCallCommand(Command command) {
         if (command == null) {
