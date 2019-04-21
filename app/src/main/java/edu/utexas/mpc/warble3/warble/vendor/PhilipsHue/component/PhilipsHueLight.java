@@ -66,6 +66,7 @@ public final class PhilipsHueLight extends Light {
 
     @Override
     public void setState(ThingState thingState) {
+        super.setState(thingState);
         if (getConnections() != null) {
             for (Connection connection : getConnections()) {
                 if (connection instanceof AccessorConnection) {

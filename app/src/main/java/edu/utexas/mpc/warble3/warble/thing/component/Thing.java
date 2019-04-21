@@ -68,6 +68,15 @@ public abstract class Thing implements Serializable, Storeable, Commandable {
     private THING_AUTHENTICATION_STATE authenticationState = THING_AUTHENTICATION_STATE.UNAUTHENTICATED;
     private THING_BINDING_STATE bindingState = THING_BINDING_STATE.UNBOUND;
 
+    public ThingState getState() {
+        return state;
+    }
+    public void setState(ThingState thingState){
+        this.state = thingState;
+    }
+
+    private ThingState state;
+
     private Location location;
 
     private long dbid;
@@ -265,8 +274,6 @@ public abstract class Thing implements Serializable, Storeable, Commandable {
     public abstract boolean authenticate();
 
     public abstract boolean authenticate(ThingAccessCredential thingAccessCredential);
-
-    public abstract void setState(ThingState thingState);
 
     public abstract void setCredentialRequired();
 
