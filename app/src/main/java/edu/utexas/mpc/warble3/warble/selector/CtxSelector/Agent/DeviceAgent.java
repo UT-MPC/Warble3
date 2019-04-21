@@ -43,6 +43,7 @@ public class DeviceAgent extends AbstractAgent{
     public Thing getDevice() {
         return device;
     }
+    public void setDevice(Thing newDevice) {device = newDevice; }
 
     public ThingAction getConfiguration(AbstractContextArr currContext, Class thingType){
         return getConfiguration(currContext, thingType, null);
