@@ -19,8 +19,8 @@ public class StateWithEntropy extends State {
     }
     public ArrayList<ThingAction> actions;
     //    public int deviceState;
-    private final int defaultSize = 40;
-
+//    private final double defaultSize = 0.02;
+    private final double defaultSize = 0.02;
 
     private double splitEntropyThreshold = 0.8;
     private double minEntropyGain = 0.3;
@@ -52,12 +52,12 @@ public class StateWithEntropy extends State {
         return minContext.getMidContext(maxContext, 0.5);
     }
 
-    public int distanceToState(StateWithEntropy bState) {
+    public double distanceToState(StateWithEntropy bState) {
         return getCentralContext().distanceTo(bState.getCentralContext());
 
     }
 
-    public int distanceToContext(DynamicContext bContext) {
+    public double distanceToContext(DynamicContext bContext) {
         return getCentralContext().distanceTo(bContext);
 
     }
@@ -87,13 +87,16 @@ public class StateWithEntropy extends State {
     public DynamicContext.Alpha getMyAlpha (){
         return myAlpha;
     }
+
     public boolean getHelped(ArrayList<StateWithEntropy> helper) {
         if (helper.size() == 0) return false;
         actions = new ArrayList<ThingAction>(helper.get(0).actions.size());
         ArrayList<Integer> actionCnt = new ArrayList<>();
         for (ThingAction action : helper.get(helper.size() - 1).actions){
             ThingAction newAction =new ThingAction(action.getActions());
-            int discount = this.distanceToState(helper.get(helper.size() -1 )) / defaultSize + 1;
+            double discount = this.distanceToState(helper.get(helper.size() -1 )) / defaultSize + 1;
+//            NumberFormat formatter = new DecimalFormat("#0.00000000");
+//            System.out.println(formatter.format(this.distanceToState(helper.get(helper.size() -1 ))) + "   "  + formatter.format(defaultSize ));
             newAction.longRet = action.longRet / discount;
             newAction.shortRet = action.shortRet / discount;
             actions.add(newAction);
@@ -102,7 +105,7 @@ public class StateWithEntropy extends State {
         for (int i = helper.size() - 1; i >=0; i--){
             for (ThingAction action : helper.get(i).actions){
                 ThingAction newAction =new ThingAction(action.getActions());
-                int discount = this.distanceToState(helper.get(i)) / defaultSize + 1;
+                double discount = this.distanceToState(helper.get(i)) / defaultSize + 1;
                 newAction.longRet = action.longRet / discount;
                 newAction.shortRet = action.shortRet / discount;
                 for (int j = 0; j <actions.size(); j++){
@@ -249,5 +252,6 @@ public class StateWithEntropy extends State {
             splitState(lastAction, statePool);
         }
     }
+
 
 }

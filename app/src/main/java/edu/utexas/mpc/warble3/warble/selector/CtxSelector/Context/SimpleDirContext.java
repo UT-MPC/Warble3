@@ -68,7 +68,7 @@ public class SimpleDirContext extends BaseContext{
     }
 
     @Override
-    public int distanceTo (BaseContext ctx){
+    public double distanceTo (BaseContext ctx){
         if (!(ctx instanceof SimpleDirContext)){
             return 0;
         }
@@ -106,9 +106,9 @@ public class SimpleDirContext extends BaseContext{
     }
 
     @Override
-    public SimpleDirContext getOffset(int offset){
+    public SimpleDirContext getOffset(double offset){
         if (angle == -1) return new SimpleDirContext(-1);
-        int newA = angle + offset;
+        int newA = (int) (angle + offset);
         while (newA < 0){
             newA += 360;
         }
@@ -143,12 +143,12 @@ public class SimpleDirContext extends BaseContext{
         return new SimpleDirContext(newA);
     }
 
-    @Override
-    public int longAxis(BaseContext ctxB){
+    @Deprecated
+    public double longAxis(BaseContext ctxB){
         return distanceTo(ctxB);
     }
 
-    @Override
+    @Deprecated
     public void splitLongAxis(BaseContext massCtx, BaseContext oldMin, BaseContext oldMax, BaseContext newMin, BaseContext newMax, double ratio){
         int massAngle = ((SimpleDirContext)massCtx).getAngle();
         SimpleDirContext midCtx = getMidCtx(massCtx, ratio / (ratio + 1));

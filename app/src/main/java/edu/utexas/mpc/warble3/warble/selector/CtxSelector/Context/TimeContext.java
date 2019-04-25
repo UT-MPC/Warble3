@@ -3,11 +3,13 @@ package edu.utexas.mpc.warble3.warble.selector.CtxSelector.Context;
 import java.util.ArrayList;
 
 public class TimeContext extends BaseContext{
-    public static double TIMEBIAS = 1.0/720.0;
-    private int timeOfDay;              // in terms of seconds of the day. scale 0-86399. Normalize to 0-720
+    public static double TIMEBIAS = 720.0;
+    private int timeOfDay;              // in terms of seconds of the day. scale 0-86399.
     private static int MAX = 86399;
-
+    public static double range = MAX / 2;
+    //    public static double range = MAX * TIMEBIAS;
     public TimeContext(int time){
+//        System.out.println(range);
         timeOfDay = time;
     }
 
@@ -25,13 +27,13 @@ public class TimeContext extends BaseContext{
     }
 
     @Override
-    public int distanceTo (BaseContext ctx){
+    public double distanceTo (BaseContext ctx){
         if (TimeContext.class.isInstance(ctx)){
-            int pureSub = Math.abs(timeOfDay - ((TimeContext)ctx).getTime());
-            if (pureSub > MAX / 2){
+            double pureSub = Math.abs(timeOfDay - ((TimeContext)ctx).getTime());
+            if (pureSub > range){
                 pureSub = MAX - pureSub;
             }
-            return (int)(pureSub * TIMEBIAS);
+            return (pureSub / range);
         } else {
             return 0;
         }
@@ -49,8 +51,10 @@ public class TimeContext extends BaseContext{
     }
 
     @Override
-    public TimeContext getOffset(int offset){
-        int newT = timeOfDay + (int)(offset / TIMEBIAS);
+    public TimeContext getOffset(double offset){
+        int newT = (int)(timeOfDay + (offset * range));
+//        if (newT < 0) newT = 0;
+//        if (newT > LocalTime.MAX.toSecondOfDay()) newT = LocalTime.MAX.toSecondOfDay();
         return new TimeContext(newT);
     }
 
@@ -61,12 +65,12 @@ public class TimeContext extends BaseContext{
         return new TimeContext((int)newT);
     }
 
-    @Override
-    public int longAxis(BaseContext ctxB){
+    @Deprecated
+    public double longAxis(BaseContext ctxB){
         return distanceTo(ctxB);
     }
 
-    @Override
+    @Deprecated
     public void splitLongAxis(BaseContext massCtx, BaseContext oldMin, BaseContext oldMax, BaseContext newMin, BaseContext newMax, double ratio){
         TimeContext ctx = (TimeContext) massCtx;
         TimeContext midCtx = getMidCtx(massCtx, ratio / (ratio + 1));

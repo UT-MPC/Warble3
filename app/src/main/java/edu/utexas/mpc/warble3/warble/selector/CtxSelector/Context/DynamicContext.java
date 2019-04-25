@@ -81,23 +81,23 @@ public class DynamicContext extends AbstractContextArr {
         contexts.add(newCtx);
     }
 
-//    public static DynamicContext generateContext(Actor user, LocalTime time){
+    //    public static DynamicContext generateContext(Actor user, LocalTime time){
 ////        return new DynamicContext(user.getTopLeftX(), user.getTopLeftY(), user.getDirX(), user.getDirY(), time.toSecondOfDay());
 //        return new DynamicContext(user.getTopLeftX(), user.getTopLeftY(), time.toSecondOfDay());
 //    }
-    public int distanceTo(AbstractContextArr toContext){
+    public double distanceTo(AbstractContextArr toContext){
 
-        int sum = 0;
+        double sum = 0;
         for (int i = 0; i < contexts.size(); i++){
             sum += contexts.get(i).distanceTo(toContext.getContexts().get(i)) * myAlpha.alphas.get(i);
         }
         return sum;
     }
-    public DynamicContext getOffsetContext(int offset){
+    public DynamicContext getOffsetContext(double offset){
         double of = offset;
         ArrayList<BaseContext> newContexts = new ArrayList<>();
         for (int i = 0; i < contexts.size(); i++){
-            newContexts.add(contexts.get(i).getOffset( (int)(of / myAlpha.alphas.get(i))));
+            newContexts.add(contexts.get(i).getOffset((of / myAlpha.alphas.get(i))));
         }
         return new DynamicContext(newContexts, myAlpha);
     }
@@ -130,23 +130,24 @@ public class DynamicContext extends AbstractContextArr {
                                                 DynamicContext newCtx
             , DynamicContext massCtx, double ratio)
     {
-        int maxAxis = 0;
-        int maxIdx = -1;
-        for (int i = 0; i < newCtx.getContexts().size(); i++){
-            int delta = newCtx.getContexts().get(i).longAxis(massCtx.getContexts().get(i));
-            if (delta > maxAxis){
-                maxAxis = delta;
-                maxIdx = i;
-            }
-        }
-        DynamicContext newMin = new DynamicContext(oldMin);
-        DynamicContext newMax = new DynamicContext(oldMax);
-
-        newCtx.getContexts().get(maxIdx).splitLongAxis(massCtx.getContexts().get(maxIdx), oldMin.getContexts().get(maxIdx),
-                                                      oldMax.getContexts().get(maxIdx), newMin.getContexts().get(maxIdx),
-                                                      newMax.getContexts().get(maxIdx), ratio);
-
-        return new DynamicContext[]{newMin, newMax};
+//        double maxAxis = 0;
+//        int maxIdx = -1;
+//        for (int i = 0; i < newCtx.getContexts().size(); i++){
+//            double delta = newCtx.getContexts().get(i).longAxis(massCtx.getContexts().get(i));
+//            if (delta > maxAxis){
+//                maxAxis = delta;
+//                maxIdx = i;
+//            }
+//        }
+//        DynamicContext newMin = new DynamicContext(oldMin);
+//        DynamicContext newMax = new DynamicContext(oldMax);
+//
+//        newCtx.getContexts().get(maxIdx).splitLongAxis(massCtx.getContexts().get(maxIdx), oldMin.getContexts().get(maxIdx),
+//                                                      oldMax.getContexts().get(maxIdx), newMin.getContexts().get(maxIdx),
+//                                                      newMax.getContexts().get(maxIdx), ratio);
+//
+//        return new DynamicContext[]{newMin, newMax};
+        return null;
     }
 
     //split the state points for branch.

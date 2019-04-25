@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public abstract class AbstractContextArr {
 
-    public abstract int distanceTo (AbstractContextArr ctx);
+    public abstract double distanceTo (AbstractContextArr ctx);
 
     public ArrayList<BaseContext> getContexts() {return null;};
 

@@ -17,14 +17,18 @@ public class LocationContext extends BaseContext{
         this.location = location;
     }
 
+    public static double rangeX = 1400; // range(0-1400,0-800)
+    public static double rangeY = 800; // range(0-1400,0-800)
+    public static double range = 1612.45;
+
     @Override
     public LocationContext makeClone(){
         return new LocationContext(new Point2D(location));
     }
     @Override
-    public int distanceTo (BaseContext ctx){
+    public double distanceTo (BaseContext ctx){
         if (LocationContext.class.isInstance(ctx)){
-            return location.distance(((LocationContext) ctx).getLocation());
+            return location.distance(((LocationContext) ctx).getLocation()) / range;
         } else {
             return 0;
         }
@@ -39,8 +43,10 @@ public class LocationContext extends BaseContext{
     }
 
     @Override
-    public LocationContext getOffset(int offset){
-        return new LocationContext(new Point2D(location.x + offset, location.y + offset));
+    public LocationContext getOffset(double offset){
+//        System.out.println(offset + " " + range);
+//        System.out.println((int) (location.x + offset * range) + " "+ (int)(location.y + offset * range));
+        return new LocationContext(new Point2D((int) (location.x + offset * range), (int)(location.y + offset * range)));
     }
 
     @Override
@@ -51,13 +57,11 @@ public class LocationContext extends BaseContext{
         return new LocationContext(new Point2D((int)newX, (int)newY));
     }
 
-    @Override
-    public int longAxis(BaseContext ctxB){
+    public double longAxis(BaseContext ctxB){
         LocationContext ctx = (LocationContext) ctxB;
         return Math.max(Math.abs(location.x - ctx.getLocation().x), Math.abs(location.y - ctx.getLocation().y));
     }
 
-    @Override
     public void splitLongAxis(BaseContext massCtx, BaseContext oldMin, BaseContext oldMax, BaseContext newMin, BaseContext newMax, double ratio){
         LocationContext ctx = (LocationContext) massCtx;
         int deltaX = Math.abs(location.x - ctx.getLocation().x);
