@@ -14,17 +14,26 @@ import android.os.IBinder;
 import android.os.PowerManager;
 import android.util.Log;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.apache.commons.collections4.queue.CircularFifoQueue;
 
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import edu.utexas.mpc.warble3.util.Beacon;
+
+import static edu.utexas.mpc.warble3.util.Beacon.verifyBeacon;
+import static edu.utexas.mpc.warble3.util.Constants.BEACON_QUEUE_SIZE;
 import static edu.utexas.mpc.warble3.util.Constants.OPERATION_FAIL;
 import static edu.utexas.mpc.warble3.util.Constants.OPERATION_SUCCEED;
+import static edu.utexas.mpc.warble3.util.Constants.REPEAT_BEACON_FILTER_MS;
 import static edu.utexas.mpc.warble3.util.Constants.SCAN_INTERVAL_MS;
 import static edu.utexas.mpc.warble3.util.Constants.SCAN_PERIOD_MS;
 
 public class BTScanService extends Service {
     private static final String TAG = "BTScanService";
-    private static final String LOCATION_TAG = "LocationService";
 
     private static final int BLEND_OFFSET = 5;
 
@@ -49,6 +58,10 @@ public class BTScanService extends Service {
     private ScanSettings mScanSettings;
 
     private ScanCallback mScanCallback;
+
+    private CircularFifoQueue<Beacon> mBeaconQueue;
+
+    private Map<String, Long> mTimeFilter;
 
     private Runnable startRunnable = new Runnable() {
         @Override
@@ -85,9 +98,11 @@ public class BTScanService extends Service {
         scanSettingsBuilder.setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY);    // scan mode
         this.mScanSettings = scanSettingsBuilder.build();
         this.mScanFilters = new ArrayList<>();
-        mPowerManager = (PowerManager) getSystemService(POWER_SERVICE);
-        mWakeLock = mPowerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
+        this.mPowerManager = (PowerManager) getSystemService(POWER_SERVICE);
+        this.mWakeLock = mPowerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
                 "MyApp::MyWakelockTag");
+        this.mBeaconQueue = new CircularFifoQueue<>(BEACON_QUEUE_SIZE);
+        this.mTimeFilter = new HashMap<>();
     }
 
     @Override
@@ -166,11 +181,6 @@ public class BTScanService extends Service {
     private void finishScan() {
     }
 
-    private boolean verifyBeacon(ScanResult result) {
-        //TODO(liuchg): implement this for Warble interested beacons.
-        return false;
-    }
-
     private class BTScanCallback extends ScanCallback {
         @Override
         public void onScanResult(int callbackType, ScanResult result) {
@@ -191,7 +201,21 @@ public class BTScanService extends Service {
         }
 
         private void saveBeacon(ScanResult result) {
-            if (verifyBeacon(result)) {}
+            if (verifyBeacon(result)) {
+                Beacon bcn = new Beacon();
+                String addr = result.getDevice().getAddress();
+                Long curTime = System.currentTimeMillis();
+                if (mTimeFilter.containsKey(addr) && mTimeFilter
+                        .get(addr) > curTime - REPEAT_BEACON_FILTER_MS) {
+                    return;
+                }
+                mTimeFilter.put(addr, curTime);
+                bcn.setDate(new Date(System.currentTimeMillis()));
+                bcn.setDeviceAddress(addr);
+                bcn.setRssi(result.getRssi());
+                bcn.setPayload(result.getScanRecord().getBytes());
+                mBeaconQueue.offer(bcn);
+            }
         }
     }
 }
