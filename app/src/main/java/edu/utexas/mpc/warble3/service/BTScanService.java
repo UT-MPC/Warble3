@@ -179,6 +179,7 @@ public class BTScanService extends Service {
     }
 
     private void finishScan() {
+        Log.d(TAG, "Queue size: " + mBeaconQueue.size());
     }
 
     private class BTScanCallback extends ScanCallback {

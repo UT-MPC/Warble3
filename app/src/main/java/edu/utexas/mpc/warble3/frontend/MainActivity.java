@@ -40,6 +40,7 @@ import java.util.List;
 import edu.utexas.mpc.warble3.R;
 import edu.utexas.mpc.warble3.database.AppDatabase;
 import edu.utexas.mpc.warble3.frontend.async_tasks.DiscoveryAsyncTask;
+import edu.utexas.mpc.warble3.frontend.main_activity_fragments.BluetoothFragment;
 import edu.utexas.mpc.warble3.frontend.main_activity_fragments.ControlFragment;
 import edu.utexas.mpc.warble3.frontend.main_activity_fragments.ManualFragment;
 import edu.utexas.mpc.warble3.frontend.main_activity_fragments.SettingsFragment;
@@ -57,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements DiscoveryAsyncTas
     private SetupFragment setupFragment = SetupFragment.getNewInstance();
     private ManualFragment manualFragment = ManualFragment.getNewInstance();
     private ControlFragment controlFragment = ControlFragment.getNewInstance();
-    private Fragment fourFragment = new Fragment();
+    private BluetoothFragment btFragment = new BluetoothFragment();
     private SettingsFragment settingsFragment = SettingsFragment.getNewInstance();
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -76,8 +77,8 @@ public class MainActivity extends AppCompatActivity implements DiscoveryAsyncTas
                 case R.id.navigation_control:
                     fragmentManager.beginTransaction().replace(R.id.content, controlFragment).commit();
                     return true;
-                case R.id.navigation_4:
-                    fragmentManager.beginTransaction().replace(R.id.content, fourFragment).commit();
+                case R.id.navigation_ble:
+                    fragmentManager.beginTransaction().replace(R.id.content, btFragment).commit();
                     return true;
                 case R.id.navigation_settings:
                     fragmentManager.beginTransaction().replace(R.id.content, settingsFragment).commit();

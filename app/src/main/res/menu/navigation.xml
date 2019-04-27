@@ -42,9 +42,9 @@
         android:title="@string/fragmentLabelControl_mainPage" />
 
     <item
-        android:id="@+id/navigation_4"
+        android:id="@+id/navigation_ble"
         android:icon="@drawable/ic_4_black_24dp"
-        android:title="@string/fragmentLabel4_mainPage" />
+        android:title="BT Scan" />
 
     <item
         android:id="@+id/navigation_settings"
