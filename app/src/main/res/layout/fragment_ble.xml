@@ -18,6 +18,7 @@
             android:paddingTop="5dp"
             android:switchPadding="10dp"
             android:text="Bluetooth Scan"
+            android:background="@android:color/holo_blue_dark"
             android:textSize="18sp" />
 
         <!--<Button-->
