@@ -40,6 +40,8 @@ public class BTScanService extends Service {
     public static final int ENABLE_SCAN = 0;
     public static final int DISABLE_SCAN = 1;
 
+    public CircularFifoQueue<Beacon> mBeaconQueue;
+
     // Binder given to clients
     private final IBinder mBinder = new LocalBinder();
 
@@ -58,8 +60,6 @@ public class BTScanService extends Service {
     private ScanSettings mScanSettings;
 
     private ScanCallback mScanCallback;
-
-    private CircularFifoQueue<Beacon> mBeaconQueue;
 
     private Map<String, Long> mTimeFilter;
 

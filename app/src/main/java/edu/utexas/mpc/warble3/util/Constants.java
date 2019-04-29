@@ -9,5 +9,7 @@ public class Constants {
 
     public static final int SCAN_PERIOD_MS = 3000;
     public static final int SCAN_INTERVAL_MS = 4000;
-    public static final int REPEAT_BEACON_FILTER_MS = 1000;
+    public static final int REPEAT_BEACON_FILTER_MS = 500;
+
+    public static final int SNAPSHOT_LOOKBACK_MS = 10*1000;
 }

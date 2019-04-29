@@ -18,15 +18,24 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
+import android.widget.Toast;
+
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import edu.utexas.mpc.warble3.R;
 import edu.utexas.mpc.warble3.service.BTScanService;
+import edu.utexas.mpc.warble3.util.Beacon;
 
 import static edu.utexas.mpc.warble3.service.BTScanService.DISABLE_SCAN;
 import static edu.utexas.mpc.warble3.service.BTScanService.ENABLE_SCAN;
 import static edu.utexas.mpc.warble3.util.Constants.REQUEST_ENABLE_BT;
+import static edu.utexas.mpc.warble3.util.Constants.SNAPSHOT_LOOKBACK_MS;
 
 public class BluetoothFragment extends Fragment {
     private static final String TAG = "BluetoothFragment";
@@ -35,6 +44,7 @@ public class BluetoothFragment extends Fragment {
     private Switch mScanSwitch;
     private boolean mBound = false;
     private BluetoothAdapter mBTAdapter;
+    private Button mSnapBtn;
 
     public static BluetoothFragment getNewInstance() {
         return new BluetoothFragment();
@@ -53,6 +63,13 @@ public class BluetoothFragment extends Fragment {
                 }
                 checkBTPermission();
                 mScanService.scan(isChecked ? ENABLE_SCAN : DISABLE_SCAN);
+            }
+        });
+        mSnapBtn = view.findViewById(R.id.snap_btn);
+        mSnapBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                takeSnap();
             }
         });
         return view;
@@ -96,6 +113,26 @@ public class BluetoothFragment extends Fragment {
             ActivityCompat.requestPermissions(getActivity(),
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_ENABLE_BT);
         }
+    }
+
+    private void takeSnap() {
+        if (!mBound) {
+            Toast.makeText(getActivity(), "Scan service is not bound.",
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
+//        List<Beacon> res =
+//                mScanService.mBeaconQueue.stream().filter(b -> b.getDate().before(start)).collect(
+//                        Collectors.toList());
+        List<Beacon> res = new ArrayList<>();
+        Date start = new Date(System.currentTimeMillis() - SNAPSHOT_LOOKBACK_MS);
+        for (Beacon b : mScanService.mBeaconQueue) {
+            if (b.getDate().after(start)) {
+                res.add(b);
+            }
+        }
+        Log.d(TAG, "res size: " + res.size());
+        //TODO: res is the beacons recieved in the past 10 seconds.
     }
 
     /**
