@@ -93,10 +93,9 @@ public class TimeContext extends BaseContext{
             TimeContext newMax1 = new TimeContext(tPoint);
             TimeContext newMin1 = new TimeContext(tPoint);
             ArrayList<BaseContext[]> output = new ArrayList<>();
-            output.add(new BaseContext[]{newMax1, newMin1});
+            output.add(new BaseContext[]{this, newMax1, newMin1, bContext});
             return output;
         }
         return null;
     }
-
 }

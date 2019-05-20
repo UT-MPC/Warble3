@@ -3,6 +3,7 @@ package edu.utexas.mpc.warble3.warble.selector.CtxSelector.Agent;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import edu.utexas.mpc.warble3.warble.selector.CtxSelector.Context.DynamicContext;
 import edu.utexas.mpc.warble3.warble.selector.CtxSelector.ThingAction.Action;
@@ -23,6 +24,7 @@ public class StateWithEntropy extends State {
     private final double defaultSize = 0.02;
 
     private double splitEntropyThreshold = 0.8;
+    private double refreshThreshold = 0.2;
     private double minEntropyGain = 0.3;
     private int splitSizeThreshold = 15;
     private final int maxShots = 40;
@@ -87,7 +89,6 @@ public class StateWithEntropy extends State {
     public DynamicContext.Alpha getMyAlpha (){
         return myAlpha;
     }
-
     public boolean getHelped(ArrayList<StateWithEntropy> helper) {
         if (helper.size() == 0) return false;
         actions = new ArrayList<ThingAction>(helper.get(0).actions.size());
@@ -102,7 +103,7 @@ public class StateWithEntropy extends State {
             actions.add(newAction);
             actionCnt.add(1);
         }
-        for (int i = helper.size() - 1; i >=0; i--){
+        for (int i = helper.size() - 2; i >=0; i--){
             for (ThingAction action : helper.get(i).actions){
                 ThingAction newAction =new ThingAction(action.getActions());
                 double discount = this.distanceToState(helper.get(i)) / defaultSize + 1;
@@ -110,7 +111,7 @@ public class StateWithEntropy extends State {
                 newAction.shortRet = action.shortRet / discount;
                 for (int j = 0; j <actions.size(); j++){
                     if (actions.get(j).isSame(newAction)){
-                        actionCnt.set(j, actionCnt.get(j));
+                        actionCnt.set(j, actionCnt.get(j) + 1);
                         actions.get(j).longRet += newAction.longRet;
                         actions.get(j).shortRet += newAction.shortRet;
                         break;
@@ -120,12 +121,16 @@ public class StateWithEntropy extends State {
         }
         for (int j = 0; j <actions.size(); j++){
             actions.get(j).longRet = actions.get(j).longRet / actionCnt.get(j);
+            if (actions.get(j).longRet > 10){
+                actions.get(j).longRet = 10;
+            }
             actions.get(j).shortRet = actions.get(j).shortRet / actionCnt.get(j);
         }
         return true;
     }
 
     public boolean betterHelpingThan(DynamicContext toContext, StateWithEntropy thanState){
+//        return false;
         Collections.sort(this.actions, Collections.reverseOrder());
         if (thanState == null){
             return true;
@@ -143,12 +148,12 @@ public class StateWithEntropy extends State {
         double p1 = c1 / (c0 + c1);
         return (-Math.log(p0) * p0 -Math.log(p1) * p1) / Math.log(2);
     }
-    private double stateEntropy(ThingAction lastAction){
+    private double stateEntropy(int stat, int last, ThingAction lastAction){
         double c0 = 0;
         double c1 = 0;
-        for (InteractionSnapshot shot: interactionShots){
-            if (shot.action.isSame(lastAction)){
-                if (shot.action.longRet > 0){
+        for (int i = stat; i <= last; i++){
+            if (interactionShots.get(i).action.isSame(lastAction)){
+                if (interactionShots.get(i).action.longRet > 0){
                     c0 += 1;
                 }else{
                     c1 += 1;
@@ -163,23 +168,26 @@ public class StateWithEntropy extends State {
     private void splitState(ThingAction lastAction, ArrayList<StateWithEntropy> statePool){
         DynamicContext[] optimalSplit = null;
         double entropyGain = minEntropyGain;
-        double parentEntropy = stateEntropy(lastAction);
+        double parentEntropy = stateEntropy(0, interactionShots.size()-1, lastAction);
         ArrayList<DynamicContext[]> maxMinPairs = new ArrayList<>();
         for (double ratio = 0.1; ratio < 1; ratio += 0.1){
-            maxMinPairs.addAll(DynamicContext.splitPoints(minContext, maxContext, 0.5));
+            List<DynamicContext[]> newSplits = DynamicContext.splitPoints(minContext, maxContext, ratio);
+            if (newSplits != null){
+                maxMinPairs.addAll(newSplits);
+            }
         }
         for (DynamicContext[] pair: maxMinPairs){
             double c00 = 0, c01 = 0, c10 = 0, c11 = 0;
             for (InteractionSnapshot shot: interactionShots) {
                 if (shot.action.isSame(lastAction)) {
-                    if (shot.context.isBetween(minContext, pair[0])) {
+                    if (shot.context.isBetween(pair[0], pair[1])) {
                         if (shot.action.longRet > 0) {
                             c00 += 1;
                         } else {
                             c01 += 1;
                         }
                     } else {
-                        if (shot.context.isBetween(pair[1], maxContext)) {
+                        if (shot.context.isBetween(pair[2], pair[3])) {
                             if (shot.action.longRet > 0) {
                                 c10 += 1;
                             } else {
@@ -200,26 +208,30 @@ public class StateWithEntropy extends State {
         if (optimalSplit == null){
             return;
         }
-        StateWithEntropy newState = new StateWithEntropy(optimalSplit[1], maxContext);
-        maxContext = optimalSplit[0];
+        StateWithEntropy newState = new StateWithEntropy(optimalSplit[2], optimalSplit[3]);
+        minContext = optimalSplit[0];
+        maxContext = optimalSplit[1];
         double myTot = 0, hisTot = 0;
+        double mycnt = 0, hiscnt = 0;
         ArrayList<InteractionSnapshot> myShots = new ArrayList<>();
         ArrayList<InteractionSnapshot> hisShots = new ArrayList<>();
         for (InteractionSnapshot shot: interactionShots) {
             if (shot.context.isBetween(minContext, maxContext)) {
                 if (shot.action.isSame(lastAction)) {
                     myTot += shot.action.longRet;
+                    mycnt += 1;
                 }
                 myShots.add(shot);
             }else {
                 if (shot.action.isSame(lastAction)) {
                     hisTot += shot.action.longRet;
+                    hiscnt += 1;
                 }
                 hisShots.add(shot);
             }
         }
-        myTot = myTot / myShots.size();
-        hisTot = hisTot / hisShots.size();
+        myTot = myTot / mycnt;
+        hisTot = hisTot / hiscnt;
         for (ThingAction agentAction :actions){
             if (!agentAction.isSame(lastAction)) {
                 newState.addAction(new ThingAction(agentAction));
@@ -246,12 +258,23 @@ public class StateWithEntropy extends State {
         if (interactionShots.size() > maxShots){
             interactionShots.remove(0);
         }
-        double entropy = stateEntropy(lastAction);
+        double entropy = stateEntropy(0, interactionShots.size()-1, lastAction);
 //        System.out.println("The entropy is " + entropy);
         if (entropy > splitEntropyThreshold){
             splitState(lastAction, statePool);
+        }else{
+            if (entropy < refreshThreshold) {
+                double sum = 0;
+                for (InteractionSnapshot snap: interactionShots){
+                    if (snap.action.isSame(lastAction)){
+                        sum += snap.action.longRet;
+                    }
+                }
+                if ((sum * lastAction.longRet < 0)){
+                    lastAction.longRet = sum;
+                }
+            }
         }
     }
-
 
 }

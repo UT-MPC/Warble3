@@ -160,9 +160,9 @@ public class DynamicContext extends AbstractContextArr {
             for (BaseContext[] split: splitters){
                 DynamicContext newMax = new DynamicContext(oldMax);
                 DynamicContext newMin = new DynamicContext(oldMin);
-                newMax.getContexts().set(i, split[0]);
-                newMin.getContexts().set(i, split[1]);
-                output.add(new DynamicContext[]{newMax, newMin});
+                newMax.getContexts().set(i, split[1]);
+                newMin.getContexts().set(i, split[2]);
+                output.add(new DynamicContext[]{oldMin, newMax, newMin, oldMax});
             }
         }
         return output;

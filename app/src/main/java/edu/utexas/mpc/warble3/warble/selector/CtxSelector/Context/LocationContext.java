@@ -101,8 +101,8 @@ public class LocationContext extends BaseContext{
             LocationContext newMax2 = new LocationContext(new Point2D(x2, yPoint));
             LocationContext newMin2 = new LocationContext(new Point2D(x1, yPoint));
             ArrayList<BaseContext[]> output = new ArrayList<>();
-            output.add(new BaseContext[]{newMax1, newMin1});
-            output.add(new BaseContext[]{newMax2, newMin2});
+            output.add(new BaseContext[]{this, newMax1, newMin1, bContext});
+            output.add(new BaseContext[]{this, newMax2, newMin2, bContext});
             return output;
         }
         return null;

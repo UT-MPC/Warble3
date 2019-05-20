@@ -51,6 +51,7 @@ public class MobileAgent extends AbstractAgent{
         int num = devices.size();
         myAgents = new ArrayList<>();
         myDevices = new ArrayList<>();
+        deviceMap = new HashMap<>();
         if ((num > maxDeviceNum) && (maxDeviceNum > 0)){
             int numA = num / maxDeviceNum;
             for (int i = 0; i < numA; i++){
@@ -75,6 +76,7 @@ public class MobileAgent extends AbstractAgent{
         int num = devices.size();
         myAgents = new ArrayList<>();
         myDevices = new ArrayList<>();
+        deviceMap = new HashMap<>();
         if ((num > maxDeviceNum) && (maxDeviceNum > 0)){
             int numA = num / maxDeviceNum;
             for (int i = 0; i < numA; i++){
@@ -98,6 +100,7 @@ public class MobileAgent extends AbstractAgent{
     public MobileAgent(List<Thing> devices, ArrayList<MobileAgent> agents) {
         myAgents = agents;
         myDevices = new ArrayList<>();
+        deviceMap = new HashMap<>();
         int num = devices.size();
         if ((num > maxDeviceNum) && (maxDeviceNum > 0)){
             int numA = num / maxDeviceNum;
@@ -122,6 +125,7 @@ public class MobileAgent extends AbstractAgent{
         defaultAlpha = setAlpha;
         myAgents = agents;
         myDevices = new ArrayList<>();
+        deviceMap = new HashMap<>();
         int num = devices.size();
         if ((num > maxDeviceNum) && (maxDeviceNum > 0)){
             int numA = num / maxDeviceNum;

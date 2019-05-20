@@ -7,6 +7,10 @@ public class BinContext extends BaseContext{
     private double bit = 0;
     public static double range = 1;
 
+    public BinContext(boolean bit){
+        this.bit = bit?1:0;
+    }
+
     public BinContext(double bit){
         this.bit = bit;
     }
@@ -67,7 +71,7 @@ public class BinContext extends BaseContext{
             BinContext newMax1 = new BinContext(tPoint);
             BinContext newMin1 = new BinContext(tPoint);
             ArrayList<BaseContext[]> output = new ArrayList<>();
-            output.add(new BaseContext[]{newMax1, newMin1});
+            output.add(new BaseContext[]{this, newMax1, newMin1, bContext});
             return output;
         }
         return null;
